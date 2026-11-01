@@ -445,7 +445,7 @@ class PricingModel {
     this.payoutDelayDays = 2,
     this.subscriptions = const {
       'Azur': 2900,
-      'Signature': 5900,
+      'Signature': 4900,
       'Privilège': 9900,
       'Offre Creator': 29900,
     },

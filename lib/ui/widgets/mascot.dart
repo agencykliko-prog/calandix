@@ -4,43 +4,31 @@ import 'package:flutter/material.dart';
 
 import '../../core/i18n/tr.dart';
 
-/// Les deux mascottes de Calandix : la bleue accompagne les organisateurs,
-/// l'orange les créateurs (prestataires et agences).
-enum MascotColor {
-  organizer('red'),
-  creator('green');
-
-  const MascotColor(this._file);
-  final String _file;
-}
+/// La mascotte de Calandix : une fourmi, pour tous les profils. [MascotColor]
+/// reste pour varier la pose par défaut selon l'espace.
+enum MascotColor { organizer, creator }
 
 /// Humeur affichée : chaque humeur correspond à une pose illustrée.
-enum MascotMood { happy, wow, wink, sleepy, cheer }
+enum MascotMood { happy, wow, wink, sleepy, cheer, sad }
 
-/// Poses disponibles pour chaque mascotte.
-enum _Shot { jump, thumbs, peace, extra }
+/// Poses disponibles.
+enum _Shot { rire, salut, sport, panneau, triste, idee, bouee, course }
 
-String _asset(MascotColor c, _Shot s) {
-  final name = switch (s) {
-    _Shot.extra => c == MascotColor.organizer ? 'cheeks' : 'wave',
-    _ => s.name,
-  };
-  return 'assets/images/mascots/${c._file}_$name.webp';
-}
+String _asset(_Shot s) => 'assets/images/mascots/${s.name}.webp';
 
-_Shot _shotFor(MascotMood mood) => switch (mood) {
-  MascotMood.happy || MascotMood.wink => _Shot.thumbs,
-  MascotMood.cheer => _Shot.jump,
-  MascotMood.wow => _Shot.extra,
-  MascotMood.sleepy => _Shot.peace,
+_Shot _shotFor(MascotMood mood, MascotColor color) => switch (mood) {
+  MascotMood.happy => color == MascotColor.creator ? _Shot.idee : _Shot.rire,
+  MascotMood.wink => _Shot.idee,
+  MascotMood.cheer => _Shot.sport,
+  MascotMood.wow => _Shot.course,
+  MascotMood.sleepy => _Shot.bouee,
+  MascotMood.sad => _Shot.triste,
 };
 
 /// Charge les poses à l'avance pour que les changements soient instantanés.
 void precacheMascots(BuildContext context) {
-  for (final c in MascotColor.values) {
-    for (final s in _Shot.values) {
-      precacheImage(AssetImage(_asset(c, s)), context);
-    }
+  for (final s in _Shot.values) {
+    precacheImage(AssetImage(_asset(s)), context);
   }
 }
 
@@ -86,18 +74,16 @@ class MascotState extends State<Mascot> {
   void jump() {}
 
   _Shot get _shot {
-    if (widget.cover) return _Shot.peace;
-    if (widget.waving) {
-      return widget.color == MascotColor.creator ? _Shot.extra : _Shot.jump;
-    }
-    return _shotFor(widget.mood);
+    if (widget.cover) return _Shot.panneau;
+    if (widget.waving) return _Shot.salut;
+    return _shotFor(widget.mood, widget.color);
   }
 
   @override
   Widget build(BuildContext context) {
     final size = widget.size;
     final img = Image.asset(
-      _asset(widget.color, _shot),
+      _asset(_shot),
       width: size,
       height: size,
       fit: BoxFit.contain,
@@ -215,7 +201,7 @@ class _MascotLoaderState extends State<MascotLoader>
                     left: (w - h) / 2,
                     bottom: 0,
                     child: Image.asset(
-                      _asset(widget.color, _Shot.thumbs),
+                      _asset(_Shot.rire),
                       width: h,
                       height: h,
                       gaplessPlayback: true,

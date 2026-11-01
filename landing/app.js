@@ -11,11 +11,8 @@
   const fcfa = (n) => Math.round(n).toLocaleString('fr-FR').replace(/ | /g, ' ');
 
   /* ── Mascottes ─────────────────────────────────────────
-     data-mascot="red_jump" : rouge = organisateurs, verte = créateurs. */
-  const poses = {
-    red: ['red_jump', 'red_thumbs', 'red_peace', 'red_cheeks'],
-    green: ['green_jump', 'green_thumbs', 'green_peace', 'green_wave'],
-  };
+     data-mascot="rire" : une pose de la fourmi. */
+  const poses = ['rire', 'salut', 'sport', 'idee', 'bouee', 'course'];
   const src = (name) => `img/mascots/${name}.webp`;
   const mascots = [];
   document.querySelectorAll('[data-mascot]').forEach((host) => {
@@ -23,8 +20,8 @@
     const img = new Image();
     img.className = 'm-img';
     // Dimensions déclarées et chargement différé (pas de saut de mise en page).
-    img.width = 384;
-    img.height = 384;
+    img.width = 320;
+    img.height = 320;
     img.loading = 'lazy';
     img.decoding = 'async';
     img.src = src(name);
@@ -32,7 +29,7 @@
     img.draggable = false;
     img.style.animationDelay = `${-Math.random() * 3}s`;
     host.appendChild(img);
-    const m = { host, img, name, team: name.split('_')[0] };
+    const m = { host, img, name };
     mascots.push(m);
     if (!host.hasAttribute('data-interactive')) return;
     host.setAttribute('role', 'button');
@@ -40,7 +37,7 @@
     host.tabIndex = 0;
     const jump = () => {
       // Saut, nouvelle pose, pluie de confettis.
-      const list = poses[m.team];
+      const list = poses;
       const next = list[(list.indexOf(m.img.src.split('/').pop().replace('.webp', '')) + 1) % list.length];
       m.img.classList.remove('jump');
       void m.img.offsetWidth;
@@ -56,7 +53,7 @@
   // Toutes les poses en cache : les changements sont instantanés.
   addEventListener('load', () => setTimeout(() => {
     if (navigator.connection?.saveData) return;
-    Object.values(poses).flat().forEach((n) => { const i = new Image(); i.src = src(n); });
+    poses.forEach((n) => { const i = new Image(); i.src = src(n); });
   }, 2500), { once: true });
 
   // Les mascottes se penchent vers le pointeur.
@@ -177,9 +174,9 @@
     if (el.matches('[data-chat]')) playChat(el);
     if (el.matches('[data-duo]')) setTimeout(() => {
       // Le duo se retrouve au centre puis saute de joie.
-      el.querySelectorAll('.m-img').forEach((img) => { img.classList.add('jump'); });
+      el.querySelectorAll('.m-img').forEach((img) => { img.style.animation = ''; img.classList.add('jump'); });
       const r = el.getBoundingClientRect();
-      burst(r.left + r.width / 2, r.top + r.height * .4, 110);
+      burst(r.left + r.width / 2, r.top + r.height * .35, 70);
     }, reduce ? 0 : 950);
   };
   const io = new IntersectionObserver((entries) => entries.forEach((en) => {
@@ -277,6 +274,15 @@
       },
     });
 
+    // Parallaxe douce : chaque bloc glisse à sa vitesse, la page paraît plus courte.
+    gsap.utils.toArray('[data-parallax]').forEach((el) => {
+      const d = +el.dataset.parallax;
+      if (innerWidth <= 980 && el.classList.contains('step')) return;
+      gsap.fromTo(el, { y: -d }, { y: d, ease: 'none', scrollTrigger: { trigger: el.closest('section'), start: 'top bottom', end: 'bottom top', scrub: .6 } });
+    });
+    const line = document.querySelector('[data-line]');
+    if (line) gsap.fromTo(line, { scaleX: 0 }, { scaleX: 1, ease: 'none', scrollTrigger: { trigger: line, start: 'top 90%', end: 'top 45%', scrub: .5 } });
+
     // Positions recalculées une fois les polices et les images en place.
     document.fonts?.ready.then(() => ScrollTrigger.refresh());
     addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
@@ -300,18 +306,26 @@
   /* ── Simulateur de budget ────────────────────────────── */
   const $ = (id) => document.getElementById(id);
   const sb = $('simBudget'), sg = $('simGuests');
-  const shares = { lineVenue: .32, lineFood: .22, lineDeco: .18, lineMusic: .12 };
-  const rest = document.querySelector('.donut-center b');
+  const shares = { lineVenue: .28, lineFood: .24, lineDeco: .14, lineMusic: .12, linePhoto: .12, lineDress: .10 };
   const sim = () => {
-    const b = +sb.value, g = +sg.value;
-    $('simBudgetOut').textContent = `${fcfa(b)} FCFA`;
+    const b = parseInt(sb.value.replace(/\D/g, ''), 10) || 0, g = +sg.value;
     $('simGuestsOut').textContent = g;
     $('simPerGuest').textContent = `${fcfa(b / g)} FCFA`;
-    Object.entries(shares).forEach(([id, s]) => { $(id).textContent = fcfa(b * s); });
-    rest.dataset.count = Math.round(b * .37);
-    if (rest.closest('.in')) countTo(rest, b * .37);
+    Object.entries(shares).forEach(([id, part]) => { $(id).textContent = fcfa(b * part); });
   };
-  if (sb && sg) { sb.addEventListener('input', sim); sg.addEventListener('input', sim); sim(); }
+  if (sb && sg) {
+    sb.addEventListener('input', () => {
+      // Espaces des milliers pendant la saisie, curseur gardé depuis la fin.
+      const fromEnd = sb.value.length - sb.selectionStart;
+      const digits = sb.value.replace(/\D/g, '').slice(0, 11);
+      sb.value = digits ? fcfa(+digits) : '';
+      const at = Math.max(0, sb.value.length - fromEnd);
+      sb.setSelectionRange(at, at);
+      sim();
+    });
+    sg.addEventListener('input', sim);
+    sim();
+  }
 
   /* ── Téléphones : un tour complet sur eux-mêmes, une seule fois ── */
   const spinIO = new IntersectionObserver((entries) => entries.forEach((en) => {
@@ -321,27 +335,6 @@
   }), { threshold: .35 });
   // Avec GSAP, le téléphone du hero tourne à la fin de l'ouverture.
   document.querySelectorAll(G ? '[data-spin]:not(.phone-tilt)' : '[data-spin]').forEach((ph) => spinIO.observe(ph));
-
-  /* ── Budget : petite démonstration du simulateur ─────── */
-  const budget = document.getElementById('budget');
-  if (budget && sb && !reduce) {
-    const card = budget.querySelector('.budget-card');
-    const bIO = new IntersectionObserver((entries) => {
-      if (!entries[0].isIntersecting) return;
-      bIO.disconnect();
-      // Le curseur glisse de 3,5 à 6 millions puis revient, une fois.
-      const from = +sb.value, to = 6000000, t0 = performance.now(), dur = 2600;
-      const step = (t) => {
-        const k = Math.min(1, (t - t0) / dur);
-        const e = Math.sin(k * Math.PI);
-        sb.value = Math.round((from + (to - from) * e) / 100000) * 100000;
-        sim();
-        if (k < 1) requestAnimationFrame(step); else { card.classList.add('pulse'); }
-      };
-      setTimeout(() => requestAnimationFrame(step), 700);
-    }, { threshold: .45 });
-    bIO.observe(budget);
-  }
 
   /* ── Retour en haut ──────────────────────────────────── */
   const toTop = document.querySelector('.to-top');
@@ -388,6 +381,12 @@
     footLogo.classList.add('in');
     obs.disconnect();
   }, { threshold: .4 }).observe(footLogo);
+
+  /* ── Réseaux : comptes à venir ───────────────────────── */
+  document.querySelectorAll('[data-soon]').forEach((a) => a.addEventListener('click', (e) => {
+    e.preventDefault();
+    toast('Ce compte arrive bientôt.');
+  }));
 
   /* ── Ancres internes ─────────────────────────────────── */
   // Avec ScrollSmoother, le contenu est déplacé par transformation : le saut
@@ -450,11 +449,15 @@
         const whatsapp = early.elements.whatsapp.value.trim().replace(/(?!^\+)[^0-9]/g, '');
         const nom = early.elements.nom.value.trim();
         const profil = early.elements.profil.value;
-        const r = await fetch(`${SUPABASE_URL}/rest/v1/early_access`, {
+        const email = early.elements.email.value.trim().toLowerCase();
+        const send = (row) => fetch(`${SUPABASE_URL}/rest/v1/early_access`, {
           method: 'POST',
           headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
-          body: JSON.stringify({ nom, whatsapp, profil, consent: true, source: 'landing' }),
+          body: JSON.stringify({ nom, whatsapp, profil, consent: true, source: 'landing', ...row }),
         });
+        let r = await send({ email });
+        // Colonne absente tant que la migration 000700 n'est pas exécutée.
+        if ([400, 401, 403].includes(r.status)) r = await send({});
         // 409 : numéro déjà inscrit, on le traite comme un succès.
         if (!r.ok && r.status !== 409) throw new Error(r.status);
         await minWait(t0);
@@ -474,8 +477,8 @@
     function thank(prenom, profil) {
       done.querySelector('.early-title').textContent = `Bienvenue sur la liste, ${prenom} !`;
       done.querySelector('.early-text').textContent = profil === 'prestataire'
-        ? 'On vous écrit sur WhatsApp dès l’ouverture de l’espace pro, avec les avantages de lancement réservés aux premiers prestataires.'
-        : 'On vous écrit sur WhatsApp dès l’ouverture, avec les avantages de lancement pour votre prochain événement.';
+        ? 'On vous écrit dès l’ouverture de l’espace pro, avec les avantages de lancement réservés aux premiers prestataires.'
+        : 'On vous écrit dès l’ouverture, avec les avantages de lancement pour votre prochain événement.';
       early.reset();
       early.classList.add('sent');
       done.hidden = false;

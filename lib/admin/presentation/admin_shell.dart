@@ -337,7 +337,7 @@ class _MenuItem extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 2),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
         decoration: BoxDecoration(
-          color: selected ? Confetti.lavender : Colors.transparent,
+          color: selected ? Confetti.mango : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
@@ -345,7 +345,7 @@ class _MenuItem extends StatelessWidget {
             Icon(
               module.icon,
               size: 19,
-              color: selected ? Confetti.ink : Confetti.inkMuted,
+              color: selected ? Confetti.inkFixed : Confetti.inkMuted,
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -355,7 +355,11 @@ class _MenuItem extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: context.text.titleSmall?.copyWith(
                   fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-                  color: locked ? Confetti.inkFaint : Confetti.ink,
+                  color: selected
+                      ? Confetti.inkFixed
+                      : locked
+                      ? Confetti.inkFaint
+                      : Confetti.ink,
                 ),
               ),
             ),

@@ -203,7 +203,7 @@ class Booking {
 enum Plan {
   free('Découverte', 0, Hues.ink),
   azur('Azur', 2900, Hues.lagoon),
-  signature('Signature', 5900, Hues.violet),
+  signature('Signature', 4900, Hues.violet),
   privilege('Privilège', 9900, Hues.gold);
 
   const Plan(this._label, this.price, this._hue);

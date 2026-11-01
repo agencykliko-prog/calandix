@@ -36,8 +36,9 @@ Chaque événement a son propre espace (budget, tâches, prestataires, invités,
 ## Brand Commitments
 
 - Nom : Calandix (anciennement Eventa). Slogan : « Le budget parfait pour célébrer ».
-- Logo : trois cartes empilées (mangue, corail, violet) + « Calandix » en encre. Fichiers de référence dans `assets/brand/` (version sombre, version claire, symbole seul) ; ne pas le redessiner.
-- Palette Confetti (fichier `palette_confetti_app_evenementiel.html`) fait foi : Corail fiesta #FF5A5F (primaire/CTA), Violet disco #7B5CFF (tâches), Turquoise lagon #14C8B4 (budget), Jaune mangue #FFC233 (prestataires), Rose bonbon #FF7AC6 (équipes), Encre nuit #1E1B3A (texte), Crème ballon #FFF8F0 (fond), Lavande brume #ECE9F7 (surfaces).
+- Logo : fichier fourni, déclinaisons dans `landing/img/calandix-*.svg` et `assets/brand/` ; ne pas le redessiner.
+- Mascotte : la fourmi rouge (`assets/images/mascots/`), huit poses.
+- Couleurs officielles : rouge #E01928, mangue #E59D1F, violet #4D39E2 (principal), turquoise #2CE5B9 ; encre #1A0637, fond #F7F5F2. Thèmes personnalisables dans Compte.
 - Ton : tech, moderne, accessible, rassurant, convivial.
 - Références d'inspiration citées par l'utilisateur : Luma (iOS), Structured (iOS).
 

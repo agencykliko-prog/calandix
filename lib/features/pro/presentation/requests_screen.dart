@@ -28,6 +28,12 @@ class _RequestsScreenState extends ConsumerState<RequestsScreen> {
     final list =
         all.where((r) => _filter == null || r.status == _filter).toList()
           ..sort((a, b) => b.receivedAt.compareTo(a.receivedAt));
+    // Grand écran : un tableau par étape, comme un suivi de projet.
+    if (MediaQuery.sizeOf(context).width >= 1000) {
+      return Scaffold(
+        body: SafeArea(child: _Board(all: all)),
+      );
+    }
     return Scaffold(
       body: SafeArea(
         bottom: false,
@@ -93,6 +99,110 @@ class _RequestsScreenState extends ConsumerState<RequestsScreen> {
   }
 }
 
+class _Board extends StatelessWidget {
+  const _Board({required this.all});
+
+  final List<ClientRequest> all;
+
+  @override
+  Widget build(BuildContext context) {
+    final columns = [
+      (RequestStatus.received, Hue.coral),
+      (RequestStatus.quoted, Hue.mango),
+      (RequestStatus.confirmed, Hue.lagoon),
+      (RequestStatus.declined, Hue.ink),
+    ];
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Demandes'.tr, style: context.text.headlineMedium),
+          const SizedBox(height: 16),
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (final (status, hue) in columns) ...[
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: hue.tint,
+                        borderRadius: BorderRadius.circular(22),
+                      ),
+                      child: _Column(
+                        status: status,
+                        hue: hue,
+                        items: all.where((r) => r.status == status).toList()
+                          ..sort(
+                            (a, b) => b.receivedAt.compareTo(a.receivedAt),
+                          ),
+                      ),
+                    ),
+                  ),
+                  if (status != RequestStatus.declined)
+                    const SizedBox(width: 12),
+                ],
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+      ),
+    );
+  }
+}
+
+class _Column extends StatelessWidget {
+  const _Column({required this.status, required this.hue, required this.items});
+
+  final RequestStatus status;
+  final Hue hue;
+  final List<ClientRequest> items;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(6, 2, 6, 10),
+          child: Row(
+            children: [
+              Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: hue.base,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  status.label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.text.titleSmall,
+                ),
+              ),
+              Text('${items.length}', style: context.text.labelMedium),
+            ],
+          ),
+        ),
+        Expanded(
+          child: ListView.separated(
+            itemCount: items.length,
+            separatorBuilder: (_, _) => const SizedBox(height: 8),
+            itemBuilder: (_, i) => RequestTile(request: items[i]),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class RequestTile extends ConsumerWidget {
   const RequestTile({super.key, required this.request});
 
@@ -154,10 +264,12 @@ class RequestTile extends ConsumerWidget {
                   style: context.text.bodySmall,
                 ),
                 const SizedBox(height: 6),
-                Row(
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 4,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Tag(label: r.status.label, hue: hue),
-                    const SizedBox(width: 8),
                     Text(
                       '{0} invités'.trf([r.guests]),
                       style: context.text.labelSmall?.copyWith(
@@ -165,7 +277,6 @@ class RequestTile extends ConsumerWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const Spacer(),
                     if (r.quote != null)
                       Text(fcfa(r.quote!), style: context.text.labelMedium),
                   ],

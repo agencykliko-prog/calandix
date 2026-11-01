@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/auth/session_provider.dart';
 import '../../../core/i18n/tr.dart';
 import '../../../core/sound/sounds.dart';
 import '../../../ui/theme/app_theme.dart';
@@ -11,9 +12,8 @@ import '../../../ui/theme/eventa_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../ui/widgets/mascot.dart';
 
-/// En-tête d'accueil : une carte encre et violet où la mascotte du profil
-/// entre par la gauche en saluant, avec une bulle « Bonjour ! », un halo qui
-/// respire et des confettis. Elle suit le pointeur et saute au toucher.
+/// En-tête d'accueil : pleine largeur sur téléphone : la salutation au
+/// prénom de l'utilisateur, la fourmi qui salue, un halo et des confettis.
 class GreetingHero extends ConsumerStatefulWidget {
   const GreetingHero({
     super.key,
@@ -29,7 +29,7 @@ class GreetingHero extends ConsumerStatefulWidget {
   /// Petite ligne sous la salutation.
   final String? question;
 
-  /// Mascotte du profil : bleue (organisateur) ou orange (créateur).
+  /// Espace du profil (varie la pose par défaut).
   final MascotColor mascot;
 
   /// Action principale facultative (ex. créer un événement).
@@ -79,63 +79,63 @@ class _GreetingHeroState extends ConsumerState<GreetingHero>
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
     final compact = width < 400;
-    final cardH = compact ? 286.0 : 300.0;
-    final mascotSize = compact ? 220.0 : 260.0;
-    final dark = Confetti.dark;
+    final bleed = width < 720;
+    final cardH = compact ? 330.0 : 350.0;
+    final mascotSize = compact ? 196.0 : 240.0;
+    final first = ref
+        .watch(profileProvider.select((p) => p.name))
+        .trim()
+        .split(RegExp(r'\s+'))
+        .first;
+    final accent = Confetti.accent;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         widget.header,
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 14, 16, 4),
+          padding: EdgeInsets.fromLTRB(bleed ? 0 : 16, 10, bleed ? 0 : 16, 4),
           child: MouseRegion(
             onHover: (e) => setState(() => _pointer = e.localPosition),
             onExit: (_) => setState(() => _pointer = null),
             child: LayoutBuilder(
               builder: (context, box) {
-                // La mascotte dépasse du bord gauche, comme si elle entrait
-                // dans la carte pour dire bonjour.
-                final mLeft = -mascotSize * 0.36;
                 final mCenter = Offset(
-                  mLeft + mascotSize / 2,
+                  box.maxWidth - mascotSize * 0.42,
                   cardH - mascotSize * 0.45,
                 );
-                final textLeft = mascotSize * 0.52;
                 return Container(
                   height: cardH,
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(32),
-                    gradient: const LinearGradient(
+                    borderRadius: bleed
+                        ? const BorderRadius.vertical(
+                            bottom: Radius.circular(36),
+                          )
+                        : BorderRadius.circular(32),
+                    gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [Color(0xFF2A1366), Color(0xFF1A0637)],
+                      colors: [
+                        accent ?? const Color(0xFF4D39E2),
+                        Color.lerp(
+                          accent ?? const Color(0xFF4D39E2),
+                          const Color(0xFF1A0637),
+                          0.72,
+                        )!,
+                      ],
                     ),
-                    boxShadow: dark
-                        ? null
-                        : [
-                            BoxShadow(
-                              color: const Color(0xFF1A0637)
-                                  .withValues(alpha: 0.22),
-                              blurRadius: 30,
-                              offset: const Offset(0, 14),
-                            ),
-                          ],
                   ),
                   child: Stack(
                     clipBehavior: Clip.hardEdge,
                     children: [
-                      // Halo lumineux derrière la mascotte.
                       Positioned.fill(
                         child: RepaintBoundary(
                           child: CustomPaint(
                             painter: _GlowPainter(
                               time: _time,
                               center: mCenter,
-                              color: widget.mascot == MascotColor.creator
-                                  ? const Color(0xFFFF9A3C)
-                                  : const Color(0xFF6E6BFF),
+                              color: const Color(0xFFE59D1F),
                             ),
                           ),
                         ),
@@ -148,65 +148,65 @@ class _GreetingHeroState extends ConsumerState<GreetingHero>
                         ),
                       ),
                       Positioned(
-                        left: mLeft,
-                        bottom: -mascotSize * 0.10,
-                        child: Transform.rotate(
-                          angle: 0.10,
-                          alignment: Alignment.bottomCenter,
-                          child: Mascot(
-                            size: mascotSize,
-                            color: widget.mascot,
-                            waving: true,
-                            look: _lookFrom(mCenter),
-                            onTap: () =>
-                                ref.read(soundProvider).play(Sfx.success),
-                          ),
+                        right: -mascotSize * 0.10,
+                        bottom: -mascotSize * 0.04,
+                        child: Mascot(
+                          size: mascotSize,
+                          color: widget.mascot,
+                          waving: true,
+                          look: _lookFrom(mCenter),
+                          onTap: () =>
+                              ref.read(soundProvider).play(Sfx.success),
                         ),
                       ),
-                      // Bulle de dialogue : la salutation stylisée.
                       Positioned(
-                        left: textLeft,
-                        // Sur grand écran, la bulle garde une largeur de
-                        // bulle au lieu de traverser toute la carte.
-                        right: math.max(16, box.maxWidth - textLeft - 340),
-                        top: 20,
+                        left: 22,
+                        right: math.max(22, box.maxWidth * 0.2),
+                        top: 24,
                         child: _Rise(
-                          delay: 260,
-                          child: _SpeechBubble(
-                            text: '${greeting()} !',
-                            compact: compact,
+                          delay: 200,
+                          child: Text(
+                            '${greeting()}\n$first !',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontFamily: AppTheme.font,
+                              fontSize: compact ? 38 : 46,
+                              height: 1.02,
+                              letterSpacing: -1.4,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
                       Positioned(
-                        left: textLeft,
-                        right: 16,
-                        bottom: 18,
+                        left: 22,
+                        right: mascotSize * 0.62,
+                        bottom: 22,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             _Rise(
-                              delay: 380,
+                              delay: 340,
                               child: Text(
-                                // Espace insécable : le « ? » ne part jamais
-                                // seul en fin de ligne.
                                 (widget.question ??
                                         'Qu’est-ce qu’on célèbre aujourd’hui ?'
                                             .tr)
-                                    .replaceAll(' ?', ' ?'),
+                                    .replaceAll(' ?', '\u00A0?'),
                                 style: TextStyle(
                                   fontFamily: AppTheme.font,
                                   fontSize: compact ? 15 : 16.5,
                                   height: 1.3,
                                   fontWeight: FontWeight.w500,
-                                  color: Colors.white.withValues(alpha: 0.82),
+                                  color: Colors.white.withValues(alpha: 0.88),
                                 ),
                               ),
                             ),
                             if (widget.action != null) ...[
                               const SizedBox(height: 12),
                               _Rise(
-                                delay: 480,
+                                delay: 460,
                                 child: FittedBox(
                                   fit: BoxFit.scaleDown,
                                   alignment: Alignment.centerLeft,
@@ -227,60 +227,6 @@ class _GreetingHeroState extends ConsumerState<GreetingHero>
       ],
     );
   }
-}
-
-/// Bulle de dialogue crème, queue tournée vers la mascotte.
-class _SpeechBubble extends StatelessWidget {
-  const _SpeechBubble({required this.text, required this.compact});
-
-  final String text;
-  final bool compact;
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _BubblePainter(),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(18, 12, 18, 14),
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-          alignment: Alignment.centerLeft,
-          child: Text(
-            text,
-            style: TextStyle(
-              fontFamily: AppTheme.font,
-              fontSize: compact ? 34 : 40,
-              height: 1,
-              fontWeight: FontWeight.w800,
-              letterSpacing: -1.2,
-              color: const Color(0xFF1A0637),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _BubblePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final r = RRect.fromRectAndRadius(
-      Offset.zero & size,
-      Radius.circular(size.height / 2),
-    );
-    final tail = Path()
-      ..moveTo(18, size.height * 0.62)
-      ..quadraticBezierTo(-6, size.height + 10, -14, size.height + 14)
-      ..quadraticBezierTo(14, size.height * 0.98, 40, size.height * 0.86)
-      ..close();
-    final paint = Paint()..color = const Color(0xFFF7F2E8);
-    canvas.drawRRect(r, paint);
-    canvas.drawPath(tail, paint);
-  }
-
-  @override
-  bool shouldRepaint(_BubblePainter old) => false;
 }
 
 /// Halo circulaire qui respire derrière la mascotte.

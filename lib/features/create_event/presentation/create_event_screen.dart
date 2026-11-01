@@ -239,7 +239,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
     );
   }
 
-  /// Sous-catégories affichées dès qu'un type est choisi (choix multiple :
+  /// Sous-catégories affichées dès qu'un type est choisi (un seul choix :
   /// un mariage peut réunir dot, civil et religieux).
   Widget _subcategories(EventCategory c) {
     final h = c.hue;
@@ -286,8 +286,13 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                   HapticFeedback.selectionClick();
                   setState(() {
                     final s = c.subcategories[i];
-                    _subs.contains(s) ? _subs.remove(s) : _subs.add(s);
-                    if (_subs.length == 1) _name.text = _subs.first;
+                    // Un seul choix : toucher à nouveau le retire.
+                    final was = _subs.contains(s);
+                    _subs.clear();
+                    if (!was) {
+                      _subs.add(s);
+                      _name.text = s;
+                    }
                   });
                 },
                 child: AnimatedContainer(
@@ -314,7 +319,9 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                       Expanded(
                         child: Text(
                           c.subcategories[i],
-                          style: context.text.titleSmall,
+                          style: context.text.titleMedium?.copyWith(
+                            fontSize: 17,
+                          ),
                         ),
                       ),
                       AnimatedContainer(
@@ -646,7 +653,9 @@ class _CategoryTile extends StatelessWidget {
             Text(
               category.label,
               maxLines: 2,
-              style: context.text.titleSmall?.copyWith(
+              style: context.text.titleMedium?.copyWith(
+                fontSize: 16.5,
+                height: 1.15,
                 color: selected ? Colors.white : h.deep,
               ),
             ),

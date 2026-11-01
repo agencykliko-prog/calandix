@@ -9,23 +9,46 @@ import 'package:flutter/material.dart';
 abstract final class Confetti {
   static bool dark = false;
 
+  /// Thème choisi dans Compte : couleur principale et fond (null = Calandix).
+  static Color? accent;
+  static Color? backdrop;
+
   static Color _c(int light, int night) => Color(dark ? night : light);
 
-  static Color get coral => _c(0xFFE5484D, 0xFFF0585D); // primaire, CTA
-  static Color get coralDeep => _c(0xFFA3262B, 0xFFFF9A9D);
-  static Color get coralTint => _c(0xFFFCE9E8, 0xFF3B1526);
+  static Color get coral => _c(0xFFE01928, 0xFFF0434F); // primaire, CTA
+  static Color get coralDeep => _c(0xFFA3101B, 0xFFFF9AA1);
+  static Color get coralTint => _c(0xFFFDE8E9, 0xFF3B1320);
 
-  static Color get violet => _c(0xFF6246EA, 0xFF7C63FF); // tâches
-  static Color get violetText => _c(0xFF4B30C9, 0xFFB3A3FF);
-  static Color get violetDeep => _c(0xFF2A1A80, 0xFFD4CBFF);
-  static Color get violetTint => _c(0xFFECE8FD, 0xFF261A55);
+  static Color get violet =>
+      accent ?? _c(0xFF4D39E2, 0xFF7C6BFF); // couleur principale, CTA
+  static Color get violetText => accent == null
+      ? _c(0xFF3C2BC4, 0xFFB3A7FF)
+      : Color.lerp(
+          accent,
+          dark ? Colors.white : Colors.black,
+          dark ? .45 : .22,
+        )!;
+  static Color get violetDeep => accent == null
+      ? _c(0xFF251783, 0xFFD4CDFF)
+      : Color.lerp(accent, dark ? Colors.white : Colors.black, dark ? .7 : .5)!;
+  static Color get violetTint => accent == null
+      ? _c(0xFFE9E6FC, 0xFF241A55)
+      : Color.lerp(
+          accent,
+          dark ? Colors.black : Colors.white,
+          dark ? .72 : .88,
+        )!;
 
-  static Color get lagoon => _c(0xFF0E9F8E, 0xFF16B4A1); // budget
-  static Color get lagoonText => _c(0xFF0A6E63, 0xFF5FD9C8);
-  static Color get lagoonDeep => _c(0xFF054239, 0xFFB5F0E7);
-  static Color get lagoonTint => _c(0xFFDDF4F0, 0xFF0D302F);
+  /// Texte posé sur la couleur principale.
+  static Color get onViolet =>
+      violet.computeLuminance() > .42 ? inkFixed : Colors.white;
 
-  static Color get mango => _c(0xFFE5A21A, 0xFFEBAE2E); // prestataires
+  static Color get lagoon => _c(0xFF2CE5B9, 0xFF2CE5B9); // budget
+  static Color get lagoonText => _c(0xFF08705A, 0xFF62EDCB);
+  static Color get lagoonDeep => _c(0xFF043F33, 0xFFBAF7E8);
+  static Color get lagoonTint => _c(0xFFDDFBF3, 0xFF0D302B);
+
+  static Color get mango => _c(0xFFE59D1F, 0xFFEBAC3A); // prestataires
   static Color get mangoText => _c(0xFF7A4E00, 0xFFF4C766);
   static Color get mangoDeep => _c(0xFF4E3200, 0xFFFBE2A8);
   static Color get mangoTint => _c(0xFFFBEFD3, 0xFF33270C);
@@ -44,7 +67,9 @@ abstract final class Confetti {
   static Color get nightLine => _c(0xFF362458, 0xFF3D2C66);
   static Color get inkMuted => _c(0xFF645A7C, 0xFFB1A8C8);
   static Color get inkFaint => _c(0xFF9A95AE, 0xFF7C7496);
-  static Color get cream => _c(0xFFF7F5F2, 0xFF110722); // fond
+  static Color get cream => dark
+      ? const Color(0xFF110722)
+      : (backdrop ?? const Color(0xFFF7F5F2)); // fond
   static Color get surface => _c(0xFFFFFFFF, 0xFF1B0F33); // cartes
   static Color get lavender => _c(0xFFEAE7F3, 0xFF271A45); // surfaces
   static Color get line => _c(0xFFE4E0EC, 0xFF2F2250);
@@ -81,7 +106,7 @@ class Hue {
 
   /// Couleur de premier plan lisible posée sur [base].
   Color get onBase =>
-      base == Confetti.mango ? const Color(0xFF4E3200) : Colors.white;
+      base.computeLuminance() > .42 ? Confetti.inkFixed : Colors.white;
 
   @override
   bool operator ==(Object other) => other is Hue && other.base == base;
@@ -119,6 +144,18 @@ class Hue {
     deep: Confetti.candyDeep,
     tint: Confetti.candyTint,
   );
+  static Hue get sky => Hue(
+    base: Confetti.dark ? const Color(0xFF4FA6F3) : const Color(0xFF2373E1),
+    text: Confetti.dark ? const Color(0xFFA8D2F9) : const Color(0xFF17549F),
+    deep: Confetti.dark ? const Color(0xFFD6E9FC) : const Color(0xFF0D3264),
+    tint: Confetti.dark ? const Color(0xFF10294A) : const Color(0xFFE2EFFD),
+  );
+  static Hue get peach => Hue(
+    base: Confetti.dark ? const Color(0xFFFD9467) : const Color(0xFFFF5C35),
+    text: Confetti.dark ? const Color(0xFFFFC4AA) : const Color(0xFFA9320F),
+    deep: Confetti.dark ? const Color(0xFFFFE0D2) : const Color(0xFF6B1D06),
+    tint: Confetti.dark ? const Color(0xFF3C1C10) : const Color(0xFFFFEBE3),
+  );
   static Hue get ink => Hue(
     base: Confetti.ink,
     text: Confetti.ink,
@@ -140,6 +177,8 @@ enum Hues {
   lagoon,
   mango,
   candy,
+  sky,
+  peach,
   ink,
   gold;
 
@@ -149,6 +188,8 @@ enum Hues {
     Hues.lagoon => Hue.lagoon,
     Hues.mango => Hue.mango,
     Hues.candy => Hue.candy,
+    Hues.sky => Hue.sky,
+    Hues.peach => Hue.peach,
     Hues.ink => Hue.ink,
     Hues.gold => Hue.gold,
   };

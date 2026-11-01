@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+
+import 'theme_picker.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -238,6 +241,8 @@ class AccountScreen extends ConsumerWidget {
             ],
             SectionTitle('Préférences'.tr),
             const _PrefsGroup(),
+            SectionTitle('Couleur du thème'.tr),
+            const ThemePicker(),
             SectionTitle('Réglages'.tr),
             _Group(
               rows: [

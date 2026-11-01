@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Calandix · Le budget parfait pour célébrer</title>
 <meta name="description" content="Calandix organise vos fêtes en Côte d’Ivoire : budget maîtrisé, prestataires vérifiés, invités et équipe au même endroit. Essai 100 % gratuit.">
-<meta name="theme-color" content="#6246EA">
+<meta name="theme-color" content="#4D39E2">
 <link rel="canonical" href="https://eventa.ci/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Calandix">
@@ -38,7 +38,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Calandix","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://eventa.ci/","description":"Organisez vos événements en Côte d’Ivoire : budget, prestataires, invités et équipe au même endroit.","offers":{"@type":"Offer","price":"0","priceCurrency":"XOF"}}
 </script>
-<link rel="stylesheet" href="styles.css?v=47">
+<link rel="stylesheet" href="styles.css?v=48">
 </head>
 <body>
 
@@ -48,8 +48,8 @@
 <!-- Navigation fixe : hors du cadre lissé, qui se déplace par transformation. -->
 <nav class="pill-nav" aria-label="Navigation principale">
   <a class="logo" href="#haut" aria-label="Calandix, accueil">
-    <svg class="logo-cards" viewBox="0 0 324 321" aria-hidden="true"><rect class="c-mango" x="5" y="0" width="313" height="200" rx="60"/><rect class="c-coral" x="5" y="60" width="313" height="200" rx="60"/><g transform="rotate(10.7 162 205)"><rect class="c-violet" x="11" y="110" width="302" height="191" rx="56"/></g></svg>
-    <img class="logo-word" src="img/calandix-wordmark.webp" width="789" height="161" alt="">
+    <svg class="logo-cards" viewBox="64.59 40.68 131.68 125.79" aria-hidden="true"><rect class="c-mango" x="71.178" y="41.676" width="118.506" height="72.284" rx="22.016"/><rect class="c-coral" x="71.178" y="64.396" width="118.506" height="72.284" rx="22.016"/><g transform="translate(23.862 -21.748) rotate(10.486)"><rect class="c-violet" x="71.178" y="83.002" width="118.506" height="72.284" rx="22.016"/></g></svg>
+      <img class="logo-word" src="img/calandix-wordmark.svg" width="556" height="125" alt="">
   </a>
   <div class="nav-links">
     <details class="nav-why">
@@ -138,7 +138,7 @@
         <div class="screen screen-home">
           <div class="sh-top"><img decoding="async" width="200" height="200" src="img/avatar_1.webp" alt=""><div><small>Lundi 26 octobre</small><b>Awa</b></div><span class="bell"><i>3</i></span></div>
           <div class="sh-hero">
-            <img decoding="async" width="384" height="384" class="sh-mascot" src="img/mascots/red_jump.webp" alt="">
+            <img decoding="async" width="320" height="320" class="sh-mascot" src="img/mascots/rire.webp" alt="">
             <p class="sh-hello">Bonjour !</p>
             <p class="sh-q">Qu’est-ce qu’on célèbre aujourd’hui ?</p>
             <span class="sh-btn">+ Créer un événement</span>
@@ -176,47 +176,28 @@
 </section>
 
 <!-- ─── Budget ────────────────────────────────────────────── -->
-<section class="band band-lagoon" id="budget" data-edge="wave">
-  <div class="edge-peek edge-right" data-mascot="green_thumbs" data-peek data-interactive></div>
+<section class="band band-cream budget-sec" id="budget" data-edge="wave">
   <div class="wrap split-2">
     <div>
-      <p class="eyebrow">Budget</p>
+      <p class="eyebrow ink">Budget</p>
       <h2 class="h-xl split">Chaque franc a <em class="script">sa place</em>.</h2>
-      <p class="body-l">Prévu, engagé, payé, reste : le budget se met à jour à chaque devis accepté et à chaque paiement. Fini le cahier et les calculs sur WhatsApp.</p>
-
-      <div class="sim" aria-label="Simulateur de budget">
-        <label>Budget total <output id="simBudgetOut">3 500 000 FCFA</output>
-          <input type="range" id="simBudget" min="300000" max="15000000" step="100000" value="3500000"></label>
-        <label>Invités <output id="simGuestsOut">150</output>
-          <input type="range" id="simGuests" min="10" max="600" step="10" value="150"></label>
-        <p class="sim-result">Soit <b id="simPerGuest">23 333 FCFA</b> par invité.</p>
-      </div>
+      <p class="body-l ink-soft">Entrez votre budget : Calandix le répartit entre les postes essentiels de votre événement. Fini le cahier et les calculs sur WhatsApp.</p>
     </div>
-
-    <div class="budget-card reveal">
-      <span class="coin c1" aria-hidden="true">F</span><span class="coin c2" aria-hidden="true">F</span><span class="coin c3" aria-hidden="true">F</span>
-      <div class="donut-wrap">
-        <svg viewBox="0 0 120 120" class="donut" aria-hidden="true">
-          <circle cx="60" cy="60" r="46" class="d-track"/>
-          <circle cx="60" cy="60" r="46" class="d-seg" style="--c:#6246EA;--from:0;--len:.32"/>
-          <circle cx="60" cy="60" r="46" class="d-seg" style="--c:#E5484D;--from:.32;--len:.22"/>
-          <circle cx="60" cy="60" r="46" class="d-seg" style="--c:#E5A21A;--from:.54;--len:.18"/>
-          <circle cx="60" cy="60" r="46" class="d-seg" style="--c:#DB4F9E;--from:.72;--len:.12"/>
-        </svg>
-        <div class="donut-center"><small>Reste à dépenser</small><b data-count="1295000">0</b><small>FCFA</small></div>
-      </div>
+    <form class="budget-card reveal" aria-label="Simulateur de budget" onsubmit="return false">
+      <label class="b-total"><span>Votre budget total</span>
+        <span class="b-input"><input id="simBudget" type="text" inputmode="numeric" autocomplete="off" value="3 500 000" aria-describedby="simPerGuest"><i>FCFA</i></span></label>
+      <label class="b-guests"><span>Invités</span><output id="simGuestsOut">150</output>
+        <input type="range" id="simGuests" min="10" max="600" step="10" value="150"></label>
       <ul class="b-lines">
-        <li><i style="background:#6246EA"></i>Lieu<span id="lineVenue">1 120 000</span></li>
-        <li><i style="background:#E5484D"></i>Traiteur<span id="lineFood">770 000</span></li>
-        <li><i style="background:#E5A21A"></i>Décoration<span id="lineDeco">630 000</span></li>
-        <li><i style="background:#DB4F9E"></i>Musique &amp; DJ<span id="lineMusic">420 000</span></li>
+        <li style="--c:#4D39E2;--s:.28"><span>Lieu</span><b id="lineVenue">980 000</b><i></i></li>
+        <li style="--c:#E01928;--s:.24"><span>Traiteur</span><b id="lineFood">840 000</b><i></i></li>
+        <li style="--c:#E59D1F;--s:.14"><span>Décoration</span><b id="lineDeco">490 000</b><i></i></li>
+        <li style="--c:#2CE5B9;--s:.12"><span>Musique &amp; DJ</span><b id="lineMusic">420 000</b><i></i></li>
+        <li style="--c:#2373E1;--s:.12"><span>Photo &amp; vidéo</span><b id="linePhoto">420 000</b><i></i></li>
+        <li style="--c:#FF5C35;--s:.10"><span>Tenues &amp; beauté</span><b id="lineDress">350 000</b><i></i></li>
       </ul>
-      <div class="b-rows">
-        <div><small>Prévu</small><div class="meter"><i style="--w:100%"></i></div></div>
-        <div><small>Engagé</small><div class="meter"><i style="--w:72%"></i></div></div>
-        <div><small>Payé</small><div class="meter"><i style="--w:41%"></i></div></div>
-      </div>
-    </div>
+      <p class="b-per">Soit <b id="simPerGuest">23 333 FCFA</b> par invité.</p>
+    </form>
   </div>
 </section>
 
@@ -234,6 +215,7 @@
       <figure class="vendor reveal"><img decoding="async" loading="lazy" width="600" height="600" src="img/vendor_dj.webp" alt="DJ aux platines"><span class="v-rate">★ 4,6</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Musique &amp; DJ</span><b>Lagune Sound</b><span class="v-price">dès 300 000 FCFA</span></figcaption></figure>
       <figure class="vendor reveal"><img decoding="async" loading="lazy" width="640" height="520" src="img/photo_1.webp" alt="Photographe d’événement"><span class="v-rate">★ 4,9</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Photo &amp; vidéo</span><b>Studio Lumière</b><span class="v-price">dès 450 000 FCFA</span></figcaption></figure>
     </div>
+    <p class="note-img">Images non contractuelles, présentées à titre d’exemple.</p>
     <div class="pay-row">
       <div class="pay-copy">
         <h3 class="h-md">Payez comme vous payez déjà.</h3>
@@ -252,9 +234,9 @@
 
 <!-- ─── Invités & équipe ──────────────────────────────────── -->
 <section class="band band-candy" id="invites" data-edge="scallop">
-  <div class="edge-peek edge-left" data-mascot="red_cheeks" data-peek data-interactive></div>
+  <div class="edge-peek edge-left" data-mascot="salut" data-peek data-interactive></div>
   <div class="wrap split-2 reverse">
-    <div>
+    <div data-parallax="28">
       <p class="eyebrow">Invités &amp; équipe</p>
       <h2 class="h-xl split">On s’organise <em class="script">à plusieurs</em>, sans se perdre.</h2>
       <p class="body-l">Les RSVP arrivent par WhatsApp, les relances partent en un geste. Tantie, témoins et co-organisateurs voient ce qu’ils doivent voir, rien de plus.</p>
@@ -264,6 +246,7 @@
         <li>Rétroplanning prêt selon le type d’événement</li>
       </ul>
     </div>
+    <div class="chat-float" data-parallax="-46">
     <div class="chat" aria-label="Exemple de conversation" data-chat>
       <div class="chat-head"><img decoding="async" loading="lazy" width="200" height="200" src="img/avatar_2.webp" alt=""><div><b>Mariage Awa &amp; Koffi</b><small>Invitation · 250 invités</small></div></div>
       <div class="chat-body">
@@ -274,35 +257,22 @@
         <div class="typing"><i></i><i></i><i></i></div>
       </div>
     </div>
+    </div>
   </div>
 </section>
 
 <!-- ─── Comment ça marche ─────────────────────────────────── -->
-<section class="band band-cream" id="etapes" data-edge="curve">
+<section class="band band-cream steps-sec" id="etapes" data-edge="curve">
   <div class="wrap">
-    <div class="center-head">
+    <div class="steps-head">
       <p class="eyebrow ink">En trois temps</p>
       <h2 class="h-xl split">De l’idée à <em class="script">la fête</em>.</h2>
     </div>
+    <div class="steps-line" aria-hidden="true"><i data-line></i></div>
     <ol class="steps">
-      <li class="step reveal">
-        <div class="step-mascot" data-mascot="red_thumbs" data-interactive></div>
-        <span class="step-n">1</span>
-        <h3 class="h-md">Créez l’événement</h3>
-        <p>Type, date, invités, budget : Calandix prépare la checklist et la répartition du budget.</p>
-      </li>
-      <li class="step reveal">
-        <div class="step-mascot" data-mascot="green_thumbs" data-interactive></div>
-        <span class="step-n">2</span>
-        <h3 class="h-md">Réservez vos prestataires</h3>
-        <p>Comparez les devis, posez vos questions, payez l’acompte en toute sécurité.</p>
-      </li>
-      <li class="step reveal">
-        <div class="step-mascot" data-mascot="red_peace" data-interactive></div>
-        <span class="step-n">3</span>
-        <h3 class="h-md">Célébrez</h3>
-        <p>Validez la prestation après la fête : le prestataire est payé, vous gardez tout dans le coffre-fort.</p>
-      </li>
+      <li class="step" data-parallax="-16"><span class="step-n">01</span><h3>Créez l’événement</h3><p>Type, date, invités, budget : Calandix prépare la checklist et la répartition du budget.</p></li>
+      <li class="step" data-parallax="-42"><span class="step-n">02</span><h3>Réservez vos prestataires</h3><p>Comparez les devis, posez vos questions, payez l’acompte en toute sécurité.</p></li>
+      <li class="step" data-parallax="-70"><span class="step-n">03</span><h3>Célébrez</h3><p>Validez la prestation après la fête : le prestataire est payé, vous gardez tout dans le coffre-fort.</p></li>
     </ol>
   </div>
 </section>
@@ -341,18 +311,17 @@
       <h2 class="h-xl split">Votre agence événementielle, dans <em class="script">une seule app</em>.</h2>
       <p class="body-l">Recevez des demandes qualifiées, envoyez des devis détaillés et suivez vos reversements, sans courir après les acomptes.</p>
     </div>
-    <div class="pro-grid">
-      <article class="pro reveal"><span>A</span><h3>Profil &amp; catalogue</h3><p>Forfaits, options, zone d’intervention, conditions de vente.</p></article>
-      <article class="pro reveal"><span>B</span><h3>Disponibilités</h3><p>Dates bloquées, capacité par jour, plus de doubles réservations.</p></article>
-      <article class="pro reveal"><span>C</span><h3>Devis &amp; demandes</h3><p>Questions au client, options, validité et acompte en un écran.</p></article>
-      <article class="pro reveal"><span>D</span><h3>Commandes</h3><p>Exigences du client, échéances, préparation, jour J, clôture.</p></article>
-      <article class="pro reveal"><span>E</span><h3>Revenus</h3><p>Commission affichée, reversements Wave ou Orange Money, relevés CSV.</p></article>
-      <article class="pro reveal"><span>F</span><h3>Réputation</h3><p>Avis vérifiés, réponses publiques, taux de réponse.</p></article>
-    </div>
+    <ul class="pro-list">
+      <li class="reveal"><h3>Profil &amp; catalogue</h3><p>Forfaits, options, zone d’intervention.</p></li>
+      <li class="reveal"><h3>Disponibilités</h3><p>Plus de doubles réservations.</p></li>
+      <li class="reveal"><h3>Devis &amp; demandes</h3><p>Options, validité et acompte en un écran.</p></li>
+      <li class="reveal"><h3>Commandes</h3><p>Échéances, préparation, jour J.</p></li>
+      <li class="reveal"><h3>Revenus</h3><p>Reversements Wave ou Orange Money.</p></li>
+      <li class="reveal"><h3>Réputation</h3><p>Avis vérifiés et réponses publiques.</p></li>
+    </ul>
     <div class="creator-cta">
-      <div class="creator-mascot" data-mascot="green_jump" data-interactive title="Touchez-moi !"></div>
-      <p><b>Offre Creator</b> à partir de 29 900 FCFA par mois.</p>
-      <a class="btn btn-cta" data-demo-pro href="#">Créer mon espace pro</a>
+      <p>Offre Creator à partir de <b>29 900 FCFA</b> par mois.</p>
+      <a class="btn btn-outline" data-demo-pro href="#">Créer mon espace pro</a>
     </div>
   </div>
 </section>
@@ -378,7 +347,7 @@
       </article>
       <article class="plan plan-hot reveal">
         <span class="badge">Le plus choisi</span>
-        <h3>Signature</h3><p class="price"><b>5 900</b> FCFA / mois</p>
+        <h3>Signature</h3><p class="price"><b>4 900</b> FCFA / mois</p>
         <ul><li>Tout Azur</li><li>Agent IA de votre événement</li><li>Coffre-fort numérique 5 Go</li><li>Collaborateurs illimités</li><li>Négociation de devis par l’IA</li></ul>
         <a class="btn plan-btn" data-app-link="/inscription" href="#">Choisir Signature</a>
       </article>
@@ -413,12 +382,15 @@
     <div>
       <p class="eyebrow">Accès anticipé</p>
       <h2 class="h-xl split">Soyez parmi <em class="script">les premiers</em>.</h2>
-      <p class="body-l">Laissez votre numéro WhatsApp : on vous prévient dès l’ouverture et vous profitez des avantages de lancement.</p>
+      <p class="body-l">Laissez vos coordonnées : on vous prévient dès l’ouverture et vous profitez des avantages de lancement.</p>
+      <img class="early-ant" decoding="async" loading="lazy" width="320" height="320" src="img/mascots/panneau.webp" alt="">
     </div>
     <form class="early-form reveal" name="acces-anticipe" data-early>
       <p class="hp"><label>Ne pas remplir <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
       <label class="field"><span>Nom et prénom</span>
         <input name="nom" type="text" autocomplete="name" required placeholder="Awa Koné"></label>
+      <label class="field"><span>Adresse e-mail</span>
+        <input name="email" type="email" inputmode="email" autocomplete="email" required placeholder="awa@exemple.ci"></label>
       <label class="field"><span>Numéro WhatsApp</span>
         <input name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" required pattern="[+0-9 ]{8,20}" placeholder="+225 07 00 00 00 00"></label>
       <fieldset class="field profil">
@@ -430,7 +402,7 @@
       </fieldset>
       <label class="consent">
         <input type="checkbox" name="consentement" value="oui" required>
-        <span>J’accepte que Calandix me contacte sur WhatsApp au sujet de l’accès anticipé. <a data-app-link="/confidentialite" href="#">Politique de confidentialité</a></span>
+        <span>J’accepte que Calandix me contacte par e-mail et sur WhatsApp au sujet de l’accès anticipé. <a data-app-link="/confidentialite" href="#">Politique de confidentialité</a></span>
       </label>
       <button class="btn btn-cta btn-violet early-btn" type="submit">
         <span class="early-label">Rejoindre la liste</span>
@@ -450,11 +422,8 @@
 <!-- ─── Appel final ───────────────────────────────────────── -->
 <section class="band band-cream final" data-edge="curve">
   <div class="wrap center">
-    <div class="duo" data-duo>
-      <div class="duo-m duo-red" data-mascot="red_jump" data-interactive title="Organisateurs"></div>
-      <div class="duo-m duo-green" data-mascot="green_jump" data-interactive title="Créateurs"></div>
-    </div>
-    <h2 class="display ink split">On prépare <em class="script">la fête</em> ?</h2>
+    <div class="final-ant" data-duo><div class="duo-m" data-mascot="rire" data-interactive title="Touchez-moi !"></div></div>
+    <h2 class="display ink split">Alors, on prépare <em class="script">la fête</em> ?</h2>
     <a class="btn btn-cta btn-xl" data-demo href="#">Essayer Calandix</a>
     <div class="stores stores-final">
       <a class="store" href="#demo" aria-label="Bientôt sur l’App Store"><span class="soon-tag">Bientôt</span><img decoding="async" loading="lazy" width="120" height="40" src="img/stores/app-store.svg" alt="Télécharger dans l’App Store"></a>
@@ -466,10 +435,10 @@
 
 <footer class="footer">
   <div class="wrap foot-brand" aria-hidden="true">
-    <svg class="logo-cards" viewBox="0 0 324 321"><rect class="c-mango" x="5" y="0" width="313" height="200" rx="60"/><rect class="c-coral" x="5" y="60" width="313" height="200" rx="60"/><g transform="rotate(10.7 162 205)"><rect class="c-violet" x="11" y="110" width="302" height="191" rx="56"/></g></svg>
-    <img class="logo-word" decoding="async" loading="lazy" src="img/calandix-wordmark-light.webp" width="1261" height="258" alt="">
+    <svg class="logo-cards" viewBox="64.59 40.68 131.68 125.79" aria-hidden="true"><rect class="c-mango" x="71.178" y="41.676" width="118.506" height="72.284" rx="22.016"/><rect class="c-coral" x="71.178" y="64.396" width="118.506" height="72.284" rx="22.016"/><g transform="translate(23.862 -21.748) rotate(10.486)"><rect class="c-violet" x="71.178" y="83.002" width="118.506" height="72.284" rx="22.016"/></g></svg>
+    <img class="logo-word" decoding="async" src="img/calandix-wordmark-light.svg" width="556" height="125" alt="">
   </div>
-  <img decoding="async" loading="lazy" width="384" height="384" class="foot-mascot" src="img/mascots/green_peace.webp" alt="" aria-hidden="true">
+  <img decoding="async" loading="lazy" width="320" height="320" class="foot-mascot" src="img/mascots/salut.webp" alt="" aria-hidden="true">
   <div class="wrap foot-grid">
     <div>
       <p>Le budget parfait pour célébrer.<br>Conçu pour la Côte d’Ivoire.</p>
@@ -480,6 +449,9 @@
 
       <div class="socials" aria-label="Calandix sur les réseaux sociaux">
         <a class="social s-wa" href="https://wa.me/2250757633765" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
+        <a class="social s-fb" href="#" data-soon aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a>
+        <a class="social s-ig" href="#" data-soon aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg></a>
+        <a class="social s-tt" href="#" data-soon aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
       </div>
     </div>
     <div><h4>Produit</h4><a href="#budget">Budget</a><a href="#prestataires">Prestataires</a><a href="#tarifs">Tarifs</a><a href="#demo">Mon prochain event</a></div>
@@ -498,7 +470,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollSmoother.min.js"></script>
-<script defer src="app.js?v=42"></script>
+<script defer src="app.js?v=43"></script>
 <!-- Téléphones 3D : three.js en module, chargé à part. Sans lui, la maquette plate reste. -->
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/" } }</script>
 <script>
@@ -506,7 +478,7 @@
     const c = navigator.connection;
     const modest = c?.saveData || /2g|3g/.test(c?.effectiveType || '') || navigator.deviceMemory < 4 || navigator.hardwareConcurrency < 4;
     if (modest) return;
-    const go = () => import('./phone3d.js?v=2');
+    const go = () => import('./phone3d.js?v=3');
     window.requestIdleCallback ? requestIdleCallback(go, { timeout: 2500 }) : setTimeout(go, 800);
   }, { once: true });
 </script>

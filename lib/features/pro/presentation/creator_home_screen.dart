@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../assistant/presentation/candix_button.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -300,6 +303,7 @@ class CreatorHomeScreen extends ConsumerWidget {
     );
 
     return Scaffold(
+      floatingActionButton: const CandixButton(),
       // Accueil sur fond blanc (le mode sombre garde son fond).
       backgroundColor: Confetti.dark ? null : Colors.white,
       body: SafeArea(

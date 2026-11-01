@@ -73,6 +73,7 @@ class HomeShell extends ConsumerWidget {
 
     if (wide) {
       return Scaffold(
+        backgroundColor: Confetti.surface,
         body: Row(
           children: [
             _Rail(
@@ -82,16 +83,28 @@ class HomeShell extends ConsumerWidget {
               creator: creator,
               badge: pending,
             ),
-            const VerticalDivider(width: 1),
             Expanded(
-              child: Center(
-                child: ConstrainedBox(
-                  // Les accueils (tableaux de bord) prennent plus de largeur ;
-                  // les autres onglets gardent la largeur de lecture.
-                  constraints: BoxConstraints(
-                    maxWidth: shell.currentIndex == Branch.home ? 1240 : 760,
+              // Le contenu est posé dans un cadre arrondi, comme l'admin.
+              child: Container(
+                margin: const EdgeInsets.fromLTRB(0, 12, 12, 12),
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  color: Confetti.cream,
+                  borderRadius: BorderRadius.circular(28),
+                ),
+                child: Center(
+                  child: ConstrainedBox(
+                    // Les accueils (tableaux de bord) prennent plus de largeur ;
+                    // les autres onglets gardent la largeur de lecture.
+                    constraints: BoxConstraints(
+                      maxWidth:
+                          shell.currentIndex == Branch.home ||
+                              shell.currentIndex == Branch.requests
+                          ? 1240
+                          : 760,
+                    ),
+                    child: shell,
                   ),
-                  child: shell,
                 ),
               ),
             ),
@@ -271,19 +284,19 @@ class _Rail extends StatelessWidget {
                     height: 46,
                     width: extended ? double.infinity : 46,
                     decoration: BoxDecoration(
-                      color: Confetti.ink,
+                      color: Confetti.violet,
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(AppIcons.add, color: Confetti.onInk, size: 21),
+                        Icon(AppIcons.add, color: Confetti.onViolet, size: 21),
                         if (extended) ...[
                           const SizedBox(width: 8),
                           Text(
                             'Nouvel événement'.tr,
                             style: context.text.labelMedium?.copyWith(
-                              color: Confetti.onInk,
+                              color: Confetti.onViolet,
                             ),
                           ),
                         ],
@@ -312,7 +325,7 @@ class _Rail extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: current == t.branch
-                          ? Confetti.lavender
+                          ? Confetti.mango
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -322,13 +335,19 @@ class _Rail extends StatelessWidget {
                               Icon(
                                 current == t.branch ? t.iconOn : t.icon,
                                 size: 21,
-                                color: Confetti.ink,
+                                color: current == t.branch
+                                    ? Confetti.inkFixed
+                                    : Confetti.ink,
                               ),
                               const SizedBox(width: 12),
                               Expanded(
                                 child: Text(
                                   t.label,
-                                  style: context.text.titleSmall,
+                                  style: context.text.titleSmall?.copyWith(
+                                    color: current == t.branch
+                                        ? Confetti.inkFixed
+                                        : Confetti.ink,
+                                  ),
                                 ),
                               ),
                               if (t.branch == Branch.requests && badge > 0)
@@ -341,7 +360,9 @@ class _Rail extends StatelessWidget {
                               Icon(
                                 current == t.branch ? t.iconOn : t.icon,
                                 size: 21,
-                                color: Confetti.ink,
+                                color: current == t.branch
+                                    ? Confetti.inkFixed
+                                    : Confetti.ink,
                               ),
                               const SizedBox(height: 3),
                               Text(
@@ -349,7 +370,9 @@ class _Rail extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 10.5,
                                   fontWeight: FontWeight.w500,
-                                  color: Confetti.ink,
+                                  color: current == t.branch
+                                      ? Confetti.inkFixed
+                                      : Confetti.ink,
                                 ),
                               ),
                             ],

@@ -243,6 +243,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 ),
               ),
             ),
+            if (_query.trim().length >= 3)
+              SliverToBoxAdapter(child: _Suggestions(query: _query)),
             SliverToBoxAdapter(
               child: SizedBox(
                 height: 54,
@@ -428,4 +430,100 @@ class _SwitchRow extends StatelessWidget {
       ],
     ),
   );
+}
+
+/// Dès trois lettres : prestataires et agences proposés, les noms qui
+/// commencent par la saisie d'abord.
+class _Suggestions extends StatelessWidget {
+  const _Suggestions({required this.query});
+
+  final String query;
+
+  @override
+  Widget build(BuildContext context) {
+    final q = query.trim().toLowerCase();
+    int rank(Vendor v) {
+      final name = v.name.toLowerCase();
+      if (name.startsWith(q)) return 0;
+      if (name.split(' ').any((w) => w.startsWith(q))) return 1;
+      if (v.category.label.toLowerCase().contains(q)) return 2;
+      return 3;
+    }
+
+    final found =
+        Catalog.vendors
+            .where(
+              (v) => '${v.name} ${v.category.label} ${v.zone} ${v.tagline}'
+                  .toLowerCase()
+                  .contains(q),
+            )
+            .toList()
+          ..sort((a, b) => rank(a).compareTo(rank(b)));
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+      child: Panel(
+        padding: const EdgeInsets.symmetric(vertical: 6),
+        child: found.isEmpty
+            ? Padding(
+                padding: const EdgeInsets.all(14),
+                child: Text(
+                  'Aucun prestataire ne correspond.'.tr,
+                  style: context.text.bodyMedium?.copyWith(
+                    color: context.eventa.muted,
+                  ),
+                ),
+              )
+            : Column(
+                children: [
+                  for (final v in found.take(5))
+                    Pressable(
+                      scale: 0.99,
+                      onTap: () => context.push(Routes.vendor(v.id)),
+                      semanticLabel: v.name,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 9,
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              AppIcons.search,
+                              size: 16,
+                              color: Confetti.inkMuted,
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    v.name,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: context.text.titleSmall,
+                                  ),
+                                  Text(
+                                    '${v.category.label} · ${v.zone}',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: context.text.bodySmall,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Icon(
+                              AppIcons.chevron,
+                              size: 14,
+                              color: Confetti.inkMuted,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+      ),
+    );
+  }
 }

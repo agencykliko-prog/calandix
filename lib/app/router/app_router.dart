@@ -12,6 +12,8 @@ import '../../admin/presentation/admin_providers.dart';
 import '../../admin/presentation/admin_shell.dart';
 import '../../features/account/presentation/edit_profile_screen.dart';
 import '../../features/agent/presentation/agent_screen.dart';
+import '../../features/assistant/presentation/candix_screen.dart';
+import '../../features/about/presentation/not_found_screen.dart';
 import '../../core/auth/profile.dart';
 import '../../features/auth/presentation/auth_screen.dart';
 import '../../core/auth/session_provider.dart';
@@ -62,6 +64,7 @@ abstract final class Routes {
   static const business = '/business';
   static const vault = '/coffre-fort';
   static const about = '/a-propos';
+  static const candix = '/candix';
   static const privacy = '/confidentialite';
   static const terms = '/conditions';
   static const admin = '/admin';
@@ -105,6 +108,7 @@ final routerProvider = Provider<GoRouter>((ref) {
   final router = GoRouter(
     navigatorKey: _rootKey,
     initialLocation: Routes.onboarding,
+    errorBuilder: (c, s) => const NotFoundScreen(),
     refreshListenable: Listenable.merge([session, adminSession]),
     redirect: (context, state) {
       final loc = state.matchedLocation;
@@ -324,6 +328,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/pro/reputation',
         parentNavigatorKey: _rootKey,
         builder: (c, s) => _bounded(const ReputationScreen()),
+      ),
+      GoRoute(
+        path: Routes.candix,
+        parentNavigatorKey: _rootKey,
+        builder: (c, s) => _bounded(const CandixScreen()),
       ),
       GoRoute(
         path: Routes.about,

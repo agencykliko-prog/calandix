@@ -245,7 +245,10 @@ function setup(el) {
       spin = ease(p) * Math.PI * 2;
       if (p === 1) spinAt = -1;
     }
-    const ry = cur.ry + spin;
+    // Toutes les 5 secondes, une légère rotation fait vivre l'écran d'accueil.
+    const phase = reduce || calm ? 1 : (now % 5000) / 1400;
+    const sway = phase < 1 ? Math.sin(phase * Math.PI * 2) * .3 : 0;
+    const ry = cur.ry + spin + sway;
 
     phone.position.y = cur.y;
     phone.rotation.set(cur.rx, ry, 0);

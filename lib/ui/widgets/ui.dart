@@ -39,7 +39,11 @@ class PillButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final enabled = onPressed != null && !loading;
     final (bg, fg, border) = switch (tone) {
-      ButtonTone.primary => (Confetti.violet, Colors.white, Colors.transparent),
+      ButtonTone.primary => (
+        Confetti.violet,
+        Confetti.onViolet,
+        Colors.transparent,
+      ),
       ButtonTone.dark => (Confetti.ink, Confetti.onInk, Colors.transparent),
       ButtonTone.ghost => (Confetti.surface, Confetti.ink, Confetti.line),
       ButtonTone.light => (Confetti.surface, Confetti.ink, Colors.transparent),

@@ -22,17 +22,25 @@ class AppPrefs {
     this.dark = false,
     this.language = AppLanguage.fr,
     this.sounds = true,
+    this.accent,
+    this.backdrop,
   });
 
   final bool dark;
   final AppLanguage language;
   final bool sounds;
 
+  /// Thème choisi dans Compte (null = couleurs Calandix).
+  final int? accent;
+  final int? backdrop;
+
   AppPrefs copyWith({bool? dark, AppLanguage? language, bool? sounds}) =>
       AppPrefs(
         dark: dark ?? this.dark,
         language: language ?? this.language,
         sounds: sounds ?? this.sounds,
+        accent: accent,
+        backdrop: backdrop,
       );
 }
 
@@ -43,6 +51,8 @@ class PrefsNotifier extends Notifier<AppPrefs> {
       dark: readPref('dark') == '1',
       language: readPref('lang') == 'en' ? AppLanguage.en : AppLanguage.fr,
       sounds: readPref('sounds') != '0',
+      accent: int.tryParse(readPref('accent') ?? ''),
+      backdrop: int.tryParse(readPref('backdrop') ?? ''),
     );
     _apply(p);
     return p;
@@ -51,6 +61,21 @@ class PrefsNotifier extends Notifier<AppPrefs> {
   void setDark(bool v) => _set(state.copyWith(dark: v));
   void setLanguage(AppLanguage v) => _set(state.copyWith(language: v));
   void setSounds(bool v) => _set(state.copyWith(sounds: v));
+
+  void setTheme(int? accent, int? backdrop) {
+    writePref('accent', accent?.toString() ?? '');
+    writePref('backdrop', backdrop?.toString() ?? '');
+    final p = AppPrefs(
+      dark: state.dark,
+      language: state.language,
+      sounds: state.sounds,
+      accent: accent,
+      backdrop: backdrop,
+    );
+    _apply(p);
+    state = p;
+    _rebuildAll();
+  }
 
   void _set(AppPrefs p) {
     writePref('dark', p.dark ? '1' : '0');
@@ -64,6 +89,8 @@ class PrefsNotifier extends Notifier<AppPrefs> {
 
   static void _apply(AppPrefs p) {
     Confetti.dark = p.dark;
+    Confetti.accent = p.accent == null ? null : Color(p.accent!);
+    Confetti.backdrop = p.backdrop == null ? null : Color(p.backdrop!);
     L10n.lang = p.language.code;
   }
 

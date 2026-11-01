@@ -44,7 +44,7 @@ enum EventCategory {
     'Beach party',
     'Soirée privée',
   ]),
-  outing('Sorties & loisirs', 'Sortie', AppIcons.outing, Hues.mango, [
+  outing('Sorties & loisirs', 'Sortie', AppIcons.outing, Hues.sky, [
     'Pique-nique',
     'Camping',
     'Excursion',
@@ -52,7 +52,7 @@ enum EventCategory {
     'Barbecue',
     'Sortie en bateau',
   ]),
-  pro('Événements professionnels', 'Pro', AppIcons.pro, Hues.ink, [
+  pro('Événements professionnels', 'Pro', AppIcons.pro, Hues.violet, [
     'Team building',
     'Séminaire',
     'Conférence',
@@ -92,7 +92,7 @@ enum EventCategory {
       'Campagne de sensibilisation',
     ],
   ),
-  seasonal('Fêtes saisonnières', 'Saison', AppIcons.seasonal, Hues.mango, [
+  seasonal('Fêtes saisonnières', 'Saison', AppIcons.seasonal, Hues.peach, [
     'Noël',
     'Nouvel An',
     'Saint-Valentin',
