@@ -202,15 +202,36 @@ abstract final class AppTheme {
         trackOutlineColor: const WidgetStatePropertyAll(Colors.transparent),
       ),
       dividerTheme: DividerThemeData(color: Confetti.line, thickness: 1),
+      // Changement de page bref : l'écran suivant apparaît presque aussitôt.
+      // L'iPhone garde son geste de retour.
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
-          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.android: _QuickTransition(),
           TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-          TargetPlatform.windows: CupertinoPageTransitionsBuilder(),
-          TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
-          TargetPlatform.linux: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.windows: _QuickTransition(),
+          TargetPlatform.macOS: _QuickTransition(),
+          TargetPlatform.linux: _QuickTransition(),
         },
       ),
     );
   }
+}
+
+class _QuickTransition extends PageTransitionsBuilder {
+  const _QuickTransition();
+
+  @override
+  Widget buildTransitions<T>(
+    PageRoute<T> route,
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) => FadeTransition(
+    opacity: CurvedAnimation(
+      parent: animation,
+      curve: const Interval(0, 0.4, curve: Curves.easeOut),
+    ),
+    child: child,
+  );
 }

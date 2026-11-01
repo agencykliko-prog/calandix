@@ -31,9 +31,7 @@ abstract class EventsRepository {
 }
 
 class DemoEventsRepository extends EventsRepository {
-  const DemoEventsRepository({
-    this.latency = const Duration(milliseconds: 650),
-  });
+  const DemoEventsRepository({this.latency = Duration.zero});
 
   final Duration latency;
 

@@ -63,6 +63,14 @@ class AccountScreen extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 12),
                   child: _AccountMascot(creator: p.isCreator),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 18),
+                  child: RoundIconButton(
+                    icon: AppIcons.close,
+                    tooltip: 'Fermer'.tr,
+                    onTap: () => context.go(Routes.home),
+                  ),
+                ),
               ],
             ),
             Panel(

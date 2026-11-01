@@ -48,7 +48,6 @@ class _AdminLoginScreenState extends ConsumerState<AdminLoginScreen> {
       _busy = true;
       _error = null;
     });
-    await Future<void>.delayed(const Duration(milliseconds: 600));
     if (!mounted) return;
     ref.read(adminSessionProvider.notifier).signIn(_member);
     ref

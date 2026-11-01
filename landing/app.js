@@ -450,13 +450,23 @@
     form.addEventListener('submit', (e) => { e.preventDefault(); ask(field.value); field.value = ''; });
   })();
 
+  /* ── Démo : l'application préchargée en arrière-plan ── */
+  addEventListener('load', () => setTimeout(() => {
+    const c = navigator.connection;
+    if (local || c?.saveData || /2g|3g/.test(c?.effectiveType || '')) return;
+    const l = document.createElement('link');
+    l.rel = 'prefetch';
+    l.href = '/app/main.dart.js';
+    document.head.append(l);
+  }, 3000), { once: true });
+
   /* ── Mode sombre ─────────────────────────────────────── */
-  document.querySelector('.theme-toggle').addEventListener('click', () => {
+  document.querySelectorAll('.theme-toggle').forEach((b) => b.addEventListener('click', () => {
     const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
     root.dataset.theme = next;
     try { localStorage.setItem('calandix-theme', next); } catch (e) { /* navigation privée */ }
     document.querySelector('meta[name=theme-color]').content = next === 'dark' ? '#110722' : '#4D39E2';
-  });
+  }));
 
   /* ── En trois temps : la boîte survolée s'ouvre ──────── */
   const stepBoxes = [...document.querySelectorAll('[data-steps] .step')];

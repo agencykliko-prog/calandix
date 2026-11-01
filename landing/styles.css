@@ -641,7 +641,11 @@ h1, h2, h3, h4, p { margin: 0; }
   .nav-links { display: none; }
   .nav-cta { margin-left: auto; }
   .burger { display: block; margin-left: 0; }
-  .pill-nav { flex-wrap: wrap; height: auto; min-height: 68px; column-gap: 8px; align-content: center; }
+  .pill-nav { flex-wrap: wrap; height: auto; min-height: 68px; gap: 0 8px; align-content: center; padding: 0 10px 0 22px; }
+  .pill-nav.scrolled { height: auto; }
+  .logo { margin-right: auto; }
+  .nav-cta { margin-left: 0; }
+  .burger { flex: none; }
   .pill-nav .nav-links { display: block; order: 5; width: 100%; max-height: 0; margin: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height .5s var(--ease), opacity .25s, visibility .5s; }
   .pill-nav.open { transform: none; background: var(--white); border-radius: 30px; padding-bottom: 14px; }
   [data-theme="dark"] .pill-nav.open { background: #1B0F33; }
@@ -650,6 +654,7 @@ h1, h2, h3, h4, p { margin: 0; }
   .pill-nav.open .nav-links > * { transform: none; opacity: 1; transition-delay: calc(var(--n, 0) * 45ms + 80ms); }
   .nav-foot { display: flex !important; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; padding: 14px 14px 0; border-top: 1px solid var(--lavender); }
   .nav-foot .socials { margin: 0; }
+  .nav-foot .theme-toggle { margin-left: auto; }
   .nav-foot .social { color: var(--ink); background: var(--lavender); box-shadow: none; }
   [data-theme="dark"] .nav-foot .social { color: #F1EDFA; }
   .nav-why summary { display: flex; justify-content: space-between; padding: 10px 14px; }
@@ -672,7 +677,9 @@ h1, h2, h3, h4, p { margin: 0; }
   .banner { display: block; padding: 8px 14px; font-size: 13px; line-height: 1.35; }
   .banner a { margin-left: 4px; }
   :root { --gutter: 16px; }
-  .pill-nav { min-height: 60px; padding: 0 6px 0 18px; column-gap: 8px; }
+  .pill-nav { min-height: 60px; padding: 0 8px 0 16px; gap: 0 6px; }
+  /* Peu de largeur : le thème passe dans le menu, la barre tient sur une ligne. */
+  .nav-cta .theme-toggle { display: none; }
   .logo { --h: 22px; }
   .hero { padding-top: 68px; }
   .nav-cta .btn-sm { padding: 0 14px; font-size: 14px; height: 42px; }

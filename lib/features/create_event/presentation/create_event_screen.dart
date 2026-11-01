@@ -81,7 +81,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
 
   Future<void> _generate() async {
     setState(() => _generating = true);
-    await Future<void>.delayed(const Duration(milliseconds: 900));
+    await Future<void>.delayed(const Duration(milliseconds: 250));
     if (!mounted) return;
     ref.read(soundProvider).play(Sfx.success);
     maybeShowPremiumNudge(

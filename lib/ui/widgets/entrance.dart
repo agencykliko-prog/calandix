@@ -24,7 +24,7 @@ class _EntranceState extends State<Entrance>
     with SingleTickerProviderStateMixin {
   late final AnimationController _c = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 420),
+    duration: const Duration(milliseconds: 220),
   );
   late final Animation<double> _t = CurvedAnimation(
     parent: _c,
@@ -34,7 +34,7 @@ class _EntranceState extends State<Entrance>
   @override
   void initState() {
     super.initState();
-    Future<void>.delayed(Duration(milliseconds: 45 * widget.index), () {
+    Future<void>.delayed(Duration(milliseconds: 18 * widget.index), () {
       if (mounted) _c.forward();
     });
   }

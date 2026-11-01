@@ -52,7 +52,14 @@ class PrefsNotifier extends Notifier<AppPrefs> {
       language: readPref('lang') == 'en' ? AppLanguage.en : AppLanguage.fr,
       sounds: readPref('sounds') != '0',
       accent: int.tryParse(readPref('accent') ?? ''),
-      backdrop: int.tryParse(readPref('backdrop') ?? ''),
+      backdrop:
+          const [
+            0xFFFFFFFF,
+            0xFFD4FDD1,
+            0xFFC8F0FD,
+          ].contains(int.tryParse(readPref('backdrop') ?? ''))
+          ? int.tryParse(readPref('backdrop')!)
+          : null,
     );
     _apply(p);
     return p;

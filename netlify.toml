@@ -25,3 +25,14 @@
   for = "/img/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"
+
+# Fichiers de l'app qui changent rarement : pas de vérification à chaque ouverture.
+[[headers]]
+  for = "/app/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/app/canvaskit/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

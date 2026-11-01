@@ -19,9 +19,9 @@ class _Preset {
 
 const _presets = [
   _Preset('Océan', 0xFF2373E1, 0xFFC8F0FD),
-  _Preset('Forêt', 0xFF102930, 0xFFADD9C6),
-  _Preset('Couchant', 0xFFFF5C35, 0xFFFFCEB9),
-  _Preset('Orchidée', 0xFFB400FF, 0xFFF8C8F4),
+  _Preset('Forêt', 0xFF102930, 0xFFD4FDD1),
+  _Preset('Couchant', 0xFFFF5C35, 0xFFFFFFFF),
+  _Preset('Orchidée', 0xFFB400FF, 0xFFFFFFFF),
 ];
 
 /// Couleurs assez soutenues pour porter boutons et accents.
@@ -41,19 +41,7 @@ const _accents = [
 ];
 
 /// Couleurs claires, pour le fond de l'interface.
-const _backdrops = [
-  0xFFFFFFFF,
-  0xFFD4FDD1,
-  0xFFC8F0FD,
-  0xFFFFCEB9,
-  0xFFDFDDDD,
-  0xFFADD9C6,
-  0xFFF8C8F4,
-  0xFFF8F955,
-  0xFFC9E000,
-  0xFF8AE71A,
-  0xFFC2B8B2,
-];
+const _backdrops = [0xFFFFFFFF, 0xFFD4FDD1, 0xFFC8F0FD];
 
 /// Compte › Couleur du thème : quatre thèmes et un choix libre.
 class ThemePicker extends ConsumerWidget {

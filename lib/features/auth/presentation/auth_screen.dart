@@ -374,7 +374,6 @@ Future<void> createAccount(
       onConfirm();
       return;
     }
-    await Future<void>.delayed(const Duration(milliseconds: 420));
     if (context.mounted) context.go(Routes.home);
   } on AuthFailure catch (e) {
     if (context.mounted) toast(context, e.message, icon: AppIcons.warning);
@@ -459,7 +458,6 @@ class _SignInFormState extends ConsumerState<_SignInForm> {
     }
     if (!mounted) return;
     authMascotKey.currentState?.jump();
-    await Future<void>.delayed(const Duration(milliseconds: 420));
     if (!mounted) return;
     context.go(Routes.home);
   }
