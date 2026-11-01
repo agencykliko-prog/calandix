@@ -1,0 +1,900 @@
+[
+{
+"c": "Découvrir Calandix",
+"q": "Qu'est-ce que Calandix ?",
+"a": "Calandix est une application pour organiser vos événements en Côte d'Ivoire : budget en FCFA, tâches, prestataires, invités et équipe, tout au même endroit.",
+"k": [
+"calandix",
+"c est quoi",
+"ca sert",
+"application",
+"presentation"
+]
+},
+{
+"c": "Découvrir Calandix",
+"q": "À qui s'adresse Calandix ?",
+"a": "À deux publics : les organisateurs, particuliers ou professionnels, qui préparent un événement, et les Creators, c'est-à-dire les prestataires et agences qui proposent leurs services.",
+"k": [
+"pour qui",
+"adresse",
+"public",
+"qui peut"
+]
+},
+{
+"c": "Découvrir Calandix",
+"q": "Quels types d'événements puis-je organiser ?",
+"a": "Mariages et unions, anniversaires, bébé et famille, EVJF et EVG, sorties et loisirs, événements professionnels, célébrations personnelles, rencontres familiales et communautaires, événements associatifs et fêtes saisonnières.",
+"k": [
+"type",
+"evenements",
+"mariage",
+"bapteme",
+"anniversaire",
+"seminaire",
+"dot",
+"funerailles",
+"categorie"
+]
+},
+{
+"c": "Découvrir Calandix",
+"q": "Dans quels pays Calandix est-il disponible ?",
+"a": "Calandix est conçu pour la Côte d'Ivoire. Le Mali, le Burkina Faso, le Togo et le Bénin sont annoncés pour bientôt.",
+"k": [
+"pays",
+"cote d ivoire",
+"mali",
+"burkina",
+"togo",
+"benin",
+"abidjan",
+"disponible ou"
+]
+},
+{
+"c": "Découvrir Calandix",
+"q": "Quand l'application sera-t-elle disponible ?",
+"a": "Calandix est en version de démonstration. Vous pouvez l'essayer dès maintenant ; la date de lancement n'est pas encore annoncée. Inscrivez-vous à l'accès anticipé pour être prévenu.",
+"k": [
+"quand",
+"sortie",
+"lancement",
+"date de sortie",
+"disponible quand"
+]
+},
+{
+"c": "Découvrir Calandix",
+"q": "Y a-t-il une application Android et iPhone ?",
+"a": "Les versions iPhone et Android arrivent bientôt. En attendant, la démo fonctionne dans le navigateur de votre téléphone ou de votre ordinateur.",
+"k": [
+"android",
+"iphone",
+"ios",
+"app store",
+"play store",
+"telecharger",
+"google play",
+"telechargement"
+]
+},
+{
+"c": "Découvrir Calandix",
+"q": "Comment essayer la démo ?",
+"a": "Touchez « Ouvrir la démo » dans la section Mon prochain event, puis « Découvrir la démo sans compte ». Les données y sont fictives et il n'y a rien à payer.",
+"k": [
+"demo",
+"essayer",
+"tester",
+"test",
+"sans compte"
+]
+},
+{
+"c": "Découvrir Calandix",
+"q": "Comment rejoindre l'accès anticipé ?",
+"a": "Remplissez le formulaire Accès anticipé en bas de la page : nom, e-mail, numéro WhatsApp et profil. On vous prévient à l'ouverture, avec les avantages de lancement.",
+"k": [
+"acces anticipe",
+"liste",
+"prevenu",
+"inscrire",
+"prevenir",
+"liste d attente"
+]
+},
+{
+"c": "Découvrir Calandix",
+"q": "Calandix est-il disponible en anglais ?",
+"a": "Oui, l'application existe en français et en anglais. La langue se change dans Compte, rubrique Préférences.",
+"k": [
+"anglais",
+"english",
+"langue",
+"francais"
+]
+},
+{
+"c": "Compte",
+"q": "Comment créer un compte ?",
+"a": "Touchez « Commencez gratuitement », choisissez Organisateur ou Creator, puis renseignez votre adresse e-mail et un mot de passe. La connexion par téléphone arrive bientôt.",
+"k": [
+"creer un compte",
+"inscription",
+"inscrire",
+"ouvrir un compte",
+"s enregistrer"
+]
+},
+{
+"c": "Compte",
+"q": "J'ai oublié mon mot de passe, que faire ?",
+"a": "Sur l'écran de connexion, saisissez votre e-mail puis touchez « Mot de passe oublié ? » : vous recevez un lien de réinitialisation.",
+"k": [
+"mot de passe",
+"oublie",
+"reinitialiser",
+"connexion impossible",
+"connecter"
+]
+},
+{
+"c": "Compte",
+"q": "Comment modifier mon profil ?",
+"a": "Ouvrez Compte puis touchez votre carte de profil pour modifier vos informations et votre photo.",
+"k": [
+"profil",
+"photo",
+"modifier mes informations",
+"changer mon nom"
+]
+},
+{
+"c": "Compte",
+"q": "Faut-il être majeur pour s'inscrire ?",
+"a": "Oui, l'inscription est réservée aux personnes majeures.",
+"k": [
+"majeur",
+"age",
+"mineur",
+"ans"
+]
+},
+{
+"c": "Compte",
+"q": "Comment supprimer mon compte ?",
+"a": "Vous pouvez supprimer votre compte à tout moment depuis Compte, rubrique Confidentialité. Certaines pièces comptables restent conservées 10 ans, comme l'exige la loi.",
+"k": [
+"supprimer",
+"supprimer mon compte",
+"fermer mon compte",
+"effacer"
+]
+},
+{
+"c": "Compte",
+"q": "Comment activer le mode sombre ?",
+"a": "Dans l'application : Compte, puis Préférences, puis Mode sombre. Sur ce site, utilisez le bouton soleil ou lune de la barre de navigation.",
+"k": [
+"mode sombre",
+"sombre",
+"nuit",
+"clair"
+]
+},
+{
+"c": "Compte",
+"q": "Puis-je changer les couleurs de l'application ?",
+"a": "Oui. Dans Compte, la section Couleur du thème propose quatre thèmes, une couleur principale et un fond au choix.",
+"k": [
+"couleur",
+"theme",
+"personnaliser",
+"interface"
+]
+},
+{
+"c": "Organiser un événement",
+"q": "Comment créer un événement ?",
+"a": "Touchez « Créer un événement » sur l'accueil, choisissez la catégorie et le type, puis indiquez la date, la ville, le nombre d'invités et le budget. Calandix prépare la checklist et la répartition du budget.",
+"k": [
+"creer un evenement",
+"nouvel evenement",
+"commencer",
+"creer",
+"ajouter un evenement"
+]
+},
+{
+"c": "Organiser un événement",
+"q": "Puis-je gérer plusieurs événements ?",
+"a": "Oui, les événements sont illimités, même avec la formule gratuite Découverte. Chacun a son propre espace.",
+"k": [
+"plusieurs",
+"illimite",
+"combien d evenements",
+"nombre d evenements"
+]
+},
+{
+"c": "Organiser un événement",
+"q": "Qu'est-ce que la checklist ?",
+"a": "C'est la liste des tâches préparée automatiquement selon le type d'événement et la date. Vous pouvez cocher, ajouter ou modifier des tâches.",
+"k": [
+"checklist",
+"liste de taches",
+"taches",
+"tache",
+"a faire"
+]
+},
+{
+"c": "Organiser un événement",
+"q": "Comment fonctionne le rétroplanning ?",
+"a": "Dans votre événement, les tâches sont classées par échéance : en retard, aujourd'hui, cette semaine, ce mois-ci, plus tard. L'Agenda regroupe vos activités par jour, semaine ou mois.",
+"k": [
+"retroplanning",
+"planning",
+"agenda",
+"echeance",
+"calendrier"
+]
+},
+{
+"c": "Organiser un événement",
+"q": "À quoi sert le coffre-fort ?",
+"a": "Le coffre-fort réunit vos contrats, devis, factures et reçus, photos, certificats et documents. Il offre 100 Mo gratuits, davantage avec un abonnement.",
+"k": [
+"coffre",
+"coffre fort",
+"documents",
+"contrats",
+"stockage",
+"factures"
+]
+},
+{
+"c": "Organiser un événement",
+"q": "Puis-je exporter mes données ?",
+"a": "Oui : Compte, puis « Exporter mes données » pour récupérer dépenses, prestataires et paiements au format CSV. Les graphiques et l'export détaillés font partie de la formule Azur.",
+"k": [
+"exporter",
+"export",
+"csv",
+"excel",
+"telecharger mes donnees"
+]
+},
+{
+"c": "Organiser un événement",
+"q": "Reçoit-on des notifications ?",
+"a": "L'application vous propose d'activer les notifications à votre arrivée. Les rappels WhatsApp et SMS sont inclus à partir de la formule Azur.",
+"k": [
+"notification",
+"notifications",
+"rappel",
+"rappels",
+"alerte",
+"sms"
+]
+},
+{
+"c": "Budget",
+"q": "Comment fonctionne le budget ?",
+"a": "Vous fixez un budget cible, le répartissez par poste et notez chaque paiement. Chaque réservation met à jour l'engagé et chaque paiement le payé.",
+"k": [
+"budget",
+"fonctionne",
+"depenses",
+"gerer mon budget",
+"enveloppe"
+]
+},
+{
+"c": "Budget",
+"q": "Quelle différence entre prévu, engagé et payé ?",
+"a": "Le prévu est ce que vous comptez dépenser, l'engagé ce que vous avez réservé, le payé ce qui est déjà réglé. Le reste à payer est l'engagé moins le payé.",
+"k": [
+"prevu",
+"engage",
+"paye",
+"difference",
+"reste a payer",
+"reste"
+]
+},
+{
+"c": "Budget",
+"q": "Dans quelle devise sont les montants ?",
+"a": "Tous les montants sont affichés en francs CFA (FCFA).",
+"k": [
+"devise",
+"fcfa",
+"franc",
+"cfa",
+"monnaie",
+"euro",
+"dollar"
+]
+},
+{
+"c": "Budget",
+"q": "Comment estimer mon budget ?",
+"a": "Le simulateur de cette page répartit votre budget entre six postes : lieu, traiteur, décoration, musique et DJ, photo et vidéo, tenues et beauté. Il donne aussi le coût par invité. C'est une estimation indicative.",
+"k": [
+"simulateur",
+"estimer",
+"estimation",
+"repartition",
+"par invite",
+"combien prevoir"
+]
+},
+{
+"c": "Budget",
+"q": "Qu'est-ce que le budget créé par l'IA ?",
+"a": "Avec la formule Azur ou supérieure, Calandix propose une répartition de votre budget adaptée à votre événement et à votre nombre d'invités.",
+"k": [
+"budget ia",
+"intelligence artificielle",
+"ia",
+"budget cree",
+"optimise"
+]
+},
+{
+"c": "Budget",
+"q": "Comment enregistrer une dépense ?",
+"a": "Dans le Budget de votre événement, ajoutez une dépense avec son poste, son montant et son moyen de paiement. Le payé du poste se met à jour.",
+"k": [
+"enregistrer",
+"ajouter une depense",
+"noter",
+"depense",
+"paiement en especes"
+]
+},
+{
+"c": "Budget",
+"q": "Que se passe-t-il si je dépasse mon budget ?",
+"a": "Le suivi montre l'engagé par rapport à votre budget cible et ce qui reste disponible : vous voyez le dépassement et pouvez ajuster vos postes.",
+"k": [
+"depasse",
+"depasser",
+"depassement",
+"trop",
+"disponible"
+]
+},
+{
+"c": "Invités et équipe",
+"q": "Comment gérer ma liste d'invités ?",
+"a": "Dans votre événement, section Invités & RSVP, touchez « Voir la liste » : ajoutez des invités avec leur numéro, leur groupe et leur réponse, puis filtrez ou recherchez.",
+"k": [
+"liste d invites",
+"invites",
+"invite",
+"ajouter un invite",
+"gerer mes invites"
+]
+},
+{
+"c": "Invités et équipe",
+"q": "Comment suivre les réponses (RSVP) ?",
+"a": "Chaque invité a une réponse : présent, absent ou en attente. Le résumé affiche le nombre de confirmés et d'absents, et la liste se filtre par réponse.",
+"k": [
+"rsvp",
+"reponse",
+"reponses",
+"confirmation",
+"presence",
+"confirmes"
+]
+},
+{
+"c": "Invités et équipe",
+"q": "Peut-on compter les accompagnants ?",
+"a": "Oui, indiquez les accompagnants de chaque invité. Calandix calcule le nombre total de personnes attendues.",
+"k": [
+"accompagnant",
+"accompagnants",
+"conjoint",
+"enfants",
+"nombre de personnes",
+"couverts"
+]
+},
+{
+"c": "Invités et équipe",
+"q": "Y a-t-il un QR code pour les invités ?",
+"a": "Le QR code RSVP fait partie de la formule Azur et des formules supérieures.",
+"k": [
+"qr",
+"qr code",
+"code"
+]
+},
+{
+"c": "Invités et équipe",
+"q": "Comment inviter des co-organisateurs ?",
+"a": "Dans votre événement, touchez « Gérer les accès » pour inviter un collaborateur et choisir son rôle.",
+"k": [
+"co organisateur",
+"co organisateurs",
+"collaborateur",
+"collaborateurs",
+"plusieurs",
+"equipe",
+"inviter",
+"organiser a plusieurs"
+]
+},
+{
+"c": "Invités et équipe",
+"q": "Quels sont les rôles dans une équipe ?",
+"a": "Propriétaire, Admin (tous les droits, paiements compris), Éditeur (budget, tâches, prestataires et invités, sans paiement) et Lecteur (consultation seulement).",
+"k": [
+"role",
+"roles",
+"droits",
+"admin",
+"editeur",
+"lecteur",
+"permission",
+"proprietaire"
+]
+},
+{
+"c": "Invités et équipe",
+"q": "Combien de collaborateurs puis-je inviter ?",
+"a": "2 avec la formule Découverte, jusqu'à 5 avec Azur, et sans limite à partir de Signature.",
+"k": [
+"combien de collaborateurs",
+"nombre de collaborateurs",
+"limite",
+"combien de personnes"
+]
+},
+{
+"c": "Prestataires",
+"q": "Comment trouver un prestataire ?",
+"a": "Dans l'onglet Explorer, cherchez dès trois lettres ou filtrez par catégorie, zone, disponibilité et profil vérifié.",
+"k": [
+"trouver",
+"chercher",
+"prestataire",
+"recherche",
+"explorer",
+"traiteur",
+"dj",
+"photographe",
+"decorateur",
+"salle"
+]
+},
+{
+"c": "Prestataires",
+"q": "Les prestataires sont-ils vérifiés ?",
+"a": "Les Creators fournissent des justificatifs (RCCM, pièce d'identité, adresse). Leur fiche n'est publiée qu'après vérification, et un badge l'indique.",
+"k": [
+"verifie",
+"verifies",
+"fiable",
+"confiance",
+"badge",
+"verification",
+"serieux"
+]
+},
+{
+"c": "Prestataires",
+"q": "Comment demander et comparer des devis ?",
+"a": "Depuis la fiche d'un prestataire, envoyez une demande de devis. Dans votre événement, le comparateur classe les devis reçus par catégorie, du moins cher au plus cher.",
+"k": [
+"devis",
+"comparer",
+"comparateur",
+"demander un devis"
+]
+},
+{
+"c": "Prestataires",
+"q": "Combien de temps un devis est-il valable ?",
+"a": "Le devis engage le Creator pendant sa durée de validité, indiquée sur le devis.",
+"k": [
+"valable",
+"validite",
+"duree",
+"expire"
+]
+},
+{
+"c": "Prestataires",
+"q": "Comment réserver un prestataire ?",
+"a": "Acceptez un devis puis payez l'acompte : la réservation est confirmée et la date bloquée.",
+"k": [
+"reserver",
+"reservation",
+"confirmer",
+"bloquer la date"
+]
+},
+{
+"c": "Prestataires",
+"q": "Qui peut laisser un avis ?",
+"a": "Seuls les organisateurs ayant réservé peuvent laisser un avis, qui doit rester sincère et respectueux.",
+"k": [
+"avis",
+"note",
+"commentaire",
+"noter"
+]
+},
+{
+"c": "Prestataires",
+"q": "Les photos des prestataires sont-elles réelles ?",
+"a": "Sur ce site, les images et les prestataires présentés sont des exemples, non contractuels.",
+"k": [
+"images",
+"photos",
+"contractuel",
+"exemple",
+"reelles",
+"vrais prestataires"
+]
+},
+{
+"c": "Paiements et sécurité",
+"q": "Quels moyens de paiement sont acceptés ?",
+"a": "Orange Money, MTN MoMo, Wave, Moov Money et la carte bancaire.",
+"k": [
+"moyen de paiement",
+"moyens de paiement",
+"payer",
+"wave",
+"orange money",
+"mtn",
+"moov",
+"momo",
+"carte",
+"visa",
+"mobile money",
+"comment payer"
+]
+},
+{
+"c": "Paiements et sécurité",
+"q": "Mon argent est-il en sécurité ?",
+"a": "L'acompte est conservé jusqu'à la validation de la prestation, puis reversé au prestataire. En cas de litige, les fonds restent bloqués le temps de l'examen.",
+"k": [
+"securite",
+"securise",
+"arnaque",
+"argent",
+"acompte",
+"garantie",
+"confiance"
+]
+},
+{
+"c": "Paiements et sécurité",
+"q": "Y a-t-il des frais sur les paiements ?",
+"a": "Des frais de service, actuellement de 2 %, peuvent s'ajouter au montant payé par l'organisateur. Ils sont affichés avant le paiement.",
+"k": [
+"frais",
+"frais de service",
+"2",
+"supplement"
+]
+},
+{
+"c": "Paiements et sécurité",
+"q": "Et si le prestataire annule ?",
+"a": "Une annulation par le prestataire entraîne le remboursement intégral de l'organisateur.",
+"k": [
+"prestataire annule",
+"annule",
+"annulation prestataire",
+"desiste",
+"remboursement integral"
+]
+},
+{
+"c": "Paiements et sécurité",
+"q": "Puis-je annuler ma réservation ?",
+"a": "Les conditions sont celles du devis. À défaut, l'annulation est gratuite jusqu'à 30 jours avant la prestation ; ensuite, l'acompte est conservé.",
+"k": [
+"annuler",
+"annuler ma reservation",
+"rembourse",
+"remboursement",
+"remboursement acompte",
+"annulation"
+]
+},
+{
+"c": "Paiements et sécurité",
+"q": "Que faire en cas de litige ?",
+"a": "Signalez-le dans l'application au plus tard 48 h après la date prévue. Les fonds restent bloqués et l'équipe Calandix étudie les éléments des deux parties ; elle peut décider d'un remboursement total ou partiel.",
+"k": [
+"litige",
+"ne vient pas",
+"vient pas",
+"pas venu",
+"absent",
+"probleme",
+"reclamation",
+"pas venu",
+"mecontent",
+"desaccord",
+"plainte"
+]
+},
+{
+"c": "Paiements et sécurité",
+"q": "Puis-je payer un prestataire en dehors de l'application ?",
+"a": "Non, payer en dehors de l'application une prestation trouvée sur Calandix est interdit : vous perdriez aussi la protection de l'acompte.",
+"k": [
+"hors application",
+"en dehors",
+"especes",
+"directement",
+"main a main"
+]
+},
+{
+"c": "Paiements et sécurité",
+"q": "Les paiements sont-ils actifs dans la démo ?",
+"a": "Non, la démo utilise des données fictives : aucun argent réel n'y circule.",
+"k": [
+"demo paiement",
+"vrai argent",
+"paiement reel",
+"actif",
+"fictif",
+"fictives"
+]
+},
+{
+"c": "Formules",
+"q": "Combien coûte Calandix ?",
+"a": "L'inscription est gratuite avec la formule Découverte. Puis Azur à 2 900 FCFA, Signature à 4 900 FCFA et Privilège à 9 900 FCFA par mois. Ces tarifs de démonstration peuvent évoluer avant le lancement.",
+"k": [
+"combien",
+"coute",
+"cout",
+"prix",
+"tarif",
+"tarifs",
+"formule",
+"formules",
+"abonnement",
+"gratuit",
+"payant"
+]
+},
+{
+"c": "Formules",
+"q": "Que comprend la formule Découverte ?",
+"a": "Gratuite : événements illimités, budget et checklist, 2 collaborateurs offerts, marketplace et réservations.",
+"k": [
+"decouverte",
+"gratuite",
+"formule gratuite"
+]
+},
+{
+"c": "Formules",
+"q": "Que comprend la formule Azur ?",
+"a": "2 900 FCFA par mois : budget créé par l'IA, graphiques et export, jusqu'à 5 collaborateurs, rappels WhatsApp et SMS, QR code RSVP.",
+"k": [
+"azur",
+"2900",
+"2 900"
+]
+},
+{
+"c": "Formules",
+"q": "Que comprend la formule Signature ?",
+"a": "4 900 FCFA par mois : tout Azur, agent IA de votre événement, coffre-fort de 5 Go, collaborateurs illimités et négociation de devis par l'IA.",
+"k": [
+"signature",
+"4900",
+"4 900",
+"agent ia",
+"negociation"
+]
+},
+{
+"c": "Formules",
+"q": "Que comprend la formule Privilège ?",
+"a": "9 900 FCFA par mois : tout Signature, concierge IA prioritaire, coffre-fort de 50 Go et album privé, support 7 j/7 sur WhatsApp.",
+"k": [
+"privilege",
+"9900",
+"9 900",
+"concierge",
+"album"
+]
+},
+{
+"c": "Formules",
+"q": "Puis-je résilier mon abonnement ?",
+"a": "Oui, les formules sont mensuelles, sans engagement et résiliables à tout moment depuis l'application. Le mois entamé reste dû et l'accès continue jusqu'à la fin de la période payée.",
+"k": [
+"resilier",
+"resiliation",
+"sans engagement",
+"arreter",
+"desabonner",
+"engagement"
+]
+},
+{
+"c": "Formules",
+"q": "Quelle est la taille du coffre-fort selon la formule ?",
+"a": "100 Mo avec Découverte, 1 Go avec Azur, 5 Go avec Signature et 50 Go avec Privilège.",
+"k": [
+"taille",
+"espace",
+"go",
+"mo",
+"capacite",
+"quota"
+]
+},
+{
+"c": "Prestataires et agences",
+"q": "Combien coûte l'inscription pour un prestataire ?",
+"a": "L'inscription est gratuite. Calandix prélève une commission sur chaque prestation payée via l'application.",
+"k": [
+"inscription pour un prestataire",
+"pour un prestataire",
+"suis traiteur",
+"suis dj",
+"suis photographe",
+"suis decorateur",
+"prestataire inscription",
+"inscription prestataire",
+"devenir prestataire",
+"je suis prestataire",
+"rejoindre",
+"combien pour un prestataire"
+]
+},
+{
+"c": "Prestataires et agences",
+"q": "Quelle est la commission de Calandix ?",
+"a": "Actuellement 8 % sur chaque prestation payée via l'application. Elle est affichée dans votre espace.",
+"k": [
+"commission",
+"8",
+"pourcentage",
+"prelevement"
+]
+},
+{
+"c": "Prestataires et agences",
+"q": "Quand suis-je payé en tant que prestataire ?",
+"a": "Après validation de la prestation par l'organisateur, le montant est reversé, commission déduite, sous 2 jours ouvrés, sur votre compte Wave ou Orange Money.",
+"k": [
+"reversement",
+"reverse",
+"paye",
+"quand",
+"versement",
+"revenus",
+"retrait"
+]
+},
+{
+"c": "Prestataires et agences",
+"q": "Quels documents faut-il pour être vérifié ?",
+"a": "Le RCCM, une pièce d'identité et une adresse. Votre fiche est publiée après vérification.",
+"k": [
+"document",
+"documents",
+"rccm",
+"piece d identite",
+"justificatif",
+"dossier"
+]
+},
+{
+"c": "Prestataires et agences",
+"q": "Que propose l'espace pro ?",
+"a": "Profil et catalogue, disponibilités, devis et demandes, commandes, revenus et réputation, réunis dans un même espace.",
+"k": [
+"espace pro",
+"catalogue",
+"commandes",
+"disponibilites",
+"creator",
+"agence",
+"outils"
+]
+},
+{
+"c": "Prestataires et agences",
+"q": "Qu'est-ce que l'offre Creator ?",
+"a": "Une offre mensuelle pour les pros, à partir de 29 900 FCFA par mois, sans engagement, qui donne accès au Studio Creator et à plus de visibilité.",
+"k": [
+"offre creator",
+"studio",
+"29 900",
+"29900",
+"business",
+"crm",
+"abonnement pro"
+]
+},
+{
+"c": "Données et assistance",
+"q": "Calandix vend-il mes données ?",
+"a": "Non. Nous ne vendons jamais vos données et ne faisons pas de publicité ciblée à partir de vos événements.",
+"k": [
+"vend",
+"vendre",
+"publicite",
+"donnees",
+"revendre"
+]
+},
+{
+"c": "Données et assistance",
+"q": "Mes données sont-elles protégées ?",
+"a": "Elles sont chiffrées en transit et au repos, et l'accès est limité. Nous ne stockons jamais vos codes Mobile Money ni les numéros complets de carte.",
+"k": [
+"protege",
+"protegees",
+"chiffre",
+"confidentialite",
+"vie privee",
+"code",
+"donnees personnelles"
+]
+},
+{
+"c": "Données et assistance",
+"q": "Combien de temps mes données sont-elles conservées ?",
+"a": "Compte et événements : pendant l'utilisation, puis 3 ans après la dernière activité. Pièces comptables : 10 ans. Journaux techniques : 12 mois maximum.",
+"k": [
+"conservation",
+"conservees",
+"combien de temps",
+"garder"
+]
+},
+{
+"c": "Données et assistance",
+"q": "Qui est Candix ?",
+"a": "Je suis l'assistance de Calandix : je réponds aux questions fréquentes sur le service. Pour le reste, un conseiller prend le relais.",
+"k": [
+"candix",
+"qui es tu",
+"assistant",
+"robot",
+"assistance"
+]
+},
+{
+"c": "Données et assistance",
+"q": "Comment parler à un conseiller ?",
+"a": "Touchez « Parler à un conseiller » juste en dessous : la conversation s'ouvre sur WhatsApp, au +225 07 57 63 37 65.",
+"k": [
+"conseiller",
+"contact",
+"contacter",
+"humain",
+"whatsapp",
+"telephone",
+"numero",
+"support",
+"appeler",
+"aide",
+"equipe calandix"
+]
+}
+]

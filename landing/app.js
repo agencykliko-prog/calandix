@@ -399,25 +399,29 @@
     const tips = box.querySelector('.candix-tips');
     const form = box.querySelector('.candix-form');
     const field = form.querySelector('input');
-    const base = [
-      [['creer', 'nouvel', 'evenement', 'commencer'], 'Dans l’application, touchez « Créer un événement », choisissez le type et la catégorie, puis la date, le nombre d’invités et le budget. Calandix prépare la checklist et répartit le budget.'],
-      [['budget', 'depense', 'poste', 'enveloppe'], 'Vous fixez un budget cible, le répartissez par poste et notez chaque paiement. Essayez le simulateur plus haut sur cette page.'],
-      [['tarif', 'prix', 'formule', 'abonnement', 'premium', 'coute', 'cout', 'gratuit', 'azur', 'signature', 'privilege'], 'Découverte est gratuite, puis Azur 2 900 FCFA, Signature 4 900 FCFA et Privilège 9 900 FCFA par mois. L’offre Creator des prestataires part de 29 900 FCFA par mois.'],
-      [['payer', 'paiement', 'acompte', 'wave', 'orange', 'mtn', 'moov', 'mobile money', 'carte'], 'Les paiements passent par Mobile Money ou carte. L’acompte est conservé jusqu’à la prestation, puis reversé au prestataire.'],
-      [['prestataire', 'traiteur', 'dj', 'photographe', 'decor', 'salle', 'devis', 'reserver', 'agence', 'commission', 'creator'], 'Les organisateurs comparent les devis et réservent dans l’application. Côté prestataire : inscription gratuite, commission sur chaque prestation payée via l’application.'],
-      [['invite', 'rsvp', 'presence', 'whatsapp'], 'Vous construisez votre liste d’invités, suivez les réponses et voyez le nombre de personnes attendues.'],
-      [['disponible', 'sortie', 'lancement', 'telecharger', 'android', 'iphone', 'application'], 'Calandix est en version de démonstration. Essayez-la dès maintenant, ou inscrivez-vous à l’accès anticipé pour être prévenu à l’ouverture.'],
-      [['bonjour', 'bonsoir', 'salut', 'merci', 'hello'], 'Avec plaisir ! Dites-moi ce que vous cherchez à savoir.'],
-    ];
-    const clean = (t) => t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-    const answer = (q) => {
-      const c = clean(q);
+    // Base de 70 questions (candix-faq.json), chargée à la première ouverture.
+    // Hors de cette base, Candix oriente vers un conseiller plutôt que d'inventer.
+    let faq = null;
+    const loadFaq = () => { faq ||= fetch('candix-faq.json?v=1').then((r) => r.json()).then(prepare).catch(() => []); return faq; };
+    const clean = (t) => ` ${t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim()} `;
+    const STOP = new Set('a au aux avec ce ces c ca comment combien dans de des du d elle en est et etre faire faut il ils j je l la le les leur ma mes mon ne n on ou par pas peut peux plus pour puis puisje qu que quel quelle quelles quels qui quoi s sa se ses si son sont sur t te tu un une vos votre vous y y a t il'.split(' '));
+    const words = (t) => clean(t).trim().split(' ').filter((w) => w.length > 1 && !STOP.has(w));
+    const root4 = (w) => w.replace(/(ations?|ements?|euses?|eurs?|es|s|e)$/, '').slice(0, 6);
+    function prepare(rows) {
+      return rows.map((r) => ({ ...r, keys: r.k.map(clean), roots: new Set(words(r.q).map(root4)) }));
+    }
+    const answer = (q, rows) => {
+      const c = clean(q), asked = new Set(words(q).map(root4));
+      if (!asked.size) return null;
       let best = null, score = 0;
-      base.forEach(([words, text]) => {
-        const s = words.filter((w) => c.includes(w)).length;
-        if (s > score) { score = s; best = text; }
+      rows.forEach((r) => {
+        let s = 0;
+        // Une expression clé compte d'autant plus qu'elle est longue.
+        r.keys.forEach((k) => { if (c.includes(k)) s += 2 + k.trim().split(' ').length; });
+        asked.forEach((w) => { if (r.roots.has(w)) s += 2; });
+        if (s > score) { score = s; best = r; }
       });
-      return best || 'Je n’ai pas encore la réponse à cette question. Un conseiller peut vous aider : touchez « Parler à un conseiller » juste en dessous.';
+      return score >= 3 ? best : null;
     };
     const say = (text, me) => {
       const p = document.createElement('p');
@@ -426,11 +430,12 @@
       log.append(p);
       log.scrollTop = log.scrollHeight;
     };
-    const ask = (q) => {
+    const ask = async (q) => {
       if (!q.trim()) return;
       tips.hidden = true; tips.textContent = '';
       say(q.trim(), true);
-      say(answer(q));
+      const hit = answer(q, await loadFaq());
+      say(hit ? hit.a : 'Je n’ai pas la réponse à cette question. Un conseiller peut vous aider : touchez « Parler à un conseiller » juste en dessous.');
     };
     say('Bonjour, je suis Candix. Une question sur Calandix ?');
     ['Combien ça coûte ?', 'Comment payer ?', 'Quand sort l’application ?'].forEach((t) => {
@@ -442,7 +447,7 @@
     const toggle = (on) => {
       panel.hidden = !on;
       open.setAttribute('aria-expanded', on);
-      if (on) field.focus({ preventScroll: true });
+      if (on) { loadFaq(); field.focus({ preventScroll: true }); }
     };
     open.addEventListener('click', () => toggle(panel.hidden));
     box.querySelector('[data-candix-close]').addEventListener('click', () => { toggle(false); open.focus(); });
