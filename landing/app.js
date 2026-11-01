@@ -78,7 +78,7 @@
   /* ── Confettis ───────────────────────────────────────── */
   const cv = document.querySelector('.confetti');
   const ctx = cv.getContext('2d');
-  const colors = ['#E5484D', '#6246EA', '#E5A21A', '#0E9F8E', '#DB4F9E', '#FFC233'];
+  const colors = ['#E01928', '#4D39E2', '#E59D1F', '#2CE5B9', '#DB4F9E', '#FFC233'];
   let parts = [], running = false;
   const size = () => { const d = devicePixelRatio || 1; cv.width = innerWidth * d; cv.height = innerHeight * d; ctx.setTransform(d, 0, 0, d, 0, 0); };
   size(); addEventListener('resize', size);
@@ -118,7 +118,7 @@
   /* ── Ballons de l'ouverture ──────────────────────────── */
   const sky = document.querySelector('.balloons');
   if (sky && !reduce) {
-    const hues = ['#DB4F9E', '#0E9F8E', '#FF9ACB', '#ffffff', '#EAE7F3'];
+    const hues = ['#E01928', '#2CE5B9', '#E59D1F', '#ffffff', '#EAE7F3'];
     for (let i = 0; i < 9; i++) {
       const b = document.createElement('span');
       b.className = 'balloon';
