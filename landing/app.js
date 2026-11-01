@@ -277,11 +277,17 @@
     // Parallaxe douce : chaque bloc glisse à sa vitesse, la page paraît plus courte.
     gsap.utils.toArray('[data-parallax]').forEach((el) => {
       const d = +el.dataset.parallax;
-      if (innerWidth <= 980 && el.classList.contains('step')) return;
       gsap.fromTo(el, { y: -d }, { y: d, ease: 'none', scrollTrigger: { trigger: el.closest('section'), start: 'top bottom', end: 'bottom top', scrub: .6 } });
     });
-    const line = document.querySelector('[data-line]');
-    if (line) gsap.fromTo(line, { scaleX: 0 }, { scaleX: 1, ease: 'none', scrollTrigger: { trigger: line, start: 'top 90%', end: 'top 45%', scrub: .5 } });
+    // Prestataires : les cartes s'empilent. Le contenu lissé étant déplacé par
+    // transformation, position: sticky n'y fonctionne pas : on épingle.
+    const stack = gsap.utils.toArray('[data-stack] li');
+    gsap.matchMedia().add('(min-width: 981px) and (pointer: fine)', () => {
+      stack.forEach((li, i) => {
+        if (i === stack.length - 1) return;
+        ScrollTrigger.create({ trigger: li, start: `top ${96 + i * 12}px`, endTrigger: stack[stack.length - 1], end: `top ${96 + i * 12 + 170}px`, pin: true, pinSpacing: false });
+      });
+    });
 
     // Positions recalculées une fois les polices et les images en place.
     document.fonts?.ready.then(() => ScrollTrigger.refresh());
@@ -382,11 +388,148 @@
     obs.disconnect();
   }, { threshold: .4 }).observe(footLogo);
 
+  /* ── Candix : l'assistance ───────────────────────────── */
+  // Base locale de questions fréquentes : hors de cette base, Candix oriente
+  // vers un conseiller plutôt que d'inventer une réponse.
+  (() => {
+    const box = document.querySelector('[data-candix]');
+    const panel = box.querySelector('.candix-panel');
+    const open = box.querySelector('.candix-open');
+    const log = box.querySelector('.candix-log');
+    const tips = box.querySelector('.candix-tips');
+    const form = box.querySelector('.candix-form');
+    const field = form.querySelector('input');
+    const base = [
+      [['creer', 'nouvel', 'evenement', 'commencer'], 'Dans l’application, touchez « Créer un événement », choisissez le type et la catégorie, puis la date, le nombre d’invités et le budget. Calandix prépare la checklist et répartit le budget.'],
+      [['budget', 'depense', 'poste', 'enveloppe'], 'Vous fixez un budget cible, le répartissez par poste et notez chaque paiement. Essayez le simulateur plus haut sur cette page.'],
+      [['tarif', 'prix', 'formule', 'abonnement', 'premium', 'coute', 'cout', 'gratuit', 'azur', 'signature', 'privilege'], 'Découverte est gratuite, puis Azur 2 900 FCFA, Signature 4 900 FCFA et Privilège 9 900 FCFA par mois. L’offre Creator des prestataires part de 29 900 FCFA par mois.'],
+      [['payer', 'paiement', 'acompte', 'wave', 'orange', 'mtn', 'moov', 'mobile money', 'carte'], 'Les paiements passent par Mobile Money ou carte. L’acompte est conservé jusqu’à la prestation, puis reversé au prestataire.'],
+      [['prestataire', 'traiteur', 'dj', 'photographe', 'decor', 'salle', 'devis', 'reserver', 'agence', 'commission', 'creator'], 'Les organisateurs comparent les devis et réservent dans l’application. Côté prestataire : inscription gratuite, commission sur chaque prestation payée via l’application.'],
+      [['invite', 'rsvp', 'presence', 'whatsapp'], 'Vous construisez votre liste d’invités, suivez les réponses et voyez le nombre de personnes attendues.'],
+      [['disponible', 'sortie', 'lancement', 'telecharger', 'android', 'iphone', 'application'], 'Calandix est en version de démonstration. Essayez-la dès maintenant, ou inscrivez-vous à l’accès anticipé pour être prévenu à l’ouverture.'],
+      [['bonjour', 'bonsoir', 'salut', 'merci', 'hello'], 'Avec plaisir ! Dites-moi ce que vous cherchez à savoir.'],
+    ];
+    const clean = (t) => t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+    const answer = (q) => {
+      const c = clean(q);
+      let best = null, score = 0;
+      base.forEach(([words, text]) => {
+        const s = words.filter((w) => c.includes(w)).length;
+        if (s > score) { score = s; best = text; }
+      });
+      return best || 'Je n’ai pas encore la réponse à cette question. Un conseiller peut vous aider : touchez « Parler à un conseiller » juste en dessous.';
+    };
+    const say = (text, me) => {
+      const p = document.createElement('p');
+      p.textContent = text;
+      if (me) p.className = 'me';
+      log.append(p);
+      log.scrollTop = log.scrollHeight;
+    };
+    const ask = (q) => {
+      if (!q.trim()) return;
+      tips.hidden = true; tips.textContent = '';
+      say(q.trim(), true);
+      say(answer(q));
+    };
+    say('Bonjour, je suis Candix. Une question sur Calandix ?');
+    ['Combien ça coûte ?', 'Comment payer ?', 'Quand sort l’application ?'].forEach((t) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.textContent = t;
+      b.addEventListener('click', () => ask(t));
+      tips.append(b);
+    });
+    const toggle = (on) => {
+      panel.hidden = !on;
+      open.setAttribute('aria-expanded', on);
+      if (on) field.focus({ preventScroll: true });
+    };
+    open.addEventListener('click', () => toggle(panel.hidden));
+    box.querySelector('[data-candix-close]').addEventListener('click', () => { toggle(false); open.focus(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) toggle(false); });
+    form.addEventListener('submit', (e) => { e.preventDefault(); ask(field.value); field.value = ''; });
+  })();
+
+  /* ── Mode sombre ─────────────────────────────────────── */
+  document.querySelector('.theme-toggle').addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try { localStorage.setItem('calandix-theme', next); } catch (e) { /* navigation privée */ }
+    document.querySelector('meta[name=theme-color]').content = next === 'dark' ? '#110722' : '#4D39E2';
+  });
+
+  /* ── En trois temps : la boîte survolée s'ouvre ──────── */
+  const stepBoxes = [...document.querySelectorAll('[data-steps] .step')];
+  stepBoxes.forEach((st) => {
+    const show = () => stepBoxes.forEach((o) => o.classList.toggle('on', o === st));
+    ['pointerenter', 'focus', 'click'].forEach((ev) => st.addEventListener(ev, show));
+  });
+
+  /* ── Marketplace : éventail ──────────────────────────── */
+  (() => {
+    const fan = document.querySelector('[data-fan]');
+    if (!fan) return;
+    const cards = [...fan.children];
+    const n = cards.length;
+    let at = 0, timer = 0, seen = false, over = false;
+    fan.classList.add('fan-on');
+    const place = () => {
+      const step = fan.clientWidth < 620 ? 34 : 88;
+      cards.forEach((c, i) => {
+        let d = (i - at + n) % n;
+        if (d > n / 2) d -= n;
+        const a = Math.abs(d);
+        c.classList.toggle('front', d === 0);
+        c.style.zIndex = 20 - a;
+        c.style.opacity = a > 3 ? 0 : 1;
+        c.style.transform = `translateX(${d * step}px) translateY(${a * a * 3}px) rotate(${d * 7}deg) scale(${1 - a * .06})`;
+        c.setAttribute('aria-hidden', d !== 0);
+      });
+    };
+    const go = (by) => { at = (at + by + n) % n; place(); };
+    const stop = () => { clearInterval(timer); timer = 0; };
+    const play = () => { stop(); if (!reduce && seen && !over) timer = setInterval(() => go(1), 3600); };
+    cards.forEach((c, i) => c.addEventListener('click', () => { at = i; place(); }));
+    document.querySelector('[data-fan-prev]').addEventListener('click', () => { go(-1); play(); });
+    document.querySelector('[data-fan-next]').addEventListener('click', () => { go(1); play(); });
+    fan.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') go(-1);
+      if (e.key === 'ArrowRight') go(1);
+    });
+    fan.addEventListener('pointerenter', () => { over = true; stop(); });
+    fan.addEventListener('pointerleave', () => { over = false; play(); });
+    let x0 = null;
+    fan.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; over = true; stop(); }, { passive: true });
+    fan.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 30) go(dx < 0 ? 1 : -1);
+      over = false; play();
+    }, { passive: true });
+    new IntersectionObserver(([en]) => { seen = en.isIntersecting; seen ? play() : stop(); }, { threshold: .25 }).observe(fan);
+    addEventListener('resize', place);
+    place();
+  })();
+
+  /* ── Barre : survol roulant, ordre d'apparition du menu ─ */
+  document.querySelectorAll('.nav-links > a').forEach((a) => {
+    const t = a.textContent;
+    a.innerHTML = '';
+    const roll = document.createElement('span');
+    roll.className = 'roll';
+    const one = document.createElement('span'); one.textContent = t;
+    const two = document.createElement('span'); two.textContent = t; two.setAttribute('aria-hidden', 'true');
+    roll.append(one, two);
+    a.append(roll);
+  });
+  [...document.querySelectorAll('.nav-links > *')].forEach((el, i) => el.style.setProperty('--n', i));
+  document.querySelector('[data-socials]').innerHTML = document.querySelector('.footer .socials').innerHTML;
+
   /* ── Réseaux : comptes à venir ───────────────────────── */
-  document.querySelectorAll('[data-soon]').forEach((a) => a.addEventListener('click', (e) => {
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('[data-soon]')) return;
     e.preventDefault();
     toast('Ce compte arrive bientôt.');
-  }));
+  });
 
   /* ── Ancres internes ─────────────────────────────────── */
   // Avec ScrollSmoother, le contenu est déplacé par transformation : le saut

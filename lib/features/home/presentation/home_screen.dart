@@ -4,8 +4,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../../assistant/presentation/candix_button.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -61,7 +59,6 @@ class HomeScreen extends ConsumerWidget {
       backgroundColor: Confetti.dark || MediaQuery.sizeOf(context).width >= 720
           ? null
           : Colors.white,
-      floatingActionButton: const CandixButton(),
       body: SafeArea(
         bottom: false,
         child: LayoutBuilder(

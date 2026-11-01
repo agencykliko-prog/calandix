@@ -23,6 +23,15 @@
 <meta name="twitter:image" content="https://eventa.ci/img/og-calandix.jpg">
 <link rel="preload" href="fonts/RedHatDisplay-800.woff2" as="font" type="font/woff2" crossorigin>
 <script>
+  // Mode sombre : le choix enregistré, sinon le réglage de l'appareil.
+  (() => {
+    let t = null;
+    try { t = localStorage.getItem('calandix-theme'); } catch (e) {}
+    if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.dataset.theme = t;
+  })();
+</script>
+<script>
   // Animations GSAP (app.js) : l'ouverture reste masquée le temps du chargement.
   // Sans GSAP au bout de 2,5 s (réseau lent, CDN bloqué), tout s'affiche.
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -38,7 +47,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Calandix","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://eventa.ci/","description":"Organisez vos événements en Côte d’Ivoire : budget, prestataires, invités et équipe au même endroit.","offers":{"@type":"Offer","price":"0","priceCurrency":"XOF"}}
 </script>
-<link rel="stylesheet" href="styles.css?v=48">
+<link rel="stylesheet" href="styles.css?v=50">
 </head>
 <body>
 
@@ -99,8 +108,10 @@
     <a href="#creators">Pour les pros</a>
     <a href="#tarifs">Tarifs</a>
     <a href="#faq">FAQ</a>
+      <div class="nav-foot"><a class="btn btn-cta" href="#demo">Organiser</a><div class="socials" data-socials></div></div>
   </div>
   <div class="nav-cta">
+    <button class="theme-toggle" type="button" aria-label="Changer de thème (clair ou sombre)"><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></button>
     <a class="btn btn-cta btn-sm" href="#demo">Organiser<span class="wide-only">gratuitement</span></a>
   </div>
   <button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
@@ -184,19 +195,24 @@
       <p class="body-l ink-soft">Entrez votre budget : Calandix le répartit entre les postes essentiels de votre événement. Fini le cahier et les calculs sur WhatsApp.</p>
     </div>
     <form class="budget-card reveal" aria-label="Simulateur de budget" onsubmit="return false">
-      <label class="b-total"><span>Votre budget total</span>
-        <span class="b-input"><input id="simBudget" type="text" inputmode="numeric" autocomplete="off" value="3 500 000" aria-describedby="simPerGuest"><i>FCFA</i></span></label>
-      <label class="b-guests"><span>Invités</span><output id="simGuestsOut">150</output>
-        <input type="range" id="simGuests" min="10" max="600" step="10" value="150"></label>
+      <div class="b-head">
+        <label class="b-total"><span>Votre budget total</span>
+          <span class="b-input"><input id="simBudget" type="text" inputmode="numeric" autocomplete="off" value="3 500 000" aria-describedby="simPerGuest"><i>FCFA</i></span></label>
+        <div class="b-stack" aria-hidden="true"><i style="--c:#4D39E2;--s:28"></i><i style="--c:#E01928;--s:24"></i><i style="--c:#E59D1F;--s:14"></i><i style="--c:#2CE5B9;--s:12"></i><i style="--c:#2373E1;--s:12"></i><i style="--c:#FF5C35;--s:10"></i></div>
+      </div>
       <ul class="b-lines">
-        <li style="--c:#4D39E2;--s:.28"><span>Lieu</span><b id="lineVenue">980 000</b><i></i></li>
-        <li style="--c:#E01928;--s:.24"><span>Traiteur</span><b id="lineFood">840 000</b><i></i></li>
-        <li style="--c:#E59D1F;--s:.14"><span>Décoration</span><b id="lineDeco">490 000</b><i></i></li>
-        <li style="--c:#2CE5B9;--s:.12"><span>Musique &amp; DJ</span><b id="lineMusic">420 000</b><i></i></li>
-        <li style="--c:#2373E1;--s:.12"><span>Photo &amp; vidéo</span><b id="linePhoto">420 000</b><i></i></li>
-        <li style="--c:#FF5C35;--s:.10"><span>Tenues &amp; beauté</span><b id="lineDress">350 000</b><i></i></li>
+        <li><i style="--c:#4D39E2"></i><span>Lieu</span><em>28 %</em><b id="lineVenue">980 000</b></li>
+        <li><i style="--c:#E01928"></i><span>Traiteur</span><em>24 %</em><b id="lineFood">840 000</b></li>
+        <li><i style="--c:#E59D1F"></i><span>Décoration</span><em>14 %</em><b id="lineDeco">490 000</b></li>
+        <li><i style="--c:#2CE5B9"></i><span>Musique &amp; DJ</span><em>12 %</em><b id="lineMusic">420 000</b></li>
+        <li><i style="--c:#2373E1"></i><span>Photo &amp; vidéo</span><em>12 %</em><b id="linePhoto">420 000</b></li>
+        <li><i style="--c:#FF5C35"></i><span>Tenues &amp; beauté</span><em>10 %</em><b id="lineDress">350 000</b></li>
       </ul>
-      <p class="b-per">Soit <b id="simPerGuest">23 333 FCFA</b> par invité.</p>
+      <div class="b-foot">
+        <label class="b-guests"><span>Invités</span><output id="simGuestsOut">150</output>
+          <input type="range" id="simGuests" min="10" max="600" step="10" value="150"></label>
+        <p class="b-per"><span>Par invité</span><b id="simPerGuest">23 333 FCFA</b></p>
+      </div>
     </form>
   </div>
 </section>
@@ -209,11 +225,18 @@
       <h2 class="h-xl split">Les bons prestataires, au <em class="script">bon prix</em>.</h2>
       <p class="body-l">Traiteurs, décorateurs, DJ, photographes, lieux : des profils vérifiés, des devis comparables, une réservation en quelques gestes.</p>
     </div>
-    <div class="vendors">
-      <figure class="vendor reveal"><img decoding="async" loading="lazy" width="600" height="600" src="img/vendor_deco.webp" alt="Arche de cérémonie fleurie"><span class="v-rate">★ 4,8</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Décoration</span><b>Maison Inès Déco</b><span class="v-price">dès 450 000 FCFA</span></figcaption></figure>
-      <figure class="vendor reveal"><img decoding="async" loading="lazy" width="640" height="520" src="img/food_1.webp" alt="Plateau de grillades d’un traiteur"><span class="v-rate">★ 4,8</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Traiteur</span><b>Saveurs d’Ivoire</b><span class="v-price">dès 13 500 FCFA / pers.</span></figcaption></figure>
-      <figure class="vendor reveal"><img decoding="async" loading="lazy" width="600" height="600" src="img/vendor_dj.webp" alt="DJ aux platines"><span class="v-rate">★ 4,6</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Musique &amp; DJ</span><b>Lagune Sound</b><span class="v-price">dès 300 000 FCFA</span></figcaption></figure>
-      <figure class="vendor reveal"><img decoding="async" loading="lazy" width="640" height="520" src="img/photo_1.webp" alt="Photographe d’événement"><span class="v-rate">★ 4,9</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Photo &amp; vidéo</span><b>Studio Lumière</b><span class="v-price">dès 450 000 FCFA</span></figcaption></figure>
+    <div class="vendors" data-fan tabindex="0" role="group" aria-roledescription="carrousel" aria-label="Prestataires">
+      <figure class="vendor"><img decoding="async" loading="lazy" width="600" height="600" src="img/vendor_deco.webp" alt="Arche de cérémonie fleurie"><span class="v-rate">★ 4,8</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Décoration</span><b>Maison Inès Déco</b><span class="v-price">dès 450 000 FCFA</span></figcaption></figure>
+      <figure class="vendor"><img decoding="async" loading="lazy" width="640" height="520" src="img/food_1.webp" alt="Plateau de grillades d’un traiteur"><span class="v-rate">★ 4,8</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Traiteur</span><b>Saveurs d’Ivoire</b><span class="v-price">dès 13 500 FCFA / pers.</span></figcaption></figure>
+      <figure class="vendor"><img decoding="async" loading="lazy" width="600" height="600" src="img/vendor_dj.webp" alt="DJ aux platines"><span class="v-rate">★ 4,6</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Musique &amp; DJ</span><b>Lagune Sound</b><span class="v-price">dès 300 000 FCFA</span></figcaption></figure>
+      <figure class="vendor"><img decoding="async" loading="lazy" width="640" height="520" src="img/photo_1.webp" alt="Photographe d’événement"><span class="v-rate">★ 4,9</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Photo &amp; vidéo</span><b>Studio Lumière</b><span class="v-price">dès 450 000 FCFA</span></figcaption></figure>
+      <figure class="vendor"><img decoding="async" loading="lazy" width="640" height="900" src="img/vendor_salle.webp" alt="Salle de réception aux tables rondes"><span class="v-rate">★ 4,7</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Lieux</span><b>Les Salons de Cocody</b><span class="v-price">dès 1 200 000 FCFA</span></figcaption></figure>
+      <figure class="vendor"><img decoding="async" loading="lazy" width="640" height="900" src="img/vendor_gateau.webp" alt="Gâteau de mariage à quatre étages"><span class="v-rate">★ 4,9</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Pâtisserie</span><b>Douce Heure</b><span class="v-price">dès 60 000 FCFA</span></figcaption></figure>
+      <figure class="vendor"><img decoding="async" loading="lazy" width="640" height="800" src="img/vendor_beaute.webp" alt="Maquilleuse au travail"><span class="v-rate">★ 4,8</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Beauté</span><b>Atelier Nacre</b><span class="v-price">dès 75 000 FCFA</span></figcaption></figure>
+    </div>
+    <div class="fan-nav">
+      <button type="button" data-fan-prev aria-label="Prestataire précédent"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button type="button" data-fan-next aria-label="Prestataire suivant"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
     </div>
     <p class="note-img">Images non contractuelles, présentées à titre d’exemple.</p>
     <div class="pay-row">
@@ -268,11 +291,10 @@
       <p class="eyebrow ink">En trois temps</p>
       <h2 class="h-xl split">De l’idée à <em class="script">la fête</em>.</h2>
     </div>
-    <div class="steps-line" aria-hidden="true"><i data-line></i></div>
-    <ol class="steps">
-      <li class="step" data-parallax="-16"><span class="step-n">01</span><h3>Créez l’événement</h3><p>Type, date, invités, budget : Calandix prépare la checklist et la répartition du budget.</p></li>
-      <li class="step" data-parallax="-42"><span class="step-n">02</span><h3>Réservez vos prestataires</h3><p>Comparez les devis, posez vos questions, payez l’acompte en toute sécurité.</p></li>
-      <li class="step" data-parallax="-70"><span class="step-n">03</span><h3>Célébrez</h3><p>Validez la prestation après la fête : le prestataire est payé, vous gardez tout dans le coffre-fort.</p></li>
+    <ol class="steps" data-steps>
+      <li class="step on" tabindex="0"><span class="step-n">01</span><div class="step-body"><h3>Créez l’événement</h3><p>Type, date, invités, budget : Calandix prépare la checklist et la répartition du budget.</p></div></li>
+      <li class="step" tabindex="0"><span class="step-n">02</span><div class="step-body"><h3>Réservez vos prestataires</h3><p>Comparez les devis, posez vos questions, payez l’acompte en toute sécurité.</p></div></li>
+      <li class="step" tabindex="0"><span class="step-n">03</span><div class="step-body"><h3>Célébrez</h3><p>Validez la prestation après la fête : le prestataire est payé, vous gardez tout dans le coffre-fort.</p></div></li>
     </ol>
   </div>
 </section>
@@ -311,17 +333,17 @@
       <h2 class="h-xl split">Votre agence événementielle, dans <em class="script">une seule app</em>.</h2>
       <p class="body-l">Recevez des demandes qualifiées, envoyez des devis détaillés et suivez vos reversements, sans courir après les acomptes.</p>
     </div>
-    <ul class="pro-list">
-      <li class="reveal"><h3>Profil &amp; catalogue</h3><p>Forfaits, options, zone d’intervention.</p></li>
-      <li class="reveal"><h3>Disponibilités</h3><p>Plus de doubles réservations.</p></li>
-      <li class="reveal"><h3>Devis &amp; demandes</h3><p>Options, validité et acompte en un écran.</p></li>
-      <li class="reveal"><h3>Commandes</h3><p>Échéances, préparation, jour J.</p></li>
-      <li class="reveal"><h3>Revenus</h3><p>Reversements Wave ou Orange Money.</p></li>
-      <li class="reveal"><h3>Réputation</h3><p>Avis vérifiés et réponses publiques.</p></li>
+    <ul class="pro-stack" data-stack>
+      <li style="--bg:#4D39E2;--fg:#fff"><span>01</span><div><h3>Profil &amp; catalogue</h3><p>Forfaits, options, zone d’intervention.</p></div></li>
+      <li style="--bg:#E59D1F;--fg:#1A0637"><span>02</span><div><h3>Disponibilités</h3><p>Plus de doubles réservations.</p></div></li>
+      <li style="--bg:#2CE5B9;--fg:#1A0637"><span>03</span><div><h3>Devis &amp; demandes</h3><p>Options, validité et acompte en un écran.</p></div></li>
+      <li style="--bg:#E01928;--fg:#fff"><span>04</span><div><h3>Commandes</h3><p>Échéances, préparation, jour J.</p></div></li>
+      <li style="--bg:#2373E1;--fg:#fff"><span>05</span><div><h3>Revenus</h3><p>Reversements Wave ou Orange Money.</p></div></li>
+      <li style="--bg:#fff;--fg:#1A0637"><span>06</span><div><h3>Réputation</h3><p>Avis vérifiés et réponses publiques.</p></div></li>
     </ul>
     <div class="creator-cta">
       <p>Offre Creator à partir de <b>29 900 FCFA</b> par mois.</p>
-      <a class="btn btn-outline" data-demo-pro href="#">Créer mon espace pro</a>
+      <a class="btn btn-cta" data-demo-pro href="#">Créer mon espace pro</a>
     </div>
   </div>
 </section>
@@ -436,7 +458,7 @@
 <footer class="footer">
   <div class="wrap foot-brand" aria-hidden="true">
     <svg class="logo-cards" viewBox="64.59 40.68 131.68 125.79" aria-hidden="true"><rect class="c-mango" x="71.178" y="41.676" width="118.506" height="72.284" rx="22.016"/><rect class="c-coral" x="71.178" y="64.396" width="118.506" height="72.284" rx="22.016"/><g transform="translate(23.862 -21.748) rotate(10.486)"><rect class="c-violet" x="71.178" y="83.002" width="118.506" height="72.284" rx="22.016"/></g></svg>
-    <img class="logo-word" decoding="async" src="img/calandix-wordmark-light.svg" width="556" height="125" alt="">
+    <img class="logo-word foot" decoding="async" src="img/calandix-wordmark-light.svg" width="556" height="125" alt="">
   </div>
   <img decoding="async" loading="lazy" width="320" height="320" class="foot-mascot" src="img/mascots/salut.webp" alt="" aria-hidden="true">
   <div class="wrap foot-grid">
@@ -464,13 +486,25 @@
 </div>
 </div>
 
+<!-- Candix : assistance, discrète tant qu'on ne l'ouvre pas. -->
+<div class="candix" data-candix>
+  <div class="candix-panel" role="dialog" aria-label="Candix, l’assistance Calandix" hidden>
+    <div class="candix-head"><img src="img/mascots/salut.webp" width="320" height="320" alt=""><b>Candix</b><button type="button" data-candix-close aria-label="Fermer">×</button></div>
+    <div class="candix-log" aria-live="polite"></div>
+    <div class="candix-tips"></div>
+    <form class="candix-form"><input type="text" placeholder="Votre question…" aria-label="Votre question" autocomplete="off"><button type="submit" aria-label="Envoyer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form>
+    <a class="candix-human" href="https://wa.me/2250757633765" target="_blank" rel="noopener">Parler à un conseiller</a>
+  </div>
+  <button class="candix-open" type="button" aria-label="Ouvrir Candix, l’assistance" aria-expanded="false"><img src="img/mascots/salut.webp" width="320" height="320" alt=""><span>Candix</span></button>
+</div>
+
 <canvas class="confetti" aria-hidden="true"></canvas>
 <button class="to-top" type="button" aria-label="Revenir en haut"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollSmoother.min.js"></script>
-<script defer src="app.js?v=44"></script>
+<script defer src="app.js?v=45"></script>
 <!-- Téléphones 3D : three.js en module, chargé à part. Sans lui, la maquette plate reste. -->
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/" } }</script>
 <script>
