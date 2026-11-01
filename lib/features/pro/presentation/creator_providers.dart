@@ -5,6 +5,7 @@ import '../../../core/analytics/analytics.dart';
 import '../../../core/i18n/tr.dart';
 import '../../../core/auth/session_provider.dart';
 import '../../../core/models/models.dart';
+import 'signature_provider.dart';
 
 enum RequestStatus {
   received('Nouvelle'),
@@ -61,6 +62,8 @@ class ClientRequest {
     this.declineReason,
     this.depositPercent = 30,
     this.place,
+    this.signature,
+    this.signedAt,
   });
 
   final String id;
@@ -90,6 +93,10 @@ class ClientRequest {
   final int depositPercent;
   final String? place;
 
+  /// Signature posée à l'envoi du devis : la pièce garde celle du moment.
+  final Uint8List? signature;
+  final DateTime? signedAt;
+
   bool get expired =>
       status == RequestStatus.quoted &&
       validUntil != null &&
@@ -103,6 +110,8 @@ class ClientRequest {
     DateTime? validUntil,
     String? declineReason,
     int? depositPercent,
+    Uint8List? signature,
+    DateTime? signedAt,
   }) => ClientRequest(
     id: id,
     client: client,
@@ -124,6 +133,8 @@ class ClientRequest {
     declineReason: declineReason ?? this.declineReason,
     depositPercent: depositPercent ?? this.depositPercent,
     place: place,
+    signature: signature ?? this.signature,
+    signedAt: signedAt ?? this.signedAt,
   );
 }
 
@@ -249,7 +260,14 @@ class RequestsNotifier extends Notifier<List<ClientRequest>> {
     _set(
       state
           .firstWhere((r) => r.id == id)
-          .copyWith(status: RequestStatus.quoted, quote: amount),
+          .copyWith(
+            status: RequestStatus.quoted,
+            quote: amount,
+            signature: ref.read(signatureProvider),
+            signedAt: ref.read(signatureProvider) == null
+                ? null
+                : DateTime.now(),
+          ),
     );
     ref.read(audienceProvider.notifier).track(Metric.quoteSent);
   }
@@ -306,6 +324,10 @@ class RequestsNotifier extends Notifier<List<ClientRequest>> {
             quote: items.fold<int>(0, (s, i) => s + i.amount),
             validUntil: DateTime.now().add(Duration(days: validityDays)),
             depositPercent: depositPercent,
+            signature: ref.read(signatureProvider),
+            signedAt: ref.read(signatureProvider) == null
+                ? null
+                : DateTime.now(),
           ),
     );
     ref.read(audienceProvider.notifier).track(Metric.quoteSent);

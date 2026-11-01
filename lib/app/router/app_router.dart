@@ -41,6 +41,7 @@ import '../../features/pro/presentation/profile_catalog_screen.dart';
 import '../../features/pro/presentation/reputation_screen.dart';
 import '../../features/pro/presentation/request_detail_screen.dart';
 import '../../features/pro/presentation/revenue_screen.dart';
+import '../../features/pro/presentation/signature_screen.dart';
 import '../../features/pro/presentation/verification_screen.dart';
 import '../../features/premium/presentation/premium_screen.dart';
 import '../../features/tasks/presentation/tasks_screen.dart';
@@ -305,6 +306,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/pro/studio',
         parentNavigatorKey: _rootKey,
         builder: (c, s) => _bounded(const StudioScreen()),
+      ),
+      GoRoute(
+        path: '/pro/signature',
+        parentNavigatorKey: _rootKey,
+        builder: (c, s) => _bounded(const SignatureScreen()),
       ),
       GoRoute(
         path: '/pro/verification',

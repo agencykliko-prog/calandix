@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/backend/backend.dart';
 import '../../ui/theme/app_icons.dart';
 import '../../ui/theme/app_theme.dart';
 import '../../ui/theme/eventa_colors.dart';
@@ -29,17 +30,26 @@ class _AdminLoginScreenState extends ConsumerState<AdminLoginScreen> {
   AdminMember _member = AdminDemo.team.first;
   // Code de démo prérempli : un seul geste pour entrer.
   final _code = TextEditingController(text: '123456');
+  final _email = TextEditingController();
+  final _password = TextEditingController();
   bool _busy = false;
   String? _error;
+
+  /// Avec le backend, l'accès demande un vrai compte listé dans admin_members ;
+  /// le choix d'un membre et le code de démonstration ne restent que hors ligne.
+  bool get _real => Backend.ready;
 
   @override
   void dispose() {
     _code.dispose();
+    _email.dispose();
+    _password.dispose();
     super.dispose();
   }
 
   Future<void> _submit() async {
     if (_busy) return;
+    if (_real) return _submitReal();
     if (_code.text.trim().length != 6) {
       setState(() => _error = 'Saisissez les 6 chiffres du code reçu');
       return;
@@ -54,6 +64,45 @@ class _AdminLoginScreenState extends ConsumerState<AdminLoginScreen> {
         .read(adminProvider.notifier)
         .note('Connexion au centre de contrôle', 'Code à usage unique validé');
     final perms = ref.read(adminProvider).permissions[_member.role] ?? const {};
+    context.go(adminPath(AdminModule.homeFor(perms)));
+  }
+
+  Future<void> _submitReal() async {
+    final email = _email.text.trim();
+    if (!email.contains('@') || _password.text.isEmpty) {
+      setState(() => _error = 'Saisissez votre e-mail et votre mot de passe');
+      return;
+    }
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    String? problem;
+    try {
+      final auth = Backend.client.auth;
+      await auth.signInWithPassword(email: email, password: _password.text);
+      final allowed = await Backend.client.rpc('is_admin');
+      if (allowed != true) {
+        await auth.signOut();
+        problem = 'Ce compte n’a pas accès au centre de contrôle.';
+      }
+    } catch (_) {
+      problem = 'Identifiants incorrects ou connexion impossible.';
+    }
+    if (!mounted) return;
+    _password.clear();
+    setState(() {
+      _busy = false;
+      _error = problem;
+    });
+    if (problem != null) return;
+    ref.read(adminSessionProvider.notifier).signIn(AdminDemo.team.first);
+    ref
+        .read(adminProvider.notifier)
+        .note('Connexion au centre de contrôle', email);
+    final perms =
+        ref.read(adminProvider).permissions[AdminDemo.team.first.role] ??
+        const {};
     context.go(adminPath(AdminModule.homeFor(perms)));
   }
 
@@ -102,81 +151,97 @@ class _AdminLoginScreenState extends ConsumerState<AdminLoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      const FieldLabel('Compte de l’équipe (démo)'),
-                      for (final m in AdminDemo.team)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 6),
-                          child: Pressable(
-                            onTap: () => setState(() => _member = m),
-                            child: AnimatedContainer(
-                              duration: Motion.fast,
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: m == _member
-                                    ? Confetti.lavender
-                                    : Confetti.surface,
-                                borderRadius: BorderRadius.circular(14),
-                                border: Border.all(
+                      if (_real) ...[
+                        AppField(
+                          label: 'E-mail',
+                          controller: _email,
+                          keyboard: TextInputType.emailAddress,
+                        ),
+                        const SizedBox(height: 12),
+                        AppField(
+                          label: 'Mot de passe',
+                          controller: _password,
+                          password: true,
+                          textInputAction: TextInputAction.done,
+                          onSubmitted: (_) => _submit(),
+                        ),
+                      ] else ...[
+                        const FieldLabel('Compte de l’équipe (démo)'),
+                        for (final m in AdminDemo.team)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 6),
+                            child: Pressable(
+                              onTap: () => setState(() => _member = m),
+                              child: AnimatedContainer(
+                                duration: Motion.fast,
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
                                   color: m == _member
-                                      ? Confetti.ink
-                                      : Confetti.line,
+                                      ? Confetti.lavender
+                                      : Confetti.surface,
+                                  borderRadius: BorderRadius.circular(14),
+                                  border: Border.all(
+                                    color: m == _member
+                                        ? Confetti.ink
+                                        : Confetti.line,
+                                  ),
                                 ),
-                              ),
-                              child: Row(
-                                children: [
-                                  Avatar(
-                                    initials: m.name
-                                        .split(' ')
-                                        .map((p) => p[0])
-                                        .join(),
-                                    size: 34,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          m.name,
-                                          style: context.text.titleSmall,
-                                        ),
-                                        Text(
-                                          '${m.role.label} · ${m.role.scope}',
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: context.text.bodySmall,
-                                        ),
-                                      ],
+                                child: Row(
+                                  children: [
+                                    Avatar(
+                                      initials: m.name
+                                          .split(' ')
+                                          .map((p) => p[0])
+                                          .join(),
+                                      size: 34,
                                     ),
-                                  ),
-                                  if (m == _member)
-                                    Icon(
-                                      AppIcons.checkCircle,
-                                      size: 18,
-                                      color: Confetti.lagoon,
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            m.name,
+                                            style: context.text.titleSmall,
+                                          ),
+                                          Text(
+                                            '${m.role.label} · ${m.role.scope}',
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: context.text.bodySmall,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                ],
+                                    if (m == _member)
+                                      Icon(
+                                        AppIcons.checkCircle,
+                                        size: 18,
+                                        color: Confetti.lagoon,
+                                      ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
+                        const SizedBox(height: 12),
+                        AppField(
+                          label: 'Code de vérification (6 chiffres)',
+                          controller: _code,
+                          hint: '123456',
+                          keyboard: TextInputType.number,
+                          formatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(6),
+                          ],
+                          textInputAction: TextInputAction.done,
+                          onChanged: (_) {
+                            if (_error != null) setState(() => _error = null);
+                          },
+                          onSubmitted: (_) => _submit(),
                         ),
-                      const SizedBox(height: 12),
-                      AppField(
-                        label: 'Code de vérification (6 chiffres)',
-                        controller: _code,
-                        hint: '123456',
-                        keyboard: TextInputType.number,
-                        formatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(6),
-                        ],
-                        textInputAction: TextInputAction.done,
-                        onChanged: (_) {
-                          if (_error != null) setState(() => _error = null);
-                        },
-                        onSubmitted: (_) => _submit(),
-                      ),
+                      ],
                       if (_error != null) ...[
                         const SizedBox(height: 6),
                         Text(
@@ -194,12 +259,14 @@ class _AdminLoginScreenState extends ConsumerState<AdminLoginScreen> {
                         loading: _busy,
                         onPressed: _submit,
                       ),
-                      const SizedBox(height: 10),
-                      Text(
-                        'Démonstration : choisissez un membre et saisissez n’importe quel code à 6 chiffres. Chaque connexion est inscrite au journal d’audit.',
-                        textAlign: TextAlign.center,
-                        style: context.text.bodySmall,
-                      ),
+                      if (!_real) ...[
+                        const SizedBox(height: 10),
+                        Text(
+                          'Démonstration : choisissez un membre et saisissez n’importe quel code à 6 chiffres. Chaque connexion est inscrite au journal d’audit.',
+                          textAlign: TextAlign.center,
+                          style: context.text.bodySmall,
+                        ),
+                      ],
                     ],
                   ),
                 ),

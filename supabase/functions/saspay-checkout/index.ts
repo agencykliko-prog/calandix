@@ -10,7 +10,7 @@ import { admin, asUser, cors, decimal, replyError, reply, saspay } from '../_sha
 const PLANS: Record<string, Record<string, { label: string; price: number }>> = {
   premium: {
     azur: { label: 'Azur', price: 2900 },
-    signature: { label: 'Signature', price: 5900 },
+    signature: { label: 'Signature', price: 4900 },
     privilege: { label: 'Privilège', price: 9900 },
   },
   creator: { business: { label: 'Offre Creator', price: 29900 } },

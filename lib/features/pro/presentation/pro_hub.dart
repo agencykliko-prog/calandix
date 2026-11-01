@@ -15,6 +15,7 @@ import 'pro_providers.dart';
 import 'studio_providers.dart';
 import 'verification_providers.dart';
 import 'verification_screen.dart';
+import 'signature_provider.dart';
 
 /// Accès aux huit sections de l'espace pro, chacune avec son chiffre clé.
 class ProHub extends ConsumerWidget {
@@ -120,6 +121,16 @@ class ProHub extends ConsumerWidget {
         'Vérification'.tr,
         verification.step.label,
         '/pro/verification',
+      ),
+      (
+        'I',
+        AppIcons.edit,
+        Hue.violet,
+        'Ma signature'.tr,
+        ref.watch(signatureProvider) == null
+            ? 'À enregistrer'.tr
+            : 'Sur vos devis et factures'.tr,
+        '/pro/signature',
       ),
     ];
 

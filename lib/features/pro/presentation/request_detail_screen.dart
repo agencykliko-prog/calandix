@@ -16,6 +16,8 @@ import '../../marketplace/presentation/explore_screen.dart';
 import '../domain/pro_models.dart';
 import 'pro_providers.dart';
 import 'pro_widgets.dart';
+import 'signature_provider.dart';
+import 'signature_screen.dart';
 
 /// C. Devis & demandes : détail d'une demande, questions au client,
 /// devis détaillé avec options et validité, acceptation ou refus.
@@ -248,6 +250,8 @@ class _RequestDetailState extends ConsumerState<RequestDetailScreen> {
               ],
             ),
           ),
+          const SizedBox(height: 10),
+          _QuoteSignature(request: r),
         ],
         if (r.status == RequestStatus.declined && r.declineReason != null) ...[
           const SizedBox(height: 12),
@@ -575,6 +579,28 @@ class _RequestDetailState extends ConsumerState<RequestDetailScreen> {
           );
         },
       ),
+    );
+  }
+}
+
+/// Signature du devis, ou invitation à en enregistrer une.
+class _QuoteSignature extends ConsumerWidget {
+  const _QuoteSignature({required this.request});
+
+  final ClientRequest request;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final image = request.signature ?? ref.watch(signatureProvider);
+    if (image != null) {
+      return SignatureBlock(image: image, signedAt: request.signedAt);
+    }
+    return PillButton(
+      label: 'Ajouter ma signature'.tr,
+      icon: AppIcons.edit,
+      tone: ButtonTone.ghost,
+      height: 46,
+      onPressed: () => context.push('/pro/signature'),
     );
   }
 }

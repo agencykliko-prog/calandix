@@ -571,6 +571,8 @@
     document.head.append(l);
   }, 3000), { once: true });
 
+  document.querySelector('[data-noop]')?.addEventListener('submit', (e) => e.preventDefault());
+
   /* ── Mode sombre ─────────────────────────────────────── */
   document.querySelectorAll('.theme-toggle').forEach((b) => b.addEventListener('click', () => {
     const next = root.dataset.theme === 'dark' ? 'light' : 'dark';

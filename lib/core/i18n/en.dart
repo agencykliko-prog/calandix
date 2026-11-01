@@ -1539,4 +1539,24 @@ const en = <String, String>{
   'Aucun prestataire ne correspond.': 'No vendor matches.',
   'Cette page n’existe pas.': 'This page doesn’t exist.',
   'Retour à l’accueil': 'Back to home',
+  // ─── Signature ─────────────────────────────────────────────────────────
+  'Ma signature': 'My signature',
+  'À enregistrer': 'To be added',
+  'Sur vos devis et factures': 'On your quotes and invoices',
+  'Elle s’ajoute automatiquement à vos devis et factures.':
+      'It’s added automatically to your quotes and invoices.',
+  'Signez dans le cadre': 'Sign inside the box',
+  'Effacer': 'Clear',
+  'Je reconnais cette signature comme la mienne et j’autorise Calandix à l’apposer sur mes devis et factures.': 'I recognise this signature as mine and allow Calandix to add it to my quotes and invoices.',
+  'Enregistrer ma signature': 'Save my signature',
+  'Refaire ma signature': 'Redo my signature',
+  'Supprimer ma signature': 'Delete my signature',
+  'Ajouter ma signature': 'Add my signature',
+  'Signature enregistrée': 'Signature saved',
+  'Signature non enregistrée. Vérifiez votre connexion puis réessayez.':
+      'Signature not saved. Check your connection and try again.',
+  'Signature de {0}': 'Signature of {0}',
+  'Signé électroniquement par {0} le {1}':
+      'Electronically signed by {0} on {1}',
+  'Zone de signature': 'Signature area',
 };

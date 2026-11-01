@@ -15,6 +15,7 @@ import 'creator_providers.dart';
 import 'pro_widgets.dart';
 import 'studio_providers.dart';
 import '../../../ui/dataviz/dataviz.dart';
+import 'signature_screen.dart';
 
 /// Studio Creator : CRM, facturation, équipe, automatisations, marque
 /// blanche, statistiques avancées et API. Réservé à l'offre Creator.
@@ -423,6 +424,13 @@ class _Invoices extends ConsumerWidget {
                                 ]),
                           style: context.text.bodySmall,
                         ),
+                        if (inv.signature != null) ...[
+                          const SizedBox(height: 8),
+                          SignatureBlock(
+                            image: inv.signature!,
+                            signedAt: inv.issued,
+                          ),
+                        ],
                       ],
                     ),
                   ),

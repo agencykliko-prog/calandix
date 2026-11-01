@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/i18n/tr.dart';
 import '../../commerce/presentation/commerce_providers.dart';
 import 'creator_providers.dart';
+import 'signature_provider.dart';
 
 // ─── Studio Creator : outils de l'offre Creator (29 900 FCFA / mois) ────────
 
@@ -27,6 +28,7 @@ class StudioInvoice {
     required this.amount,
     required this.issued,
     this.paid = false,
+    this.signature,
   });
 
   final String number;
@@ -36,6 +38,9 @@ class StudioInvoice {
   final int amount;
   final DateTime issued;
   final bool paid;
+
+  /// Signature posée à l'émission.
+  final Uint8List? signature;
 
   /// Échéance : 15 jours après l'émission.
   DateTime get due => issued.add(const Duration(days: 15));
@@ -48,6 +53,7 @@ class StudioInvoice {
     amount: amount,
     issued: issued,
     paid: true,
+    signature: signature,
   );
 }
 
@@ -164,6 +170,7 @@ class StudioNotifier extends Notifier<StudioState> {
       label: r.eventName,
       amount: r.quote!,
       issued: now,
+      signature: ref.read(signatureProvider),
     );
     state = state.copyWith(invoices: [...state.invoices, inv]);
     return inv;
