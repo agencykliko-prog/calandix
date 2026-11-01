@@ -844,17 +844,33 @@ a:hover > .roll > span, a:focus-visible > .roll > span { transform: translateY(-
 .theme-toggle svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .i-moon { display: none; }
 
-/* ── Marketplace : éventail ─────────────────────────────── */
-.vendors.fan-on { position: relative; display: block; height: 450px; margin-top: 30px; outline: 0; perspective: 1400px; }
-.fan-on .vendor { position: absolute; left: 50%; top: 10px; width: 300px; margin-left: -150px; aspect-ratio: 3 / 4; transform-origin: 50% 110%; transition: transform .7s var(--ease), opacity .5s, box-shadow .4s; cursor: pointer; }
-.fan-on .vendor:hover { box-shadow: none; }
-.fan-on .vendor:hover img { transform: none; }
-.fan-on .vendor.front { box-shadow: 0 30px 60px rgba(26, 6, 55, .35); cursor: default; }
-.fan-nav { display: none; }
-.fan-on + .fan-nav { display: flex; justify-content: center; gap: 10px; margin-top: 4px; }
-.fan-nav button { width: 48px; height: 48px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; background: var(--ink); color: var(--white); cursor: pointer; transition: transform .2s var(--ease); }
-.fan-nav button:hover { transform: scale(1.08); }
-.fan-nav svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+/* ── Marketplace : galerie au point ─────────────────────── */
+.vendors.focus-on { position: relative; display: block; margin: 36px calc(50% - 50vw) 0; overflow: hidden; background: var(--tint, #FFF3D6); color: var(--ink); transition: background-color .5s var(--ease); }
+.focus-on .vendor { box-shadow: none; transition: box-shadow .3s; cursor: pointer; }
+.focus-on .vendor:hover { transform: none; box-shadow: none; }
+.focus-on .vendor:hover img { transform: none; }
+.focus-on .vendor::after { display: none; }
+.focus-on .vendor :is(figcaption, .v-rate, .v-ok) { display: none; }
+.focus-on .vendor.front { cursor: default; box-shadow: 0 34px 70px rgba(26, 6, 55, .32); }
+.focus-info { position: absolute; z-index: 30; pointer-events: none; }
+.focus-info .v-cat { margin-bottom: 8px; }
+.focus-name { display: block; font-size: clamp(28px, 3.4vw, 50px); font-weight: 800; line-height: 1.04; letter-spacing: -.03em; }
+.focus-price { display: block; font-size: clamp(18px, 1.8vw, 24px); font-weight: 700; }
+.focus-meta { display: block; margin-top: 6px; font-weight: 500; }
+.focus-count { display: block; margin-top: 18px; font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; opacity: .7; }
+/* Grand écran : colonne centrale, texte de part et d'autre. */
+.focus-y { height: 100vh; }
+.focus-y .vendor { --h: min(62vh, 520px); position: absolute; left: 50%; top: 54%; height: var(--h); width: calc(var(--h) * .8); aspect-ratio: auto; margin: calc(var(--h) / -2) 0 0 calc(var(--h) * -.4); will-change: transform, opacity; }
+.focus-y .focus-left { left: max(var(--gutter), calc(50% - 620px)); top: 54%; translate: 0 -50%; width: calc(50% - min(31vh, 260px) * .8 - 60px); max-width: 340px; }
+.focus-y .focus-right { right: max(var(--gutter), calc(50% - 620px)); top: 54%; translate: 0 -50%; text-align: right; width: calc(50% - min(31vh, 260px) * .8 - 60px); max-width: 300px; }
+/* Tablette et téléphone : on glisse de côté, la page ne s'allonge pas. */
+.focus-x { padding: 26px 0 22px; }
+.focus-x .focus-rail { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 26px 15vw; }
+.focus-x .focus-rail::-webkit-scrollbar { display: none; }
+.focus-x .vendor { flex: 0 0 70vw; max-width: 340px; scroll-snap-align: center; }
+.focus-x .focus-info { position: static; padding: 0 var(--gutter); text-align: center; }
+.focus-x .focus-name { font-size: 28px; }
+[data-theme="dark"] .vendors.focus-on { background: color-mix(in srgb, var(--tint, #FFF3D6) 14%, #110722); color: #F1EDFA; }
 
 /* ── Candix ─────────────────────────────────────────────── */
 .candix { position: fixed; left: 18px; bottom: 18px; z-index: 65; }
@@ -901,7 +917,6 @@ a:hover > .roll > span, a:focus-visible > .roll > span { transform: translateY(-
 [data-theme="dark"] .field input { border-bottom-color: #4A3B6E; }
 [data-theme="dark"] .faq details { background: #1B0F33; color: #F1EDFA; }
 [data-theme="dark"] .faq details :is(summary, p) { color: inherit; }
-[data-theme="dark"] .fan-nav button { background: #fff; color: #1A0637; }
 [data-theme="dark"] .step { background: #2A1C4A; color: #F1EDFA; }
 [data-theme="dark"] .step.on { background: var(--violet); color: #fff; }
 [data-theme="dark"] .btn-ink-ghost { border-color: #F1EDFA; color: #F1EDFA; }
@@ -927,8 +942,6 @@ a:hover > .roll > span, a:focus-visible > .roll > span { transform: translateY(-
   .budget-card .b-lines li { grid-template-columns: 10px 1fr auto 78px; gap: 8px; }
   .b-foot { grid-template-columns: 1fr; gap: 10px; padding: 16px 22px 20px; }
   .b-per { display: flex; justify-content: space-between; align-items: baseline; text-align: left; }
-  .vendors.fan-on { height: 400px; }
-  .fan-on .vendor { width: 250px; margin-left: -125px; }
   .candix-open span { display: none; }
   .candix-open { padding: 0 5px; }
   .early-form { padding: 24px; }

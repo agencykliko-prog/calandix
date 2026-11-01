@@ -194,6 +194,107 @@
   /* ── GSAP : ouverture du hero et sections au défilement ─ */
   // Uniquement transform et opacité ; distances réduites sur mobile, parallaxe
   // réservée aux grands écrans, chaque déclencheur ne sert qu'une fois.
+  /* ── Marketplace : galerie au point ──────────────────── */
+  // Une image nette au centre, les autres plus petites et estompées ; le fond
+  // et les informations suivent. Défilement vertical sur grand écran (motion),
+  // glissement de côté sur tablette et téléphone.
+  function focusGallery() {
+    const box = document.querySelector('[data-focus]');
+    if (!box) return null;
+    const cards = [...box.querySelectorAll('.vendor')];
+    const n = cards.length;
+    const tints = ['#FFF3D6', '#E9E6FC', '#DDFBF3', '#FDE8E9', '#E2EFFD', '#FFEBE3', '#F8E8F5'];
+    const data = cards.map((c, i) => ({
+      cat: c.querySelector('.v-cat').textContent,
+      name: c.querySelector('figcaption b').textContent,
+      price: c.querySelector('.v-price').textContent,
+      rate: c.querySelector('.v-rate').textContent,
+      tint: tints[i % tints.length],
+    }));
+    const left = document.createElement('p');
+    left.className = 'focus-info focus-left';
+    left.innerHTML = '<span class="v-cat"></span><span class="focus-name"></span>';
+    const right = document.createElement('p');
+    right.className = 'focus-info focus-right';
+    right.innerHTML = '<span class="focus-price"></span><span class="focus-meta"></span><span class="focus-count"></span>';
+    box.prepend(left);
+    box.append(right);
+    box.classList.add('focus-on');
+    let shown = -1;
+    const show = (i) => {
+      if (i === shown) return;
+      shown = i;
+      const d = data[i];
+      left.children[0].textContent = d.cat;
+      left.children[1].textContent = d.name;
+      right.children[0].textContent = d.price;
+      right.children[1].textContent = `${d.rate} · Vérifié`;
+      right.children[2].textContent = `${i + 1} / ${n}`;
+      box.style.setProperty('--tint', d.tint);
+      cards.forEach((c, k) => c.classList.toggle('front', k === i));
+    };
+    return { box, cards, n, show };
+  }
+
+  function focusVertical(g) {
+    const { box, cards, n, show } = g;
+    box.classList.add('focus-y');
+    const place = (p) => {
+      const gap = cards[0].offsetHeight * .92;
+      cards.forEach((c, i) => {
+        const d = i - p, a = Math.abs(d), k = Math.min(a, 1);
+        c.style.transform = `translate3d(0, ${d * gap}px, 0) scale(${1 - k * .4})`;
+        c.style.opacity = a > 2.4 ? 0 : 1 - k * .62;
+        c.style.zIndex = 20 - Math.round(a);
+      });
+      show(Math.round(p));
+    };
+    place(0);
+    const st = ScrollTrigger.create({
+      trigger: box, start: 'top top', end: `+=${(n - 1) * 240}`, pin: true,
+      snap: { snapTo: 1 / (n - 1), duration: { min: .15, max: .4 }, ease: 'power1.inOut' },
+      onUpdate: (self) => place(self.progress * (n - 1)),
+      onRefresh: (self) => place(self.progress * (n - 1)),
+    });
+    cards.forEach((c, i) => c.addEventListener('click', () => {
+      const y = st.start + (st.end - st.start) * (i / (n - 1));
+      if (smoother) smoother.scrollTo(y, true);
+      else scrollTo({ top: y, behavior: 'smooth' });
+    }));
+  }
+
+  function focusSideways(g) {
+    const { box, cards, n, show } = g;
+    box.classList.add('focus-x');
+    const rail = document.createElement('div');
+    rail.className = 'focus-rail';
+    cards.forEach((c) => rail.append(c));
+    box.insertBefore(rail, box.querySelector('.focus-right'));
+    const update = () => {
+      const mid = rail.scrollLeft + rail.clientWidth / 2;
+      let best = 0, min = Infinity;
+      cards.forEach((c, i) => {
+        const a = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid) / c.offsetWidth;
+        if (a < min) { min = a; best = i; }
+        const k = Math.min(a, 1);
+        c.style.transform = `scale(${1 - k * .16})`;
+        c.style.opacity = 1 - k * .55;
+      });
+      show(best);
+    };
+    let queued = false;
+    rail.addEventListener('scroll', () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => { queued = false; update(); });
+    }, { passive: true });
+    cards.forEach((c) => c.addEventListener('click', () => {
+      rail.scrollTo({ left: c.offsetLeft - (rail.clientWidth - c.offsetWidth) / 2, behavior: 'smooth' });
+    }));
+    addEventListener('resize', update);
+    update();
+  }
+
   function motion() {
     gsap.registerPlugin(ScrollTrigger);
     // La barre d'adresse mobile qui se replie ne recalcule pas tout.
@@ -214,6 +315,11 @@
           root.classList.remove('smooth');
         };
       });
+    }
+    // La galerie épinglée d'abord : les déclencheurs suivants tiennent compte de sa longueur.
+    if (innerWidth > 980) {
+      const fg = focusGallery();
+      if (fg) focusVertical(fg);
     }
     const hero = document.querySelector('.hero');
     const inHero = (sel) => hero.querySelectorAll(sel);
@@ -480,50 +586,10 @@
     ['pointerenter', 'focus', 'click'].forEach((ev) => st.addEventListener(ev, show));
   });
 
-  /* ── Marketplace : éventail ──────────────────────────── */
-  (() => {
-    const fan = document.querySelector('[data-fan]');
-    if (!fan) return;
-    const cards = [...fan.children];
-    const n = cards.length;
-    let at = 0, timer = 0, seen = false, over = false;
-    fan.classList.add('fan-on');
-    const place = () => {
-      const step = fan.clientWidth < 620 ? 34 : 88;
-      cards.forEach((c, i) => {
-        let d = (i - at + n) % n;
-        if (d > n / 2) d -= n;
-        const a = Math.abs(d);
-        c.classList.toggle('front', d === 0);
-        c.style.zIndex = 20 - a;
-        c.style.opacity = a > 3 ? 0 : 1;
-        c.style.transform = `translateX(${d * step}px) translateY(${a * a * 3}px) rotate(${d * 7}deg) scale(${1 - a * .06})`;
-        c.setAttribute('aria-hidden', d !== 0);
-      });
-    };
-    const go = (by) => { at = (at + by + n) % n; place(); };
-    const stop = () => { clearInterval(timer); timer = 0; };
-    const play = () => { stop(); if (!reduce && seen && !over) timer = setInterval(() => go(1), 3600); };
-    cards.forEach((c, i) => c.addEventListener('click', () => { at = i; place(); }));
-    document.querySelector('[data-fan-prev]').addEventListener('click', () => { go(-1); play(); });
-    document.querySelector('[data-fan-next]').addEventListener('click', () => { go(1); play(); });
-    fan.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') go(-1);
-      if (e.key === 'ArrowRight') go(1);
-    });
-    fan.addEventListener('pointerenter', () => { over = true; stop(); });
-    fan.addEventListener('pointerleave', () => { over = false; play(); });
-    let x0 = null;
-    fan.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; over = true; stop(); }, { passive: true });
-    fan.addEventListener('touchend', (e) => {
-      const dx = e.changedTouches[0].clientX - x0;
-      if (Math.abs(dx) > 30) go(dx < 0 ? 1 : -1);
-      over = false; play();
-    }, { passive: true });
-    new IntersectionObserver(([en]) => { seen = en.isIntersecting; seen ? play() : stop(); }, { threshold: .25 }).observe(fan);
-    addEventListener('resize', place);
-    place();
-  })();
+  if (!G || innerWidth <= 980) {
+    const g = innerWidth <= 980 ? focusGallery() : null;
+    if (g) focusSideways(g);
+  }
 
   /* ── Barre : survol roulant, ordre d'apparition du menu ─ */
   document.querySelectorAll('.nav-links > a').forEach((a) => {

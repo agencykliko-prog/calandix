@@ -47,7 +47,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Calandix","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://eventa.ci/","description":"Organisez vos événements en Côte d’Ivoire : budget, prestataires, invités et équipe au même endroit.","offers":{"@type":"Offer","price":"0","priceCurrency":"XOF"}}
 </script>
-<link rel="stylesheet" href="styles.css?v=51">
+<link rel="stylesheet" href="styles.css?v=52">
 </head>
 <body>
 
@@ -225,7 +225,7 @@
       <h2 class="h-xl split">Les bons prestataires, au <em class="script">bon prix</em>.</h2>
       <p class="body-l">Traiteurs, décorateurs, DJ, photographes, lieux : des profils vérifiés, des devis comparables, une réservation en quelques gestes.</p>
     </div>
-    <div class="vendors" data-fan tabindex="0" role="group" aria-roledescription="carrousel" aria-label="Prestataires">
+    <div class="vendors" data-focus role="group" aria-label="Prestataires">
       <figure class="vendor"><img decoding="async" loading="lazy" width="600" height="600" src="img/vendor_deco.webp" alt="Arche de cérémonie fleurie"><span class="v-rate">★ 4,8</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Décoration</span><b>Maison Inès Déco</b><span class="v-price">dès 450 000 FCFA</span></figcaption></figure>
       <figure class="vendor"><img decoding="async" loading="lazy" width="640" height="520" src="img/food_1.webp" alt="Plateau de grillades d’un traiteur"><span class="v-rate">★ 4,8</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Traiteur</span><b>Saveurs d’Ivoire</b><span class="v-price">dès 13 500 FCFA / pers.</span></figcaption></figure>
       <figure class="vendor"><img decoding="async" loading="lazy" width="600" height="600" src="img/vendor_dj.webp" alt="DJ aux platines"><span class="v-rate">★ 4,6</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Musique &amp; DJ</span><b>Lagune Sound</b><span class="v-price">dès 300 000 FCFA</span></figcaption></figure>
@@ -236,10 +236,6 @@
       <figure class="vendor"><img decoding="async" loading="lazy" width="640" height="853" src="img/vendor_ballons.webp" alt="Ballons roses et rouges"><span class="v-rate">★ 4,6</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Décoration</span><b>Ballons &amp; Merveilles</b><span class="v-price">dès 80 000 FCFA</span></figcaption></figure>
       <figure class="vendor"><img decoding="async" loading="lazy" width="640" height="853" src="img/vendor_tenues.webp" alt="Femme en caftan rouge"><span class="v-rate">★ 4,8</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Tenues</span><b>Maison Kaftan</b><span class="v-price">dès 120 000 FCFA</span></figcaption></figure>
       <figure class="vendor"><img decoding="async" loading="lazy" width="640" height="853" src="img/vendor_voiture.webp" alt="Voiture de luxe décapotable"><span class="v-rate">★ 4,7</span><span class="v-ok">✓ Vérifié</span><figcaption><span class="v-cat">Transport</span><b>Prestige Auto</b><span class="v-price">dès 150 000 FCFA</span></figcaption></figure>
-    </div>
-    <div class="fan-nav">
-      <button type="button" data-fan-prev aria-label="Prestataire précédent"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <button type="button" data-fan-next aria-label="Prestataire suivant"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
     </div>
     <p class="note-img">Images non contractuelles, présentées à titre d’exemple.</p>
     <div class="pay-row">
@@ -507,7 +503,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollSmoother.min.js"></script>
-<script defer src="app.js?v=47"></script>
+<script defer src="app.js?v=48"></script>
 <!-- Téléphones 3D : three.js en module, chargé à part. Sans lui, la maquette plate reste. -->
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/" } }</script>
 <script>
