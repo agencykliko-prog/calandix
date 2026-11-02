@@ -59,7 +59,6 @@ lib/
     config/      configuration (URL, clé publishable)
     models/      modèles de domaine partagés (événement, budget,
                  prestataires, invités, équipe et droits)
-    payments/    paiements SasPay (via les Edge Functions)
     prefs/, i18n/, analytics/, sound/, utils/
   ui/            design system
     theme/       couleurs, typographie, icônes, mouvement
