@@ -194,107 +194,6 @@
   /* ── GSAP : ouverture du hero et sections au défilement ─ */
   // Uniquement transform et opacité ; distances réduites sur mobile, parallaxe
   // réservée aux grands écrans, chaque déclencheur ne sert qu'une fois.
-  /* ── Marketplace : galerie au point ──────────────────── */
-  // Une image nette au centre, les autres plus petites et estompées ; le fond
-  // et les informations suivent. Défilement vertical sur grand écran (motion),
-  // glissement de côté sur tablette et téléphone.
-  function focusGallery() {
-    const box = document.querySelector('[data-focus]');
-    if (!box) return null;
-    const cards = [...box.querySelectorAll('.vendor')];
-    const n = cards.length;
-    const tints = ['#FFF3D6', '#E9E6FC', '#DDFBF3', '#FDE8E9', '#E2EFFD', '#FFEBE3', '#F8E8F5'];
-    const data = cards.map((c, i) => ({
-      cat: c.querySelector('.v-cat').textContent,
-      name: c.querySelector('figcaption b').textContent,
-      price: c.querySelector('.v-price').textContent,
-      rate: c.querySelector('.v-rate').textContent,
-      tint: tints[i % tints.length],
-    }));
-    const left = document.createElement('p');
-    left.className = 'focus-info focus-left';
-    left.innerHTML = '<span class="v-cat"></span><span class="focus-name"></span>';
-    const right = document.createElement('p');
-    right.className = 'focus-info focus-right';
-    right.innerHTML = '<span class="focus-price"></span><span class="focus-meta"></span><span class="focus-count"></span>';
-    box.prepend(left);
-    box.append(right);
-    box.classList.add('focus-on');
-    let shown = -1;
-    const show = (i) => {
-      if (i === shown) return;
-      shown = i;
-      const d = data[i];
-      left.children[0].textContent = d.cat;
-      left.children[1].textContent = d.name;
-      right.children[0].textContent = d.price;
-      right.children[1].textContent = `${d.rate} · Vérifié`;
-      right.children[2].textContent = `${i + 1} / ${n}`;
-      box.style.setProperty('--tint', d.tint);
-      cards.forEach((c, k) => c.classList.toggle('front', k === i));
-    };
-    return { box, cards, n, show };
-  }
-
-  function focusVertical(g) {
-    const { box, cards, n, show } = g;
-    box.classList.add('focus-y');
-    const place = (p) => {
-      const gap = cards[0].offsetHeight * .92;
-      cards.forEach((c, i) => {
-        const d = i - p, a = Math.abs(d), k = Math.min(a, 1);
-        c.style.transform = `translate3d(0, ${d * gap}px, 0) scale(${1 - k * .4})`;
-        c.style.opacity = a > 2.4 ? 0 : 1 - k * .62;
-        c.style.zIndex = 20 - Math.round(a);
-      });
-      show(Math.round(p));
-    };
-    place(0);
-    const st = ScrollTrigger.create({
-      trigger: box, start: 'top top', end: `+=${(n - 1) * 240}`, pin: true,
-      snap: { snapTo: 1 / (n - 1), duration: { min: .15, max: .4 }, ease: 'power1.inOut' },
-      onUpdate: (self) => place(self.progress * (n - 1)),
-      onRefresh: (self) => place(self.progress * (n - 1)),
-    });
-    cards.forEach((c, i) => c.addEventListener('click', () => {
-      const y = st.start + (st.end - st.start) * (i / (n - 1));
-      if (smoother) smoother.scrollTo(y, true);
-      else scrollTo({ top: y, behavior: 'smooth' });
-    }));
-  }
-
-  function focusSideways(g) {
-    const { box, cards, n, show } = g;
-    box.classList.add('focus-x');
-    const rail = document.createElement('div');
-    rail.className = 'focus-rail';
-    cards.forEach((c) => rail.append(c));
-    box.insertBefore(rail, box.querySelector('.focus-right'));
-    const update = () => {
-      const mid = rail.scrollLeft + rail.clientWidth / 2;
-      let best = 0, min = Infinity;
-      cards.forEach((c, i) => {
-        const a = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid) / c.offsetWidth;
-        if (a < min) { min = a; best = i; }
-        const k = Math.min(a, 1);
-        c.style.transform = `scale(${1 - k * .16})`;
-        c.style.opacity = 1 - k * .55;
-      });
-      show(best);
-    };
-    let queued = false;
-    rail.addEventListener('scroll', () => {
-      if (queued) return;
-      queued = true;
-      requestAnimationFrame(() => { queued = false; update(); });
-    }, { passive: true });
-    cards.forEach((c) => c.addEventListener('click', () => {
-      rail.scrollTo({ left: c.offsetLeft - (rail.clientWidth - c.offsetWidth) / 2, behavior: 'smooth' });
-    }));
-    addEventListener('resize', update);
-    update();
-  }
-
   function motion() {
     gsap.registerPlugin(ScrollTrigger);
     // La barre d'adresse mobile qui se replie ne recalcule pas tout.
@@ -315,11 +214,6 @@
           root.classList.remove('smooth');
         };
       });
-    }
-    // La galerie épinglée d'abord : les déclencheurs suivants tiennent compte de sa longueur.
-    if (innerWidth > 980) {
-      const fg = focusGallery();
-      if (fg) focusVertical(fg);
     }
     const hero = document.querySelector('.hero');
     const inHero = (sel) => hero.querySelectorAll(sel);
@@ -392,6 +286,30 @@
       stack.forEach((li, i) => {
         if (i === stack.length - 1) return;
         ScrollTrigger.create({ trigger: li, start: `top ${96 + i * 12}px`, endTrigger: stack[stack.length - 1], end: `top ${96 + i * 12 + 170}px`, pin: true, pinSpacing: false });
+      });
+    });
+
+    // Marketplace : chaque carte s'arrête sous la précédente et recule un peu
+    // quand les suivantes la recouvrent. Collée en CSS (sticky), épinglée sous
+    // le défilement lissé ; on réduit la carte, jamais le bloc épinglé.
+    const items = gsap.utils.toArray('[data-vstack] .vs-item');
+    const last = items[items.length - 1];
+    const gap = () => (innerWidth <= 760 ? [78, 8] : [92, 10]);
+    items.forEach((item, i) => {
+      if (item === last) return;
+      const top = () => gap()[0] + i * gap()[1];
+      const lastTop = () => gap()[0] + (items.length - 1) * gap()[1];
+      gsap.to(item.firstElementChild, {
+        scale: Math.max(.8, 1 - (items.length - 1 - i) * .025),
+        ease: 'none',
+        scrollTrigger: { trigger: item, start: () => `top ${top()}px`, endTrigger: last, end: () => `top ${lastTop()}px`, scrub: true, invalidateOnRefresh: true },
+      });
+    });
+    gsap.matchMedia().add('(min-width: 981px) and (pointer: fine)', () => {
+      if (!smoother) return;
+      items.forEach((item, i) => {
+        if (item === last) return;
+        ScrollTrigger.create({ trigger: item, start: `top ${92 + i * 10}px`, endTrigger: last, end: `top ${92 + (items.length - 1) * 10}px`, pin: true, pinSpacing: false });
       });
     });
 
@@ -508,7 +426,7 @@
     // Base de 70 questions (candix-faq.json), chargée à la première ouverture.
     // Hors de cette base, Candix oriente vers un conseiller plutôt que d'inventer.
     let faq = null;
-    const loadFaq = () => { faq ||= fetch('candix-faq.json?v=1').then((r) => r.json()).then(prepare).catch(() => []); return faq; };
+    const loadFaq = () => { faq ||= fetch('candix-faq.json?v=2').then((r) => r.json()).then(prepare).catch(() => []); return faq; };
     const clean = (t) => ` ${t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim()} `;
     const STOP = new Set('a au aux avec ce ces c ca comment combien dans de des du d elle en est et etre faire faut il ils j je l la le les leur ma mes mon ne n on ou par pas peut peux plus pour puis puisje qu que quel quelle quelles quels qui quoi s sa se ses si son sont sur t te tu un une vos votre vous y y a t il'.split(' '));
     const words = (t) => clean(t).trim().split(' ').filter((w) => w.length > 1 && !STOP.has(w));
@@ -550,12 +468,23 @@
       b.addEventListener('click', () => ask(t));
       tips.append(b);
     });
+    const hint = box.querySelector('.candix-hint');
     const toggle = (on) => {
       panel.hidden = !on;
       open.setAttribute('aria-expanded', on);
-      if (on) { loadFaq(); field.focus({ preventScroll: true }); }
+      if (on) { hint.hidden = true; box.classList.add('seen'); loadFaq(); field.focus({ preventScroll: true }); }
     };
-    open.addEventListener('click', () => toggle(panel.hidden));
+    // Bulle d'accueil après quelques secondes, une seule fois par visite.
+    let greeted = false;
+    try { greeted = sessionStorage.getItem('calandix-candix') === '1'; } catch (e) { /* stockage indisponible */ }
+    const mute = () => {
+      hint.hidden = true;
+      try { sessionStorage.setItem('calandix-candix', '1'); } catch (e) { /* stockage indisponible */ }
+    };
+    if (!greeted) setTimeout(() => { if (panel.hidden) hint.hidden = false; }, 6000);
+    hint.querySelector('[data-candix-hint]').addEventListener('click', () => { mute(); toggle(true); });
+    hint.querySelector('.candix-hint-x').addEventListener('click', mute);
+    open.addEventListener('click', () => { mute(); toggle(panel.hidden); });
     box.querySelector('[data-candix-close]').addEventListener('click', () => { toggle(false); open.focus(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) toggle(false); });
     form.addEventListener('submit', (e) => { e.preventDefault(); ask(field.value); field.value = ''; });
@@ -573,6 +502,24 @@
 
   document.querySelector('[data-noop]')?.addEventListener('submit', (e) => e.preventDefault());
 
+  /* ── Tarifs : mensuel ou annuel ──────────────────────── */
+  const bills = document.querySelectorAll('[data-bill]');
+  const setBill = (yearly) => {
+    bills.forEach((b) => b.setAttribute('aria-pressed', (b.dataset.bill === 'y') === yearly));
+    document.querySelectorAll('.price[data-price]').forEach((p) => {
+      const m = +p.dataset.price;
+      p.querySelector('b').textContent = fcfa(yearly ? m * .75 : m);
+      // Sous le prix : l'ancien tarif barré et le montant payé à l'année.
+      const note = p.nextElementSibling;
+      note.textContent = '';
+      if (!yearly) return;
+      const was = document.createElement('s');
+      was.textContent = fcfa(m);
+      note.append('Au lieu de ', was, ` · ${fcfa(m * 9)} FCFA par an`);
+    });
+  };
+  bills.forEach((b) => b.addEventListener('click', () => setBill(b.dataset.bill === 'y')));
+
   /* ── Mode sombre ─────────────────────────────────────── */
   document.querySelectorAll('.theme-toggle').forEach((b) => b.addEventListener('click', () => {
     const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
@@ -587,11 +534,6 @@
     const show = () => stepBoxes.forEach((o) => o.classList.toggle('on', o === st));
     ['pointerenter', 'focus', 'click'].forEach((ev) => st.addEventListener(ev, show));
   });
-
-  if (!G || innerWidth <= 980) {
-    const g = innerWidth <= 980 ? focusGallery() : null;
-    if (g) focusSideways(g);
-  }
 
   /* ── Barre : survol roulant, ordre d'apparition du menu ─ */
   document.querySelectorAll('.nav-links > a').forEach((a) => {

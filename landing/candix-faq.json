@@ -660,7 +660,7 @@
 {
 "c": "Formules",
 "q": "Combien coûte Calandix ?",
-"a": "L'inscription est gratuite avec la formule Découverte. Puis Azur à 2 900 FCFA, Signature à 4 900 FCFA et Privilège à 9 900 FCFA par mois. Ces tarifs de démonstration peuvent évoluer avant le lancement.",
+"a": "L'inscription est gratuite avec la formule Découverte. Puis Azur à 2 900 FCFA, Signature à 4 900 FCFA et Privilège à 9 900 FCFA par mois, ou 25 % de moins en formule annuelle. Ces tarifs de démonstration peuvent évoluer avant le lancement.",
 "k": [
 "combien",
 "coute",
@@ -688,7 +688,7 @@
 {
 "c": "Formules",
 "q": "Que comprend la formule Azur ?",
-"a": "2 900 FCFA par mois : budget créé par l'IA, graphiques et export, jusqu'à 5 collaborateurs, rappels WhatsApp et SMS, QR code RSVP.",
+"a": "2 900 FCFA par mois (2 175 FCFA par mois en formule annuelle) : budget créé par l'IA, graphiques et export, jusqu'à 5 collaborateurs, rappels WhatsApp et SMS, QR code RSVP.",
 "k": [
 "azur",
 "2900",
@@ -698,7 +698,7 @@
 {
 "c": "Formules",
 "q": "Que comprend la formule Signature ?",
-"a": "4 900 FCFA par mois : tout Azur, agent IA de votre événement, coffre-fort de 5 Go, collaborateurs illimités et négociation de devis par l'IA.",
+"a": "4 900 FCFA par mois (3 675 FCFA par mois en formule annuelle) : tout Azur, agent IA de votre événement, coffre-fort de 5 Go, collaborateurs illimités et négociation de devis par l'IA.",
 "k": [
 "signature",
 "4900",
@@ -710,7 +710,7 @@
 {
 "c": "Formules",
 "q": "Que comprend la formule Privilège ?",
-"a": "9 900 FCFA par mois : tout Signature, concierge IA prioritaire, coffre-fort de 50 Go et album privé, support 7 j/7 sur WhatsApp.",
+"a": "9 900 FCFA par mois (7 425 FCFA par mois en formule annuelle) : tout Signature, concierge IA prioritaire, coffre-fort de 50 Go et album privé, support 7 j/7 sur WhatsApp.",
 "k": [
 "privilege",
 "9900",
