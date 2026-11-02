@@ -420,13 +420,16 @@
     const panel = box.querySelector('.candix-panel');
     const open = box.querySelector('.candix-open');
     const log = box.querySelector('.candix-log');
-    const tips = box.querySelector('.candix-tips');
     const form = box.querySelector('.candix-form');
     const field = form.querySelector('input');
-    // Base de 70 questions (candix-faq.json), chargée à la première ouverture.
+    // Base de 120 questions (candix-faq.json), chargée à la première ouverture.
     // Hors de cette base, Candix oriente vers un conseiller plutôt que d'inventer.
+    // Certaines entrées posent une question à choix (t : choice, scale, select ou
+    // multi ; o : options) et enchaînent sur la suivante (n) : c'est le parcours
+    // « Faire le point ». Le profil (p) adapte la recherche et la réponse (ap) ;
+    // f propose des questions de suite.
     let faq = null;
-    const loadFaq = () => { faq ||= fetch('candix-faq.json?v=2').then((r) => r.json()).then(prepare).catch(() => []); return faq; };
+    const loadFaq = () => { faq ||= fetch('candix-faq.json?v=3').then((r) => r.json()).then(prepare).catch(() => []); return faq; };
     const clean = (t) => ` ${t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim()} `;
     const STOP = new Set('a au aux avec ce ces c ca comment combien dans de des du d elle en est et etre faire faut il ils j je l la le les leur ma mes mon ne n on ou par pas peut peux plus pour puis puisje qu que quel quelle quelles quels qui quoi s sa se ses si son sont sur t te tu un une vos votre vous y y a t il'.split(' '));
     const words = (t) => clean(t).trim().split(' ').filter((w) => w.length > 1 && !STOP.has(w));
@@ -434,6 +437,8 @@
     function prepare(rows) {
       return rows.map((r) => ({ ...r, keys: r.k.map(clean), roots: new Set(words(r.q).map(root4)) }));
     }
+    let profil = null; // 'org', 'pro' ou 'all'
+    let picks = []; // réponses du parcours en cours
     const answer = (q, rows) => {
       const c = clean(q), asked = new Set(words(q).map(root4));
       if (!asked.size) return null;
@@ -443,6 +448,8 @@
         // Une expression clé compte d'autant plus qu'elle est longue.
         r.keys.forEach((k) => { if (c.includes(k)) s += 2 + k.trim().split(' ').length; });
         asked.forEach((w) => { if (r.roots.has(w)) s += 2; });
+        // À score voisin, l'entrée du profil choisi l'emporte.
+        if (s && r.p && profil && profil !== 'all') s += r.p === profil ? 1 : -1;
         if (s > score) { score = s; best = r; }
       });
       return score >= 3 ? best : null;
@@ -454,19 +461,130 @@
       log.append(p);
       log.scrollTop = log.scrollHeight;
     };
+    const button = (label) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = label;
+      return b;
+    };
+    // Boutons de réponse dans la conversation, retirés une fois le choix fait.
+    const choices = (kind) => {
+      const d = document.createElement('div');
+      d.className = `candix-choices${kind ? ` c-${kind}` : ''}`;
+      log.append(d);
+      return d;
+    };
+    const suggest = async (list) => {
+      // Pas de suite destinée à l'autre profil ; à défaut, le parcours guidé.
+      const rows = await loadFaq();
+      let qs = (list || []).filter((q) => {
+        const p = rows.find((x) => x.q === q)?.p;
+        return !p || !profil || profil === 'all' || p === profil;
+      });
+      if (!qs.length && profil) qs = ['Faire le point'];
+      if (!qs.length) return;
+      const d = choices();
+      qs.forEach((q) => {
+        const b = button(q);
+        b.addEventListener('click', () => { d.remove(); ask(q); });
+        d.append(b);
+      });
+      log.scrollTop = log.scrollHeight;
+    };
+    const show = (r) => {
+      say((profil === 'pro' && r.ap) || r.a);
+      if (!r.o) return suggest(r.f);
+      const d = choices(r.t);
+      const done = (opts) => { if (opts.length) { d.remove(); choose(r, opts); } };
+      const ok = button('Valider');
+      ok.className = 'ok';
+      if (r.t === 'select') {
+        const sel = document.createElement('select');
+        sel.setAttribute('aria-label', r.q);
+        sel.append(new Option('Choisir…', ''), ...r.o.map((o, i) => new Option(o.l, i)));
+        ok.addEventListener('click', () => done(sel.value === '' ? [] : [r.o[+sel.value]]));
+        d.append(sel, ok);
+      } else if (r.t === 'multi') {
+        const boxes = r.o.map((o) => {
+          const l = document.createElement('label');
+          const c = document.createElement('input');
+          c.type = 'checkbox';
+          l.append(c, o.l);
+          d.append(l);
+          return c;
+        });
+        ok.addEventListener('click', () => done(r.o.filter((o, i) => boxes[i].checked)));
+        d.append(ok);
+      } else {
+        r.o.forEach((o) => {
+          const b = button(o.l);
+          b.addEventListener('click', () => done([o]));
+          d.append(b);
+        });
+      }
+      log.scrollTop = log.scrollHeight;
+    };
+    const choose = async (r, opts) => {
+      say(opts.map((o) => o.l).join(', '), true);
+      opts.forEach((o) => say(o.a));
+      // o.r : libellé de synthèse quand il diffère du choix (la formule conseillée).
+      picks.push(`${r.s || r.q} : ${opts.map((o) => o.r || o.l).join(', ')}${r.t === 'scale' ? ' sur 5' : ''}`);
+      const next = r.n && (await loadFaq()).find((x) => x.q === r.n);
+      if (next) return show(next);
+      if (picks.length >= 3) plan();
+    };
+    // Fin du parcours : la synthèse et la prochaine étape.
+    const plan = () => {
+      say(`Votre synthèse :\n• ${picks.join('\n• ')}`);
+      say(profil === 'pro'
+        ? 'Prochaine étape : inscrivez-vous à l’accès anticipé en tant que prestataire, et découvrez l’espace pro avec la version prestataire de la démo.'
+        : 'Prochaine étape : inscrivez-vous à l’accès anticipé pour être prévenu à l’ouverture, et testez la démo avec votre projet.');
+      picks = [];
+      const d = choices();
+      const early = button('M’inscrire à l’accès anticipé');
+      early.addEventListener('click', () => {
+        toggle(false);
+        const f = document.getElementById('acces-anticipe');
+        if (smoother) smoother.scrollTo(f, true, 'top 86px');
+        else f.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+      });
+      const again = button('Refaire le point');
+      again.addEventListener('click', () => { d.remove(); audit(); });
+      d.append(early, again);
+      log.scrollTop = log.scrollHeight;
+    };
+    const audit = async () => {
+      picks = [];
+      const first = profil === 'pro' ? 'Quelle est votre activité ?' : 'Où en êtes-vous dans votre organisation ?';
+      show((await loadFaq()).find((x) => x.q === first));
+    };
     const ask = async (q) => {
       if (!q.trim()) return;
-      tips.hidden = true; tips.textContent = '';
       say(q.trim(), true);
-      const hit = answer(q, await loadFaq());
-      say(hit ? hit.a : 'Je n’ai pas la réponse à cette question. Un conseiller peut vous aider : touchez « Parler à un conseiller » juste en dessous.');
+      if (q === 'Faire le point') return audit();
+      const rows = await loadFaq();
+      const hit = rows.find((x) => x.q === q) || answer(q, rows);
+      if (hit) return show(hit);
+      say('Je n’ai pas la réponse à cette question. Un conseiller peut vous aider : touchez « Parler à un conseiller » juste en dessous.');
     };
-    say('Bonjour, je suis Candix. Une question sur Calandix ?');
-    ['Combien ça coûte ?', 'Comment payer ?', 'Quand sort l’application ?'].forEach((t) => {
-      const b = document.createElement('button');
-      b.type = 'button'; b.textContent = t;
-      b.addEventListener('click', () => ask(t));
-      tips.append(b);
+    // Accueil : le profil d'abord, pour des réponses et des suggestions adaptées.
+    const STARTS = {
+      org: ['Parfait. Je peux faire le point sur votre projet en quelques questions, ou répondre aux vôtres.', ['Faire le point', 'Quelle formule me convient le mieux ?', 'Mon acompte est-il protégé ?']],
+      pro: ['Bienvenue ! Voyons ce que Calandix peut apporter à votre activité.', ['Faire le point', "Combien coûte l'inscription pour un prestataire ?", 'Quand suis-je payé en tant que prestataire ?']],
+      all: ['Avec plaisir. Voici de quoi commencer :', ["Qu'est-ce que Calandix ?", "Pourquoi choisir Calandix plutôt qu'un groupe WhatsApp ou un cahier ?", 'Comment essayer la démo ?']],
+    };
+    say('Bonjour, je suis Candix. Pour bien vous répondre, dites-moi qui vous êtes :');
+    const who = choices();
+    [['Je prépare un événement', 'org'], ['Je suis prestataire', 'pro'], ['Je découvre Calandix', 'all']].forEach(([l, k]) => {
+      const b = button(l);
+      b.addEventListener('click', () => {
+        who.remove();
+        profil = k;
+        say(l, true);
+        say(STARTS[k][0]);
+        suggest(STARTS[k][1]);
+      });
+      who.append(b);
     });
     const hint = box.querySelector('.candix-hint');
     const toggle = (on) => {

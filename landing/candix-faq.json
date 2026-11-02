@@ -2,7 +2,11 @@
 {
 "c": "Découvrir Calandix",
 "q": "Qu'est-ce que Calandix ?",
-"a": "Calandix est une application pour organiser vos événements en Côte d'Ivoire : budget en FCFA, tâches, prestataires, invités et équipe, tout au même endroit.",
+"a": "Calandix est l'application ivoirienne pour organiser vos événements sans tableaux éparpillés ni appels interminables : budget en FCFA, prestataires vérifiés, invités, planning et équipe au même endroit, avec l'acompte protégé jusqu'à la prestation.",
+"f": [
+"Pourquoi choisir Calandix plutôt qu'un groupe WhatsApp ou un cahier ?",
+"Comment essayer la démo ?"
+],
 "k": [
 "calandix",
 "c est quoi",
@@ -84,12 +88,16 @@
 "c": "Découvrir Calandix",
 "q": "Comment essayer la démo ?",
 "a": "Touchez « Ouvrir la démo » dans la section Mon prochain event, puis « Découvrir la démo sans compte ». Les données y sont fictives et il n'y a rien à payer.",
+"ap": "Touchez « Version prestataire » dans la section Mon prochain event : vous découvrez l'espace pro avec des demandes, devis et commandes fictifs, sans rien payer.",
 "k": [
 "demo",
 "essayer",
 "tester",
 "test",
-"sans compte"
+"sans compte",
+"version prestataire",
+"voir l application",
+"apercu"
 ]
 },
 {
@@ -117,15 +125,435 @@
 ]
 },
 {
+"c": "Découvrir Calandix",
+"q": "Pourquoi choisir Calandix plutôt qu'un groupe WhatsApp ou un cahier ?",
+"a": "Le groupe et le cahier dispersent l'information. Calandix réunit budget en FCFA, prestataires vérifiés, invités et planning au même endroit, avec l'acompte protégé : vous savez à tout moment ce qui est payé, réservé et confirmé, et chacun dans l'équipe voit ce qu'il doit voir.",
+"k": [
+"pourquoi choisir",
+"pourquoi calandix",
+"difference",
+"groupe whatsapp",
+"cahier",
+"excel",
+"avantage",
+"mieux que",
+"interet",
+"a quoi bon"
+]
+},
+{
+"c": "Découvrir Calandix",
+"q": "Que gagne-t-on à rejoindre l'accès anticipé ?",
+"a": "Vous êtes prévenu dès l'ouverture et profitez des avantages de lancement, qui seront communiqués aux inscrits. Il suffit de laisser nom, e-mail, numéro WhatsApp et profil dans le formulaire en bas de page.",
+"k": [
+"avantages",
+"avantages de lancement",
+"promo",
+"offre de lancement",
+"reduction lancement",
+"pourquoi m inscrire",
+"que gagne",
+"gagne"
+]
+},
+{
+"c": "Faire le point",
+"p": "org",
+"t": "scale",
+"s": "Avancement",
+"q": "Où en êtes-vous dans votre organisation ?",
+"a": "Situez-vous de 1 (tout reste à faire) à 5 (presque prêt) : je vous dis par quoi commencer.",
+"o": [
+{
+"l": "1",
+"a": "Commencez par créer l'événement : type, date, ville, invités et budget. Calandix prépare aussitôt la checklist et la répartition du budget : vous avez une feuille de route dès le premier jour."
+},
+{
+"l": "2",
+"a": "Vous avez une idée et une date : fixez votre enveloppe, répartissez-la par poste, puis réservez en priorité le lieu, souvent la plus grosse part (28 % dans le simulateur)."
+},
+{
+"l": "3",
+"a": "Les grandes lignes sont posées : comparez les devis des postes restants et réservez avec l'acompte protégé pour bloquer les dates."
+},
+{
+"l": "4",
+"a": "Il reste les détails : relancez par WhatsApp les invités sans réponse, vérifiez le reste à payer de chaque poste et répartissez les dernières tâches entre co-organisateurs."
+},
+{
+"l": "5",
+"a": "Dernière ligne droite : passez la checklist des derniers jours, rangez contrats et reçus dans le coffre-fort, et validez chaque prestation après la fête pour que le prestataire soit payé."
+}
+],
+"n": "Quel type d'événement préparez-vous ?",
+"k": [
+"ou j en suis",
+"avancement",
+"par quoi commencer",
+"niveau",
+"progression",
+"commencer par quoi",
+"etape suivante",
+"faire le point",
+"diagnostic"
+]
+},
+{
+"c": "Faire le point",
+"p": "org",
+"t": "select",
+"s": "Événement",
+"q": "Quel type d'événement préparez-vous ?",
+"a": "Choisissez votre type d'événement : je vous donne les points d'attention propres à chacun.",
+"o": [
+{
+"l": "Mariage ou dot",
+"a": "Réservez tôt le lieu et le traiteur, les deux plus gros postes. Invitez témoins et famille comme co-organisateurs avec des rôles adaptés, et suivez les RSVP par WhatsApp : sur une grande liste, c'est là que vous gagnez le plus de temps."
+},
+{
+"l": "Anniversaire ou fête",
+"a": "Fixez d'abord le nombre d'invités et le budget par personne : ils décident du lieu et du traiteur. La marketplace couvre aussi DJ, pâtisserie et décoration, avec des devis comparables."
+},
+{
+"l": "Baptême ou baby shower",
+"a": "Souvent préparés à plusieurs dans la famille : partagez l'organisation avec des rôles (éditeur pour qui réserve, lecteur pour qui suit) et gardez une liste d'invités par groupe."
+},
+{
+"l": "Événement professionnel",
+"a": "Séminaire, lancement ou soirée d'entreprise : gardez devis et factures dans le coffre-fort, exportez le suivi des dépenses (formule Azur) pour la comptabilité et donnez un accès Lecteur à la direction."
+},
+{
+"l": "Événement associatif",
+"a": "Répartissez le travail entre bénévoles avec des rôles distincts et enregistrez chaque dépense avec son moyen de paiement : vous rendez des comptes au bureau sans effort."
+},
+{
+"l": "Autre célébration",
+"a": "Créez l'événement avec sa date et son budget : la checklist et le rétroplanning s'adaptent au type choisi, et vous ajoutez vos propres tâches."
+}
+],
+"n": "Combien d'invités attendez-vous ?",
+"k": [
+"je prepare",
+"j organise",
+"mon evenement",
+"conseils pour",
+"quel evenement",
+"preparer un mariage",
+"preparer",
+"preparez",
+"type d evenement preparez"
+]
+},
+{
+"c": "Faire le point",
+"p": "org",
+"t": "choice",
+"s": "Invités",
+"q": "Combien d'invités attendez-vous ?",
+"a": "Une fourchette suffit : elle oriente le budget par personne et les outils utiles.",
+"o": [
+{
+"l": "Moins de 50",
+"a": "Un petit comité : la formule gratuite Découverte couvre la liste d'invités, les RSVP et le budget. Soignez le coût par personne, c'est lui qui fait la différence."
+},
+{
+"l": "50 à 150",
+"a": "Le suivi des réponses devient précieux : relancez les invités en attente par WhatsApp et donnez au traiteur le total des personnes attendues, accompagnants compris."
+},
+{
+"l": "150 à 300",
+"a": "Sur une liste de cette taille, le QR code RSVP et les rappels WhatsApp et SMS (formule Azur) évitent les relances une à une. Classez vos invités par groupe pour placer les tables."
+},
+{
+"l": "Plus de 300",
+"a": "Pour un grand événement, partagez le suivi des invités entre plusieurs co-organisateurs (collaborateurs illimités avec Signature) et appuyez-vous sur le QR code RSVP pour connaître les présences exactes."
+}
+],
+"n": "Quel est votre budget global ?",
+"k": [
+"combien d invites",
+"nombre d invites",
+"taille",
+"grand evenement",
+"petit comite"
+]
+},
+{
+"c": "Faire le point",
+"p": "org",
+"t": "select",
+"s": "Budget",
+"q": "Quel est votre budget global ?",
+"a": "Choisissez une fourchette : je vous donne la répartition indicative du simulateur sur un exemple.",
+"o": [
+{
+"l": "Moins de 1 million FCFA",
+"a": "Pour 800 000 FCFA, le simulateur prévoit : lieu 224 000, traiteur 192 000, décoration 112 000, musique et DJ 96 000, photo et vidéo 96 000, tenues et beauté 80 000 FCFA. Une estimation à ajuster selon vos priorités."
+},
+{
+"l": "1 à 3 millions FCFA",
+"a": "Pour 2 000 000 FCFA : lieu 560 000, traiteur 480 000, décoration 280 000, musique et DJ 240 000, photo et vidéo 240 000, tenues et beauté 200 000 FCFA. Une estimation à ajuster selon vos priorités."
+},
+{
+"l": "3 à 7 millions FCFA",
+"a": "Pour 5 000 000 FCFA : lieu 1 400 000, traiteur 1 200 000, décoration 700 000, musique et DJ 600 000, photo et vidéo 600 000, tenues et beauté 500 000 FCFA. Une estimation à ajuster selon vos priorités."
+},
+{
+"l": "Plus de 7 millions FCFA",
+"a": "Pour 10 000 000 FCFA : lieu 2 800 000, traiteur 2 400 000, décoration 1 400 000, musique et DJ 1 200 000, photo et vidéo 1 200 000, tenues et beauté 1 000 000 FCFA. À ce niveau, la négociation de devis par l'IA (Signature) peut peser."
+}
+],
+"n": "Quand a lieu votre événement ?",
+"k": [
+"mon budget",
+"budget global",
+"quel budget",
+"j ai",
+"millions",
+"enveloppe totale",
+"fourchette"
+]
+},
+{
+"c": "Faire le point",
+"p": "org",
+"t": "choice",
+"s": "Date",
+"q": "Quand a lieu votre événement ?",
+"a": "Le délai change les priorités. Votre événement a lieu…",
+"o": [
+{
+"l": "Dans moins d'un mois",
+"a": "Priorité aux réservations : filtrez la marketplace par disponibilité et réservez vite. Attention, à moins de 30 jours, l'acompte n'est en principe plus remboursable en cas d'annulation : lisez les conditions du devis."
+},
+{
+"l": "Dans 1 à 3 mois",
+"a": "Le bon moment pour comparer les devis et bloquer lieu, traiteur et DJ. Envoyez les invitations pour connaître tôt le nombre de couverts."
+},
+{
+"l": "Dans 3 à 6 mois",
+"a": "Vous avez le temps de comparer sereinement : réservez d'abord le lieu, puis suivez le rétroplanning pour étaler les dépenses."
+},
+{
+"l": "Dans plus de 6 mois",
+"a": "Posez l'enveloppe globale et la répartition dès maintenant, réservez le lieu si la date est prisée, et laissez la checklist vous rappeler les étapes au bon moment."
+}
+],
+"n": "Qu'est-ce qui vous préoccupe le plus ?",
+"k": [
+"quand a lieu",
+"date de l evenement",
+"dans combien de temps",
+"delai",
+"mois avant"
+]
+},
+{
+"c": "Faire le point",
+"p": "org",
+"t": "multi",
+"s": "Points d'attention",
+"q": "Qu'est-ce qui vous préoccupe le plus ?",
+"a": "Cochez ce qui vous inquiète, puis validez : je vous montre comment Calandix y répond.",
+"o": [
+{
+"l": "Dépasser le budget",
+"a": "Budget : l'engagé et le payé se mettent à jour à chaque réservation et chaque paiement, et le reste disponible est toujours visible."
+},
+{
+"l": "Tomber sur un mauvais prestataire",
+"a": "Prestataires : profils vérifiés (RCCM, pièce d'identité, adresse), avis laissés seulement par des clients ayant réservé, et acompte conservé jusqu'à la prestation."
+},
+{
+"l": "Les invités qui ne répondent pas",
+"a": "Invités : réponses présent, absent ou en attente, et relances WhatsApp des invités sans réponse en un geste."
+},
+{
+"l": "Oublier une étape",
+"a": "Planning : checklist et rétroplanning préparés selon le type d'événement, tâches classées par échéance."
+},
+{
+"l": "Coordonner la famille",
+"a": "Équipe : co-organisateurs avec des rôles (admin, éditeur, lecteur) : chacun voit ce qu'il doit voir, rien de plus."
+}
+],
+"n": "Quelle formule me convient le mieux ?",
+"k": [
+"inquiete",
+"peur",
+"preoccupe",
+"crainte",
+"difficulte",
+"stress",
+"souci",
+"inquietude"
+]
+},
+{
+"c": "Faire le point",
+"p": "org",
+"t": "choice",
+"s": "Formule conseillée",
+"q": "Quelle formule me convient le mieux ?",
+"a": "Une question suffit pour vous orienter : combien de personnes préparent l'événement avec vous ?",
+"o": [
+{
+"l": "Seul ou à deux",
+"a": "Découverte, gratuite, suffit pour démarrer : événements illimités, budget, checklist, marketplace et 2 collaborateurs. Passez à Azur si vous voulez le budget créé par l'IA, les rappels WhatsApp et SMS ou le QR code RSVP.",
+"r": "Découverte"
+},
+{
+"l": "Trois à cinq",
+"a": "Azur : 2 900 FCFA par mois, ou 2 175 FCFA en annuel. Jusqu'à 5 collaborateurs, budget créé par l'IA, graphiques et export, rappels WhatsApp et SMS, QR code RSVP.",
+"r": "Azur"
+},
+{
+"l": "Un comité complet",
+"a": "Signature, la plus choisie : 4 900 FCFA par mois, ou 3 675 FCFA en annuel. Collaborateurs illimités, agent IA de votre événement, négociation de devis par l'IA et coffre-fort de 5 Go.",
+"r": "Signature"
+},
+{
+"l": "Je veux être accompagné",
+"a": "Privilège : 9 900 FCFA par mois, ou 7 425 FCFA en annuel. Tout Signature, plus le concierge IA prioritaire, 50 Go de coffre-fort avec album privé et le support 7 j/7 sur WhatsApp.",
+"r": "Privilège"
+}
+],
+"k": [
+"quelle formule",
+"choisir une formule",
+"me convient",
+"laquelle choisir",
+"adaptee",
+"recommandation",
+"conseille"
+]
+},
+{
+"c": "Faire le point",
+"p": "pro",
+"t": "select",
+"s": "Activité",
+"q": "Quelle est votre activité ?",
+"a": "Choisissez votre métier : je vous dis comment tirer parti de votre espace pro.",
+"o": [
+{
+"l": "Traiteur",
+"a": "Proposez des forfaits par personne avec un prix de départ (par exemple « dès 13 500 FCFA / pers. ») et précisez options et zone de livraison : les organisateurs comparent plus facilement."
+},
+{
+"l": "Décoration",
+"a": "Montrez vos réalisations par type d'événement et déclinez vos forfaits en options (arche, centres de table, ballons) : le devis détaillé reprend ces lignes."
+},
+{
+"l": "Musique et DJ",
+"a": "Tenez vos disponibilités à jour : les week-ends partent vite, et une date réservée se bloque automatiquement."
+},
+{
+"l": "Photo et vidéo",
+"a": "Votre portfolio fait la décision : soignez les photos de votre fiche et indiquez clairement ce qui est livré dans chaque forfait."
+},
+{
+"l": "Lieu ou salle",
+"a": "Indiquez capacité et prix de départ, et gardez le calendrier à jour : les organisateurs filtrent par disponibilité, et la réservation bloque la date."
+},
+{
+"l": "Beauté, tenues ou transport",
+"a": "Mettez en avant des forfaits simples et votre zone d'intervention : ce sont les premiers critères des organisateurs."
+},
+{
+"l": "Agence événementielle",
+"a": "Gérez toutes vos prestations en parallèle : demandes qualifiées, devis détaillés avec acompte, commandes avec échéances et suivi des reversements, dans une seule app."
+}
+],
+"n": "Quel est votre principal objectif sur Calandix ?",
+"k": [
+"mon activite",
+"mon metier",
+"je suis traiteur",
+"je suis dj",
+"je suis photographe",
+"je suis decorateur",
+"je fais",
+"secteur"
+]
+},
+{
+"c": "Faire le point",
+"p": "pro",
+"t": "choice",
+"s": "Objectif",
+"q": "Quel est votre principal objectif sur Calandix ?",
+"a": "Qu'attendez-vous d'abord de Calandix ?",
+"o": [
+{
+"l": "Trouver plus de clients",
+"a": "Une fiche vérifiée sur la marketplace, avec catalogue, forfaits et zone d'intervention, vous rend visible des organisateurs qui cherchent votre catégorie. L'offre Creator ajoute plus de visibilité."
+},
+{
+"l": "Être payé sans relancer",
+"a": "L'organisateur paie l'acompte dans l'application pour réserver. Après la prestation validée, le montant est reversé sous 2 jours ouvrés sur Wave ou Orange Money, commission de 8 % déduite."
+},
+{
+"l": "Mieux m'organiser",
+"a": "Disponibilités pour éviter les doubles réservations, devis détaillés en un écran, commandes avec échéances et préparation du jour J."
+},
+{
+"l": "Soigner ma réputation",
+"a": "Seuls les organisateurs ayant réservé peuvent laisser un avis : votre note reflète de vrais clients, et vous pouvez répondre publiquement."
+}
+],
+"n": "Combien de demandes recevez-vous par mois ?",
+"k": [
+"objectif",
+"developper",
+"plus de clients",
+"croissance",
+"attendre de calandix",
+"but"
+]
+},
+{
+"c": "Faire le point",
+"p": "pro",
+"t": "choice",
+"s": "Volume",
+"q": "Combien de demandes recevez-vous par mois ?",
+"a": "À peu près, combien de demandes de prestation traitez-vous chaque mois ?",
+"o": [
+{
+"l": "Moins de 5",
+"a": "Commencez gratuitement : fiche, devis et reversements sont inclus, vous ne payez que la commission de 8 % sur les prestations payées via l'application."
+},
+{
+"l": "5 à 20",
+"a": "Le gratuit couvre l'essentiel. Si vous voulez plus de visibilité et le Studio Creator, l'offre Creator démarre à 29 900 FCFA par mois, sans engagement."
+},
+{
+"l": "Plus de 20",
+"a": "À ce volume, l'offre Creator (dès 29 900 FCFA par mois, sans engagement) prend tout son sens : Studio Creator, plus de visibilité, et devis, commandes et revenus centralisés."
+}
+],
+"k": [
+"demandes par mois",
+"volume",
+"clients par mois",
+"combien de clients",
+"nombre de demandes"
+]
+},
+{
 "c": "Compte",
-"q": "Comment créer un compte ?",
+"q": "Comment ouvrir mon compte ?",
 "a": "Touchez « Commencez gratuitement », choisissez Organisateur ou Creator, puis renseignez votre adresse e-mail et un mot de passe. La connexion par téléphone arrive bientôt.",
+"ap": "Touchez « Je suis prestataire » ou « Créer mon espace pro », choisissez Creator, puis renseignez votre e-mail et un mot de passe. Complétez ensuite profil, catalogue et justificatifs : votre fiche est publiée après vérification.",
 "k": [
 "creer un compte",
 "inscription",
 "inscrire",
 "ouvrir un compte",
-"s enregistrer"
+"s enregistrer",
+"ouvrir mon compte",
+"creer mon compte"
 ]
 },
 {
@@ -199,6 +627,10 @@
 "c": "Organiser un événement",
 "q": "Comment créer un événement ?",
 "a": "Touchez « Créer un événement » sur l'accueil, choisissez la catégorie et le type, puis indiquez la date, la ville, le nombre d'invités et le budget. Calandix prépare la checklist et la répartition du budget.",
+"f": [
+"Comment répartir mon budget entre les postes ?",
+"Comment répartir les tâches dans le comité d'organisation ?"
+],
 "k": [
 "creer un evenement",
 "nouvel evenement",
@@ -281,15 +713,50 @@
 ]
 },
 {
+"c": "Organiser un événement",
+"q": "Comment répartir les tâches dans le comité d'organisation ?",
+"a": "Invitez chaque membre comme co-organisateur, puis répartissez les responsabilités : chacun sait ce qu'il doit faire, et quand. Le rôle choisi (admin, éditeur, lecteur) limite ce qu'il peut modifier, paiements compris.",
+"k": [
+"comite",
+"repartir les taches",
+"deleguer",
+"responsabilites",
+"qui fait quoi",
+"partager le travail"
+]
+},
+{
+"c": "Organiser un événement",
+"q": "Calandix convient-il à un événement de dernière minute ?",
+"a": "Oui : la checklist s'adapte à la date, les tâches en retard et celles du jour passent en tête, et la marketplace se filtre par disponibilité pour trouver vite un prestataire libre.",
+"k": [
+"derniere minute",
+"urgent",
+"vite",
+"rapidement",
+"dans une semaine",
+"peu de temps",
+"presse"
+]
+},
+{
 "c": "Budget",
-"q": "Comment fonctionne le budget ?",
-"a": "Vous fixez un budget cible, le répartissez par poste et notez chaque paiement. Chaque réservation met à jour l'engagé et chaque paiement le payé.",
+"q": "Comment Calandix m'aide-t-il à tenir mon budget ?",
+"a": "Vous fixez votre enveloppe globale, la répartissez par poste (lieu, traiteur, décoration…) et enregistrez chaque paiement, en espèces, par virement ou par Mobile Money. Chaque réservation met à jour l'engagé, chaque paiement le payé : vous voyez d'un coup d'œil ce qui est réglé, ce qui reste à payer et où vous en êtes par rapport à votre objectif.",
+"f": [
+"Comment voir ce que je dois encore payer ?",
+"Que se passe-t-il si je dépasse mon budget ?"
+],
 "k": [
 "budget",
 "fonctionne",
 "depenses",
 "gerer mon budget",
-"enveloppe"
+"enveloppe",
+"tenir mon budget",
+"controler",
+"suivre mes depenses",
+"maitriser"
 ]
 },
 {
@@ -369,15 +836,87 @@
 ]
 },
 {
+"c": "Budget",
+"q": "Comment répartir mon budget entre les postes ?",
+"a": "Le simulateur part d'une répartition type : lieu 28 %, traiteur 24 %, décoration 14 %, musique et DJ 12 %, photo et vidéo 12 %, tenues et beauté 10 %. Adaptez-la à vos priorités : si le repas compte plus que la décoration, déplacez quelques points de l'une vers l'autre.",
+"k": [
+"repartir",
+"pourcentage",
+"postes",
+"part du budget",
+"combien pour le lieu",
+"combien pour le traiteur",
+"allouer"
+]
+},
+{
+"c": "Budget",
+"q": "Combien prévoir par invité ?",
+"a": "Divisez votre budget par le nombre d'invités : 3 500 000 FCFA pour 150 invités font environ 23 333 FCFA par personne. Le simulateur fait le calcul et le met à jour dès que vous changez l'un des deux chiffres.",
+"k": [
+"par personne",
+"cout par invite",
+"combien par tete",
+"par tete",
+"par convive",
+"prevoir par invite"
+]
+},
+{
+"c": "Budget",
+"q": "Puis-je noter un paiement en espèces ou par virement ?",
+"a": "Oui. Chaque paiement s'enregistre avec son moyen : espèces, virement ou Mobile Money. Pratique pour les dépenses qui ne passent pas par la marketplace, comme la couturière de la famille ou les achats au marché.",
+"k": [
+"especes",
+"virement",
+"cash",
+"liquide",
+"hors marketplace",
+"paiement manuel"
+]
+},
+{
+"c": "Budget",
+"q": "Comment voir ce que je dois encore payer ?",
+"a": "Le reste à payer de chaque poste est l'engagé moins le payé, et le total apparaît dans le suivi du budget : vous savez à tout moment qui attend encore un règlement.",
+"k": [
+"combien je dois",
+"solde",
+"encore a payer",
+"montant du",
+"dettes",
+"ce que je dois"
+]
+},
+{
+"c": "Budget",
+"q": "Les graphiques du budget sont-ils inclus ?",
+"a": "Le suivi du budget est gratuit. Les graphiques et l'export détaillé font partie de la formule Azur et des formules supérieures.",
+"k": [
+"graphique",
+"graphiques",
+"camembert",
+"statistiques",
+"tableau de bord",
+"visualiser"
+]
+},
+{
 "c": "Invités et équipe",
-"q": "Comment gérer ma liste d'invités ?",
-"a": "Dans votre événement, section Invités & RSVP, touchez « Voir la liste » : ajoutez des invités avec leur numéro, leur groupe et leur réponse, puis filtrez ou recherchez.",
+"q": "Comment constituer et gérer ma liste d'invités ?",
+"a": "Dans votre événement, section Invités & RSVP, touchez « Voir la liste » : ajoutez chaque invité avec son numéro, son groupe (famille, amis, collègues…) et sa réponse, puis filtrez ou recherchez. Le nombre de personnes attendues se calcule tout seul.",
+"f": [
+"Comment envoyer les invitations ?",
+"Comment relancer les invités qui n'ont pas répondu ?"
+],
 "k": [
 "liste d invites",
 "invites",
 "invite",
 "ajouter un invite",
-"gerer mes invites"
+"gerer mes invites",
+"constituer",
+"faire ma liste"
 ]
 },
 {
@@ -402,8 +941,7 @@
 "accompagnants",
 "conjoint",
 "enfants",
-"nombre de personnes",
-"couverts"
+"nombre de personnes"
 ]
 },
 {
@@ -458,9 +996,79 @@
 ]
 },
 {
+"c": "Invités et équipe",
+"q": "Comment envoyer les invitations ?",
+"a": "Partagez votre invitation par WhatsApp : les réponses remontent dans votre liste et le nombre de confirmés se met à jour, sans tenir de comptes à la main.",
+"k": [
+"envoyer invitation",
+"envoyer les invitations",
+"partager l invitation",
+"faire part",
+"carte d invitation",
+"diffuser"
+]
+},
+{
+"c": "Invités et équipe",
+"q": "Comment relancer les invités qui n'ont pas répondu ?",
+"a": "Filtrez la liste sur « en attente » puis relancez par WhatsApp en un geste. Les rappels WhatsApp et SMS sont inclus à partir de la formule Azur.",
+"k": [
+"relancer",
+"relance",
+"pas repondu",
+"sans reponse",
+"rappeler les invites",
+"en attente"
+]
+},
+{
+"c": "Invités et équipe",
+"q": "Comment prévoir le nombre de couverts ?",
+"a": "Le total des personnes attendues additionne les confirmés et leurs accompagnants : c'est le chiffre à donner au traiteur et au loueur pour les places assises et les boissons. Moins de gaspillage, plus d'élégance dans l'accueil.",
+"k": [
+"couverts",
+"places assises",
+"boissons",
+"combien de plats",
+"nombre de repas",
+"quantite"
+]
+},
+{
+"c": "Invités et équipe",
+"q": "Puis-je classer mes invités par groupe ?",
+"a": "Oui : famille, amis, collègues, voisins… Chaque invité a un groupe, et la liste se filtre par groupe ou par réponse, pratique pour préparer le plan de table.",
+"k": [
+"groupe",
+"groupes",
+"collegues",
+"classer",
+"trier",
+"plan de table",
+"tables"
+]
+},
+{
+"c": "Invités et équipe",
+"q": "Comment impliquer la famille sans tout lui ouvrir ?",
+"a": "Donnez à chacun le rôle adapté : Lecteur pour consulter seulement, Éditeur pour gérer budget, tâches, prestataires et invités sans toucher aux paiements, Admin pour tous les droits. Tantie, témoins et co-organisateurs voient ce qu'ils doivent voir, rien de plus.",
+"k": [
+"impliquer",
+"famille",
+"sans tout montrer",
+"acces limite",
+"confidentiel",
+"cacher les paiements"
+]
+},
+{
 "c": "Prestataires",
-"q": "Comment trouver un prestataire ?",
-"a": "Dans l'onglet Explorer, cherchez dès trois lettres ou filtrez par catégorie, zone, disponibilité et profil vérifié.",
+"q": "Comment trouver le bon prestataire ?",
+"a": "Dans l'onglet Explorer, cherchez dès trois lettres ou filtrez par catégorie, zone, disponibilité et profil vérifié. Comparez ensuite les fiches : forfaits, prix de départ, avis vérifiés et zone d'intervention.",
+"f": [
+"Comment demander et comparer des devis ?",
+"Les prestataires sont-ils vérifiés ?"
+],
 "k": [
 "trouver",
 "chercher",
@@ -513,7 +1121,11 @@
 {
 "c": "Prestataires",
 "q": "Comment réserver un prestataire ?",
-"a": "Acceptez un devis puis payez l'acompte : la réservation est confirmée et la date bloquée.",
+"a": "Acceptez le devis qui vous convient puis payez l'acompte par Mobile Money ou carte : la réservation est confirmée, la date est bloquée et le montant apparaît dans l'engagé de votre budget.",
+"f": [
+"Combien d'acompte faut-il verser ?",
+"Puis-je annuler ma réservation ?"
+],
 "k": [
 "reserver",
 "reservation",
@@ -546,9 +1158,91 @@
 ]
 },
 {
+"c": "Prestataires",
+"q": "Quels prestataires trouve-t-on sur Calandix ?",
+"a": "Traiteurs, décorateurs, DJ, photographes et vidéastes, lieux et salles de réception, pâtisserie, beauté, tenues, transport, et aussi la location de chaises et de bâches.",
+"k": [
+"quels prestataires",
+"categories de prestataires",
+"chaises",
+"baches",
+"location",
+"patisserie",
+"voiture",
+"maquillage",
+"salle de reception"
+]
+},
+{
+"c": "Prestataires",
+"q": "Comment départager deux devis ?",
+"a": "Comparez à périmètre égal : options incluses, durée de validité, montant de l'acompte et avis vérifiés. Le comparateur classe les devis par prix ; posez vos questions au prestataire avant d'accepter.",
+"k": [
+"choisir entre",
+"deux devis",
+"meilleur devis",
+"lequel choisir",
+"hesite",
+"departager"
+]
+},
+{
+"c": "Prestataires",
+"q": "Puis-je négocier un devis ?",
+"a": "Vous pouvez échanger avec le prestataire avant d'accepter. Avec la formule Signature, l'IA vous aide en plus à négocier vos devis.",
+"k": [
+"negocier",
+"baisser le prix",
+"remise",
+"discuter le prix",
+"trop cher"
+]
+},
+{
+"c": "Prestataires",
+"q": "Combien d'acompte faut-il verser ?",
+"a": "Le montant de l'acompte est fixé dans le devis du prestataire : vous le voyez avant d'accepter. Il est conservé jusqu'à la prestation, puis reversé au prestataire.",
+"k": [
+"combien d acompte",
+"pourcentage acompte",
+"avance",
+"montant acompte",
+"verser"
+]
+},
+{
+"c": "Prestataires",
+"q": "Puis-je poser des questions à un prestataire avant de réserver ?",
+"a": "Oui, depuis sa fiche ou sa demande de devis, avant d'accepter quoi que ce soit : posez vos questions sur les options, les horaires ou la logistique.",
+"k": [
+"contacter",
+"poser une question",
+"discuter",
+"message",
+"ecrire au prestataire",
+"joindre"
+]
+},
+{
+"c": "Prestataires",
+"q": "Que se passe-t-il après la fête ?",
+"a": "Vous validez la prestation dans l'application : le prestataire est payé et vous gardez contrats, factures et photos dans le coffre-fort. Vous pouvez ensuite laisser un avis.",
+"k": [
+"apres la fete",
+"apres l evenement",
+"valider la prestation",
+"terminer",
+"une fois fini"
+]
+},
+{
 "c": "Paiements et sécurité",
 "q": "Quels moyens de paiement sont acceptés ?",
-"a": "Orange Money, MTN MoMo, Wave, Moov Money et la carte bancaire.",
+"a": "Orange Money, MTN MoMo, Wave, Moov Money et la carte bancaire : vous payez comme vous payez déjà. Les éventuels frais sont affichés avant de valider.",
+"f": [
+"Mon acompte est-il protégé ?",
+"Y a-t-il des frais sur les paiements ?"
+],
 "k": [
 "moyen de paiement",
 "moyens de paiement",
@@ -566,8 +1260,12 @@
 },
 {
 "c": "Paiements et sécurité",
-"q": "Mon argent est-il en sécurité ?",
+"q": "Mon acompte est-il protégé ?",
 "a": "L'acompte est conservé jusqu'à la validation de la prestation, puis reversé au prestataire. En cas de litige, les fonds restent bloqués le temps de l'examen.",
+"f": [
+"Que faire en cas de litige ?",
+"Pourquoi payer l'acompte dans l'application ?"
+],
 "k": [
 "securite",
 "securise",
@@ -575,7 +1273,10 @@
 "argent",
 "acompte",
 "garantie",
-"confiance"
+"confiance",
+"protege",
+"proteger",
+"en securite"
 ]
 },
 {
@@ -603,6 +1304,7 @@
 },
 {
 "c": "Paiements et sécurité",
+"p": "org",
 "q": "Puis-je annuler ma réservation ?",
 "a": "Les conditions sont celles du devis. À défaut, l'annulation est gratuite jusqu'à 30 jours avant la prestation ; ensuite, l'acompte est conservé.",
 "k": [
@@ -658,9 +1360,37 @@
 ]
 },
 {
+"c": "Paiements et sécurité",
+"q": "Pourquoi payer l'acompte dans l'application ?",
+"a": "Parce qu'il reste protégé : il n'est reversé au prestataire qu'après la prestation. Payé de la main à la main, vous perdez cette garantie et le recours en cas de litige.",
+"k": [
+"pourquoi payer dans l application",
+"pourquoi passer par",
+"garantie acompte",
+"interet de payer"
+]
+},
+{
+"c": "Paiements et sécurité",
+"q": "Combien de temps ai-je pour signaler un problème ?",
+"a": "48 heures après la date prévue de la prestation. Pendant l'examen, les fonds restent bloqués et l'équipe Calandix étudie les éléments des deux parties.",
+"k": [
+"delai",
+"signaler",
+"combien de temps pour reclamer",
+"48",
+"trop tard"
+]
+},
+{
 "c": "Formules",
 "q": "Combien coûte Calandix ?",
 "a": "L'inscription est gratuite avec la formule Découverte. Puis Azur à 2 900 FCFA, Signature à 4 900 FCFA et Privilège à 9 900 FCFA par mois, ou 25 % de moins en formule annuelle. Ces tarifs de démonstration peuvent évoluer avant le lancement.",
+"ap": "Pour un prestataire, l'inscription et la fiche sont gratuites : Calandix prélève seulement une commission de 8 % sur chaque prestation payée via l'application. L'offre Creator, dès 29 900 FCFA par mois sans engagement, ajoute le Studio Creator et plus de visibilité.",
+"f": [
+"Quelle formule me convient le mieux ?",
+"Quelle est la différence entre le mensuel et l'annuel ?"
+],
 "k": [
 "combien",
 "coute",
@@ -722,14 +1452,15 @@
 {
 "c": "Formules",
 "q": "Puis-je résilier mon abonnement ?",
-"a": "Oui, les formules sont mensuelles, sans engagement et résiliables à tout moment depuis l'application. Le mois entamé reste dû et l'accès continue jusqu'à la fin de la période payée.",
+"a": "Oui. Au mois, la formule est sans engagement et résiliable à tout moment depuis l'application : le mois entamé reste dû et l'accès continue jusqu'à la fin de la période payée. La formule annuelle est réglée en une fois pour 12 mois.",
 "k": [
 "resilier",
 "resiliation",
 "sans engagement",
 "arreter",
 "desabonner",
-"engagement"
+"engagement",
+"arreter mon abonnement"
 ]
 },
 {
@@ -746,9 +1477,55 @@
 ]
 },
 {
+"c": "Formules",
+"q": "Quelle est la différence entre le mensuel et l'annuel ?",
+"a": "Au mois, vous payez chaque mois, sans engagement. À l'année, vous réglez 12 mois en une fois avec 25 % de réduction : Azur revient à 26 100 FCFA par an au lieu de 34 800, Signature à 44 100 au lieu de 58 800, Privilège à 89 100 au lieu de 118 800.",
+"k": [
+"annuel",
+"annee",
+"mensuel",
+"par an",
+"abonnement annuel",
+"formule annuelle"
+]
+},
+{
+"c": "Formules",
+"q": "Combien économise-t-on avec l'annuel ?",
+"a": "L'équivalent de trois mois sur douze, soit 25 % : 8 700 FCFA par an sur Azur, 14 700 FCFA sur Signature et 29 700 FCFA sur Privilège.",
+"k": [
+"economiser",
+"economie",
+"combien je gagne",
+"avantage annuel",
+"reduction annuelle",
+"25",
+"economise"
+]
+},
+{
+"c": "Formules",
+"q": "La formule gratuite suffit-elle ?",
+"a": "Pour beaucoup d'événements, oui : événements illimités, budget, checklist, marketplace, réservations et 2 collaborateurs. L'abonnement ajoute l'IA, les rappels WhatsApp et SMS, le QR code RSVP, plus de collaborateurs et plus d'espace.",
+"k": [
+"rester gratuit",
+"sans payer",
+"gratuit suffit",
+"limites",
+"pas besoin de payer",
+"suffit",
+"gratuite suffit"
+]
+},
+{
 "c": "Prestataires et agences",
+"p": "pro",
 "q": "Combien coûte l'inscription pour un prestataire ?",
 "a": "L'inscription est gratuite. Calandix prélève une commission sur chaque prestation payée via l'application.",
+"f": [
+"Quelle est la commission de Calandix ?",
+"Comment créer mon espace pro ?"
+],
 "k": [
 "inscription pour un prestataire",
 "pour un prestataire",
@@ -766,6 +1543,7 @@
 },
 {
 "c": "Prestataires et agences",
+"p": "pro",
 "q": "Quelle est la commission de Calandix ?",
 "a": "Actuellement 8 % sur chaque prestation payée via l'application. Elle est affichée dans votre espace.",
 "k": [
@@ -777,6 +1555,7 @@
 },
 {
 "c": "Prestataires et agences",
+"p": "pro",
 "q": "Quand suis-je payé en tant que prestataire ?",
 "a": "Après validation de la prestation par l'organisateur, le montant est reversé, commission déduite, sous 2 jours ouvrés, sur votre compte Wave ou Orange Money.",
 "k": [
@@ -791,6 +1570,7 @@
 },
 {
 "c": "Prestataires et agences",
+"p": "pro",
 "q": "Quels documents faut-il pour être vérifié ?",
 "a": "Le RCCM, une pièce d'identité et une adresse. Votre fiche est publiée après vérification.",
 "k": [
@@ -804,8 +1584,13 @@
 },
 {
 "c": "Prestataires et agences",
+"p": "pro",
 "q": "Que propose l'espace pro ?",
-"a": "Profil et catalogue, disponibilités, devis et demandes, commandes, revenus et réputation, réunis dans un même espace.",
+"a": "Six outils réunis : profil et catalogue (forfaits, options, zone d'intervention), disponibilités sans doubles réservations, devis et demandes en un écran, commandes jusqu'au jour J, revenus avec reversements Wave ou Orange Money, et réputation avec avis vérifiés.",
+"f": [
+"Comment envoyer un devis détaillé ?",
+"Puis-je signer mes devis et factures ?"
+],
 "k": [
 "espace pro",
 "catalogue",
@@ -818,6 +1603,7 @@
 },
 {
 "c": "Prestataires et agences",
+"p": "pro",
 "q": "Qu'est-ce que l'offre Creator ?",
 "a": "Une offre mensuelle pour les pros, à partir de 29 900 FCFA par mois, sans engagement, qui donne accès au Studio Creator et à plus de visibilité.",
 "k": [
@@ -828,6 +1614,182 @@
 "business",
 "crm",
 "abonnement pro"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Comment créer mon espace pro ?",
+"a": "Touchez « Créer mon espace pro », créez votre compte en choisissant Creator, puis complétez profil, catalogue et zone d'intervention et envoyez vos justificatifs (RCCM, pièce d'identité, adresse). Votre fiche est publiée après vérification.",
+"k": [
+"creer mon espace pro",
+"devenir creator",
+"ouvrir mon espace",
+"inscrire mon entreprise",
+"referencer",
+"etre reference"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Comment présenter un catalogue qui convainc ?",
+"a": "Des forfaits clairs avec leur prix de départ, des options, votre zone d'intervention et vos meilleures photos. Les organisateurs comparent des devis : plus votre offre est lisible, plus la décision se prend vite.",
+"k": [
+"catalogue",
+"forfait",
+"forfaits",
+"presenter mon offre",
+"portfolio",
+"vitrine"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Comment envoyer un devis détaillé ?",
+"a": "Depuis une demande reçue, composez votre devis ligne par ligne, puis indiquez sa durée de validité et le pourcentage d'acompte. Tout tient en un écran, et le devis vous engage pendant sa validité.",
+"k": [
+"envoyer un devis",
+"faire un devis",
+"rediger un devis",
+"repondre a une demande",
+"lignes",
+"proposition"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Puis-je signer mes devis et factures ?",
+"a": "Oui. Tracez votre signature une fois dans votre espace pro, rubrique Ma signature : elle s'ajoute automatiquement à vos devis et factures. Une pièce déjà émise garde sa signature d'origine.",
+"k": [
+"signer",
+"signature electronique",
+"e signature",
+"tampon",
+"cachet",
+"signer mes devis"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Comment éviter les doubles réservations ?",
+"a": "Tenez votre calendrier de disponibilités à jour : une date réservée se bloque, et les organisateurs filtrent la marketplace par disponibilité.",
+"k": [
+"double reservation",
+"doubles reservations",
+"meme date",
+"calendrier",
+"bloquer une date",
+"planning prestataire"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Comment suivre mes commandes jusqu'au jour J ?",
+"a": "Chaque prestation confirmée devient une commande, avec ses échéances et sa préparation. Sur grand écran, vos demandes s'affichent en colonnes, étape par étape.",
+"k": [
+"suivre mes commandes",
+"suivi des commandes",
+"jour j",
+"preparation",
+"kanban",
+"colonnes"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Combien vais-je toucher sur une prestation ?",
+"a": "Le montant payé par l'organisateur, moins la commission de 8 %. Exemple : pour 500 000 FCFA, 40 000 FCFA de commission et 460 000 FCFA reversés sous 2 jours ouvrés sur Wave ou Orange Money.",
+"k": [
+"combien je touche",
+"net",
+"montant reverse",
+"calcul commission",
+"gagner",
+"toucher"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Comment répondre aux avis clients ?",
+"a": "Les avis sont vérifiés : seuls les organisateurs ayant réservé peuvent en laisser. Vous y répondez publiquement depuis la rubrique Réputation de votre espace.",
+"k": [
+"repondre aux avis",
+"avis negatif",
+"mauvais avis",
+"reputation",
+"critique"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Et si un client annule sa réservation ?",
+"a": "Les conditions de votre devis s'appliquent. À défaut, l'annulation est gratuite pour le client jusqu'à 30 jours avant la prestation ; au-delà, l'acompte est conservé.",
+"k": [
+"client annule",
+"organisateur annule",
+"annulation client",
+"desistement",
+"annulation",
+"annule"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Sur quel compte suis-je payé ?",
+"a": "Les reversements se font sur votre compte Wave ou Orange Money, sous 2 jours ouvrés après la prestation validée.",
+"k": [
+"sur quel compte",
+"compte bancaire",
+"banque",
+"recevoir mon argent",
+"wave ou orange"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Calandix convient-il aux agences événementielles ?",
+"a": "Oui, l'espace pro est pensé pour elles : demandes qualifiées, devis détaillés, commandes et revenus de toutes vos prestations, dans une seule app.",
+"k": [
+"agence",
+"agence evenementielle",
+"wedding planner",
+"event planner",
+"plusieurs prestations"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Que m'apporte la commission ?",
+"a": "Des clients qui arrivent avec une demande précise, un acompte encaissé et sécurisé avant la prestation, et un reversement sous 2 jours ouvrés : vous ne courez plus après les acomptes.",
+"k": [
+"pourquoi commission",
+"ca vaut le coup",
+"rentable",
+"interet pour moi",
+"apporte"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "L'offre Creator est-elle obligatoire ?",
+"a": "Non : l'inscription et la fiche sont gratuites, seule la commission s'applique. L'offre Creator, dès 29 900 FCFA par mois sans engagement, ajoute le Studio Creator et plus de visibilité.",
+"k": [
+"obligatoire",
+"sans abonnement",
+"gratuit prestataire",
+"dois je payer"
 ]
 },
 {
@@ -870,13 +1832,15 @@
 {
 "c": "Données et assistance",
 "q": "Qui est Candix ?",
-"a": "Je suis l'assistance de Calandix : je réponds aux questions fréquentes sur le service. Pour le reste, un conseiller prend le relais.",
+"a": "Je suis l'assistance de Calandix : je réponds aux questions sur le service et je peux faire le point avec vous pour vous orienter selon votre projet. Pour le reste, un conseiller prend le relais.",
 "k": [
 "candix",
 "qui es tu",
 "assistant",
 "robot",
-"assistance"
+"assistance",
+"vous etes qui",
+"qui etes vous"
 ]
 },
 {
@@ -895,6 +1859,33 @@
 "appeler",
 "aide",
 "equipe calandix"
+]
+},
+{
+"c": "Données et assistance",
+"q": "Que puis-je demander à Candix ?",
+"a": "Tout ce qui concerne Calandix : fonctionnement, tarifs, paiements, prestataires, invités, données. Je peux aussi faire le point avec vous en quelques questions pour vous orienter selon votre projet.",
+"k": [
+"que peux tu faire",
+"aide moi",
+"que sais tu",
+"questions possibles",
+"comment ca marche candix",
+"demander a candix",
+"que puis je demander"
+]
+},
+{
+"c": "Données et assistance",
+"q": "Comment donner mon avis sur la démo ?",
+"a": "Écrivez-nous sur WhatsApp via « Parler à un conseiller » : vos retours nous aident à préparer le lancement.",
+"k": [
+"retour",
+"feedback",
+"suggestion",
+"ameliorer",
+"bug",
+"remarque"
 ]
 }
 ]
