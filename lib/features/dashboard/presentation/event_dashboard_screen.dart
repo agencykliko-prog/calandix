@@ -18,6 +18,7 @@ import '../../commerce/presentation/commerce_providers.dart';
 import '../../../core/models/models.dart';
 import '../../events/presentation/events_providers.dart';
 import '../../events/presentation/widgets/task_timeline.dart';
+import '../../guests/presentation/remind_sheet.dart';
 import '../../export/presentation/export_sheet.dart';
 import '../../premium/presentation/paywall.dart';
 import '../../premium/presentation/premium_nudge.dart';
@@ -381,15 +382,11 @@ class _DashboardState extends ConsumerState<_Dashboard> {
             sliver: SliverToBoxAdapter(
               child: GuestsPanel(
                 guests: e.guests,
-                onRemind: () {
-                  toast(
-                    context,
-                    'Relance WhatsApp préparée pour {0} invités'.trf([
-                      e.guests.pending,
-                    ]),
-                    icon: AppIcons.whatsapp,
-                  );
-                  maybeShowPremiumNudge(context, ref, PremiumNudge.guests);
+                onRemind: () async {
+                  await showRemindSheet(context, e);
+                  if (context.mounted) {
+                    maybeShowPremiumNudge(context, ref, PremiumNudge.guests);
+                  }
                 },
               ),
             ),

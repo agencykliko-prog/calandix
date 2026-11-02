@@ -149,7 +149,7 @@ abstract final class DemoData {
               '${_lastNames[(i + i ~/ _firstNames.length) % _lastNames.length]}',
           phone: i % 3 == 0
               ? null
-              : '07 ${(10 + i % 89)} ${(20 + i * 13 % 79)} ${(30 + i * 7 % 69)}',
+              : '07 ${(10 + i % 89)} ${(20 + i * 13 % 79)} ${(30 + i * 7 % 69)} ${(40 + i * 3 % 59)}',
           group: groups[i % groups.length],
           rsvp: i < confirmed
               ? Rsvp.yes

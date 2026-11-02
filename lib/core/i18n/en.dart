@@ -521,8 +521,15 @@ const en = <String, String>{
   'Étape {0}/7 · {1}': 'Step {0}/7 · {1}',
   'Ajouter un\nprestataire': 'Add a\nvendor',
   'Invités & RSVP': 'Guests & RSVP',
-  'Relance WhatsApp préparée pour {0} invités':
-      'WhatsApp reminder ready for {0} guests',
+  'Relancer par WhatsApp': 'Remind on WhatsApp',
+  'Tous vos invités ont répondu.': 'All your guests have replied.',
+  'Touchez « Relancer » : WhatsApp s’ouvre avec le message prêt, il ne reste qu’à l’envoyer.':
+      'Tap “Remind”: WhatsApp opens with the message ready, you just send it.',
+  '{0} relancés sur {1} joignables': '{0} reminded out of {1} reachable',
+  'Pas de numéro WhatsApp': 'No WhatsApp number',
+  'Relancé': 'Reminded',
+  'Bonjour {0} ! Petit rappel : vous êtes invité à « {1} », le {2}{3}. Pouvez-vous me confirmer votre présence ? Merci !':
+      'Hello {0}! A quick reminder: you are invited to “{1}” on {2}{3}. Could you confirm whether you are coming? Thank you!',
   'Équipe': 'Team',
   'Gérer les accès': 'Manage access',
   'avant la fête': 'before the party',

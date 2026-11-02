@@ -5,6 +5,7 @@ import 'package:eventa/features/events/data/events_repository.dart';
 import 'package:eventa/core/models/models.dart';
 import 'package:eventa/features/events/presentation/events_providers.dart';
 import 'package:eventa/features/guests/presentation/guests_screen.dart';
+import 'package:eventa/features/guests/presentation/remind_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -49,6 +50,24 @@ ProviderContainer _container(EventsRepository repo) {
 
 void main() {
   setUpAll(() => initializeDateFormatting('fr_FR'));
+
+  test('relance WhatsApp : numéro normalisé et message pré-rempli', () {
+    expect(whatsappNumber('07 07 12 34 56'), '2250707123456');
+    expect(whatsappNumber('+225 07 07 12 34 56'), '2250707123456');
+    expect(whatsappNumber('00225 0707123456'), '2250707123456');
+    expect(whatsappNumber('1234'), isNull);
+    expect(whatsappNumber(null), isNull);
+
+    final e = _fresh();
+    const g = Guest(id: 'g1', name: 'Awa Koné', phone: '0707123456');
+    final text = reminderText(e, g);
+    expect(text, startsWith('Bonjour Awa !'));
+    expect(text, contains('« Anniversaire test »'));
+    final link = reminderLink(whatsappNumber(g.phone)!, text);
+    expect(link.host, 'wa.me');
+    expect(link.path, '/2250707123456');
+    expect(link.queryParameters['text'], text);
+  });
 
   test('la liste de démo retombe sur les compteurs affichés', () {
     final g = DemoData.wedding().guests;

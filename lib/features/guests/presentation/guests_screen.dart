@@ -15,6 +15,7 @@ import '../../dashboard/presentation/widgets/guests_panel.dart';
 import '../../../core/models/models.dart';
 import '../../events/presentation/events_providers.dart';
 import '../../premium/presentation/premium_nudge.dart';
+import 'remind_sheet.dart';
 
 enum _Filter { all, yes, pending, no }
 
@@ -98,15 +99,11 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
               const SizedBox(height: 10),
               GuestsPanel(
                 guests: g,
-                onRemind: () {
-                  toast(
-                    context,
-                    'Relance WhatsApp préparée pour {0} invités'.trf([
-                      g.pending,
-                    ]),
-                    icon: AppIcons.whatsapp,
-                  );
-                  maybeShowPremiumNudge(context, ref, PremiumNudge.guests);
+                onRemind: () async {
+                  await showRemindSheet(context, e);
+                  if (mounted) {
+                    maybeShowPremiumNudge(context, ref, PremiumNudge.guests);
+                  }
                 },
               ),
               if (g.list.isNotEmpty) ...[
