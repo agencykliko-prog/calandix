@@ -8,8 +8,7 @@ import '../../../ui/widgets/mascot.dart';
 import '../../../ui/widgets/ui.dart';
 import 'about_screen.dart';
 
-/// Conditions générales d'utilisation et de vente de Calandix (version
-/// provisoire, à valider par un juriste avant le lancement).
+/// Conditions générales d'utilisation et de vente de Calandix.
 class TermsScreen extends StatefulWidget {
   const TermsScreen({super.key});
 
@@ -197,30 +196,6 @@ class _TermsScreenState extends State<TermsScreen> {
               ],
             ),
             const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Confetti.goldTint,
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Row(
-                children: [
-                  Icon(AppIcons.info, size: 18, color: Hue.gold.text),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      bi(
-                        'Version provisoire, à faire valider par un juriste avant le lancement officiel.',
-                        'Draft version, to be reviewed by a lawyer before the official launch.',
-                      ),
-                      style: context.text.bodySmall?.copyWith(
-                        color: Hue.gold.text,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
             const SizedBox(height: 14),
             Wrap(
               spacing: 6,

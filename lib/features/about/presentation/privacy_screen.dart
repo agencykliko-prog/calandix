@@ -19,8 +19,7 @@ typedef _Block = (bool, String);
 (bool, String) _p(String fr, String en) => (false, bi(fr, en));
 (bool, String) _ul(String fr, String en) => (true, bi(fr, en));
 
-/// Politique de confidentialité de Calandix (version provisoire, à valider
-/// par un juriste avant le lancement).
+/// Politique de confidentialité de Calandix.
 class PrivacyScreen extends ConsumerStatefulWidget {
   const PrivacyScreen({super.key});
 
@@ -258,30 +257,6 @@ class _PrivacyScreenState extends ConsumerState<PrivacyScreen> {
               ],
             ),
             const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Confetti.goldTint,
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Row(
-                children: [
-                  Icon(AppIcons.info, size: 18, color: Hue.gold.text),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      bi(
-                        'Version provisoire, à faire valider par un juriste avant le lancement officiel.',
-                        'Draft version, to be reviewed by a lawyer before the official launch.',
-                      ),
-                      style: context.text.bodySmall?.copyWith(
-                        color: Hue.gold.text,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
             const SizedBox(height: 14),
             NightPanel(
               child: Column(
