@@ -63,7 +63,17 @@ void main() {
   testWidgets('la démo reste accessible sans compte', (tester) async {
     final c = await pump(tester);
     final demo = find.byKey(const ValueKey('demo-access'));
-    await tester.ensureVisible(demo);
+    // Le lien est en bas du formulaire, sous le bandeau illustré.
+    await tester.scrollUntilVisible(
+      demo,
+      200,
+      scrollable: find
+          .descendant(
+            of: find.byType(ListView),
+            matching: find.byType(Scrollable),
+          )
+          .first,
+    );
     await tester.tap(demo);
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));

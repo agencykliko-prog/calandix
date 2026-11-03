@@ -37,6 +37,21 @@ class AuthGateway {
     return loadProfile();
   }
 
+  /// Connexion avec Google : le navigateur part chez Google et revient sur
+  /// l'app, où la session est reprise (voir [changes]). Un nouveau compte
+  /// créé ainsi est un compte organisateur.
+  Future<void> signInWithGoogle() async {
+    try {
+      await _auth.signInWithOAuth(
+        OAuthProvider.google,
+        redirectTo: Backend.redirectUrl,
+        queryParams: {'prompt': 'select_account'},
+      );
+    } on AuthException catch (e) {
+      throw AuthFailure(_message(e));
+    }
+  }
+
   Future<SignUpOutcome> signUp(UserProfile p, String password) async {
     final c = p.creator;
     try {

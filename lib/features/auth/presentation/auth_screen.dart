@@ -22,6 +22,7 @@ import '../../../ui/widgets/mascot.dart';
 import '../../../ui/widgets/pressable.dart';
 import '../../../ui/widgets/ui.dart';
 import '../../account/presentation/photo_cropper.dart';
+import '../../../core/backend/backend.dart';
 import '../../../core/models/models.dart';
 import '../../../core/auth/profile.dart';
 import '../../../core/auth/session_provider.dart';
@@ -48,166 +49,611 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     final creator = _role == UserRole.creator;
+    final mascot = creator ? MascotColor.creator : MascotColor.organizer;
     final size = MediaQuery.sizeOf(context);
-    // Desktop : le formulaire devient une carte centrée sur fond crème.
-    final desktop = size.width >= 900 && size.height >= 640;
-    final content = Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-          child: SizedBox(
-            height: 56,
-            child: Stack(
-              alignment: Alignment.center,
+    // Desktop : une carte en deux volets, l'illustration à gauche et le
+    // formulaire à droite.
+    final desktop = size.width >= 900 && size.height >= 600;
+    // Clavier ouvert sur téléphone : le bandeau illustré se replie.
+    final keyboard = MediaQuery.viewInsetsOf(context).bottom > 0;
+    final intro = Padding(
+      padding: EdgeInsets.fromLTRB(20, desktop ? 0 : 18, 20, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Entrance(
+            index: 1,
+            offset: 16,
+            child: AnimatedSwitcher(
+              duration: Motion.base,
+              child: Text(
+                _signUp ? 'Créer un compte'.tr : 'Bon retour'.tr,
+                key: ValueKey(_signUp),
+                style: context.text.headlineMedium?.copyWith(
+                  fontSize: desktop ? 36 : 30,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.6,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Entrance(
+            index: 2,
+            offset: 16,
+            child: Text(
+              _signUp
+                  ? 'Choisissez votre profil pour commencer.'.tr
+                  : 'Connectez-vous à votre espace.'.tr,
+              style: context.text.bodyLarge?.copyWith(
+                color: context.eventa.muted,
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Entrance(
+            index: 3,
+            child: RolePicker(
+              value: _role,
+              onChanged: (r) => setState(() => _role = r),
+            ),
+          ),
+        ],
+      ),
+    );
+    final forms = AnimatedSwitcher(
+      duration: Motion.base,
+      switchInCurve: Motion.easeOut,
+      // L'ancien formulaire s'efface vite, sur place, et le
+      // nouveau arrive aligné en haut : plus de saut.
+      switchOutCurve: const Interval(0.5, 1),
+      layoutBuilder: (current, previous) => Stack(
+        alignment: Alignment.topCenter,
+        children: [...previous, ?current],
+      ),
+      transitionBuilder: (child, a) => FadeTransition(
+        opacity: a,
+        child: SlideTransition(
+          position: Tween(
+            begin: const Offset(0, 0.04),
+            end: Offset.zero,
+          ).animate(a),
+          child: child,
+        ),
+      ),
+      child: KeyedSubtree(
+        // En connexion, le formulaire reste le même : seul le
+        // profil change, sans fondu.
+        key: ValueKey(_signUp ? 'up-$_role' : 'in'),
+        child: !_signUp
+            ? _SignInForm(
+                role: _role,
+                onSwitch: () => setState(() => _signUp = true),
+              )
+            : _role == UserRole.organizer
+            ? _OrganizerSignUp(onSwitch: () => setState(() => _signUp = false))
+            : _CreatorSignUp(onSwitch: () => setState(() => _signUp = false)),
+      ),
+    );
+    void back() =>
+        context.canPop() ? context.pop() : context.go(Routes.onboarding);
+
+    if (desktop) {
+      return Scaffold(
+        backgroundColor: Confetti.cream,
+        body: Center(
+          child: Container(
+            width: math.min(size.width - 48, 1120),
+            height: math.min(size.height - 48, 760),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Confetti.surface,
+              borderRadius: BorderRadius.circular(36),
+              border: Border.all(color: Confetti.line),
+              boxShadow: [
+                BoxShadow(
+                  color: Confetti.inkFixed.withValues(alpha: 0.08),
+                  blurRadius: 48,
+                  offset: const Offset(0, 22),
+                ),
+              ],
+            ),
+            child: Row(
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: RoundIconButton(
-                    icon: AppIcons.back,
-                    tooltip: 'Retour',
-                    onTap: () => context.canPop()
-                        ? context.pop()
-                        : context.go(Routes.onboarding),
+                Expanded(
+                  flex: 10,
+                  child: _AuthVisual(color: mascot, onBack: back, wide: true),
+                ),
+                Expanded(
+                  flex: 11,
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 440),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 44),
+                          intro,
+                          Expanded(child: forms),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-                const Entrance(child: CalandixWordmark(size: 25)),
               ],
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+      );
+    }
+    final inset = MediaQuery.paddingOf(context).top;
+    return Scaffold(
+      backgroundColor: Confetti.dark ? Confetti.cream : Colors.white,
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 520),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
+              AnimatedContainer(
+                duration: Motion.base,
+                curve: Motion.easeOut,
+                height: (keyboard ? 132 : 248) + inset,
+                child: _AuthVisual(
+                  color: mascot,
+                  onBack: back,
+                  compact: keyboard,
+                ),
+              ),
+              intro,
+              Expanded(child: forms),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Volet illustré : ciel de confettis, logo, mascotte qui ferme les yeux
+/// pendant la saisie du mot de passe, et la promesse de Calandix.
+class _AuthVisual extends StatelessWidget {
+  const _AuthVisual({
+    required this.color,
+    required this.onBack,
+    this.wide = false,
+    this.compact = false,
+  });
+
+  final MascotColor color;
+  final VoidCallback onBack;
+
+  /// Volet gauche de la carte desktop (sinon bandeau en haut du téléphone).
+  final bool wide;
+
+  /// Bandeau replié (clavier ouvert).
+  final bool compact;
+
+  @override
+  Widget build(BuildContext context) {
+    final top = wide ? 0.0 : MediaQuery.paddingOf(context).top;
+    final radius = wide
+        ? BorderRadius.circular(26)
+        : const BorderRadius.vertical(bottom: Radius.circular(30));
+    return ClipRRect(
+      borderRadius: radius,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            'assets/images/onboarding_confetti.jpg',
+            fit: BoxFit.cover,
+            alignment: const Alignment(0, -0.4),
+          ),
+          // Voile sombre en haut (logo lisible) et en bas (promesse).
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Confetti.inkFixed.withValues(alpha: 0.32),
+                  Confetti.inkFixed.withValues(alpha: 0),
+                  Confetti.inkFixed.withValues(alpha: wide ? 0.62 : 0.12),
+                ],
+                stops: const [0, 0.45, 1],
+              ),
+            ),
+          ),
+          Positioned(
+            top: top + (wide ? 22 : 10),
+            left: wide ? 22 : 14,
+            right: wide ? 22 : 14,
+            child: wide
+                ? Row(
+                    children: [
+                      const CalandixWordmark(size: 24, color: Colors.white),
+                      const Spacer(),
+                      _GlassPill(
+                        label: 'Retour'.tr,
+                        icon: AppIcons.back,
+                        onTap: onBack,
+                      ),
+                    ],
+                  )
+                : Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: RoundIconButton(
+                          icon: AppIcons.back,
+                          tooltip: 'Retour',
+                          background: Colors.white.withValues(alpha: 0.92),
+                          foreground: Confetti.inkFixed,
+                          onTap: onBack,
+                        ),
+                      ),
+                      const CalandixWordmark(size: 22, color: Colors.white),
+                    ],
+                  ),
+          ),
+          if (wide)
+            Align(
+              alignment: const Alignment(0, -0.1),
+              child: Entrance(
+                offset: 24,
+                child: AuthMascot(color: color, size: 290),
+              ),
+            )
+          else
+            AnimatedPositioned(
+              duration: Motion.base,
+              curve: Motion.easeOut,
+              right: compact ? 10 : 14,
+              bottom: compact ? -6 : -2,
+              child: AuthMascot(color: color, size: compact ? 92 : 168),
+            ),
+          if (wide)
+            Positioned(
+              left: 30,
+              right: 30,
+              bottom: 30,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
+                  Text(
+                    'Organisez.\nRéservez.\nCélébrez.'.tr,
+                    style: context.text.displaySmall?.copyWith(
+                      color: Colors.white,
+                      fontSize: 40,
+                      height: 1.02,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: -0.8,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Le budget parfait pour célébrer.'.tr,
+                    style: context.text.bodyLarge?.copyWith(
+                      color: Colors.white.withValues(alpha: 0.86),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          else if (!compact)
+            Positioned(
+              left: 20,
+              bottom: 22,
+              right: 190,
+              child: Text(
+                'Organisez.\nRéservez.\nCélébrez.'.tr,
+                style: context.text.titleLarge?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w800,
+                  height: 1.08,
+                  shadows: [
+                    Shadow(
+                      color: Confetti.inkFixed.withValues(alpha: 0.35),
+                      blurRadius: 12,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Pastille translucide posée sur l'illustration.
+class _GlassPill extends StatelessWidget {
+  const _GlassPill({
+    required this.label,
+    required this.icon,
+    required this.onTap,
+  });
+
+  final String label;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Pressable(
+      onTap: onTap,
+      semanticLabel: label,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(12, 8, 14, 8),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.2),
+          borderRadius: BorderRadius.circular(99),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.35)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 16, color: Colors.white),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: context.text.labelMedium?.copyWith(color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// « Continuer avec Google » et le séparateur « ou » qui le suit. Absent
+/// de l'inscription Creator, qui a besoin des informations de l'activité.
+class GoogleSignIn extends ConsumerStatefulWidget {
+  const GoogleSignIn({super.key});
+
+  @override
+  ConsumerState<GoogleSignIn> createState() => _GoogleSignInState();
+}
+
+class _GoogleSignInState extends ConsumerState<GoogleSignIn> {
+  bool _busy = false;
+
+  Future<void> _go() async {
+    if (!Backend.ready) {
+      toast(
+        context,
+        'Connexion Google indisponible hors ligne. Essayez la démo sans compte.'
+            .tr,
+        icon: AppIcons.info,
+      );
+      return;
+    }
+    setState(() => _busy = true);
+    try {
+      // Le navigateur part chez Google puis revient sur l'app, connecté.
+      await ref.read(authGatewayProvider).signInWithGoogle();
+    } on AuthFailure catch (e) {
+      if (mounted) toast(context, e.message, icon: AppIcons.warning);
+    } catch (_) {
+      if (mounted) {
+        toast(
+          context,
+          'Connexion Google impossible pour le moment. Réessayez.'.tr,
+          icon: AppIcons.warning,
+        );
+      }
+    }
+    if (mounted) setState(() => _busy = false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final label = 'Continuer avec Google'.tr;
+    return Column(
+      children: [
+        Semantics(
+          button: true,
+          label: label,
+          child: Pressable(
+            onTap: _busy ? null : _go,
+            child: Container(
+              height: 52,
+              decoration: BoxDecoration(
+                color: Confetti.surface,
+                borderRadius: BorderRadius.circular(99),
+                border: Border.all(color: Confetti.border),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (_busy)
+                    const SizedBox.square(
+                      dimension: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  else
+                    const SizedBox.square(
+                      dimension: 20,
+                      child: CustomPaint(painter: _GoogleG()),
+                    ),
+                  const SizedBox(width: 10),
+                  ExcludeSemantics(
+                    child: Text(label, style: context.text.titleSmall),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 18),
+        Row(
+          children: [
+            Expanded(child: Divider(color: Confetti.line, height: 1)),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Text(
+                'ou avec votre e-mail'.tr,
+                style: context.text.labelSmall?.copyWith(
+                  color: Confetti.inkFaint,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            Expanded(child: Divider(color: Confetti.line, height: 1)),
+          ],
+        ),
+        const SizedBox(height: 18),
+      ],
+    );
+  }
+}
+
+/// Le « G » de Google, dessiné en quatre couleurs.
+class _GoogleG extends CustomPainter {
+  const _GoogleG();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final s = size.shortestSide;
+    final w = s * 0.22;
+    final c = Offset(size.width / 2, size.height / 2);
+    final r = (s - w) / 2;
+    final rect = Rect.fromCircle(center: c, radius: r);
+    double rad(double d) => d * math.pi / 180;
+    void arc(double from, double to, int color) => canvas.drawArc(
+      rect,
+      rad(from),
+      rad(to - from),
+      false,
+      Paint()
+        ..color = Color(color)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = w,
+    );
+    arc(-2, 48, 0xFF4285F4);
+    arc(46, 142, 0xFF34A853);
+    arc(140, 222, 0xFFFBBC05);
+    arc(220, 318, 0xFFEA4335);
+    canvas.drawRect(
+      Rect.fromLTRB(c.dx, c.dy - w / 2, c.dx + r + w / 2, c.dy + w / 2),
+      Paint()..color = const Color(0xFF4285F4),
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+/// Solidité du mot de passe : quatre segments et un conseil, mis à jour à
+/// chaque frappe.
+class PasswordStrength extends StatelessWidget {
+  const PasswordStrength({super.key, required this.controller});
+
+  final TextEditingController controller;
+
+  static bool _cases(String p) =>
+      RegExp('[a-z]').hasMatch(p) && RegExp('[A-Z]').hasMatch(p);
+  static bool _digit(String p) => RegExp(r'\d').hasMatch(p);
+  static bool _symbol(String p) => RegExp(r'[^A-Za-z0-9]').hasMatch(p);
+
+  /// Niveau de 0 (vide) à 4 (solide).
+  static int score(String p) {
+    if (p.isEmpty) return 0;
+    if (p.length < 8) return 1;
+    var pts = 1;
+    if (p.length >= 12) pts++;
+    if (_cases(p)) pts++;
+    if (_digit(p)) pts++;
+    if (_symbol(p)) pts++;
+    return pts <= 2 ? 2 : (pts == 3 ? 3 : 4);
+  }
+
+  static String _tip(String p) {
+    if (p.length < 8) return '8 caractères minimum'.tr;
+    final missing = [
+      if (!_cases(p)) 'une majuscule'.tr,
+      if (!_digit(p)) 'un chiffre'.tr,
+      if (!_symbol(p)) 'un symbole'.tr,
+    ];
+    if (missing.isNotEmpty) {
+      return 'Ajoutez {0} pour le renforcer.'.trf([missing.join(', ')]);
+    }
+    return p.length < 12
+        ? '12 caractères ou plus, c’est encore mieux.'.tr
+        : 'Parfait, il est difficile à deviner.'.tr;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
+        final p = controller.text;
+        final level = score(p);
+        final (label, color) = switch (level) {
+          1 => ('Trop court'.tr, Confetti.danger),
+          2 => ('Faible'.tr, Confetti.coral),
+          3 => ('Moyen'.tr, Confetti.warning),
+          _ => ('Solide'.tr, Confetti.success),
+        };
+        return AnimatedSize(
+          duration: Motion.fast,
+          alignment: Alignment.topCenter,
+          child: level == 0
+              ? const SizedBox(width: double.infinity)
+              : Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Semantics(
+                    label: 'Solidité du mot de passe : {0}'.trf([label]),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Entrance(
-                          index: 1,
-                          offset: 16,
-                          child: AnimatedSwitcher(
-                            duration: Motion.base,
-                            child: Text(
-                              _signUp ? 'Créer un compte'.tr : 'Bon retour'.tr,
-                              key: ValueKey(_signUp),
-                              style: context.text.headlineMedium?.copyWith(
-                                fontSize: 32,
-                                fontWeight: FontWeight.w800,
+                        Row(
+                          children: [
+                            for (var i = 1; i <= 4; i++) ...[
+                              if (i > 1) const SizedBox(width: 5),
+                              Expanded(
+                                child: AnimatedContainer(
+                                  duration: Motion.base,
+                                  curve: Motion.easeOut,
+                                  height: 5,
+                                  decoration: BoxDecoration(
+                                    color: i <= level
+                                        ? color
+                                        : Confetti.lavender,
+                                    borderRadius: BorderRadius.circular(3),
+                                  ),
+                                ),
+                              ),
+                            ],
+                            const SizedBox(width: 10),
+                            SizedBox(
+                              width: 76,
+                              child: Text(
+                                label,
+                                textAlign: TextAlign.right,
+                                style: context.text.labelMedium?.copyWith(
+                                  color: color,
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                        const SizedBox(height: 2),
-                        Entrance(
-                          index: 2,
-                          offset: 16,
+                        const SizedBox(height: 6),
+                        ExcludeSemantics(
                           child: Text(
-                            _signUp
-                                ? 'Choisissez votre profil pour commencer.'.tr
-                                : 'Connectez-vous à votre espace.'.tr,
-                            style: context.text.bodyLarge?.copyWith(
-                              color: context.eventa.muted,
+                            _tip(p),
+                            style: context.text.bodySmall?.copyWith(
+                              color: Confetti.inkMuted,
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  AuthMascot(
-                    color: creator
-                        ? MascotColor.creator
-                        : MascotColor.organizer,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 14),
-              Entrance(
-                index: 3,
-                child: RolePicker(
-                  value: _role,
-                  onChanged: (r) => setState(() => _role = r),
                 ),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: AnimatedSwitcher(
-            duration: Motion.base,
-            switchInCurve: Motion.easeOut,
-            // L'ancien formulaire s'efface vite, sur place, et le
-            // nouveau arrive aligné en haut : plus de saut.
-            switchOutCurve: const Interval(0.5, 1),
-            layoutBuilder: (current, previous) => Stack(
-              alignment: Alignment.topCenter,
-              children: [...previous, ?current],
-            ),
-            transitionBuilder: (child, a) => FadeTransition(
-              opacity: a,
-              child: SlideTransition(
-                position: Tween(
-                  begin: const Offset(0, 0.04),
-                  end: Offset.zero,
-                ).animate(a),
-                child: child,
-              ),
-            ),
-            child: KeyedSubtree(
-              // En connexion, le formulaire reste le même : seul le
-              // profil change, sans fondu.
-              key: ValueKey(_signUp ? 'up-$_role' : 'in'),
-              child: !_signUp
-                  ? _SignInForm(
-                      role: _role,
-                      onSwitch: () => setState(() => _signUp = true),
-                    )
-                  : _role == UserRole.organizer
-                  ? _OrganizerSignUp(
-                      onSwitch: () => setState(() => _signUp = false),
-                    )
-                  : _CreatorSignUp(
-                      onSwitch: () => setState(() => _signUp = false),
-                    ),
-            ),
-          ),
-        ),
-      ],
-    );
-    return Scaffold(
-      // Fond blanc épuré (le mode sombre garde son fond).
-      backgroundColor: Confetti.dark || desktop ? Confetti.cream : Colors.white,
-      body: SafeArea(
-        child: Center(
-          child: desktop
-              ? Container(
-                  width: 480,
-                  height: math.min(size.height - 48, _signUp ? 880.0 : 640.0),
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    color: Confetti.dark ? Confetti.surface : Colors.white,
-                    borderRadius: BorderRadius.circular(32),
-                    border: Border.all(color: Confetti.line),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Confetti.ink.withValues(alpha: 0.08),
-                        blurRadius: 40,
-                        offset: const Offset(0, 18),
-                      ),
-                    ],
-                  ),
-                  child: content,
-                )
-              : ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 480),
-                  child: content,
-                ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
@@ -497,8 +943,9 @@ class _SignInFormState extends ConsumerState<_SignInForm> {
     return Form(
       key: _form,
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 22, 20, 24),
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
         children: [
+          const GoogleSignIn(),
           AppField(
             floating: true,
             label: widget.role == UserRole.creator
@@ -677,6 +1124,7 @@ class _OrganizerSignUpState extends ConsumerState<_OrganizerSignUp> {
       child: ListView(
         padding: const EdgeInsets.fromLTRB(20, 22, 20, 24),
         children: [
+          const GoogleSignIn(),
           Center(
             child: PhotoPicker(
               bytes: _photo,
@@ -733,6 +1181,7 @@ class _OrganizerSignUpState extends ConsumerState<_OrganizerSignUp> {
             hint: '8 caractères minimum'.tr,
             validator: Validators.password,
           ),
+          PasswordStrength(controller: _pwd),
           const SizedBox(height: 14),
           AppField(
             floating: true,
@@ -1197,6 +1646,7 @@ class _CreatorSignUpState extends ConsumerState<_CreatorSignUp> {
       hint: '8 caractères minimum'.tr,
       validator: Validators.password,
     ),
+    PasswordStrength(controller: _pwd),
   ];
 
   List<Widget> _activity(BuildContext context) => [
@@ -1343,12 +1793,17 @@ class _CreatorSignUpState extends ConsumerState<_CreatorSignUp> {
 /// Clé de la mascotte de connexion, pour la faire sauter de joie.
 final authMascotKey = GlobalKey<MascotState>();
 
-/// La mascotte suit la saisie du regard, se cache les yeux pendant la
-/// saisie d'un mot de passe masqué, et salue à l'arrivée.
+/// La mascotte salue à l'arrivée et ferme les yeux pendant la saisie d'un
+/// mot de passe masqué (elle les rouvre si on l'affiche).
 class AuthMascot extends ConsumerStatefulWidget {
-  const AuthMascot({super.key, this.color = MascotColor.organizer});
+  const AuthMascot({
+    super.key,
+    this.color = MascotColor.organizer,
+    this.size = 104,
+  });
 
   final MascotColor color;
+  final double size;
 
   @override
   ConsumerState<AuthMascot> createState() => _AuthMascotState();
@@ -1408,17 +1863,16 @@ class _AuthMascotState extends ConsumerState<AuthMascot> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 8, bottom: 2),
-      child: Mascot(
-        key: authMascotKey,
-        size: 104,
-        color: widget.color,
-        look: _look,
-        cover: _cover,
-        waving: _waving,
-        onTap: () => ref.read(soundProvider).play(Sfx.success),
-      ),
+    return Mascot(
+      key: authMascotKey,
+      size: widget.size,
+      color: widget.color,
+      // Yeux grands ouverts au repos : ils se ferment pour le mot de passe.
+      mood: MascotMood.wink,
+      look: _look,
+      cover: _cover,
+      waving: _waving,
+      onTap: () => ref.read(soundProvider).play(Sfx.success),
     );
   }
 }

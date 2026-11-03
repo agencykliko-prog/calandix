@@ -12,7 +12,7 @@ enum MascotColor { organizer, creator }
 enum MascotMood { happy, wow, wink, sleepy, cheer, sad }
 
 /// Poses disponibles.
-enum _Shot { rire, salut, sport, panneau, triste, idee, bouee, course }
+enum _Shot { rire, salut, sport, panneau, triste, idee, yeux, bouee, course }
 
 String _asset(_Shot s, [MascotColor c = MascotColor.organizer]) =>
     'assets/images/mascots/${c == MascotColor.creator ? 'jaune/' : ''}${s.name}.webp';
@@ -36,7 +36,7 @@ void precacheMascots(BuildContext context) {
 }
 
 /// Mascotte statique : une pose illustrée, sans mouvement. [cover] lui fait
-/// cacher les yeux (champ de mot de passe) ; [waving] affiche la pose qui
+/// fermer les yeux (champ de mot de passe) ; [waving] affiche la pose qui
 /// salue.
 class Mascot extends StatefulWidget {
   const Mascot({
@@ -77,7 +77,8 @@ class MascotState extends State<Mascot> {
   void jump() {}
 
   _Shot get _shot {
-    if (widget.cover) return _Shot.panneau;
+    // Même pose que « idee », yeux fermés : le passage ressemble à un clignement.
+    if (widget.cover) return _Shot.yeux;
     if (widget.waving) return _Shot.salut;
     return _shotFor(widget.mood, widget.color);
   }
