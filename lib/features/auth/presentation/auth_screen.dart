@@ -54,42 +54,60 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     // Desktop : une carte en deux volets, l'illustration à gauche et le
     // formulaire à droite.
     final desktop = size.width >= 900 && size.height >= 600;
-    // Clavier ouvert sur téléphone : le bandeau illustré se replie.
-    final keyboard = MediaQuery.viewInsetsOf(context).bottom > 0;
+    final heading = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Entrance(
+          index: 1,
+          offset: 16,
+          child: AnimatedSwitcher(
+            duration: Motion.base,
+            child: Text(
+              _signUp ? 'Créer un compte'.tr : 'Bon retour'.tr,
+              key: ValueKey(_signUp),
+              style: context.text.headlineMedium?.copyWith(
+                fontSize: desktop ? 36 : 30,
+                fontWeight: FontWeight.w800,
+                letterSpacing: -0.6,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Entrance(
+          index: 2,
+          offset: 16,
+          child: Text(
+            _signUp
+                ? 'Choisissez votre profil pour commencer.'.tr
+                : 'Connectez-vous à votre espace.'.tr,
+            style: context.text.bodyLarge?.copyWith(
+              color: context.eventa.muted,
+            ),
+          ),
+        ),
+      ],
+    );
     final intro = Padding(
-      padding: EdgeInsets.fromLTRB(20, desktop ? 0 : 18, 20, 0),
+      padding: EdgeInsets.fromLTRB(20, desktop ? 0 : 8, 20, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Entrance(
-            index: 1,
-            offset: 16,
-            child: AnimatedSwitcher(
-              duration: Motion.base,
-              child: Text(
-                _signUp ? 'Créer un compte'.tr : 'Bon retour'.tr,
-                key: ValueKey(_signUp),
-                style: context.text.headlineMedium?.copyWith(
-                  fontSize: desktop ? 36 : 30,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: -0.6,
+          // Téléphone : pas d'illustration, la mascotte se tient à côté du
+          // titre.
+          if (desktop)
+            heading
+          else
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(child: heading),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: AuthMascot(color: mascot),
                 ),
-              ),
+              ],
             ),
-          ),
-          const SizedBox(height: 4),
-          Entrance(
-            index: 2,
-            offset: 16,
-            child: Text(
-              _signUp
-                  ? 'Choisissez votre profil pour commencer.'.tr
-                  : 'Connectez-vous à votre espace.'.tr,
-              style: context.text.bodyLarge?.copyWith(
-                color: context.eventa.muted,
-              ),
-            ),
-          ),
           const SizedBox(height: 16),
           Entrance(
             index: 3,
@@ -162,7 +180,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               children: [
                 Expanded(
                   flex: 10,
-                  child: _AuthVisual(color: mascot, onBack: back, wide: true),
+                  child: _AuthVisual(color: mascot, onBack: back),
                 ),
                 Expanded(
                   flex: 11,
@@ -185,27 +203,38 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         ),
       );
     }
-    final inset = MediaQuery.paddingOf(context).top;
     return Scaffold(
       backgroundColor: Confetti.dark ? Confetti.cream : Colors.white,
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 520),
-          child: Column(
-            children: [
-              AnimatedContainer(
-                duration: Motion.base,
-                curve: Motion.easeOut,
-                height: (keyboard ? 132 : 248) + inset,
-                child: _AuthVisual(
-                  color: mascot,
-                  onBack: back,
-                  compact: keyboard,
+      body: SafeArea(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 480),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                  child: SizedBox(
+                    height: 56,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: RoundIconButton(
+                            icon: AppIcons.back,
+                            tooltip: 'Retour',
+                            onTap: back,
+                          ),
+                        ),
+                        const Entrance(child: CalandixWordmark(size: 25)),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              intro,
-              Expanded(child: forms),
-            ],
+                intro,
+                Expanded(child: forms),
+              ],
+            ),
           ),
         ),
       ),
@@ -213,33 +242,18 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   }
 }
 
-/// Volet illustré : ciel de confettis, logo, mascotte qui ferme les yeux
+/// Volet illustré de la carte desktop : logo, mascotte qui ferme les yeux
 /// pendant la saisie du mot de passe, et la promesse de Calandix.
 class _AuthVisual extends StatelessWidget {
-  const _AuthVisual({
-    required this.color,
-    required this.onBack,
-    this.wide = false,
-    this.compact = false,
-  });
+  const _AuthVisual({required this.color, required this.onBack});
 
   final MascotColor color;
   final VoidCallback onBack;
 
-  /// Volet gauche de la carte desktop (sinon bandeau en haut du téléphone).
-  final bool wide;
-
-  /// Bandeau replié (clavier ouvert).
-  final bool compact;
-
   @override
   Widget build(BuildContext context) {
-    final top = wide ? 0.0 : MediaQuery.paddingOf(context).top;
-    final radius = wide
-        ? BorderRadius.circular(26)
-        : const BorderRadius.vertical(bottom: Radius.circular(30));
     return ClipRRect(
-      borderRadius: radius,
+      borderRadius: BorderRadius.circular(26),
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -257,109 +271,62 @@ class _AuthVisual extends StatelessWidget {
                 colors: [
                   Confetti.inkFixed.withValues(alpha: 0.32),
                   Confetti.inkFixed.withValues(alpha: 0),
-                  Confetti.inkFixed.withValues(alpha: wide ? 0.62 : 0.12),
+                  Confetti.inkFixed.withValues(alpha: 0.62),
                 ],
                 stops: const [0, 0.45, 1],
               ),
             ),
           ),
           Positioned(
-            top: top + (wide ? 22 : 10),
-            left: wide ? 22 : 14,
-            right: wide ? 22 : 14,
-            child: wide
-                ? Row(
-                    children: [
-                      const CalandixWordmark(size: 24, color: Colors.white),
-                      const Spacer(),
-                      _GlassPill(
-                        label: 'Retour'.tr,
-                        icon: AppIcons.back,
-                        onTap: onBack,
-                      ),
-                    ],
-                  )
-                : Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: RoundIconButton(
-                          icon: AppIcons.back,
-                          tooltip: 'Retour',
-                          background: Colors.white.withValues(alpha: 0.92),
-                          foreground: Confetti.inkFixed,
-                          onTap: onBack,
-                        ),
-                      ),
-                      const CalandixWordmark(size: 22, color: Colors.white),
-                    ],
-                  ),
-          ),
-          if (wide)
-            Align(
-              alignment: const Alignment(0, -0.1),
-              child: Entrance(
-                offset: 24,
-                child: AuthMascot(color: color, size: 290),
-              ),
-            )
-          else
-            AnimatedPositioned(
-              duration: Motion.base,
-              curve: Motion.easeOut,
-              right: compact ? 10 : 14,
-              bottom: compact ? -6 : -2,
-              child: AuthMascot(color: color, size: compact ? 92 : 168),
-            ),
-          if (wide)
-            Positioned(
-              left: 30,
-              right: 30,
-              bottom: 30,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Organisez.\nRéservez.\nCélébrez.'.tr,
-                    style: context.text.displaySmall?.copyWith(
-                      color: Colors.white,
-                      fontSize: 40,
-                      height: 1.02,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: -0.8,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Le budget parfait pour célébrer.'.tr,
-                    style: context.text.bodyLarge?.copyWith(
-                      color: Colors.white.withValues(alpha: 0.86),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          else if (!compact)
-            Positioned(
-              left: 20,
-              bottom: 22,
-              right: 190,
-              child: Text(
-                'Organisez.\nRéservez.\nCélébrez.'.tr,
-                style: context.text.titleLarge?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w800,
-                  height: 1.08,
-                  shadows: [
-                    Shadow(
-                      color: Confetti.inkFixed.withValues(alpha: 0.35),
-                      blurRadius: 12,
-                    ),
-                  ],
+            top: 22,
+            left: 22,
+            right: 22,
+            child: Row(
+              children: [
+                const CalandixWordmark(size: 24, color: Colors.white),
+                const Spacer(),
+                _GlassPill(
+                  label: 'Retour'.tr,
+                  icon: AppIcons.back,
+                  onTap: onBack,
                 ),
-              ),
+              ],
             ),
+          ),
+          Align(
+            alignment: const Alignment(0, -0.1),
+            child: Entrance(
+              offset: 24,
+              child: AuthMascot(color: color, size: 290),
+            ),
+          ),
+          Positioned(
+            left: 30,
+            right: 30,
+            bottom: 30,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Organisez.\nRéservez.\nCélébrez.'.tr,
+                  style: context.text.displaySmall?.copyWith(
+                    color: Colors.white,
+                    fontSize: 40,
+                    height: 1.02,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: -0.8,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Le budget parfait pour célébrer.'.tr,
+                  style: context.text.bodyLarge?.copyWith(
+                    color: Colors.white.withValues(alpha: 0.86),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
