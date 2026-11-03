@@ -154,6 +154,7 @@ class _GreetingHeroState extends ConsumerState<GreetingHero>
                           size: mascotSize,
                           color: widget.mascot,
                           waving: true,
+                          animated: true,
                           look: _lookFrom(mCenter),
                           onTap: () =>
                               ref.read(soundProvider).play(Sfx.success),

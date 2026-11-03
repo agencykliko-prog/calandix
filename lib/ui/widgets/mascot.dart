@@ -26,6 +26,9 @@ _Shot _shotFor(MascotMood mood, MascotColor color) => switch (mood) {
   MascotMood.sad => _Shot.triste,
 };
 
+/// Salut animé de la fourmi rouge (WebP animé, fond transparent).
+const _waveAnimation = 'assets/images/mascots/salut_anim.webp';
+
 /// Charge les poses à l'avance pour que les changements soient instantanés.
 void precacheMascots(BuildContext context) {
   for (final s in _Shot.values) {
@@ -47,6 +50,7 @@ class Mascot extends StatefulWidget {
     this.look,
     this.cover = false,
     this.waving = false,
+    this.animated = false,
     this.arms = true,
     this.legs = true,
     this.idle = true,
@@ -59,6 +63,10 @@ class Mascot extends StatefulWidget {
   final MascotMood mood;
   final bool cover;
   final bool waving;
+
+  /// Avec [waving], la fourmi rouge salue pour de bon : la main et les
+  /// antennes bougent (animation en boucle, issue d'une vidéo Higgsfield).
+  final bool animated;
 
   /// Conservés pour compatibilité : la mascotte ne bouge plus.
   final Offset? look;
@@ -86,8 +94,13 @@ class MascotState extends State<Mascot> {
   @override
   Widget build(BuildContext context) {
     final size = widget.size;
+    final moving =
+        widget.animated &&
+        widget.waving &&
+        !widget.cover &&
+        widget.color == MascotColor.organizer;
     final img = Image.asset(
-      _asset(_shot, widget.color),
+      moving ? _waveAnimation : _asset(_shot, widget.color),
       width: size,
       height: size,
       fit: BoxFit.contain,
