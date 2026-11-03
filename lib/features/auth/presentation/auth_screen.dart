@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math' as math;
-import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -243,9 +242,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   }
 }
 
-/// Volet illustré de la carte desktop : le nom Calandix en lettres gonflées
-/// dans le ciel, la mascotte qui ferme les yeux pendant la saisie du mot de
-/// passe, et la promesse de Calandix.
+/// Volet illustré de la carte desktop : une colline fleurie sous un ciel
+/// blanc, la mascotte debout dessus (elle ferme les yeux pendant la saisie
+/// du mot de passe), et la promesse de Calandix en haut.
 class _AuthVisual extends StatelessWidget {
   const _AuthVisual({required this.color, required this.onBack});
 
@@ -254,96 +253,79 @@ class _AuthVisual extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Le volet garde ses couleurs claires en mode sombre : c'est une image.
+    const ink = Confetti.inkFixed;
     return ClipRRect(
       borderRadius: BorderRadius.circular(26),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // Le nom tient en entier dans la largeur ; le même ciel, flouté,
-          // comble le haut et le bas quand le volet est plus étroit.
-          ImageFiltered(
-            imageFilter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
-            child: Image.asset(
-              'assets/images/auth_calandix.webp',
-              fit: BoxFit.cover,
-            ),
-          ),
-          Image.asset(
-            'assets/images/auth_calandix.webp',
-            fit: BoxFit.fitWidth,
-            alignment: const Alignment(0, -0.35),
-          ),
-          // Voile sombre en bas, pour la promesse.
-          DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Confetti.inkFixed.withValues(alpha: 0),
-                  Confetti.inkFixed.withValues(alpha: 0.55),
-                ],
-                stops: const [0.6, 1],
+      child: LayoutBuilder(
+        builder: (context, box) {
+          final mascot = math.min(box.maxWidth * 0.52, box.maxHeight * 0.4);
+          return Stack(
+            fit: StackFit.expand,
+            children: [
+              const ColoredBox(color: Colors.white),
+              Image.asset(
+                'assets/images/auth_colline.webp',
+                fit: BoxFit.cover,
+                alignment: Alignment.bottomCenter,
               ),
-            ),
-          ),
-          Positioned(
-            top: 22,
-            left: 22,
-            right: 22,
-            child: Row(
-              children: [
-                const Spacer(),
-                _GlassPill(
-                  label: 'Retour'.tr,
-                  icon: AppIcons.back,
-                  onTap: onBack,
+              // La fourmi se tient sur le haut de la colline.
+              Positioned(
+                left: (box.maxWidth - mascot) / 2,
+                bottom: box.maxHeight * 0.2,
+                child: Entrance(
+                  offset: 24,
+                  child: AuthMascot(color: color, size: mascot),
                 ),
-              ],
-            ),
-          ),
-          Positioned(
-            right: 8,
-            bottom: 6,
-            child: Entrance(
-              offset: 24,
-              child: AuthMascot(color: color, size: 210),
-            ),
-          ),
-          Positioned(
-            left: 30,
-            right: 200,
-            bottom: 30,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Organisez.\nRéservez.\nCélébrez.'.tr,
-                  style: context.text.displaySmall?.copyWith(
-                    color: Colors.white,
-                    fontSize: 40,
-                    height: 1.02,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: -0.8,
-                  ),
+              ),
+              Positioned(
+                top: 28,
+                left: 30,
+                right: 22,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Organisez.\nRéservez.\nCélébrez.'.tr,
+                            style: context.text.displaySmall?.copyWith(
+                              color: ink,
+                              fontSize: 40,
+                              height: 1.02,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: -0.8,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            'Le budget parfait pour célébrer.'.tr,
+                            style: context.text.bodyLarge?.copyWith(
+                              color: ink.withValues(alpha: 0.68),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    _GlassPill(
+                      label: 'Retour'.tr,
+                      icon: AppIcons.back,
+                      onTap: onBack,
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  'Le budget parfait pour célébrer.'.tr,
-                  style: context.text.bodyLarge?.copyWith(
-                    color: Colors.white.withValues(alpha: 0.86),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-/// Pastille translucide posée sur l'illustration.
+/// Pastille discrète posée sur l'illustration (fond clair).
 class _GlassPill extends StatelessWidget {
   const _GlassPill({
     required this.label,
@@ -357,25 +339,23 @@ class _GlassPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const ink = Confetti.inkFixed;
     return Pressable(
       onTap: onTap,
       semanticLabel: label,
       child: Container(
         padding: const EdgeInsets.fromLTRB(12, 8, 14, 8),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.2),
+          color: ink.withValues(alpha: 0.06),
           borderRadius: BorderRadius.circular(99),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.35)),
+          border: Border.all(color: ink.withValues(alpha: 0.14)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 16, color: Colors.white),
+            Icon(icon, size: 16, color: ink),
             const SizedBox(width: 6),
-            Text(
-              label,
-              style: context.text.labelMedium?.copyWith(color: Colors.white),
-            ),
+            Text(label, style: context.text.labelMedium?.copyWith(color: ink)),
           ],
         ),
       ),
