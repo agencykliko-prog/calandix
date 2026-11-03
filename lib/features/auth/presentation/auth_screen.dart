@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -242,8 +243,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   }
 }
 
-/// Volet illustré de la carte desktop : logo, mascotte qui ferme les yeux
-/// pendant la saisie du mot de passe, et la promesse de Calandix.
+/// Volet illustré de la carte desktop : le nom Calandix en lettres gonflées
+/// dans le ciel, la mascotte qui ferme les yeux pendant la saisie du mot de
+/// passe, et la promesse de Calandix.
 class _AuthVisual extends StatelessWidget {
   const _AuthVisual({required this.color, required this.onBack});
 
@@ -257,23 +259,31 @@ class _AuthVisual extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            'assets/images/onboarding_confetti.jpg',
-            fit: BoxFit.cover,
-            alignment: const Alignment(0, -0.4),
+          // Le nom tient en entier dans la largeur ; le même ciel, flouté,
+          // comble le haut et le bas quand le volet est plus étroit.
+          ImageFiltered(
+            imageFilter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+            child: Image.asset(
+              'assets/images/auth_calandix.webp',
+              fit: BoxFit.cover,
+            ),
           ),
-          // Voile sombre en haut (logo lisible) et en bas (promesse).
+          Image.asset(
+            'assets/images/auth_calandix.webp',
+            fit: BoxFit.fitWidth,
+            alignment: const Alignment(0, -0.35),
+          ),
+          // Voile sombre en bas, pour la promesse.
           DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Confetti.inkFixed.withValues(alpha: 0.32),
                   Confetti.inkFixed.withValues(alpha: 0),
-                  Confetti.inkFixed.withValues(alpha: 0.62),
+                  Confetti.inkFixed.withValues(alpha: 0.55),
                 ],
-                stops: const [0, 0.45, 1],
+                stops: const [0.6, 1],
               ),
             ),
           ),
@@ -283,7 +293,6 @@ class _AuthVisual extends StatelessWidget {
             right: 22,
             child: Row(
               children: [
-                const CalandixWordmark(size: 24, color: Colors.white),
                 const Spacer(),
                 _GlassPill(
                   label: 'Retour'.tr,
@@ -293,16 +302,17 @@ class _AuthVisual extends StatelessWidget {
               ],
             ),
           ),
-          Align(
-            alignment: const Alignment(0, -0.1),
+          Positioned(
+            right: 8,
+            bottom: 6,
             child: Entrance(
               offset: 24,
-              child: AuthMascot(color: color, size: 290),
+              child: AuthMascot(color: color, size: 210),
             ),
           ),
           Positioned(
             left: 30,
-            right: 30,
+            right: 200,
             bottom: 30,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
