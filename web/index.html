@@ -33,21 +33,18 @@
     html, body { margin: 0; height: 100%; background: #fff; }
     #splash { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; background: #fff; transition: opacity .4s ease, visibility .4s; }
     #splash.done { opacity: 0; visibility: hidden; }
-    .sp-box { display: grid; justify-items: center; gap: 26px; }
-    .sp-logo { display: block; width: 190px; height: auto; }
-    .sp-line { position: relative; width: 132px; height: 3px; border-radius: 3px; background: #EEEBF6; overflow: hidden; }
-    .sp-line i { position: absolute; inset: 0; border-radius: 3px; transform-origin: left; background: linear-gradient(90deg, #E59D1F, #E01928, #4D39E2); animation: sp-sweep 1.5s cubic-bezier(.65, 0, .35, 1) infinite; }
-    @keyframes sp-sweep { 0% { transform: translateX(-100%); } 55%, 100% { transform: translateX(100%); } }
-    @media (prefers-reduced-motion: reduce) { .sp-line i { animation: none; } }
+    /* Seul le symbole, à la taille d'une icône d'ouverture d'app (96 px sur
+       téléphone, 112 px au-delà), qui apparaît en douceur. */
+    .sp-mark { display: block; width: 96px; height: 96px; animation: sp-in .5s ease-out both; }
+    @media (min-width: 600px) { .sp-mark { width: 112px; height: 112px; } }
+    @keyframes sp-in { from { opacity: 0; transform: scale(.92); } }
+    @media (prefers-reduced-motion: reduce) { .sp-mark { animation: none; } }
   </style>
 </head>
 <body>
   <noscript><p style="position:fixed;inset:auto 0 24px;z-index:10000;color:#1A0637;text-align:center;font-family:system-ui,sans-serif">Calandix a besoin de JavaScript pour fonctionner.</p></noscript>
   <div id="splash" role="status" aria-label="Chargement de Calandix">
-    <div class="sp-box">
-      <img class="sp-logo" src="brand/calandix-logo.svg" width="760" height="124" alt="">
-      <div class="sp-line" aria-hidden="true"><i></i></div>
-    </div>
+    <img class="sp-mark" src="brand/calandix-mark.svg" width="136" height="136" alt="">
   </div>
   <script src="flutter_bootstrap.js" async></script>
 </body>
