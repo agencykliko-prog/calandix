@@ -29,20 +29,16 @@ import '../../events/presentation/events_providers.dart';
 import '../../marketplace/presentation/widgets/vendor_card.dart';
 import '../../premium/presentation/premium_nudge.dart';
 import '../../events/presentation/widgets/event_card.dart';
+import 'event_carousel.dart';
 import 'greeting_hero.dart';
 import 'notifications_sheet.dart';
 import '../../inbox/presentation/inbox_providers.dart';
 import '../../notifications/presentation/notifications_provider.dart';
 import '../../guests/presentation/remind_sheet.dart';
-import '../../marketplace/data/vendor_media.dart';
-import '../../../ui/theme/app_theme.dart';
 
-part 'home_sky.dart';
-
-/// Accueil Organisateur. Sur téléphone : le ciel et le budget du prochain
-/// événement, le Pass Événement, les événements en défilement, les échéances,
-/// ce qui demande une action, puis les prestataires recommandés. Sur grand
-/// écran : héros, budget et grilles.
+/// Accueil Organisateur. Ordre de lecture : le diaporama des événements
+/// (le prochain en premier), son budget, les prochaines échéances, ce qui
+/// demande une action, puis les prestataires à la une.
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -71,11 +67,10 @@ class HomeScreen extends ConsumerWidget {
             final desktop = box.maxWidth >= _desktop;
             // En desktop, le héros entre dans la grille dès qu'il y a des
             // événements ; sinon il reste en tête, comme sur mobile.
-            final hasEvents =
-                !events.hasError && (events.value?.isNotEmpty ?? false);
-            final heroInGrid = desktop && hasEvents;
-            // Sur téléphone, le ciel remplace le héros dès qu'il y a un événement.
-            final sky = !desktop && hasEvents;
+            final heroInGrid =
+                desktop &&
+                !events.hasError &&
+                (events.value?.isNotEmpty ?? false);
             return RefreshIndicator(
               color: Confetti.coral,
               onRefresh: () => ref.read(eventsProvider.notifier).refresh(),
@@ -84,7 +79,7 @@ class HomeScreen extends ConsumerWidget {
                   parent: BouncingScrollPhysics(),
                 ),
                 slivers: [
-                  if (!heroInGrid && !sky) SliverToBoxAdapter(child: hero),
+                  if (!heroInGrid) SliverToBoxAdapter(child: hero),
                   ...events.when(
                     skipLoadingOnRefresh: true,
                     loading: () => const [
@@ -255,38 +250,33 @@ class HomeScreen extends ConsumerWidget {
   List<Widget> _content(BuildContext context, WidgetRef ref, List<Event> list) {
     final d = _prepare(list);
     final next = d.next;
-    final featured = d.featured.take(10).toList();
-    final free = ref.watch(planProvider) == Plan.free;
+    final featured = d.featured;
 
     return [
-      SliverToBoxAdapter(child: _SkyHero(next: next)),
-      if (free)
+      if (ref.watch(planProvider) == Plan.free)
         const SliverPadding(
-          padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+          padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
           sliver: SliverToBoxAdapter(child: Entrance(child: _PassPromo())),
         ),
+      SliverToBoxAdapter(child: SectionTitle('Mes événements'.tr)),
       SliverToBoxAdapter(
-        child: SectionTitle(
-          'Mes événements'.tr,
-          action: '+ Nouvel événement'.tr,
-          onAction: () => context.push(Routes.newEvent),
+        child: Entrance(
+          child: EventCarousel(
+            events: d.upcoming,
+            height: MediaQuery.sizeOf(context).width < 400 ? 280 : 320,
+          ),
         ),
       ),
       SliverToBoxAdapter(
-        child: SizedBox(
-          height: 164,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            physics: const BouncingScrollPhysics(),
-            itemCount: d.upcoming.length,
-            separatorBuilder: (_, _) => const SizedBox(width: 10),
-            itemBuilder: (context, i) => Entrance(
-              index: i.clamp(0, 4),
-              child: _EventTile(event: d.upcoming[i]),
-            ),
-          ),
+        child: SectionTitle(
+          'Budget'.tr,
+          action: next.name,
+          onAction: () => context.push(Routes.budget(next.id)),
         ),
+      ),
+      SliverPadding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        sliver: SliverToBoxAdapter(child: _budget(context, next)),
       ),
       SliverToBoxAdapter(
         child: SectionTitle(
@@ -308,37 +298,30 @@ class HomeScreen extends ConsumerWidget {
       ),
       SliverToBoxAdapter(
         child: SectionTitle(
-          'Recommandés'.tr,
+          'Prestataires à la une'.tr,
           action: 'Tout voir'.tr,
           onAction: () => context.go(Routes.explore),
         ),
       ),
-      // Deux rangées de pastilles qui défilent ensemble.
       SliverToBoxAdapter(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              for (final row in [
-                [for (var i = 0; i < featured.length; i += 2) featured[i]],
-                [for (var i = 1; i < featured.length; i += 2) featured[i]],
-              ])
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Row(
-                    children: [
-                      for (final v in row)
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8),
-                          child: _VendorChip(vendor: v),
-                        ),
-                    ],
-                  ),
+        child: SizedBox(
+          height: 236,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            physics: const BouncingScrollPhysics(),
+            itemCount: math.min(8, featured.length),
+            separatorBuilder: (_, _) => const SizedBox(width: 12),
+            itemBuilder: (context, i) => Entrance(
+              index: i.clamp(0, 4),
+              child: SizedBox(
+                width: 176,
+                child: VendorSpotlight(
+                  vendor: featured[i],
+                  onTap: () => context.push(Routes.vendor(featured[i].id)),
                 ),
-            ],
+              ),
+            ),
           ),
         ),
       ),
@@ -401,6 +384,11 @@ class HomeScreen extends ConsumerWidget {
             ),
           ],
         ),
+        if (ref.watch(planProvider) == Plan.free)
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
+            child: _PassPromo(),
+          ),
         SectionTitle('Mes événements'.tr),
         grid(
           columns: 3,
@@ -771,16 +759,11 @@ class _Empty extends StatelessWidget {
 
 /// Accès à la messagerie, avec le nombre de messages non lus.
 class _MessagesButton extends ConsumerWidget {
-  const _MessagesButton({this.onSky = false});
-
-  /// Posé sur le ciel de l'accueil : fond translucide, icône blanche.
-  final bool onSky;
+  const _MessagesButton();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) => RoundIconButton(
     icon: AppIcons.message,
-    background: onSky ? Colors.white.withValues(alpha: 0.2) : null,
-    foreground: onSky ? Colors.white : null,
     tooltip: 'Messages',
     badgeCount: ref.watch(unreadMessagesProvider),
     onTap: () => context.push(Routes.messages),
@@ -791,9 +774,7 @@ class _MessagesButton extends ConsumerWidget {
 /// session, la cloche sonne peu après l'ouverture ; elle sonne aussi à
 /// chaque nouvelle notification.
 class _Bell extends ConsumerStatefulWidget {
-  const _Bell({this.onSky = false});
-
-  final bool onSky;
+  const _Bell();
 
   static bool _rang = false;
 
@@ -854,8 +835,6 @@ class _BellState extends ConsumerState<_Bell>
       },
       child: RoundIconButton(
         icon: AppIcons.bell,
-        background: widget.onSky ? Colors.white.withValues(alpha: 0.2) : null,
-        foreground: widget.onSky ? Colors.white : null,
         tooltip: 'Notifications',
         badge: !_fresh && unread > 0,
         badgeCount: _fresh ? unread : null,
@@ -863,6 +842,54 @@ class _BellState extends ConsumerState<_Bell>
           setState(() => _fresh = true);
           showNotificationsSheet(context);
         },
+      ),
+    );
+  }
+}
+
+class _PassPromo extends StatelessWidget {
+  const _PassPromo();
+
+  @override
+  Widget build(BuildContext context) {
+    return Pressable(
+      onTap: () => context.push(Routes.premium),
+      child: Panel(
+        padding: const EdgeInsets.fromLTRB(18, 16, 14, 16),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Pass Événement · {0}'.trf([fcfa(eventPassPrice)]),
+                    style: context.text.titleMedium,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Toutes les fonctions Signature pendant 30 jours, pour un seul événement.'
+                        .tr,
+                    style: context.text.bodySmall?.copyWith(
+                      color: Confetti.inkMuted,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 10),
+            Mascot(size: 64, mood: MascotMood.cheer),
+            Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: Confetti.ink,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(AppIcons.forward, size: 16, color: Confetti.cream),
+            ),
+          ],
+        ),
       ),
     );
   }
