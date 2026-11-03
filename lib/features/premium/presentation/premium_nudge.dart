@@ -28,10 +28,10 @@ enum PremiumNudge {
   /// Après une réservation confirmée : contrat et reçus à ranger.
   booking(Plan.signature),
 
-  /// Le budget est consulté souvent : l'IA peut le construire.
+  /// Le budget est consulté souvent : graphiques et export.
   budget(Plan.azur),
 
-  /// Relance des invités : rappels automatiques et QR code RSVP.
+  /// Relance des invités : rappels et QR code RSVP.
   guests(Plan.azur);
 
   const PremiumNudge(this.plan);
@@ -40,35 +40,35 @@ enum PremiumNudge {
   String get title => switch (this) {
     newEvent => 'Votre plan est prêt. Et si l’IA s’occupait du reste ?'.tr,
     booking => 'Date bloquée ! Rangez contrat et reçus à l’abri.'.tr,
-    budget => 'Laissez l’IA construire votre budget idéal.'.tr,
-    guests => 'Plus besoin de relancer un par un.'.tr,
+    budget => 'Votre budget, en graphiques.'.tr,
+    guests => 'Un QR code pour répondre en un geste.'.tr,
   };
 
   String get pitch => switch (this) {
     newEvent =>
-      'Budget optimisé en 10 secondes, rappels automatiques et jusqu’à 5 collaborateurs.'
+      'Graphiques et export, rappels WhatsApp et SMS, et jusqu’à 5 collaborateurs.'
           .tr,
     booking =>
       'Le coffre-fort chiffré garde vos contrats, devis et reçus, et l’agent IA négocie vos prochains devis.'
           .tr,
     budget =>
-      'Répartition selon le type, la ville et le nombre d’invités, en gardant ce que vous avez déjà engagé.'
+      'Suivez chaque poste en graphiques et exportez votre budget pour le partager.'
           .tr,
     guests =>
-      'Rappels WhatsApp et SMS programmés, QR code RSVP à partager en un geste.'
+      'Vos invités scannent le QR code RSVP et répondent ; les rappels WhatsApp et SMS complètent.'
           .tr,
   };
 
   /// Services inclus sans frais supplémentaires dans l'offre suggérée.
   List<(IconData, String)> get perks => switch (plan) {
     Plan.signature => [
-      (AppIcons.lock, 'Coffre-fort chiffré 5 Go'.tr),
+      (AppIcons.lock, 'Coffre-fort chiffré 10 Go'.tr),
       (AppIcons.sparkle, 'Agent IA dédié'.tr),
       (AppIcons.handshake, 'Négociation de devis'.tr),
       (AppIcons.team, 'Collaborateurs illimités'.tr),
     ],
     _ => [
-      (AppIcons.sparkle, 'Budget créé par l’IA'.tr),
+      (AppIcons.lock, 'Coffre-fort 5 Go'.tr),
       (AppIcons.whatsapp, 'Rappels WhatsApp et SMS'.tr),
       (AppIcons.qr, 'QR code RSVP'.tr),
       (AppIcons.chart, 'Graphiques et export'.tr),

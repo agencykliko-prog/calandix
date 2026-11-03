@@ -13,7 +13,7 @@ import '../../commerce/domain/commerce_models.dart';
 import '../../commerce/presentation/commerce_providers.dart';
 import '../../commerce/presentation/payment_sheet.dart';
 
-/// Offre Creator (29 900 FCFA / mois) : souscription, état de
+/// Offre Creator (dès 15 000 FCFA / mois, 14 jours d'essai) : souscription, état de
 /// l'abonnement, résiliation ; et espaces sponsorisés.
 class BusinessScreen extends ConsumerWidget {
   const BusinessScreen({super.key});
@@ -23,7 +23,10 @@ class BusinessScreen extends ConsumerWidget {
       context,
       title: 'Abonnement Creator'.tr,
       payee: 'Calandix'.tr,
-      options: [PayOption('Mensuel'.tr, creatorPlanPrice)],
+      options: [
+        PayOption('Mensuel'.tr, creatorPlanPrice),
+        PayOption('Annuel · 2 mois offerts'.tr, creatorPlanPrice * 10),
+      ],
       onPay: (amount, m) {
         final receipt = Receipt(
           ref: receiptRef(),
@@ -131,8 +134,9 @@ class BusinessScreen extends ConsumerWidget {
                         color: Colors.white60,
                       ),
                       children: [
+                        TextSpan(text: 'À partir de '.tr),
                         TextSpan(
-                          text: '29 900 FCFA'.tr,
+                          text: fcfa(creatorPlanPrice),
                           style: context.text.headlineSmall?.copyWith(
                             color: Confetti.gold,
                           ),
@@ -142,16 +146,29 @@ class BusinessScreen extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 18),
-                  if (sub == null)
+                  if (sub == null) ...[
+                    PillButton(
+                      label: 'Essayer 14 jours gratuitement'.tr,
+                      tone: ButtonTone.gold,
+                      icon: AppIcons.crown,
+                      onPressed: () {
+                        ref.read(creatorSubProvider.notifier).startTrial();
+                        toast(
+                          context,
+                          'Essai Creator activé : 14 jours offerts'.tr,
+                          icon: AppIcons.crown,
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 10),
                     PillButton(
                       label: 'S’abonner · {0} / mois'.trf([
                         fcfa(creatorPlanPrice),
                       ]),
-                      tone: ButtonTone.gold,
-                      icon: AppIcons.crown,
+                      tone: ButtonTone.light,
                       onPressed: () => _subscribe(context, ref),
-                    )
-                  else ...[
+                    ),
+                  ] else ...[
                     _ActiveSub(
                       sub: sub,
                       onCancel: () => _cancel(context, ref),
@@ -168,7 +185,8 @@ class BusinessScreen extends ConsumerWidget {
                   ],
                   const SizedBox(height: 10),
                   Text(
-                    'Sans engagement · résiliable à tout moment'.tr,
+                    '14 jours d’essai, puis sans engagement · 2 mois offerts à l’année'
+                        .tr,
                     style: context.text.labelSmall?.copyWith(
                       color: Colors.white60,
                     ),
@@ -324,7 +342,12 @@ class _ActiveSub extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            sub.cancelled
+            sub.trial
+                ? 'Essai gratuit jusqu’au {0}, puis {1}/mois.'.trf([
+                    longDate(sub.renewsOn),
+                    fcfa(creatorPlanPrice),
+                  ])
+                : sub.cancelled
                 ? 'Active jusqu’au {0}, sans renouvellement.'.trf([
                     longDate(sub.renewsOn),
                   ])
@@ -334,7 +357,7 @@ class _ActiveSub extends StatelessWidget {
                   ]),
             style: white,
           ),
-          Text('Reçu {0}'.trf([sub.receipt]), style: white),
+          if (!sub.trial) Text('Reçu {0}'.trf([sub.receipt]), style: white),
           const SizedBox(height: 12),
           PillButton(
             label: sub.cancelled ? 'Réactiver'.tr : 'Résilier'.tr,

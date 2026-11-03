@@ -8,7 +8,7 @@ import '../../commerce/presentation/commerce_providers.dart';
 import 'creator_providers.dart';
 import 'signature_provider.dart';
 
-// ─── Studio Creator : outils de l'offre Creator (29 900 FCFA / mois) ────────
+// ─── Studio Creator : outils de l'offre Creator (dès 15 000 FCFA / mois) ────
 
 /// Le Studio est ouvert tant que l'abonnement court, même résilié (jusqu'à
 /// la fin de la période payée).

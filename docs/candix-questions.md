@@ -1,4 +1,4 @@
-# Candix : les 120 questions et réponses
+# Candix : les 123 questions et réponses
 
 Base utilisée par Candix sur la landing. Pour modifier une réponse, éditer `landing/candix-faq.json`.
 
@@ -87,7 +87,7 @@ Une fourchette suffit : elle oriente le budget par personne et les outils utiles
 
 - **Moins de 50** : Un petit comité : la formule gratuite Découverte couvre la liste d'invités, les RSVP et le budget. Soignez le coût par personne, c'est lui qui fait la différence.
 - **50 à 150** : Le suivi des réponses devient précieux : relancez les invités en attente par WhatsApp et donnez au traiteur le total des personnes attendues, accompagnants compris.
-- **150 à 300** : Sur une liste de cette taille, le QR code RSVP et les rappels WhatsApp et SMS (formule Azur) évitent les relances une à une. Classez vos invités par groupe pour placer les tables.
+- **150 à 300** : Sur une liste de cette taille, le QR code RSVP (formule Azur) laisse les invités répondre seuls, et la relance WhatsApp prépare chaque message pour vous. Classez vos invités par groupe pour placer les tables.
 - **Plus de 300** : Pour un grand événement, partagez le suivi des invités entre plusieurs co-organisateurs (collaborateurs illimités avec Signature) et appuyez-vous sur le QR code RSVP pour connaître les présences exactes.
 
 Ensuite : Quel est votre budget global ?
@@ -130,10 +130,11 @@ Ensuite : Quelle formule me convient le mieux ?
 
 Une question suffit pour vous orienter : combien de personnes préparent l'événement avec vous ?
 
-- **Seul ou à deux** : Découverte, gratuite, suffit pour démarrer : événements illimités, budget, checklist, marketplace et 2 collaborateurs. Passez à Azur si vous voulez le budget créé par l'IA, les rappels WhatsApp et SMS ou le QR code RSVP.
-- **Trois à cinq** : Azur : 2 900 FCFA par mois, ou 2 175 FCFA en annuel. Jusqu'à 5 collaborateurs, budget créé par l'IA, graphiques et export, rappels WhatsApp et SMS, QR code RSVP.
-- **Un comité complet** : Signature, la plus choisie : 4 900 FCFA par mois, ou 3 675 FCFA en annuel. Collaborateurs illimités, agent IA de votre événement, négociation de devis par l'IA et coffre-fort de 5 Go.
-- **Je veux être accompagné** : Privilège : 9 900 FCFA par mois, ou 7 425 FCFA en annuel. Tout Signature, plus le concierge IA prioritaire, 50 Go de coffre-fort avec album privé et le support 7 j/7 sur WhatsApp.
+- **Seul ou à deux** : Découverte, gratuite, suffit pour démarrer : 4 événements actifs, budget réparti par l'IA, checklist, marketplace, 2 collaborateurs et 1 Go de coffre-fort. Passez à Azur pour les graphiques et l'export, les rappels WhatsApp et SMS ou le QR code RSVP.
+- **Un seul grand événement** : Le Pass Événement : 2 500 FCFA pour 30 jours de fonctions Signature, sur un seul événement, sans abonnement. Idéal pour un mariage, un anniversaire ou un baptême.
+- **Trois à cinq** : Azur : 1 500 FCFA par mois, ou 15 000 FCFA par an. Jusqu'à 5 collaborateurs, graphiques et export, coffre-fort de 5 Go, rappels WhatsApp et SMS, QR code RSVP. 14 jours d'essai gratuit.
+- **Un comité complet** : Signature, la plus choisie : 2 900 FCFA par mois, ou 29 000 FCFA par an. Collaborateurs illimités, agent IA de votre événement, négociation de devis par l'IA et coffre-fort de 10 Go. 14 jours d'essai gratuit.
+- **Je veux être accompagné** : Privilège : 5 900 FCFA par mois, ou 59 000 FCFA par an. Tout Signature, plus le concierge IA prioritaire, 20 Go de coffre-fort avec album privé et le support WhatsApp 7 j/7. 14 jours d'essai gratuit.
 
 **19. Quelle est votre activité ?** _(pour les prestataires, liste déroulante)_
 
@@ -165,8 +166,8 @@ Ensuite : Combien de demandes recevez-vous par mois ?
 À peu près, combien de demandes de prestation traitez-vous chaque mois ?
 
 - **Moins de 5** : Commencez gratuitement : fiche, devis et reversements sont inclus, vous ne payez que la commission de 8 % sur les prestations payées via l'application.
-- **5 à 20** : Le gratuit couvre l'essentiel. Si vous voulez plus de visibilité et le Studio Creator, l'offre Creator démarre à 29 900 FCFA par mois, sans engagement.
-- **Plus de 20** : À ce volume, l'offre Creator (dès 29 900 FCFA par mois, sans engagement) prend tout son sens : Studio Creator, plus de visibilité, et devis, commandes et revenus centralisés.
+- **5 à 20** : Le gratuit couvre l'essentiel. Si vous voulez plus de visibilité et le Studio Creator, l'offre Creator démarre à 15 000 FCFA par mois, sans engagement.
+- **Plus de 20** : À ce volume, l'offre Creator (dès 15 000 FCFA par mois, sans engagement) prend tout son sens : Studio Creator, plus de visibilité, et devis, commandes et revenus centralisés.
 
 ## Compte
 
@@ -210,7 +211,7 @@ Suites proposées : Comment répartir mon budget entre les postes ? · Comment r
 
 **30. Puis-je gérer plusieurs événements ?**
 
-Oui, les événements sont illimités, même avec la formule gratuite Découverte. Chacun a son propre espace.
+Oui : jusqu'à 4 événements actifs avec la formule gratuite Découverte, et sans limite avec un abonnement. Chacun a son propre espace.
 
 **31. Qu'est-ce que la checklist ?**
 
@@ -222,7 +223,7 @@ Dans votre événement, les tâches sont classées par échéance : en retard, a
 
 **33. À quoi sert le coffre-fort ?**
 
-Le coffre-fort réunit vos contrats, devis, factures et reçus, photos, certificats et documents. Il offre 100 Mo gratuits, davantage avec un abonnement.
+Le coffre-fort réunit vos contrats, devis, factures et reçus, photos, certificats et documents. Il offre 1 Go gratuit, davantage avec un abonnement.
 
 **34. Puis-je exporter mes données ?**
 
@@ -262,7 +263,7 @@ Le simulateur de cette page répartit votre budget entre six postes : lieu, trai
 
 **42. Qu'est-ce que le budget créé par l'IA ?**
 
-Avec la formule Azur ou supérieure, Calandix propose une répartition de votre budget adaptée à votre événement et à votre nombre d'invités.
+Dès la création de l'événement, et sans abonnement, Calandix répartit votre budget selon votre type d'événement et votre nombre d'invités. Vous ajustez ensuite chaque poste librement.
 
 **43. Comment enregistrer une dépense ?**
 
@@ -330,7 +331,7 @@ Partagez votre invitation par WhatsApp : les réponses remontent dans votre list
 
 **58. Comment relancer les invités qui n'ont pas répondu ?**
 
-Filtrez la liste sur « en attente » puis relancez par WhatsApp en un geste. Les rappels WhatsApp et SMS sont inclus à partir de la formule Azur.
+Touchez « Relancer les invités en attente » : pour chaque invité, WhatsApp s'ouvre avec le message prêt et vous l'envoyez vous-même. Dès qu'il répond, notez sa réponse dans l'app d'un geste : la liste et le nombre de confirmés se mettent à jour.
 
 **59. Comment prévoir le nombre de couverts ?**
 
@@ -342,7 +343,7 @@ Oui : famille, amis, collègues, voisins… Chaque invité a un groupe, et la li
 
 **61. Comment impliquer la famille sans tout lui ouvrir ?**
 
-Donnez à chacun le rôle adapté : Lecteur pour consulter seulement, Éditeur pour gérer budget, tâches, prestataires et invités sans toucher aux paiements, Admin pour tous les droits. Tantie, témoins et co-organisateurs voient ce qu'ils doivent voir, rien de plus.
+Donnez à chacun le rôle adapté : Lecteur pour consulter seulement, Éditeur pour gérer budget, tâches, prestataires et invités sans toucher aux paiements, Admin pour tous les droits. Parents, témoins et co-organisateurs voient ce qu'ils doivent voir, rien de plus.
 
 ## Prestataires
 
@@ -402,206 +403,220 @@ Oui, depuis sa fiche ou sa demande de devis, avant d'accepter quoi que ce soit :
 
 Vous validez la prestation dans l'application : le prestataire est payé et vous gardez contrats, factures et photos dans le coffre-fort. Vous pouvez ensuite laisser un avis.
 
+**75. Qu'est-ce que la dernière offre ?**
+
+Sur un devis reçu, touchez « Dernière offre » : le prestataire vous fait son meilleur prix, une seule fois par devis, et le devis se met à jour.
+
+_Pour un prestataire :_ Dans vos conditions de vente, fixez votre dernière offre par défaut (en %), puis ajustez-la sur chaque devis : c'est votre plus bas tarif, que le client découvre s'il la demande.
+
 ## Paiements et sécurité
 
-**75. Quels moyens de paiement sont acceptés ?**
+**76. Quels moyens de paiement sont acceptés ?**
 
 Orange Money, MTN MoMo, Wave, Moov Money et la carte bancaire : vous payez comme vous payez déjà. Les éventuels frais sont affichés avant de valider.
 
 Suites proposées : Mon acompte est-il protégé ? · Y a-t-il des frais sur les paiements ?
 
-**76. Mon acompte est-il protégé ?**
+**77. Mon acompte est-il protégé ?**
 
 L'acompte est conservé jusqu'à la validation de la prestation, puis reversé au prestataire. En cas de litige, les fonds restent bloqués le temps de l'examen.
 
 Suites proposées : Que faire en cas de litige ? · Pourquoi payer l'acompte dans l'application ?
 
-**77. Y a-t-il des frais sur les paiements ?**
+**78. Y a-t-il des frais sur les paiements ?**
 
 Des frais de service, actuellement de 2 %, peuvent s'ajouter au montant payé par l'organisateur. Ils sont affichés avant le paiement.
 
-**78. Et si le prestataire annule ?**
+**79. Et si le prestataire annule ?**
 
 Une annulation par le prestataire entraîne le remboursement intégral de l'organisateur.
 
-**79. Puis-je annuler ma réservation ?** _(pour les organisateurs)_
+**80. Puis-je annuler ma réservation ?** _(pour les organisateurs)_
 
 Les conditions sont celles du devis. À défaut, l'annulation est gratuite jusqu'à 30 jours avant la prestation ; ensuite, l'acompte est conservé.
 
-**80. Que faire en cas de litige ?**
+**81. Que faire en cas de litige ?**
 
 Signalez-le dans l'application au plus tard 48 h après la date prévue. Les fonds restent bloqués et l'équipe Calandix étudie les éléments des deux parties ; elle peut décider d'un remboursement total ou partiel.
 
-**81. Puis-je payer un prestataire en dehors de l'application ?**
+**82. Puis-je payer un prestataire en dehors de l'application ?**
 
 Non, payer en dehors de l'application une prestation trouvée sur Calandix est interdit : vous perdriez aussi la protection de l'acompte.
 
-**82. Les paiements sont-ils actifs dans la démo ?**
+**83. Les paiements sont-ils actifs dans la démo ?**
 
 Non, la démo utilise des données fictives : aucun argent réel n'y circule.
 
-**83. Pourquoi payer l'acompte dans l'application ?**
+**84. Pourquoi payer l'acompte dans l'application ?**
 
 Parce qu'il reste protégé : il n'est reversé au prestataire qu'après la prestation. Payé de la main à la main, vous perdez cette garantie et le recours en cas de litige.
 
-**84. Combien de temps ai-je pour signaler un problème ?**
+**85. Combien de temps ai-je pour signaler un problème ?**
 
 48 heures après la date prévue de la prestation. Pendant l'examen, les fonds restent bloqués et l'équipe Calandix étudie les éléments des deux parties.
 
 ## Formules
 
-**85. Combien coûte Calandix ?**
+**86. Combien coûte Calandix ?**
 
-L'inscription est gratuite avec la formule Découverte. Puis Azur à 2 900 FCFA, Signature à 4 900 FCFA et Privilège à 9 900 FCFA par mois, ou 25 % de moins en formule annuelle. Ces tarifs de démonstration peuvent évoluer avant le lancement.
+L'inscription est gratuite avec la formule Découverte. Puis Azur à 1 500 FCFA, Signature à 2 900 FCFA et Privilège à 5 900 FCFA par mois, avec 14 jours d'essai gratuit ; à l'année, 2 mois sont offerts. Pour un seul événement, le Pass Événement donne les fonctions Signature pendant 30 jours pour 2 500 FCFA. Ces tarifs de démonstration peuvent évoluer avant le lancement.
 
-_Pour un prestataire :_ Pour un prestataire, l'inscription et la fiche sont gratuites : Calandix prélève seulement une commission de 8 % sur chaque prestation payée via l'application. L'offre Creator, dès 29 900 FCFA par mois sans engagement, ajoute le Studio Creator et plus de visibilité.
+_Pour un prestataire :_ Pour un prestataire, l'inscription et la fiche sont gratuites : Calandix prélève seulement une commission de 8 % sur chaque prestation payée via l'application. L'offre Creator, à partir de 15 000 FCFA par mois avec 14 jours d'essai gratuit, ajoute le Studio Creator et plus de visibilité.
 
 Suites proposées : Quelle formule me convient le mieux ? · Quelle est la différence entre le mensuel et l'annuel ?
 
-**86. Que comprend la formule Découverte ?**
+**87. Que comprend la formule Découverte ?**
 
-Gratuite : événements illimités, budget et checklist, 2 collaborateurs offerts, marketplace et réservations.
+Gratuite : 4 événements actifs, coffre-fort numérique de 1 Go, budget réparti par l'IA et checklist, 2 collaborateurs, marketplace et réservations.
 
-**87. Que comprend la formule Azur ?**
+**88. Que comprend la formule Azur ?**
 
-2 900 FCFA par mois (2 175 FCFA par mois en formule annuelle) : budget créé par l'IA, graphiques et export, jusqu'à 5 collaborateurs, rappels WhatsApp et SMS, QR code RSVP.
+1 500 FCFA par mois, ou 15 000 FCFA par an (2 mois offerts) : graphiques et export, coffre-fort de 5 Go, jusqu'à 5 collaborateurs, rappels WhatsApp et SMS, QR code RSVP.
 
-**88. Que comprend la formule Signature ?**
+**89. Que comprend la formule Signature ?**
 
-4 900 FCFA par mois (3 675 FCFA par mois en formule annuelle) : tout Azur, agent IA de votre événement, coffre-fort de 5 Go, collaborateurs illimités et négociation de devis par l'IA.
+2 900 FCFA par mois, ou 29 000 FCFA par an (2 mois offerts) : tout Azur, agent IA de votre événement, coffre-fort de 10 Go, collaborateurs illimités et négociation de devis par l'IA.
 
-**89. Que comprend la formule Privilège ?**
+**90. Que comprend la formule Privilège ?**
 
-9 900 FCFA par mois (7 425 FCFA par mois en formule annuelle) : tout Signature, concierge IA prioritaire, coffre-fort de 50 Go et album privé, support 7 j/7 sur WhatsApp.
+5 900 FCFA par mois, ou 59 000 FCFA par an (2 mois offerts) : tout Signature, concierge IA prioritaire, coffre-fort de 20 Go et album privé, support WhatsApp 7 j/7.
 
-**90. Puis-je résilier mon abonnement ?**
+**91. Puis-je résilier mon abonnement ?**
 
-Oui. Au mois, la formule est sans engagement et résiliable à tout moment depuis l'application : le mois entamé reste dû et l'accès continue jusqu'à la fin de la période payée. La formule annuelle est réglée en une fois pour 12 mois.
+Oui. Les formules payantes commencent par 14 jours d'essai gratuit. Au mois, elles sont sans engagement et résiliables à tout moment depuis l'application : le mois entamé reste dû et l'accès continue jusqu'à la fin de la période payée. La formule annuelle est réglée en une fois pour 12 mois, dont 2 offerts.
 
-**91. Quelle est la taille du coffre-fort selon la formule ?**
+**92. Quelle est la taille du coffre-fort selon la formule ?**
 
-100 Mo avec Découverte, 1 Go avec Azur, 5 Go avec Signature et 50 Go avec Privilège.
+1 Go avec Découverte, 5 Go avec Azur, 10 Go avec Signature et 20 Go avec Privilège.
 
-**92. Quelle est la différence entre le mensuel et l'annuel ?**
+**93. Quelle est la différence entre le mensuel et l'annuel ?**
 
-Au mois, vous payez chaque mois, sans engagement. À l'année, vous réglez 12 mois en une fois avec 25 % de réduction : Azur revient à 26 100 FCFA par an au lieu de 34 800, Signature à 44 100 au lieu de 58 800, Privilège à 89 100 au lieu de 118 800.
+Au mois, vous payez chaque mois, sans engagement. À l'année, vous payez 10 mois pour 12 : Azur revient à 15 000 FCFA par an au lieu de 18 000, Signature à 29 000 au lieu de 34 800, Privilège à 59 000 au lieu de 70 800.
 
-**93. Combien économise-t-on avec l'annuel ?**
+**94. Combien économise-t-on avec l'annuel ?**
 
-L'équivalent de trois mois sur douze, soit 25 % : 8 700 FCFA par an sur Azur, 14 700 FCFA sur Signature et 29 700 FCFA sur Privilège.
+Deux mois offerts sur douze : 3 000 FCFA par an sur Azur, 5 800 FCFA sur Signature et 11 800 FCFA sur Privilège.
 
-**94. La formule gratuite suffit-elle ?**
+**95. La formule gratuite suffit-elle ?**
 
-Pour beaucoup d'événements, oui : événements illimités, budget, checklist, marketplace, réservations et 2 collaborateurs. L'abonnement ajoute l'IA, les rappels WhatsApp et SMS, le QR code RSVP, plus de collaborateurs et plus d'espace.
+Pour beaucoup d'événements, oui : jusqu'à 4 événements actifs, budget réparti par l'IA, checklist, marketplace, réservations, 2 collaborateurs et 1 Go de coffre-fort. L'abonnement ajoute graphiques et export, rappels WhatsApp et SMS, QR code RSVP, plus de collaborateurs et plus d'espace.
+
+**96. Qu'est-ce que le Pass Événement ?**
+
+Pour un mariage, un anniversaire, un baptême ou une cérémonie ponctuelle : toutes les fonctions Signature pendant 30 jours, pour un seul événement, à 2 500 FCFA, sans souscrire d'abonnement.
+
+**97. Y a-t-il un essai gratuit ?**
+
+Oui : 14 jours d'essai gratuit sur les formules payantes, pour les organisateurs comme pour les prestataires. À l'issue des 14 jours, l'abonnement devient payant.
 
 ## Prestataires et agences
 
-**95. Combien coûte l'inscription pour un prestataire ?** _(pour les prestataires)_
+**98. Combien coûte l'inscription pour un prestataire ?** _(pour les prestataires)_
 
 L'inscription est gratuite. Calandix prélève une commission sur chaque prestation payée via l'application.
 
 Suites proposées : Quelle est la commission de Calandix ? · Comment créer mon espace pro ?
 
-**96. Quelle est la commission de Calandix ?** _(pour les prestataires)_
+**99. Quelle est la commission de Calandix ?** _(pour les prestataires)_
 
 Actuellement 8 % sur chaque prestation payée via l'application. Elle est affichée dans votre espace.
 
-**97. Quand suis-je payé en tant que prestataire ?** _(pour les prestataires)_
+**100. Quand suis-je payé en tant que prestataire ?** _(pour les prestataires)_
 
 Après validation de la prestation par l'organisateur, le montant est reversé, commission déduite, sous 2 jours ouvrés, sur votre compte Wave ou Orange Money.
 
-**98. Quels documents faut-il pour être vérifié ?** _(pour les prestataires)_
+**101. Quels documents faut-il pour être vérifié ?** _(pour les prestataires)_
 
 Le RCCM, une pièce d'identité et une adresse. Votre fiche est publiée après vérification.
 
-**99. Que propose l'espace pro ?** _(pour les prestataires)_
+**102. Que propose l'espace pro ?** _(pour les prestataires)_
 
 Six outils réunis : profil et catalogue (forfaits, options, zone d'intervention), disponibilités sans doubles réservations, devis et demandes en un écran, commandes jusqu'au jour J, revenus avec reversements Wave ou Orange Money, et réputation avec avis vérifiés.
 
 Suites proposées : Comment envoyer un devis détaillé ? · Puis-je signer mes devis et factures ?
 
-**100. Qu'est-ce que l'offre Creator ?** _(pour les prestataires)_
+**103. Qu'est-ce que l'offre Creator ?** _(pour les prestataires)_
 
-Une offre mensuelle pour les pros, à partir de 29 900 FCFA par mois, sans engagement, qui donne accès au Studio Creator et à plus de visibilité.
+Une offre pour les pros, à partir de 15 000 FCFA par mois, avec 14 jours d'essai gratuit et sans engagement, qui donne accès au Studio Creator et à plus de visibilité.
 
-**101. Comment créer mon espace pro ?** _(pour les prestataires)_
+**104. Comment créer mon espace pro ?** _(pour les prestataires)_
 
 Touchez « Créer mon espace pro », créez votre compte en choisissant Creator, puis complétez profil, catalogue et zone d'intervention et envoyez vos justificatifs (RCCM, pièce d'identité, adresse). Votre fiche est publiée après vérification.
 
-**102. Comment présenter un catalogue qui convainc ?** _(pour les prestataires)_
+**105. Comment présenter un catalogue qui convainc ?** _(pour les prestataires)_
 
 Des forfaits clairs avec leur prix de départ, des options, votre zone d'intervention et vos meilleures photos. Les organisateurs comparent des devis : plus votre offre est lisible, plus la décision se prend vite.
 
-**103. Comment envoyer un devis détaillé ?** _(pour les prestataires)_
+**106. Comment envoyer un devis détaillé ?** _(pour les prestataires)_
 
 Depuis une demande reçue, composez votre devis ligne par ligne, puis indiquez sa durée de validité et le pourcentage d'acompte. Tout tient en un écran, et le devis vous engage pendant sa validité.
 
-**104. Puis-je signer mes devis et factures ?** _(pour les prestataires)_
+**107. Puis-je signer mes devis et factures ?** _(pour les prestataires)_
 
 Oui. Tracez votre signature une fois dans votre espace pro, rubrique Ma signature : elle s'ajoute automatiquement à vos devis et factures. Une pièce déjà émise garde sa signature d'origine.
 
-**105. Comment éviter les doubles réservations ?** _(pour les prestataires)_
+**108. Comment éviter les doubles réservations ?** _(pour les prestataires)_
 
 Tenez votre calendrier de disponibilités à jour : une date réservée se bloque, et les organisateurs filtrent la marketplace par disponibilité.
 
-**106. Comment suivre mes commandes jusqu'au jour J ?** _(pour les prestataires)_
+**109. Comment suivre mes commandes jusqu'au jour J ?** _(pour les prestataires)_
 
 Chaque prestation confirmée devient une commande, avec ses échéances et sa préparation. Sur grand écran, vos demandes s'affichent en colonnes, étape par étape.
 
-**107. Combien vais-je toucher sur une prestation ?** _(pour les prestataires)_
+**110. Combien vais-je toucher sur une prestation ?** _(pour les prestataires)_
 
 Le montant payé par l'organisateur, moins la commission de 8 %. Exemple : pour 500 000 FCFA, 40 000 FCFA de commission et 460 000 FCFA reversés sous 2 jours ouvrés sur Wave ou Orange Money.
 
-**108. Comment répondre aux avis clients ?** _(pour les prestataires)_
+**111. Comment répondre aux avis clients ?** _(pour les prestataires)_
 
 Les avis sont vérifiés : seuls les organisateurs ayant réservé peuvent en laisser. Vous y répondez publiquement depuis la rubrique Réputation de votre espace.
 
-**109. Et si un client annule sa réservation ?** _(pour les prestataires)_
+**112. Et si un client annule sa réservation ?** _(pour les prestataires)_
 
 Les conditions de votre devis s'appliquent. À défaut, l'annulation est gratuite pour le client jusqu'à 30 jours avant la prestation ; au-delà, l'acompte est conservé.
 
-**110. Sur quel compte suis-je payé ?** _(pour les prestataires)_
+**113. Sur quel compte suis-je payé ?** _(pour les prestataires)_
 
 Les reversements se font sur votre compte Wave ou Orange Money, sous 2 jours ouvrés après la prestation validée.
 
-**111. Calandix convient-il aux agences événementielles ?** _(pour les prestataires)_
+**114. Calandix convient-il aux agences événementielles ?** _(pour les prestataires)_
 
 Oui, l'espace pro est pensé pour elles : demandes qualifiées, devis détaillés, commandes et revenus de toutes vos prestations, dans une seule app.
 
-**112. Que m'apporte la commission ?** _(pour les prestataires)_
+**115. Que m'apporte la commission ?** _(pour les prestataires)_
 
 Des clients qui arrivent avec une demande précise, un acompte encaissé et sécurisé avant la prestation, et un reversement sous 2 jours ouvrés : vous ne courez plus après les acomptes.
 
-**113. L'offre Creator est-elle obligatoire ?** _(pour les prestataires)_
+**116. L'offre Creator est-elle obligatoire ?** _(pour les prestataires)_
 
-Non : l'inscription et la fiche sont gratuites, seule la commission s'applique. L'offre Creator, dès 29 900 FCFA par mois sans engagement, ajoute le Studio Creator et plus de visibilité.
+Non : l'inscription et la fiche sont gratuites, seule la commission s'applique. L'offre Creator, dès 15 000 FCFA par mois sans engagement, ajoute le Studio Creator et plus de visibilité.
 
 ## Données et assistance
 
-**114. Calandix vend-il mes données ?**
+**117. Calandix vend-il mes données ?**
 
 Non. Nous ne vendons jamais vos données et ne faisons pas de publicité ciblée à partir de vos événements.
 
-**115. Mes données sont-elles protégées ?**
+**118. Mes données sont-elles protégées ?**
 
 Elles sont chiffrées en transit et au repos, et l'accès est limité. Nous ne stockons jamais vos codes Mobile Money ni les numéros complets de carte.
 
-**116. Combien de temps mes données sont-elles conservées ?**
+**119. Combien de temps mes données sont-elles conservées ?**
 
 Compte et événements : pendant l'utilisation, puis 3 ans après la dernière activité. Pièces comptables : 10 ans. Journaux techniques : 12 mois maximum.
 
-**117. Qui est Candix ?**
+**120. Qui est Candix ?**
 
 Je suis l'assistance de Calandix : je réponds aux questions sur le service et je peux faire le point avec vous pour vous orienter selon votre projet. Pour le reste, un conseiller prend le relais.
 
-**118. Comment parler à un conseiller ?**
+**121. Comment parler à un conseiller ?**
 
 Touchez « Parler à un conseiller » juste en dessous : la conversation s'ouvre sur WhatsApp, au +225 07 57 63 37 65.
 
-**119. Que puis-je demander à Candix ?**
+**122. Que puis-je demander à Candix ?**
 
 Tout ce qui concerne Calandix : fonctionnement, tarifs, paiements, prestataires, invités, données. Je peux aussi faire le point avec vous en quelques questions pour vous orienter selon votre projet.
 
-**120. Comment donner mon avis sur la démo ?**
+**123. Comment donner mon avis sur la démo ?**
 
 Écrivez-nous sur WhatsApp via « Parler à un conseiller » : vos retours nous aident à préparer le lancement.

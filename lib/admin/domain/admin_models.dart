@@ -444,10 +444,10 @@ class PricingModel {
     this.mobileMoneyFee = 1,
     this.payoutDelayDays = 2,
     this.subscriptions = const {
-      'Azur': 2900,
-      'Signature': 4900,
-      'Privilège': 9900,
-      'Offre Creator': 29900,
+      'Azur': 1500,
+      'Signature': 2900,
+      'Privilège': 5900,
+      'Offre Creator': 15000,
     },
     this.categoryCommission = const {
       'Lieux': 6,

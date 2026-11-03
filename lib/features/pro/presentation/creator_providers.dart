@@ -64,6 +64,7 @@ class ClientRequest {
     this.place,
     this.signature,
     this.signedAt,
+    this.lastOffer,
   });
 
   final String id;
@@ -97,6 +98,10 @@ class ClientRequest {
   final Uint8List? signature;
   final DateTime? signedAt;
 
+  /// Dernier tarif que le prestataire accepte, révélé au client s'il le
+  /// demande ; null : pas de dernière offre.
+  final int? lastOffer;
+
   bool get expired =>
       status == RequestStatus.quoted &&
       validUntil != null &&
@@ -112,6 +117,7 @@ class ClientRequest {
     int? depositPercent,
     Uint8List? signature,
     DateTime? signedAt,
+    int? lastOffer,
   }) => ClientRequest(
     id: id,
     client: client,
@@ -135,6 +141,7 @@ class ClientRequest {
     place: place,
     signature: signature ?? this.signature,
     signedAt: signedAt ?? this.signedAt,
+    lastOffer: lastOffer ?? this.lastOffer,
   );
 }
 
@@ -314,6 +321,7 @@ class RequestsNotifier extends Notifier<List<ClientRequest>> {
     required List<QuoteItem> items,
     required int validityDays,
     required int depositPercent,
+    int? lastOffer,
   }) {
     _set(
       state
@@ -324,6 +332,7 @@ class RequestsNotifier extends Notifier<List<ClientRequest>> {
             quote: items.fold<int>(0, (s, i) => s + i.amount),
             validUntil: DateTime.now().add(Duration(days: validityDays)),
             depositPercent: depositPercent,
+            lastOffer: lastOffer,
             signature: ref.read(signatureProvider),
             signedAt: ref.read(signatureProvider) == null
                 ? null

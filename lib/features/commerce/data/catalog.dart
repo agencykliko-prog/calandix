@@ -1097,32 +1097,31 @@ abstract final class Catalog {
 
   static const planFeatures = <Plan, List<String>>{
     Plan.free: [
-      'Événements illimités',
-      'Budget manuel et checklist',
-      '2 collaborateurs offerts',
+      '4 événements actifs',
+      'Coffre-fort numérique 1 Go',
+      'Budget réparti par l’IA et checklist',
+      '2 collaborateurs',
       'Marketplace et réservations',
     ],
     Plan.azur: [
-      'Budget créé par l’IA',
-      'Graphiques et export du budget',
+      'Graphiques et export',
+      'Coffre-fort numérique 5 Go',
       'Jusqu’à 5 collaborateurs',
       'Rappels WhatsApp et SMS',
       'QR code RSVP',
-      'Coffre-fort numérique (1 Go)',
     ],
     Plan.signature: [
       'Tout Azur',
-      'Agent IA de votre type d’événement',
-      'Coffre-fort numérique (5 Go)',
+      'Agent IA de votre événement',
+      'Coffre-fort numérique 10 Go',
       'Collaborateurs illimités',
       'Négociation de devis par l’IA',
     ],
     Plan.privilege: [
       'Tout Signature',
       'Concierge IA prioritaire',
-      'Coffre-fort 50 Go et album privé',
-      'Support 7 j/7 sur WhatsApp',
-      'Accès anticipé aux nouveautés',
+      'Coffre-fort 20 Go et album privé',
+      'Support WhatsApp 7 j/7',
     ],
   };
 

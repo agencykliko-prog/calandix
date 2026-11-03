@@ -262,7 +262,7 @@
 },
 {
 "l": "150 à 300",
-"a": "Sur une liste de cette taille, le QR code RSVP et les rappels WhatsApp et SMS (formule Azur) évitent les relances une à une. Classez vos invités par groupe pour placer les tables."
+"a": "Sur une liste de cette taille, le QR code RSVP (formule Azur) laisse les invités répondre seuls, et la relance WhatsApp prépare chaque message pour vous. Classez vos invités par groupe pour placer les tables."
 },
 {
 "l": "Plus de 300",
@@ -399,23 +399,28 @@
 "o": [
 {
 "l": "Seul ou à deux",
-"a": "Découverte, gratuite, suffit pour démarrer : événements illimités, budget, checklist, marketplace et 2 collaborateurs. Passez à Azur si vous voulez le budget créé par l'IA, les rappels WhatsApp et SMS ou le QR code RSVP.",
-"r": "Découverte"
+"r": "Découverte",
+"a": "Découverte, gratuite, suffit pour démarrer : 4 événements actifs, budget réparti par l'IA, checklist, marketplace, 2 collaborateurs et 1 Go de coffre-fort. Passez à Azur pour les graphiques et l'export, les rappels WhatsApp et SMS ou le QR code RSVP."
+},
+{
+"l": "Un seul grand événement",
+"r": "Pass Événement",
+"a": "Le Pass Événement : 2 500 FCFA pour 30 jours de fonctions Signature, sur un seul événement, sans abonnement. Idéal pour un mariage, un anniversaire ou un baptême."
 },
 {
 "l": "Trois à cinq",
-"a": "Azur : 2 900 FCFA par mois, ou 2 175 FCFA en annuel. Jusqu'à 5 collaborateurs, budget créé par l'IA, graphiques et export, rappels WhatsApp et SMS, QR code RSVP.",
-"r": "Azur"
+"r": "Azur",
+"a": "Azur : 1 500 FCFA par mois, ou 15 000 FCFA par an. Jusqu'à 5 collaborateurs, graphiques et export, coffre-fort de 5 Go, rappels WhatsApp et SMS, QR code RSVP. 14 jours d'essai gratuit."
 },
 {
 "l": "Un comité complet",
-"a": "Signature, la plus choisie : 4 900 FCFA par mois, ou 3 675 FCFA en annuel. Collaborateurs illimités, agent IA de votre événement, négociation de devis par l'IA et coffre-fort de 5 Go.",
-"r": "Signature"
+"r": "Signature",
+"a": "Signature, la plus choisie : 2 900 FCFA par mois, ou 29 000 FCFA par an. Collaborateurs illimités, agent IA de votre événement, négociation de devis par l'IA et coffre-fort de 10 Go. 14 jours d'essai gratuit."
 },
 {
 "l": "Je veux être accompagné",
-"a": "Privilège : 9 900 FCFA par mois, ou 7 425 FCFA en annuel. Tout Signature, plus le concierge IA prioritaire, 50 Go de coffre-fort avec album privé et le support 7 j/7 sur WhatsApp.",
-"r": "Privilège"
+"r": "Privilège",
+"a": "Privilège : 5 900 FCFA par mois, ou 59 000 FCFA par an. Tout Signature, plus le concierge IA prioritaire, 20 Go de coffre-fort avec album privé et le support WhatsApp 7 j/7. 14 jours d'essai gratuit."
 }
 ],
 "k": [
@@ -526,11 +531,11 @@
 },
 {
 "l": "5 à 20",
-"a": "Le gratuit couvre l'essentiel. Si vous voulez plus de visibilité et le Studio Creator, l'offre Creator démarre à 29 900 FCFA par mois, sans engagement."
+"a": "Le gratuit couvre l'essentiel. Si vous voulez plus de visibilité et le Studio Creator, l'offre Creator démarre à 15 000 FCFA par mois, sans engagement."
 },
 {
 "l": "Plus de 20",
-"a": "À ce volume, l'offre Creator (dès 29 900 FCFA par mois, sans engagement) prend tout son sens : Studio Creator, plus de visibilité, et devis, commandes et revenus centralisés."
+"a": "À ce volume, l'offre Creator (dès 15 000 FCFA par mois, sans engagement) prend tout son sens : Studio Creator, plus de visibilité, et devis, commandes et revenus centralisés."
 }
 ],
 "k": [
@@ -642,7 +647,7 @@
 {
 "c": "Organiser un événement",
 "q": "Puis-je gérer plusieurs événements ?",
-"a": "Oui, les événements sont illimités, même avec la formule gratuite Découverte. Chacun a son propre espace.",
+"a": "Oui : jusqu'à 4 événements actifs avec la formule gratuite Découverte, et sans limite avec un abonnement. Chacun a son propre espace.",
 "k": [
 "plusieurs",
 "illimite",
@@ -677,7 +682,7 @@
 {
 "c": "Organiser un événement",
 "q": "À quoi sert le coffre-fort ?",
-"a": "Le coffre-fort réunit vos contrats, devis, factures et reçus, photos, certificats et documents. Il offre 100 Mo gratuits, davantage avec un abonnement.",
+"a": "Le coffre-fort réunit vos contrats, devis, factures et reçus, photos, certificats et documents. Il offre 1 Go gratuit, davantage avec un abonnement.",
 "k": [
 "coffre",
 "coffre fort",
@@ -802,7 +807,7 @@
 {
 "c": "Budget",
 "q": "Qu'est-ce que le budget créé par l'IA ?",
-"a": "Avec la formule Azur ou supérieure, Calandix propose une répartition de votre budget adaptée à votre événement et à votre nombre d'invités.",
+"a": "Dès la création de l'événement, et sans abonnement, Calandix répartit votre budget selon votre type d'événement et votre nombre d'invités. Vous ajustez ensuite chaque poste librement.",
 "k": [
 "budget ia",
 "intelligence artificielle",
@@ -1011,7 +1016,7 @@
 {
 "c": "Invités et équipe",
 "q": "Comment relancer les invités qui n'ont pas répondu ?",
-"a": "Filtrez la liste sur « en attente » puis relancez par WhatsApp en un geste. Les rappels WhatsApp et SMS sont inclus à partir de la formule Azur.",
+"a": "Touchez « Relancer les invités en attente » : pour chaque invité, WhatsApp s'ouvre avec le message prêt et vous l'envoyez vous-même. Dès qu'il répond, notez sa réponse dans l'app d'un geste : la liste et le nombre de confirmés se mettent à jour.",
 "k": [
 "relancer",
 "relance",
@@ -1051,7 +1056,7 @@
 {
 "c": "Invités et équipe",
 "q": "Comment impliquer la famille sans tout lui ouvrir ?",
-"a": "Donnez à chacun le rôle adapté : Lecteur pour consulter seulement, Éditeur pour gérer budget, tâches, prestataires et invités sans toucher aux paiements, Admin pour tous les droits. Tantie, témoins et co-organisateurs voient ce qu'ils doivent voir, rien de plus.",
+"a": "Donnez à chacun le rôle adapté : Lecteur pour consulter seulement, Éditeur pour gérer budget, tâches, prestataires et invités sans toucher aux paiements, Admin pour tous les droits. Parents, témoins et co-organisateurs voient ce qu'ils doivent voir, rien de plus.",
 "k": [
 "impliquer",
 "famille",
@@ -1236,6 +1241,19 @@
 ]
 },
 {
+"c": "Prestataires",
+"q": "Qu'est-ce que la dernière offre ?",
+"a": "Sur un devis reçu, touchez « Dernière offre » : le prestataire vous fait son meilleur prix, une seule fois par devis, et le devis se met à jour.",
+"ap": "Dans vos conditions de vente, fixez votre dernière offre par défaut (en %), puis ajustez-la sur chaque devis : c'est votre plus bas tarif, que le client découvre s'il la demande.",
+"k": [
+"derniere offre",
+"meilleur prix",
+"dernier prix",
+"plus bas",
+"rabais"
+]
+},
+{
 "c": "Paiements et sécurité",
 "q": "Quels moyens de paiement sont acceptés ?",
 "a": "Orange Money, MTN MoMo, Wave, Moov Money et la carte bancaire : vous payez comme vous payez déjà. Les éventuels frais sont affichés avant de valider.",
@@ -1385,8 +1403,8 @@
 {
 "c": "Formules",
 "q": "Combien coûte Calandix ?",
-"a": "L'inscription est gratuite avec la formule Découverte. Puis Azur à 2 900 FCFA, Signature à 4 900 FCFA et Privilège à 9 900 FCFA par mois, ou 25 % de moins en formule annuelle. Ces tarifs de démonstration peuvent évoluer avant le lancement.",
-"ap": "Pour un prestataire, l'inscription et la fiche sont gratuites : Calandix prélève seulement une commission de 8 % sur chaque prestation payée via l'application. L'offre Creator, dès 29 900 FCFA par mois sans engagement, ajoute le Studio Creator et plus de visibilité.",
+"a": "L'inscription est gratuite avec la formule Découverte. Puis Azur à 1 500 FCFA, Signature à 2 900 FCFA et Privilège à 5 900 FCFA par mois, avec 14 jours d'essai gratuit ; à l'année, 2 mois sont offerts. Pour un seul événement, le Pass Événement donne les fonctions Signature pendant 30 jours pour 2 500 FCFA. Ces tarifs de démonstration peuvent évoluer avant le lancement.",
+"ap": "Pour un prestataire, l'inscription et la fiche sont gratuites : Calandix prélève seulement une commission de 8 % sur chaque prestation payée via l'application. L'offre Creator, à partir de 15 000 FCFA par mois avec 14 jours d'essai gratuit, ajoute le Studio Creator et plus de visibilité.",
 "f": [
 "Quelle formule me convient le mieux ?",
 "Quelle est la différence entre le mensuel et l'annuel ?"
@@ -1408,7 +1426,7 @@
 {
 "c": "Formules",
 "q": "Que comprend la formule Découverte ?",
-"a": "Gratuite : événements illimités, budget et checklist, 2 collaborateurs offerts, marketplace et réservations.",
+"a": "Gratuite : 4 événements actifs, coffre-fort numérique de 1 Go, budget réparti par l'IA et checklist, 2 collaborateurs, marketplace et réservations.",
 "k": [
 "decouverte",
 "gratuite",
@@ -1418,41 +1436,41 @@
 {
 "c": "Formules",
 "q": "Que comprend la formule Azur ?",
-"a": "2 900 FCFA par mois (2 175 FCFA par mois en formule annuelle) : budget créé par l'IA, graphiques et export, jusqu'à 5 collaborateurs, rappels WhatsApp et SMS, QR code RSVP.",
+"a": "1 500 FCFA par mois, ou 15 000 FCFA par an (2 mois offerts) : graphiques et export, coffre-fort de 5 Go, jusqu'à 5 collaborateurs, rappels WhatsApp et SMS, QR code RSVP.",
 "k": [
 "azur",
+"1500",
+"1 500"
+]
+},
+{
+"c": "Formules",
+"q": "Que comprend la formule Signature ?",
+"a": "2 900 FCFA par mois, ou 29 000 FCFA par an (2 mois offerts) : tout Azur, agent IA de votre événement, coffre-fort de 10 Go, collaborateurs illimités et négociation de devis par l'IA.",
+"k": [
+"signature",
+"agent ia",
+"negociation",
 "2900",
 "2 900"
 ]
 },
 {
 "c": "Formules",
-"q": "Que comprend la formule Signature ?",
-"a": "4 900 FCFA par mois (3 675 FCFA par mois en formule annuelle) : tout Azur, agent IA de votre événement, coffre-fort de 5 Go, collaborateurs illimités et négociation de devis par l'IA.",
-"k": [
-"signature",
-"4900",
-"4 900",
-"agent ia",
-"negociation"
-]
-},
-{
-"c": "Formules",
 "q": "Que comprend la formule Privilège ?",
-"a": "9 900 FCFA par mois (7 425 FCFA par mois en formule annuelle) : tout Signature, concierge IA prioritaire, coffre-fort de 50 Go et album privé, support 7 j/7 sur WhatsApp.",
+"a": "5 900 FCFA par mois, ou 59 000 FCFA par an (2 mois offerts) : tout Signature, concierge IA prioritaire, coffre-fort de 20 Go et album privé, support WhatsApp 7 j/7.",
 "k": [
 "privilege",
-"9900",
-"9 900",
 "concierge",
-"album"
+"album",
+"5900",
+"5 900"
 ]
 },
 {
 "c": "Formules",
 "q": "Puis-je résilier mon abonnement ?",
-"a": "Oui. Au mois, la formule est sans engagement et résiliable à tout moment depuis l'application : le mois entamé reste dû et l'accès continue jusqu'à la fin de la période payée. La formule annuelle est réglée en une fois pour 12 mois.",
+"a": "Oui. Les formules payantes commencent par 14 jours d'essai gratuit. Au mois, elles sont sans engagement et résiliables à tout moment depuis l'application : le mois entamé reste dû et l'accès continue jusqu'à la fin de la période payée. La formule annuelle est réglée en une fois pour 12 mois, dont 2 offerts.",
 "k": [
 "resilier",
 "resiliation",
@@ -1466,7 +1484,7 @@
 {
 "c": "Formules",
 "q": "Quelle est la taille du coffre-fort selon la formule ?",
-"a": "100 Mo avec Découverte, 1 Go avec Azur, 5 Go avec Signature et 50 Go avec Privilège.",
+"a": "1 Go avec Découverte, 5 Go avec Azur, 10 Go avec Signature et 20 Go avec Privilège.",
 "k": [
 "taille",
 "espace",
@@ -1479,7 +1497,7 @@
 {
 "c": "Formules",
 "q": "Quelle est la différence entre le mensuel et l'annuel ?",
-"a": "Au mois, vous payez chaque mois, sans engagement. À l'année, vous réglez 12 mois en une fois avec 25 % de réduction : Azur revient à 26 100 FCFA par an au lieu de 34 800, Signature à 44 100 au lieu de 58 800, Privilège à 89 100 au lieu de 118 800.",
+"a": "Au mois, vous payez chaque mois, sans engagement. À l'année, vous payez 10 mois pour 12 : Azur revient à 15 000 FCFA par an au lieu de 18 000, Signature à 29 000 au lieu de 34 800, Privilège à 59 000 au lieu de 70 800.",
 "k": [
 "annuel",
 "annee",
@@ -1492,21 +1510,23 @@
 {
 "c": "Formules",
 "q": "Combien économise-t-on avec l'annuel ?",
-"a": "L'équivalent de trois mois sur douze, soit 25 % : 8 700 FCFA par an sur Azur, 14 700 FCFA sur Signature et 29 700 FCFA sur Privilège.",
+"a": "Deux mois offerts sur douze : 3 000 FCFA par an sur Azur, 5 800 FCFA sur Signature et 11 800 FCFA sur Privilège.",
 "k": [
 "economiser",
 "economie",
 "combien je gagne",
 "avantage annuel",
 "reduction annuelle",
-"25",
-"economise"
+"economise",
+"2 mois offerts",
+"deux mois",
+"mois offerts"
 ]
 },
 {
 "c": "Formules",
 "q": "La formule gratuite suffit-elle ?",
-"a": "Pour beaucoup d'événements, oui : événements illimités, budget, checklist, marketplace, réservations et 2 collaborateurs. L'abonnement ajoute l'IA, les rappels WhatsApp et SMS, le QR code RSVP, plus de collaborateurs et plus d'espace.",
+"a": "Pour beaucoup d'événements, oui : jusqu'à 4 événements actifs, budget réparti par l'IA, checklist, marketplace, réservations, 2 collaborateurs et 1 Go de coffre-fort. L'abonnement ajoute graphiques et export, rappels WhatsApp et SMS, QR code RSVP, plus de collaborateurs et plus d'espace.",
 "k": [
 "rester gratuit",
 "sans payer",
@@ -1515,6 +1535,34 @@
 "pas besoin de payer",
 "suffit",
 "gratuite suffit"
+]
+},
+{
+"c": "Formules",
+"q": "Qu'est-ce que le Pass Événement ?",
+"a": "Pour un mariage, un anniversaire, un baptême ou une cérémonie ponctuelle : toutes les fonctions Signature pendant 30 jours, pour un seul événement, à 2 500 FCFA, sans souscrire d'abonnement.",
+"k": [
+"pass",
+"pass evenement",
+"ponctuel",
+"un seul evenement",
+"2500",
+"2 500",
+"30 jours",
+"sans abonnement"
+]
+},
+{
+"c": "Formules",
+"q": "Y a-t-il un essai gratuit ?",
+"a": "Oui : 14 jours d'essai gratuit sur les formules payantes, pour les organisateurs comme pour les prestataires. À l'issue des 14 jours, l'abonnement devient payant.",
+"k": [
+"essai",
+"essai gratuit",
+"14 jours",
+"tester premium",
+"gratuitement",
+"periode d essai"
 ]
 },
 {
@@ -1605,12 +1653,12 @@
 "c": "Prestataires et agences",
 "p": "pro",
 "q": "Qu'est-ce que l'offre Creator ?",
-"a": "Une offre mensuelle pour les pros, à partir de 29 900 FCFA par mois, sans engagement, qui donne accès au Studio Creator et à plus de visibilité.",
+"a": "Une offre pour les pros, à partir de 15 000 FCFA par mois, avec 14 jours d'essai gratuit et sans engagement, qui donne accès au Studio Creator et à plus de visibilité.",
 "k": [
 "offre creator",
 "studio",
-"29 900",
-"29900",
+"15 000",
+"15000",
 "business",
 "crm",
 "abonnement pro"
@@ -1784,7 +1832,7 @@
 "c": "Prestataires et agences",
 "p": "pro",
 "q": "L'offre Creator est-elle obligatoire ?",
-"a": "Non : l'inscription et la fiche sont gratuites, seule la commission s'applique. L'offre Creator, dès 29 900 FCFA par mois sans engagement, ajoute le Studio Creator et plus de visibilité.",
+"a": "Non : l'inscription et la fiche sont gratuites, seule la commission s'applique. L'offre Creator, dès 15 000 FCFA par mois sans engagement, ajoute le Studio Creator et plus de visibilité.",
 "k": [
 "obligatoire",
 "sans abonnement",

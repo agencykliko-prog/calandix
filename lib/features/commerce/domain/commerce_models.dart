@@ -110,6 +110,7 @@ class Quote {
     required this.fees,
     required this.validUntil,
     this.depositRate = 0.3,
+    this.lastOffer = false,
   });
 
   final List<QuoteLine> lines;
@@ -119,6 +120,9 @@ class Quote {
   final int fees;
   final DateTime validUntil;
   final double depositRate;
+
+  /// Le prestataire a déjà fait sa dernière offre sur ce devis.
+  final bool lastOffer;
 
   int get subtotal => lines.fold(0, (s, l) => s + l.amount);
   int get total => subtotal + fees;
@@ -202,9 +206,9 @@ class Booking {
 
 enum Plan {
   free('Découverte', 0, Hues.ink),
-  azur('Azur', 2900, Hues.lagoon),
-  signature('Signature', 4900, Hues.violet),
-  privilege('Privilège', 9900, Hues.gold);
+  azur('Azur', 1500, Hues.lagoon),
+  signature('Signature', 2900, Hues.violet),
+  privilege('Privilège', 5900, Hues.gold);
 
   const Plan(this._label, this.price, this._hue);
   final String _label;
@@ -213,15 +217,21 @@ enum Plan {
   final Hues _hue;
   Hue get hue => _hue.hue;
 
+  /// Formule annuelle : deux mois offerts, soit dix mois payés.
+  int get yearlyPrice => price * 10;
+
   bool includes(Plan other) => index >= other.index;
 
-  /// Espace du coffre-fort : 100 Mo offerts, davantage avec un abonnement.
+  /// Espace du coffre-fort : 1 Go offert, davantage avec un abonnement.
   int get vaultMb => switch (this) {
-    Plan.free => 100,
-    Plan.azur => 1024,
-    Plan.signature => 5 * 1024,
-    Plan.privilege => 50 * 1024,
+    Plan.free => 1024,
+    Plan.azur => 5 * 1024,
+    Plan.signature => 10 * 1024,
+    Plan.privilege => 20 * 1024,
   };
+
+  /// Événements à venir en même temps ; sans limite avec un abonnement.
+  int? get activeEvents => this == Plan.free ? 4 : null;
 
   String get vaultLabel => vaultMb >= 1024
       ? '{0} Go'.trf([vaultMb ~/ 1024])
@@ -230,10 +240,10 @@ enum Plan {
 
 /// Fonctionnalités soumises à un abonnement, et le niveau minimal requis.
 enum PremiumFeature {
-  aiBudget('Budget créé par l’IA', Plan.azur, AppIcons.sparkle),
+  events('Plus de 4 événements actifs', Plan.azur, AppIcons.calendarPlus),
   collaborators('Plus de 2 collaborateurs', Plan.azur, AppIcons.userPlus),
   agent('Agent IA de votre événement', Plan.signature, AppIcons.sparkle),
-  vault('Coffre-fort au-delà de 100 Mo', Plan.azur, AppIcons.lock);
+  vault('Coffre-fort au-delà de 1 Go', Plan.azur, AppIcons.lock);
 
   const PremiumFeature(this._label, this.minPlan, this.icon);
   final String _label;

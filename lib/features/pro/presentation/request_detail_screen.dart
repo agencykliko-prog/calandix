@@ -241,6 +241,8 @@ class _RequestDetailState extends ConsumerState<RequestDetailScreen> {
                   'Acompte ({0} %)'.trf([r.depositPercent]),
                   fcfa(((r.quote ?? 0) * r.depositPercent / 100).round()),
                 ),
+                if (r.lastOffer != null)
+                  InfoLine('Dernière offre'.tr, fcfa(r.lastOffer!)),
                 InfoLine(
                   'Vous recevrez (après commission 8 %)'.tr,
                   fcfa(((r.quote ?? 0) * (1 - proCommissionRate)).round()),
@@ -423,6 +425,7 @@ class _RequestDetailState extends ConsumerState<RequestDetailScreen> {
     var travel = false;
     final customLabel = TextEditingController();
     final customAmount = TextEditingController();
+    final lastOffer = TextEditingController();
 
     showEventaSheet<void>(
       context,
@@ -530,6 +533,31 @@ class _RequestDetailState extends ConsumerState<RequestDetailScreen> {
                     ),
                 ],
               ),
+              const SizedBox(height: 14),
+              AppField(
+                label: 'Dernière offre'.tr,
+                controller: lastOffer,
+                optional: true,
+                keyboard: TextInputType.number,
+                formatters: [FilteringTextInputFormatter.digitsOnly],
+                hint: 'Ex. {0} (−{1} %)'.trf([
+                  fcfa(
+                    (total * (100 - terms.lastOfferPercent) / 100 / 500)
+                            .round() *
+                        500,
+                  ),
+                  terms.lastOfferPercent,
+                ]),
+                onChanged: (_) => set(() {}),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 6, left: 2),
+                child: Text(
+                  'Votre plus bas tarif pour ce devis : le client le découvre s’il demande votre dernière offre.'
+                      .tr,
+                  style: ctx.text.bodySmall,
+                ),
+              ),
               const SizedBox(height: 16),
               Panel(
                 color: Confetti.lavender,
@@ -562,6 +590,10 @@ class _RequestDetailState extends ConsumerState<RequestDetailScreen> {
                               items: items,
                               validityDays: validity,
                               depositPercent: deposit,
+                              lastOffer: switch (int.tryParse(lastOffer.text)) {
+                                final v? when v > 0 && v < total => v,
+                                _ => null,
+                              },
                             );
                         ref.read(soundProvider).play(Sfx.success);
                         Navigator.of(ctx).pop();

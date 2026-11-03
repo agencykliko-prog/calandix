@@ -8,16 +8,33 @@ import '../../../core/i18n/tr.dart';
 import '../../../core/sound/sounds.dart';
 import '../../../core/auth/session_provider.dart';
 import '../../../core/models/models.dart';
+import '../../../core/utils/formatters.dart';
 import '../../events/presentation/events_providers.dart';
 import '../domain/commerce_models.dart';
 
 // ─── Abonnement ─────────────────────────────────────────────────────────
+
+/// Durée de l'essai gratuit des offres payantes (organisateurs et Creators).
+const trialDays = 14;
 
 class PlanNotifier extends Notifier<Plan> {
   @override
   Plan build() => Plan.free;
 
   void subscribe(Plan p) {
+    ref.read(trialEndsProvider.notifier).set(null);
+    _activate(p);
+  }
+
+  /// Essai gratuit de [trialDays] jours : l'offre devient payante ensuite.
+  void startTrial(Plan p) {
+    ref
+        .read(trialEndsProvider.notifier)
+        .set(DateTime.now().add(const Duration(days: trialDays)));
+    _activate(p);
+  }
+
+  void _activate(Plan p) {
     state = p;
     Future<void>.delayed(
       const Duration(milliseconds: 700),
@@ -28,10 +45,67 @@ class PlanNotifier extends Notifier<Plan> {
 
 final planProvider = NotifierProvider<PlanNotifier, Plan>(PlanNotifier.new);
 
+/// Fin de l'essai gratuit en cours (null : pas d'essai, ou offre payée).
+class TrialEndsNotifier extends Notifier<DateTime?> {
+  @override
+  DateTime? build() => null;
+
+  void set(DateTime? d) => state = d;
+}
+
+final trialEndsProvider = NotifierProvider<TrialEndsNotifier, DateTime?>(
+  TrialEndsNotifier.new,
+);
+
+/// Un essai a déjà été utilisé : il n'est proposé qu'une fois.
+final trialUsedProvider = Provider<bool>(
+  (ref) => ref.watch(trialEndsProvider) != null,
+);
+
+/// Dernière offre consentie par défaut selon le métier du prestataire, en
+/// pourcentage du devis (le prestataire l'ajuste dans ses conditions).
+int lastOfferPercent(VendorCategory c) => switch (c) {
+  VendorCategory.venue || VendorCategory.catering || VendorCategory.staff => 5,
+  VendorCategory.rental ||
+  VendorCategory.paper ||
+  VendorCategory.transport => 6,
+  VendorCategory.beauty ||
+  VendorCategory.planner ||
+  VendorCategory.activity => 7,
+  VendorCategory.decor || VendorCategory.photo => 8,
+  VendorCategory.music => 10,
+};
+
+// ─── Pass Événement ─────────────────────────────────────────────────────
+
+/// Pass Événement : les fonctions Signature pendant 30 jours, pour un seul
+/// événement, sans abonnement.
+const eventPassPrice = 2500;
+const eventPassDays = 30;
+
+/// Fin du pass de chaque événement, par identifiant d'événement.
+class EventPassNotifier extends Notifier<Map<String, DateTime>> {
+  @override
+  Map<String, DateTime> build() => const {};
+
+  void activate(String eventId) => state = {
+    ...state,
+    eventId: DateTime.now().add(const Duration(days: eventPassDays)),
+  };
+
+  bool active(String eventId) =>
+      state[eventId]?.isAfter(DateTime.now()) ?? false;
+}
+
+final eventPassProvider =
+    NotifierProvider<EventPassNotifier, Map<String, DateTime>>(
+      EventPassNotifier.new,
+    );
+
 // ─── Abonnement Creator ─────────────────────────────────────────────────
 
-/// Prix mensuel de l'offre Creator.
-const creatorPlanPrice = 29900;
+/// Prix mensuel de l'offre Creator, à partir de.
+const creatorPlanPrice = 15000;
 
 /// Abonnement Creator en cours (null : pas d'abonnement).
 class CreatorSubscription {
@@ -41,6 +115,7 @@ class CreatorSubscription {
     required this.method,
     required this.receipt,
     this.cancelled = false,
+    this.trial = false,
   });
 
   final DateTime since;
@@ -51,12 +126,16 @@ class CreatorSubscription {
   /// Résilié : reste actif jusqu'à [renewsOn], sans renouvellement.
   final bool cancelled;
 
+  /// Essai gratuit : l'offre devient payante à [renewsOn].
+  final bool trial;
+
   CreatorSubscription copyWith({bool? cancelled}) => CreatorSubscription(
     since: since,
     renewsOn: renewsOn,
     method: method,
     receipt: receipt,
     cancelled: cancelled ?? this.cancelled,
+    trial: trial,
   );
 }
 
@@ -79,6 +158,18 @@ class CreatorSubNotifier extends Notifier<CreatorSubscription?> {
     );
   }
 
+  /// Essai gratuit de [trialDays] jours, sans paiement.
+  void startTrial() {
+    final now = DateTime.now();
+    state = CreatorSubscription(
+      since: now,
+      renewsOn: now.add(const Duration(days: trialDays)),
+      method: PayMethod.values.first,
+      receipt: '',
+      trial: true,
+    );
+  }
+
   void cancel() => state = state?.copyWith(cancelled: true);
   void resume() => state = state?.copyWith(cancelled: false);
 }
@@ -89,10 +180,15 @@ final creatorSubProvider =
     );
 
 /// Une fonctionnalité est débloquée par l'abonnement.
+/// Le Pass Événement débloque les fonctions Signature de son événement.
 final featureUnlockedProvider =
-    Provider.family<bool, (PremiumFeature, String?)>(
-      (ref, arg) => ref.watch(planProvider).includes(arg.$1.minPlan),
-    );
+    Provider.family<bool, (PremiumFeature, String?)>((ref, arg) {
+      if (ref.watch(planProvider).includes(arg.$1.minPlan)) return true;
+      final id = arg.$2;
+      if (id == null || !Plan.signature.includes(arg.$1.minPlan)) return false;
+      ref.watch(eventPassProvider);
+      return ref.read(eventPassProvider.notifier).active(id);
+    });
 
 // ─── Coffre-fort ────────────────────────────────────────────────────────
 
@@ -288,15 +384,18 @@ class BookingsNotifier extends Notifier<List<Booking>> {
         );
   }
 
-  /// Négociation par l'agent IA : remise obtenue sur les lignes du devis.
-  int negotiate(String id) {
+  /// Dernière offre du prestataire : son meilleur prix, une seule fois par
+  /// devis. Renvoie la remise obtenue.
+  int lastOffer(String id) {
     final b = byId(id);
     final q = b.quote!;
+    if (q.lastOffer) return 0;
+    final rate = lastOfferPercent(b.vendor.category) / 100;
     final lines = [
       for (final l in q.lines)
         QuoteLine(
           l.label,
-          (l.amount * 0.93 / 500).round() * 500,
+          (l.amount * (1 - rate) / 500).round() * 500,
           optional: l.optional,
         ),
     ];
@@ -306,6 +405,7 @@ class BookingsNotifier extends Notifier<List<Booking>> {
       fees: q.fees,
       validUntil: q.validUntil,
       depositRate: q.depositRate,
+      lastOffer: true,
     );
     _set(
       b.copyWith(
@@ -314,13 +414,13 @@ class BookingsNotifier extends Notifier<List<Booking>> {
           ...b.messages,
           ChatMessage(
             fromMe: true,
-            text: 'L’agent IA a proposé une remise de 7 % au regard des tarifs du marché.'
-                .tr,
+            text: 'Pouvez-vous me faire votre dernière offre ?'.tr,
             at: DateTime.now(),
           ),
           ChatMessage(
             fromMe: false,
-            text: 'C’est d’accord pour nous, devis mis à jour.'.tr,
+            text: 'Voici notre dernière offre : {0} au lieu de {1}. Devis mis à jour.'
+                .trf([fcfa(next.total), fcfa(q.total)]),
             at: DateTime.now(),
           ),
         ],

@@ -17,7 +17,10 @@ import '../../events/data/event_templates.dart';
 import '../../../core/models/models.dart';
 import '../../events/presentation/events_providers.dart';
 import '../../events/presentation/widgets/task_timeline.dart';
+import '../../commerce/domain/commerce_models.dart';
+import '../../commerce/presentation/commerce_providers.dart';
 import '../../premium/presentation/premium_nudge.dart';
+import '../../premium/presentation/paywall.dart';
 
 class CreateEventScreen extends ConsumerStatefulWidget {
   const CreateEventScreen({super.key});
@@ -107,7 +110,26 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
     _go(2);
   }
 
+  /// Découverte : 4 événements actifs à la fois ; au-delà, un abonnement.
   Future<void> _open() async {
+    final limit = ref.read(planProvider).activeEvents;
+    final today = DateUtils.dateOnly(DateTime.now());
+    final active = (ref.read(eventsProvider).value ?? const <Event>[])
+        .where((x) => !x.date.isBefore(today))
+        .length;
+    if (limit != null && active >= limit) {
+      await requirePremium(
+        context,
+        ref,
+        feature: PremiumFeature.events,
+        onUnlocked: _save,
+      );
+      return;
+    }
+    await _save();
+  }
+
+  Future<void> _save() async {
     final e = _draft!;
     try {
       final id = await ref.read(eventsProvider.notifier).add(e);

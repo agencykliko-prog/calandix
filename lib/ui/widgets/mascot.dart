@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../core/i18n/tr.dart';
 
-/// La mascotte de Calandix : une fourmi, pour tous les profils. [MascotColor]
-/// reste pour varier la pose par défaut selon l'espace.
+/// La mascotte de Calandix : une fourmi rouge pour les organisateurs, jaune
+/// dans l'espace Creator.
 enum MascotColor { organizer, creator }
 
 /// Humeur affichée : chaque humeur correspond à une pose illustrée.
@@ -14,7 +14,8 @@ enum MascotMood { happy, wow, wink, sleepy, cheer, sad }
 /// Poses disponibles.
 enum _Shot { rire, salut, sport, panneau, triste, idee, bouee, course }
 
-String _asset(_Shot s) => 'assets/images/mascots/${s.name}.webp';
+String _asset(_Shot s, [MascotColor c = MascotColor.organizer]) =>
+    'assets/images/mascots/${c == MascotColor.creator ? 'jaune/' : ''}${s.name}.webp';
 
 _Shot _shotFor(MascotMood mood, MascotColor color) => switch (mood) {
   MascotMood.happy => color == MascotColor.creator ? _Shot.idee : _Shot.rire,
@@ -28,7 +29,9 @@ _Shot _shotFor(MascotMood mood, MascotColor color) => switch (mood) {
 /// Charge les poses à l'avance pour que les changements soient instantanés.
 void precacheMascots(BuildContext context) {
   for (final s in _Shot.values) {
-    precacheImage(AssetImage(_asset(s)), context);
+    for (final c in MascotColor.values) {
+      precacheImage(AssetImage(_asset(s, c)), context);
+    }
   }
 }
 
@@ -83,7 +86,7 @@ class MascotState extends State<Mascot> {
   Widget build(BuildContext context) {
     final size = widget.size;
     final img = Image.asset(
-      _asset(_shot),
+      _asset(_shot, widget.color),
       width: size,
       height: size,
       fit: BoxFit.contain,
@@ -201,7 +204,7 @@ class _MascotLoaderState extends State<MascotLoader>
                     left: (w - h) / 2,
                     bottom: 0,
                     child: Image.asset(
-                      _asset(_Shot.rire),
+                      _asset(_Shot.rire, widget.color),
                       width: h,
                       height: h,
                       gaplessPlayback: true,

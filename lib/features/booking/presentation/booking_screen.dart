@@ -14,7 +14,6 @@ import '../../commerce/domain/commerce_models.dart';
 import '../../commerce/presentation/commerce_providers.dart';
 import '../../commerce/presentation/payment_sheet.dart';
 import '../../events/presentation/events_providers.dart';
-import '../../premium/presentation/paywall.dart';
 import '../../premium/presentation/premium_nudge.dart';
 import '../../marketplace/data/vendor_media.dart';
 import 'quote_compare_screen.dart';
@@ -318,23 +317,21 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
             ),
             const SizedBox(height: 10),
             PillButton(
-              label: 'Négocier avec l’agent IA'.tr,
-              icon: AppIcons.sparkle,
+              label: b.quote!.lastOffer
+                  ? 'Dernière offre reçue'.tr
+                  : 'Dernière offre'.tr,
+              icon: AppIcons.handshake,
               tone: ButtonTone.ghost,
-              onPressed: () => requirePremium(
-                context,
-                ref,
-                feature: PremiumFeature.agent,
-                eventId: b.eventId,
-                onUnlocked: () {
-                  final saved = _n.negotiate(b.id);
-                  toast(
-                    context,
-                    'Remise obtenue : {0}'.trf([fcfa(saved)]),
-                    icon: AppIcons.sparkle,
-                  );
-                },
-              ),
+              onPressed: b.quote!.lastOffer
+                  ? null
+                  : () {
+                      final saved = _n.lastOffer(b.id);
+                      toast(
+                        context,
+                        'Dernière offre : {0} de moins'.trf([fcfa(saved)]),
+                        icon: AppIcons.handshake,
+                      );
+                    },
             ),
           ],
         );

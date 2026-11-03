@@ -75,6 +75,7 @@ class SaleTerms {
     this.freeCancelDays = 30,
     this.quoteValidityDays = 7,
     this.travelFee = 15000,
+    this.lastOfferPercent = 7,
     this.notes = 'Matériel fourni et repris par nos soins. Accès au lieu 3 h avant le début.',
   });
 
@@ -89,6 +90,9 @@ class SaleTerms {
 
   /// Frais de déplacement hors zone, en FCFA.
   final int travelFee;
+
+  /// Dernière offre : remise maximale consentie sur un devis, en %.
+  final int lastOfferPercent;
   final String notes;
 
   SaleTerms copyWith({
@@ -97,6 +101,7 @@ class SaleTerms {
     int? freeCancelDays,
     int? quoteValidityDays,
     int? travelFee,
+    int? lastOfferPercent,
     String? notes,
   }) => SaleTerms(
     depositPercent: depositPercent ?? this.depositPercent,
@@ -104,6 +109,7 @@ class SaleTerms {
     freeCancelDays: freeCancelDays ?? this.freeCancelDays,
     quoteValidityDays: quoteValidityDays ?? this.quoteValidityDays,
     travelFee: travelFee ?? this.travelFee,
+    lastOfferPercent: lastOfferPercent ?? this.lastOfferPercent,
     notes: notes ?? this.notes,
   );
 }

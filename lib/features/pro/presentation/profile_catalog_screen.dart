@@ -363,6 +363,10 @@ class ProfileCatalogScreen extends ConsumerWidget {
                 '{0} jours'.trf([cat.terms.quoteValidityDays]),
               ),
               InfoLine('Frais de déplacement'.tr, fcfa(cat.terms.travelFee)),
+              InfoLine(
+                'Dernière offre'.tr,
+                '−{0} %'.trf([cat.terms.lastOfferPercent]),
+              ),
               const SizedBox(height: 8),
               Text(cat.terms.notes, style: context.text.bodySmall),
             ],
@@ -646,6 +650,20 @@ class ProfileCatalogScreen extends ConsumerWidget {
                 () => set(
                   () => t = t.copyWith(
                     travelFee: (t.travelFee + 5000).clamp(0, 500000),
+                  ),
+                ),
+              ),
+              stepper(
+                'Dernière offre'.tr,
+                '−{0} %'.trf([t.lastOfferPercent]),
+                () => set(
+                  () => t = t.copyWith(
+                    lastOfferPercent: (t.lastOfferPercent - 1).clamp(0, 30),
+                  ),
+                ),
+                () => set(
+                  () => t = t.copyWith(
+                    lastOfferPercent: (t.lastOfferPercent + 1).clamp(0, 30),
                   ),
                 ),
               ),

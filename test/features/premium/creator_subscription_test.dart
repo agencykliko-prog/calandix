@@ -9,7 +9,7 @@ import 'package:intl/date_symbol_data_local.dart';
 void main() {
   setUpAll(() => initializeDateFormatting('fr_FR'));
 
-  testWidgets('parcours complet de l’abonnement Creator à 29 900 FCFA', (
+  testWidgets('parcours complet de l’abonnement Creator à 15 000 FCFA', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(430, 932) * 2;
@@ -35,7 +35,7 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));
     expect(find.text('Abonnement Creator'), findsOneWidget);
-    expect(find.textContaining('29'), findsWidgets);
+    expect(find.textContaining(RegExp(r'15.000')), findsWidgets);
 
     // 2. Paiement Mobile Money, puis reçu.
     final pay = find.textContaining('Payer');

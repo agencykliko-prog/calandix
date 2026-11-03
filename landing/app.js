@@ -422,14 +422,14 @@
     const log = box.querySelector('.candix-log');
     const form = box.querySelector('.candix-form');
     const field = form.querySelector('input');
-    // Base de 120 questions (candix-faq.json), chargée à la première ouverture.
+    // Base de 123 questions (candix-faq.json), chargée à la première ouverture.
     // Hors de cette base, Candix oriente vers un conseiller plutôt que d'inventer.
     // Certaines entrées posent une question à choix (t : choice, scale, select ou
     // multi ; o : options) et enchaînent sur la suivante (n) : c'est le parcours
     // « Faire le point ». Le profil (p) adapte la recherche et la réponse (ap) ;
     // f propose des questions de suite.
     let faq = null;
-    const loadFaq = () => { faq ||= fetch('candix-faq.json?v=3').then((r) => r.json()).then(prepare).catch(() => []); return faq; };
+    const loadFaq = () => { faq ||= fetch('candix-faq.json?v=4').then((r) => r.json()).then(prepare).catch(() => []); return faq; };
     const clean = (t) => ` ${t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim()} `;
     const STOP = new Set('a au aux avec ce ces c ca comment combien dans de des du d elle en est et etre faire faut il ils j je l la le les leur ma mes mon ne n on ou par pas peut peux plus pour puis puisje qu que quel quelle quelles quels qui quoi s sa se ses si son sont sur t te tu un une vos votre vous y y a t il'.split(' '));
     const words = (t) => clean(t).trim().split(' ').filter((w) => w.length > 1 && !STOP.has(w));
@@ -626,14 +626,15 @@
     bills.forEach((b) => b.setAttribute('aria-pressed', (b.dataset.bill === 'y') === yearly));
     document.querySelectorAll('.price[data-price]').forEach((p) => {
       const m = +p.dataset.price;
-      p.querySelector('b').textContent = fcfa(yearly ? m * .75 : m);
-      // Sous le prix : l'ancien tarif barré et le montant payé à l'année.
+      // À l'année : dix mois payés, deux offerts.
+      p.querySelector('b').textContent = fcfa(yearly ? m * 10 : m);
+      p.querySelector('.unit').textContent = yearly ? 'FCFA / an' : 'FCFA / mois';
       const note = p.nextElementSibling;
       note.textContent = '';
       if (!yearly) return;
       const was = document.createElement('s');
-      was.textContent = fcfa(m);
-      note.append('Au lieu de ', was, ` · ${fcfa(m * 9)} FCFA par an`);
+      was.textContent = fcfa(m * 12);
+      note.append('Au lieu de ', was, ' · 2 mois offerts');
     });
   };
   bills.forEach((b) => b.addEventListener('click', () => setBill(b.dataset.bill === 'y')));

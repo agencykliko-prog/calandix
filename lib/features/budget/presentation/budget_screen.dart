@@ -20,7 +20,6 @@ import '../../events/data/event_templates.dart';
 import '../../../core/models/models.dart';
 import '../../events/presentation/events_providers.dart';
 import '../../export/presentation/export_sheet.dart';
-import '../../premium/presentation/paywall.dart';
 import '../../premium/presentation/premium_nudge.dart';
 
 /// Palette de répartition : couleurs de la marque, du plus foncé au plus clair.
@@ -203,13 +202,8 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
                 expand: false,
                 height: 40,
                 loading: _generating,
-                onPressed: () => requirePremium(
-                  context,
-                  ref,
-                  feature: PremiumFeature.aiBudget,
-                  eventId: e.id,
-                  onUnlocked: () => _generate(e),
-                ),
+                // La répartition par l'IA est offerte, sans abonnement.
+                onPressed: () => _generate(e),
               ),
             ],
           ),

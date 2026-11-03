@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/i18n/tr.dart';
 import '../../../core/models/models.dart';
@@ -8,6 +9,7 @@ import '../../../platform/mobile/open_link_mobile.dart'
 import '../../../ui/theme/app_icons.dart';
 import '../../../ui/theme/eventa_colors.dart';
 import '../../../ui/widgets/ui.dart';
+import '../../events/presentation/events_providers.dart';
 
 /// Numéro au format international sans « + » (ce qu'attend wa.me). Un numéro
 /// ivoirien saisi sans indicatif reçoit le 225 ; null si inutilisable.
@@ -33,8 +35,9 @@ Uri reminderLink(String number, String text) =>
     Uri.parse('https://wa.me/$number?text=${Uri.encodeComponent(text)}');
 
 /// Relance des invités sans réponse : WhatsApp s'ouvre pour chacun avec le
-/// message pré-rempli, l'organisateur n'a plus qu'à l'envoyer. Rien ne part
-/// sans lui : pas d'envoi automatique depuis un numéro Calandix.
+/// message pré-rempli, l'organisateur l'envoie lui-même (aucun envoi
+/// automatique depuis un numéro Calandix), puis note la réponse reçue : la
+/// liste et les compteurs RSVP se mettent à jour.
 Future<void> showRemindSheet(BuildContext context, Event e) {
   // Les invités joignables d'abord : ce sont eux qu'on relance.
   final pending =
@@ -52,18 +55,26 @@ Future<void> showRemindSheet(BuildContext context, Event e) {
   );
 }
 
-class _RemindSheet extends StatefulWidget {
+class _RemindSheet extends ConsumerStatefulWidget {
   const _RemindSheet({required this.event, required this.guests});
 
   final Event event;
   final List<Guest> guests;
 
   @override
-  State<_RemindSheet> createState() => _RemindSheetState();
+  ConsumerState<_RemindSheet> createState() => _RemindSheetState();
 }
 
-class _RemindSheetState extends State<_RemindSheet> {
+class _RemindSheetState extends ConsumerState<_RemindSheet> {
   final _sent = <String>{};
+
+  /// Réponses notées depuis cette feuille.
+  final _answers = <String, Rsvp>{};
+
+  void _answer(Guest g, Rsvp r) {
+    ref.read(eventsProvider.notifier).setRsvp(widget.event.id, g.id, r);
+    setState(() => _answers[g.id] = r);
+  }
 
   Future<void> _remind(Guest g, String number) async {
     await openLink(
@@ -88,7 +99,7 @@ class _RemindSheetState extends State<_RemindSheet> {
           Text(
             widget.guests.isEmpty
                 ? 'Tous vos invités ont répondu.'.tr
-                : 'Touchez « Relancer » : WhatsApp s’ouvre avec le message prêt, il ne reste qu’à l’envoyer.'
+                : 'Touchez « Relancer » : WhatsApp s’ouvre avec le message prêt, vous l’envoyez. Dès qu’un invité répond, notez sa réponse ici.'
                       .tr,
             style: context.text.bodyMedium?.copyWith(
               color: context.eventa.muted,
@@ -116,6 +127,7 @@ class _RemindSheetState extends State<_RemindSheet> {
   Widget _row(Guest g) {
     final number = whatsappNumber(g.phone);
     final sent = _sent.contains(g.id);
+    final answer = _answers[g.id];
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
@@ -130,28 +142,84 @@ class _RemindSheetState extends State<_RemindSheet> {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  number == null
-                      ? 'Pas de numéro WhatsApp'.tr
-                      : (g.group ?? g.phone!),
+                  switch (answer) {
+                    Rsvp.yes => 'Présent · réponse notée'.tr,
+                    Rsvp.no => 'Absent · réponse notée'.tr,
+                    _ =>
+                      number == null
+                          ? 'Pas de numéro WhatsApp'.tr
+                          : (g.group ?? g.phone!),
+                  },
                   style: context.text.bodySmall?.copyWith(
-                    color: context.eventa.muted,
+                    color: answer == null
+                        ? context.eventa.muted
+                        : Confetti.success,
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(width: 12),
-          if (number != null)
+          const SizedBox(width: 8),
+          if (answer == null && (sent || number == null)) ...[
+            _AnswerButton(
+              icon: AppIcons.check,
+              label: 'Vient'.tr,
+              color: Confetti.success,
+              onTap: () => _answer(g, Rsvp.yes),
+            ),
+            const SizedBox(width: 6),
+            _AnswerButton(
+              icon: AppIcons.close,
+              label: 'Ne vient pas'.tr,
+              color: Confetti.danger,
+              onTap: () => _answer(g, Rsvp.no),
+            ),
+          ] else if (answer == null && number != null)
             TextButton.icon(
               onPressed: () => _remind(g, number),
-              icon: Icon(
-                sent ? AppIcons.check : AppIcons.whatsapp,
-                size: 18,
-                color: sent ? Confetti.success : null,
-              ),
-              label: Text(sent ? 'Relancé'.tr : 'Relancer'.tr),
+              icon: const Icon(AppIcons.whatsapp, size: 18),
+              label: Text('Relancer'.tr),
             ),
         ],
+      ),
+    );
+  }
+}
+
+/// Petit bouton rond pour noter la réponse d'un invité.
+class _AnswerButton extends StatelessWidget {
+  const _AnswerButton({
+    required this.icon,
+    required this.label,
+    required this.color,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final Color color;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: label,
+      child: Semantics(
+        button: true,
+        label: label,
+        child: InkResponse(
+          onTap: onTap,
+          radius: 24,
+          child: Container(
+            width: 38,
+            height: 38,
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, size: 18, color: color),
+          ),
+        ),
       ),
     );
   }

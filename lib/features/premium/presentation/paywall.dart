@@ -29,15 +29,44 @@ Future<void> requirePremium(
   final ok = await showEventaSheet<bool>(
     context,
     dark: true,
-    builder: (_) => _Paywall(feature: feature),
+    builder: (_) => _Paywall(feature: feature, eventId: eventId),
   );
   if (ok == true && context.mounted) onUnlocked();
 }
 
 class _Paywall extends ConsumerWidget {
-  const _Paywall({required this.feature});
+  const _Paywall({required this.feature, this.eventId});
 
   final PremiumFeature feature;
+
+  /// Événement concerné : le Pass Événement peut alors suffire.
+  final String? eventId;
+
+  Future<void> _pay(
+    BuildContext context, {
+    required String title,
+    required List<PayOption> options,
+    required VoidCallback onPaid,
+  }) async {
+    final r = await showPaymentSheet(
+      context,
+      title: title,
+      payee: 'Calandix'.tr,
+      options: options,
+      onPay: (amount, method) {
+        onPaid();
+        return Receipt(
+          ref: receiptRef(),
+          label: title,
+          amount: amount,
+          method: method,
+          date: DateTime.now(),
+          payee: 'Calandix'.tr,
+        );
+      },
+    );
+    if (r != null && context.mounted) Navigator.of(context).pop(true);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -63,7 +92,7 @@ class _Paywall extends ConsumerWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Disponible dès l’abonnement {0}. Sans engagement, résiliable à tout moment.'
+            'Disponible dès l’abonnement {0}. Essai gratuit de 14 jours, puis sans engagement, résiliable à tout moment.'
                 .trf([plan.label]),
             style: context.text.bodyMedium?.copyWith(color: Colors.white70),
           ),
@@ -87,33 +116,67 @@ class _Paywall extends ConsumerWidget {
               ),
             ),
           const SizedBox(height: 12),
+          if (!ref.watch(trialUsedProvider)) ...[
+            PillButton(
+              label: 'Essayer {0} gratuitement 14 jours'.trf([plan.label]),
+              tone: ButtonTone.gold,
+              onPressed: () {
+                ref.read(planProvider.notifier).startTrial(plan);
+                Navigator.of(context).pop(true);
+              },
+            ),
+            const SizedBox(height: 6),
+            Text(
+              'Ensuite {0}/mois. Rien à payer pendant l’essai.'.trf([
+                fcfa(plan.price),
+              ]),
+              textAlign: TextAlign.center,
+              style: context.text.bodySmall?.copyWith(color: Colors.white70),
+            ),
+            const SizedBox(height: 12),
+          ],
           PillButton(
-            label: 'Passer à {0} · {1}/mois'.trf([
+            label: 'S’abonner à {0} · {1}/mois'.trf([
               plan.label,
               fcfa(plan.price),
             ]),
-            tone: ButtonTone.gold,
-            onPressed: () async {
-              final r = await showPaymentSheet(
-                context,
-                title: 'Abonnement {0}'.trf([plan.label]),
-                payee: 'Calandix'.tr,
-                options: [PayOption('Mensuel'.tr, plan.price)],
-                onPay: (amount, method) {
-                  ref.read(planProvider.notifier).subscribe(plan);
-                  return Receipt(
-                    ref: receiptRef(),
-                    label: 'Abonnement {0}'.trf([plan.label]),
-                    amount: amount,
-                    method: method,
-                    date: DateTime.now(),
-                    payee: 'Calandix'.tr,
-                  );
-                },
-              );
-              if (r != null && context.mounted) Navigator.of(context).pop(true);
-            },
+            tone: ref.watch(trialUsedProvider)
+                ? ButtonTone.gold
+                : ButtonTone.light,
+            onPressed: () => _pay(
+              context,
+              title: 'Abonnement {0}'.trf([plan.label]),
+              options: [
+                PayOption('Mensuel'.tr, plan.price),
+                PayOption('Annuel · 2 mois offerts'.tr, plan.yearlyPrice),
+              ],
+              onPaid: () => ref.read(planProvider.notifier).subscribe(plan),
+            ),
           ),
+          if (eventId != null && Plan.signature.includes(plan)) ...[
+            const SizedBox(height: 10),
+            PillButton(
+              label: 'Pass Événement · {0} / 30 jours'.trf([
+                fcfa(eventPassPrice),
+              ]),
+              icon: AppIcons.ticket,
+              tone: ButtonTone.light,
+              onPressed: () => _pay(
+                context,
+                title: 'Pass Événement'.tr,
+                options: [PayOption('30 jours'.tr, eventPassPrice)],
+                onPaid: () =>
+                    ref.read(eventPassProvider.notifier).activate(eventId!),
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              'Les fonctions Signature pour cet événement seulement, sans abonnement.'
+                  .tr,
+              textAlign: TextAlign.center,
+              style: context.text.bodySmall?.copyWith(color: Colors.white70),
+            ),
+          ],
           const SizedBox(height: 10),
           Center(
             child: TextButton(
