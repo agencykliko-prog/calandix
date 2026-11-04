@@ -10,7 +10,7 @@ import '../../../core/utils/formatters.dart';
 import '../../../ui/widgets/ui.dart';
 import 'creator_providers.dart';
 import '../domain/pro_models.dart';
-import '../../commerce/presentation/commerce_providers.dart';
+import '../../commerce/domain/commerce_models.dart';
 import 'pro_providers.dart';
 import 'studio_providers.dart';
 import 'verification_providers.dart';
@@ -111,7 +111,9 @@ class ProHub extends ConsumerWidget {
         'Studio Creator'.tr,
         studio
             ? 'CRM, factures, équipe'.tr
-            : 'Offre Creator · {0}/mois'.trf([fcfaCompact(creatorPlanPrice)]),
+            : 'Dès la formule Creator · {0}/mois'.trf([
+                fcfaCompact(ProPlan.creator.price),
+              ]),
         '/pro/studio',
       ),
       (

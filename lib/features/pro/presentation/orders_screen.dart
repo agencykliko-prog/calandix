@@ -12,6 +12,7 @@ import '../../../ui/widgets/ui.dart';
 import 'creator_providers.dart';
 import '../../marketplace/presentation/explore_screen.dart';
 import '../domain/pro_models.dart';
+import '../../commerce/presentation/commerce_providers.dart';
 import 'pro_providers.dart';
 import 'pro_widgets.dart';
 import '../../../ui/dataviz/dataviz.dart';
@@ -299,7 +300,12 @@ class _OrderCard extends ConsumerWidget {
                       toast(
                         context,
                         'Prestation clôturée, reversement de {0} programmé'.trf(
-                          [fcfa((total * (1 - proCommissionRate)).round())],
+                          [
+                            fcfa(
+                              (total * (1 - ref.read(proCommissionProvider)))
+                                  .round(),
+                            ),
+                          ],
                         ),
                         icon: AppIcons.coins,
                       );

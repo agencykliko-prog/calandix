@@ -1,13 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../commerce/presentation/commerce_providers.dart';
 import '../../../core/i18n/tr.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/auth/session_provider.dart';
 import 'creator_providers.dart';
 import '../domain/pro_models.dart';
 
-/// Commission Calandix prélevée sur chaque prestation (cf. centre de contrôle).
+/// Commission de la formule Découverte, appliquée à l'historique de démo.
+/// Les nouveaux encaissements suivent la formule (`proCommissionProvider`).
 const proCommissionRate = 0.08;
 
 @immutable
@@ -302,7 +304,7 @@ class ProController extends Notifier<ProState> {
             ref: 'RV-${2300 + s.payouts.length}',
             label: r.eventName,
             gross: gross,
-            commission: (gross * proCommissionRate).round(),
+            commission: (gross * ref.read(proCommissionProvider)).round(),
             date: DateTime.now().add(const Duration(days: 2)),
             status: PayoutStatus.scheduled,
           ),

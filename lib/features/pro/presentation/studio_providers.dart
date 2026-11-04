@@ -8,14 +8,13 @@ import '../../commerce/presentation/commerce_providers.dart';
 import 'creator_providers.dart';
 import 'signature_provider.dart';
 
-// ─── Studio Creator : outils de l'offre Creator (dès 15 000 FCFA / mois) ────
+// ─── Studio Creator : outils des formules Creator et Business ────────────
 
-/// Le Studio est ouvert tant que l'abonnement court, même résilié (jusqu'à
-/// la fin de la période payée).
-final studioUnlockedProvider = Provider<bool>((ref) {
-  final sub = ref.watch(creatorSubProvider);
-  return sub != null && sub.renewsOn.isAfter(DateTime.now());
-});
+/// Le Studio est ouvert tant qu'une formule Creator ou Business court, même
+/// résiliée (jusqu'à la fin de la période payée).
+final studioUnlockedProvider = Provider<bool>(
+  (ref) => ref.watch(proPlanProvider).studio,
+);
 
 /// Facture émise à partir d'une prestation confirmée.
 @immutable

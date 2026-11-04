@@ -391,8 +391,6 @@ h1, h2, h3, h4, p { margin: 0; }
 .sim label { display: block; font-weight: 700; font-size: 15px; margin-bottom: 18px; }
 .sim output { float: right; font-weight: 800; }
 .sim input[type=range] { width: 100%; margin-top: 10px; accent-color: var(--ink); height: 28px; }
-.sim-result { font-size: 18px; }
-.sim-result b { font-weight: 800; }
 .budget-card { background: var(--white); border-radius: var(--r-card); padding: 32px; --rot: 3deg; }
 .donut-wrap { position: relative; width: 220px; margin: 0 auto 24px; }
 .donut { width: 100%; transform: rotate(-90deg); }
@@ -996,3 +994,32 @@ a:hover > .roll > span, a:focus-visible > .roll > span { transform: translateY(-
 
 /* Une seule colonne de formules : pas besoin d'aligner les prix. */
 @media (max-width: 640px) { .plan-tag { min-height: 0; } }
+
+/* ── Tarifs : choix du public, formules prestataires ─────── */
+.aud { display: flex; width: max-content; max-width: 100%; margin: 0 auto 18px; padding: 5px; border-radius: 99px; background: var(--ink); }
+.aud button { height: 46px; padding: 0 24px; border: 0; border-radius: 99px; background: none; color: rgba(255, 255, 255, .75); font: inherit; font-size: 15px; font-weight: 800; cursor: pointer; transition: background-color .25s, color .25s; }
+.aud button[aria-selected="true"] { background: var(--white); color: var(--ink); }
+.aud button:focus-visible, .sim-amounts button:focus-visible { outline: 3px solid var(--mango-hi); outline-offset: 2px; }
+.aud-panel[hidden] { display: none; }
+.plan-com { display: inline-block; width: max-content; margin-top: 8px; padding: 4px 10px; border-radius: 99px; background: rgba(44, 229, 185, .22); color: var(--ink); font-size: 13px; font-weight: 800; }
+.plan-hot .plan-com { background: rgba(255, 255, 255, .16); color: var(--white); }
+.boosts { margin-top: 20px; padding: 28px 30px; border-radius: var(--r-card); background: var(--white); border: 1px solid rgba(26, 6, 55, .12); }
+.boosts-head h3 { font-size: 22px; font-weight: 800; }
+.boosts-head p { margin-top: 4px; color: var(--muted); }
+.boost-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 18px 0 0; padding: 0; list-style: none; }
+.boost-list li { display: grid; gap: 4px; padding: 16px; border-radius: 16px; background: rgba(229, 157, 31, .14); }
+.boost-list b { font-weight: 800; }
+.boost-list span { font-size: 14px; color: var(--muted); }
+.boost-services { margin-top: 16px; font-size: 14px; color: var(--muted); max-width: 70ch; }
+.creator-cta-btns { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.btn-ghost-light { border: 1px solid rgba(255, 255, 255, .4); color: var(--white); background: none; }
+[data-theme="dark"] .boosts { background: #1B0F33; border-color: #33255A; }
+[data-theme="dark"] .boosts :is(h3, b) { color: #F1EDFA; }
+[data-theme="dark"] .plan-com { color: #F1EDFA; }
+@media (max-width: 900px) {
+  .boost-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .boost-list { grid-template-columns: 1fr; }
+  .aud button { padding: 0 18px; }
+}

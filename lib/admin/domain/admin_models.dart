@@ -447,7 +447,9 @@ class PricingModel {
       'Azur': 1500,
       'Signature': 2900,
       'Privilège': 5900,
-      'Offre Creator': 15000,
+      'Starter (prestataire)': 4900,
+      'Creator (prestataire)': 14900,
+      'Business (prestataire)': 29900,
     },
     this.categoryCommission = const {
       'Lieux': 6,

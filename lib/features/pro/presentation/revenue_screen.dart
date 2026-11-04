@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import 'package:go_router/go_router.dart';
+
+import '../../../app/router/app_router.dart';
 import '../../../core/i18n/tr.dart';
+import '../../commerce/domain/commerce_models.dart';
 import '../../../ui/theme/app_icons.dart';
 import '../../../ui/theme/eventa_colors.dart';
 import '../../../platform/mobile/download_mobile.dart'
@@ -11,6 +15,7 @@ import '../../../core/utils/formatters.dart';
 import '../../../ui/widgets/ui.dart';
 import 'creator_providers.dart';
 import '../domain/pro_models.dart';
+import '../../commerce/presentation/commerce_providers.dart';
 import 'pro_providers.dart';
 import 'pro_widgets.dart';
 import '../../../ui/dataviz/dataviz.dart';
@@ -23,6 +28,8 @@ class RevenueScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pro = ref.watch(proProvider);
+    final plan = ref.watch(proPlanProvider);
+    final rate = plan.commission;
     final orders = ref
         .watch(requestsProvider)
         .where((r) => r.status == RequestStatus.confirmed)
@@ -43,16 +50,10 @@ class RevenueScreen extends ConsumerWidget {
         pro.payouts.fold<int>(0, (s, p) => s + p.gross);
     final commissions =
         pro.payouts.fold<int>(0, (s, p) => s + p.commission) +
-        open.fold<int>(
-          0,
-          (s, r) => s + ((r.quote ?? 0) * proCommissionRate).round(),
-        );
+        open.fold<int>(0, (s, r) => s + ((r.quote ?? 0) * rate).round());
     final expected =
         scheduled.fold<int>(0, (s, p) => s + p.net) +
-        open.fold<int>(
-          0,
-          (s, r) => s + ((r.quote ?? 0) * (1 - proCommissionRate)).round(),
-        );
+        open.fold<int>(0, (s, r) => s + ((r.quote ?? 0) * (1 - rate)).round());
     final done = sent.fold<int>(0, (s, p) => s + p.net);
 
     // Reversements nets des 6 derniers mois (démo : historique + réel).
@@ -80,6 +81,11 @@ class RevenueScreen extends ConsumerWidget {
           .tr,
       children: [
         const SizedBox(height: 12),
+        _UpgradeHint(
+          plan: plan,
+          monthly: (bars.fold<double>(0, (a, b) => a + b) / bars.length)
+              .round(),
+        ),
         KpiGrid.compact(
           children: [
             KpiCard.compact(
@@ -93,8 +99,9 @@ class RevenueScreen extends ConsumerWidget {
               value: fcfaCompact(commissions),
               hue: Hue.coral,
               icon: AppIcons.receipt,
-              caption: '{0} % par prestation'.trf([
-                (proCommissionRate * 100).round(),
+              caption: 'Formule {0} · {1} %'.trf([
+                plan.label,
+                plan.commissionPercent,
               ]),
             ),
             KpiCard.compact(
@@ -416,4 +423,60 @@ class _MoneyRow extends StatelessWidget {
       ],
     ),
   );
+}
+
+/// Conseil chiffré : la formule qui laisserait le plus au prestataire ce
+/// mois-ci, abonnement déduit. Rien ne s'affiche si la formule actuelle est
+/// déjà la meilleure.
+class _UpgradeHint extends StatelessWidget {
+  const _UpgradeHint({required this.plan, required this.monthly});
+
+  final ProPlan plan;
+
+  /// Reversements nets moyens des six derniers mois : on remonte au
+  /// montant encaissé.
+  final int monthly;
+
+  @override
+  Widget build(BuildContext context) {
+    final sales = (monthly / (1 - plan.commission)).round();
+    int keep(ProPlan p) => (sales * (1 - p.commission)).round() - p.price;
+    final best = ProPlan.values.reduce((a, b) => keep(b) >= keep(a) ? b : a);
+    final gain = keep(best) - keep(plan);
+    if (best == plan || gain < 1000) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Panel(
+        onTap: () => context.push(Routes.business),
+        padding: const EdgeInsets.all(14),
+        child: Row(
+          children: [
+            IconTile(icon: AppIcons.trendUp, hue: best.hue, size: 40),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Avec {0}, gardez {1} de plus par mois'.trf([
+                      best.label,
+                      fcfa(gain),
+                    ]),
+                    style: context.text.titleSmall,
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'Commission {0} % au lieu de {1} %, abonnement déduit, d’après vos encaissements moyens des 6 derniers mois.'
+                        .trf([best.commissionPercent, plan.commissionPercent]),
+                    style: context.text.bodySmall,
+                  ),
+                ],
+              ),
+            ),
+            const Icon(AppIcons.chevron, size: 16),
+          ],
+        ),
+      ),
+    );
+  }
 }

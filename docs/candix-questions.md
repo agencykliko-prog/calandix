@@ -1,4 +1,4 @@
-# Candix : les 123 questions et réponses
+# Candix : les 126 questions et réponses
 
 Base utilisée par Candix sur la landing. Pour modifier une réponse, éditer `landing/candix-faq.json`.
 
@@ -461,7 +461,7 @@ Parce qu'il reste protégé : il n'est reversé au prestataire qu'après la pres
 
 L'inscription est gratuite avec la formule Découverte. Puis Azur à 1 500 FCFA, Signature à 2 900 FCFA et Privilège à 5 900 FCFA par mois, avec 14 jours d'essai gratuit ; à l'année, 2 mois sont offerts. Pour un seul événement, le Pass Événement donne les fonctions Signature pendant 30 jours pour 2 500 FCFA. Ces tarifs de démonstration peuvent évoluer avant le lancement.
 
-_Pour un prestataire :_ Pour un prestataire, l'inscription et la fiche sont gratuites : Calandix prélève seulement une commission de 8 % sur chaque prestation payée via l'application. L'offre Creator, à partir de 15 000 FCFA par mois avec 14 jours d'essai gratuit, ajoute le Studio Creator et plus de visibilité.
+_Pour un prestataire :_ Pour un prestataire, la formule Découverte est gratuite, avec une commission de 8 % sur ce que vous encaissez via Calandix. Starter (4 900 FCFA par mois) la ramène à 7 %, Creator (14 900 FCFA) à 5 % avec le Studio professionnel, et Business (29 900 FCFA) à 3 % pour les agences. 14 jours d'essai gratuit, sans carte bancaire ; à l'année, 2 mois offerts.
 
 Suites proposées : Quelle formule me convient le mieux ? · Quelle est la différence entre le mensuel et l'annuel ?
 
@@ -513,13 +513,13 @@ Oui : 14 jours d'essai gratuit sur les formules payantes, pour les organisateurs
 
 **98. Combien coûte l'inscription pour un prestataire ?** _(pour les prestataires)_
 
-L'inscription est gratuite. Calandix prélève une commission sur chaque prestation payée via l'application.
+L'inscription est gratuite avec la formule Découverte : profil professionnel, jusqu'à 5 prestations au catalogue, devis et réservations. Calandix prélève seulement une commission sur les sommes encaissées via l'application.
 
-Suites proposées : Quelle est la commission de Calandix ? · Comment créer mon espace pro ?
+Suites proposées : Quelles sont les formules prestataires ? · Quelle est la commission de Calandix ?
 
 **99. Quelle est la commission de Calandix ?** _(pour les prestataires)_
 
-Actuellement 8 % sur chaque prestation payée via l'application. Elle est affichée dans votre espace.
+Elle baisse quand votre formule monte : 8 % en Découverte, 7 % en Starter, 5 % en Creator et 3 % en Business. Elle n'est prélevée que sur les sommes effectivement encaissées via Calandix : jamais sur une demande de devis, ni sur un devis accepté mais pas encore payé. En cas de paiement en plusieurs fois, elle suit chaque échéance encaissée.
 
 **100. Quand suis-je payé en tant que prestataire ?** _(pour les prestataires)_
 
@@ -535,88 +535,104 @@ Six outils réunis : profil et catalogue (forfaits, options, zone d'intervention
 
 Suites proposées : Comment envoyer un devis détaillé ? · Puis-je signer mes devis et factures ?
 
-**103. Qu'est-ce que l'offre Creator ?** _(pour les prestataires)_
+**103. Quelles sont les formules prestataires ?** _(pour les prestataires)_
 
-Une offre pour les pros, à partir de 15 000 FCFA par mois, avec 14 jours d'essai gratuit et sans engagement, qui donne accès au Studio Creator et à plus de visibilité.
+Quatre formules : Découverte (gratuite, commission 8 %, 5 prestations au catalogue), Starter (4 900 FCFA par mois, 7 %, 15 prestations), Creator (14 900 FCFA, 5 %, Studio professionnel) et Business (29 900 FCFA, 3 %, plusieurs collaborateurs et activités). À l'année, vous payez 10 mois pour 12. Starter, Creator et Business s'essaient 14 jours gratuitement, sans carte bancaire.
 
-**104. Comment créer mon espace pro ?** _(pour les prestataires)_
+Suites proposées : Qu'est-ce que la formule Creator ? · Comment booster ma visibilité ?
+
+**104. Comment booster ma visibilité ?** _(pour les prestataires)_
+
+Sans abonnement, même en Découverte : Boost de profil (1 500 FCFA, 7 jours), Boost de recherche (2 500 FCFA, 7 jours), Prestataire à la une (3 500 FCFA, 7 jours) ou campagne promotionnelle dès 5 000 FCFA. Toute mise en avant payante est signalée « Sponsorisé » ; le classement naturel reste fondé sur la pertinence, les avis vérifiés et la disponibilité.
+
+Suites proposées : Quelles sont les formules prestataires ?
+
+**105. Calandix peut-il créer mon profil pour moi ?** _(pour les prestataires)_
+
+Oui, notre équipe peut créer votre profil professionnel (5 000 FCFA) ou votre catalogue numérique (10 000 FCFA). Shooting photo, contenus promotionnels et accompagnement marketing sont sur devis. Ces services sont facturés à part.
+
+**106. Qu'est-ce que la formule Creator ?** _(pour les prestataires)_
+
+La formule des prestataires qui veulent développer leur clientèle : 14 900 FCFA par mois (149 000 FCFA à l'année), commission ramenée à 5 %, catalogue sans limite, Studio professionnel Calandix, visibilité renforcée dans les résultats pertinents et suivi des acomptes et reversements. 14 jours d'essai gratuit, sans engagement.
+
+**107. Comment créer mon espace pro ?** _(pour les prestataires)_
 
 Touchez « Créer mon espace pro », créez votre compte en choisissant Creator, puis complétez profil, catalogue et zone d'intervention et envoyez vos justificatifs (RCCM, pièce d'identité, adresse). Votre fiche est publiée après vérification.
 
-**105. Comment présenter un catalogue qui convainc ?** _(pour les prestataires)_
+**108. Comment présenter un catalogue qui convainc ?** _(pour les prestataires)_
 
 Des forfaits clairs avec leur prix de départ, des options, votre zone d'intervention et vos meilleures photos. Les organisateurs comparent des devis : plus votre offre est lisible, plus la décision se prend vite.
 
-**106. Comment envoyer un devis détaillé ?** _(pour les prestataires)_
+**109. Comment envoyer un devis détaillé ?** _(pour les prestataires)_
 
 Depuis une demande reçue, composez votre devis ligne par ligne, puis indiquez sa durée de validité et le pourcentage d'acompte. Tout tient en un écran, et le devis vous engage pendant sa validité.
 
-**107. Puis-je signer mes devis et factures ?** _(pour les prestataires)_
+**110. Puis-je signer mes devis et factures ?** _(pour les prestataires)_
 
 Oui. Tracez votre signature une fois dans votre espace pro, rubrique Ma signature : elle s'ajoute automatiquement à vos devis et factures. Une pièce déjà émise garde sa signature d'origine.
 
-**108. Comment éviter les doubles réservations ?** _(pour les prestataires)_
+**111. Comment éviter les doubles réservations ?** _(pour les prestataires)_
 
 Tenez votre calendrier de disponibilités à jour : une date réservée se bloque, et les organisateurs filtrent la marketplace par disponibilité.
 
-**109. Comment suivre mes commandes jusqu'au jour J ?** _(pour les prestataires)_
+**112. Comment suivre mes commandes jusqu'au jour J ?** _(pour les prestataires)_
 
 Chaque prestation confirmée devient une commande, avec ses échéances et sa préparation. Sur grand écran, vos demandes s'affichent en colonnes, étape par étape.
 
-**110. Combien vais-je toucher sur une prestation ?** _(pour les prestataires)_
+**113. Combien vais-je toucher sur une prestation ?** _(pour les prestataires)_
 
-Le montant payé par l'organisateur, moins la commission de 8 %. Exemple : pour 500 000 FCFA, 40 000 FCFA de commission et 460 000 FCFA reversés sous 2 jours ouvrés sur Wave ou Orange Money.
+Le montant encaissé, moins la commission de votre formule. Pour une prestation de 500 000 FCFA : 460 000 FCFA en Découverte (8 %), 465 000 en Starter (7 %), 475 000 en Creator (5 %) et 485 000 en Business (3 %), avant frais du partenaire de paiement. Le reversement arrive sous 2 jours ouvrés sur Wave ou Orange Money.
 
-**111. Comment répondre aux avis clients ?** _(pour les prestataires)_
+**114. Comment répondre aux avis clients ?** _(pour les prestataires)_
 
 Les avis sont vérifiés : seuls les organisateurs ayant réservé peuvent en laisser. Vous y répondez publiquement depuis la rubrique Réputation de votre espace.
 
-**112. Et si un client annule sa réservation ?** _(pour les prestataires)_
+**115. Et si un client annule sa réservation ?** _(pour les prestataires)_
 
 Les conditions de votre devis s'appliquent. À défaut, l'annulation est gratuite pour le client jusqu'à 30 jours avant la prestation ; au-delà, l'acompte est conservé.
 
-**113. Sur quel compte suis-je payé ?** _(pour les prestataires)_
+**116. Sur quel compte suis-je payé ?** _(pour les prestataires)_
 
 Les reversements se font sur votre compte Wave ou Orange Money, sous 2 jours ouvrés après la prestation validée.
 
-**114. Calandix convient-il aux agences événementielles ?** _(pour les prestataires)_
+**117. Calandix convient-il aux agences événementielles ?** _(pour les prestataires)_
 
 Oui, l'espace pro est pensé pour elles : demandes qualifiées, devis détaillés, commandes et revenus de toutes vos prestations, dans une seule app.
 
-**115. Que m'apporte la commission ?** _(pour les prestataires)_
+**118. Que m'apporte la commission ?** _(pour les prestataires)_
 
 Des clients qui arrivent avec une demande précise, un acompte encaissé et sécurisé avant la prestation, et un reversement sous 2 jours ouvrés : vous ne courez plus après les acomptes.
 
-**116. L'offre Creator est-elle obligatoire ?** _(pour les prestataires)_
+**119. Une formule payante est-elle obligatoire ?** _(pour les prestataires)_
 
-Non : l'inscription et la fiche sont gratuites, seule la commission s'applique. L'offre Creator, dès 15 000 FCFA par mois sans engagement, ajoute le Studio Creator et plus de visibilité.
+Non : la formule Découverte est gratuite et le reste. Les formules Starter, Creator et Business baissent la commission et ajoutent des outils ; à partir d'environ 500 000 FCFA encaissés par mois, la baisse de commission couvre l'abonnement. Rien n'est facturé sans votre accord.
 
 ## Données et assistance
 
-**117. Calandix vend-il mes données ?**
+**120. Calandix vend-il mes données ?**
 
 Non. Nous ne vendons jamais vos données et ne faisons pas de publicité ciblée à partir de vos événements.
 
-**118. Mes données sont-elles protégées ?**
+**121. Mes données sont-elles protégées ?**
 
 Elles sont chiffrées en transit et au repos, et l'accès est limité. Nous ne stockons jamais vos codes Mobile Money ni les numéros complets de carte.
 
-**119. Combien de temps mes données sont-elles conservées ?**
+**122. Combien de temps mes données sont-elles conservées ?**
 
 Compte et événements : pendant l'utilisation, puis 3 ans après la dernière activité. Pièces comptables : 10 ans. Journaux techniques : 12 mois maximum.
 
-**120. Qui est Candix ?**
+**123. Qui est Candix ?**
 
 Je suis l'assistance de Calandix : je réponds aux questions sur le service et je peux faire le point avec vous pour vous orienter selon votre projet. Pour le reste, un conseiller prend le relais.
 
-**121. Comment parler à un conseiller ?**
+**124. Comment parler à un conseiller ?**
 
 Touchez « Parler à un conseiller » juste en dessous : la conversation s'ouvre sur WhatsApp, au +225 07 57 63 37 65.
 
-**122. Que puis-je demander à Candix ?**
+**125. Que puis-je demander à Candix ?**
 
 Tout ce qui concerne Calandix : fonctionnement, tarifs, paiements, prestataires, invités, données. Je peux aussi faire le point avec vous en quelques questions pour vous orienter selon votre projet.
 
-**123. Comment donner mon avis sur la démo ?**
+**126. Comment donner mon avis sur la démo ?**
 
 Écrivez-nous sur WhatsApp via « Parler à un conseiller » : vos retours nous aident à préparer le lancement.

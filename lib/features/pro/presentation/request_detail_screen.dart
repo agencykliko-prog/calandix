@@ -14,6 +14,7 @@ import '../../../ui/widgets/ui.dart';
 import 'creator_providers.dart';
 import '../../marketplace/presentation/explore_screen.dart';
 import '../domain/pro_models.dart';
+import '../../commerce/presentation/commerce_providers.dart';
 import 'pro_providers.dart';
 import 'pro_widgets.dart';
 import 'signature_provider.dart';
@@ -244,8 +245,13 @@ class _RequestDetailState extends ConsumerState<RequestDetailScreen> {
                 if (r.lastOffer != null)
                   InfoLine('Dernière offre'.tr, fcfa(r.lastOffer!)),
                 InfoLine(
-                  'Vous recevrez (après commission 8 %)'.tr,
-                  fcfa(((r.quote ?? 0) * (1 - proCommissionRate)).round()),
+                  'Vous recevrez (après commission {0} %)'.trf([
+                    ref.watch(proPlanProvider).commissionPercent,
+                  ]),
+                  fcfa(
+                    ((r.quote ?? 0) * (1 - ref.watch(proCommissionProvider)))
+                        .round(),
+                  ),
                 ),
                 if (r.validUntil != null)
                   InfoLine('Valable jusqu’au'.tr, mediumDate(r.validUntil!)),
@@ -571,7 +577,9 @@ class _RequestDetailState extends ConsumerState<RequestDetailScreen> {
                     ),
                     InfoLine(
                       'Vous recevrez'.tr,
-                      fcfa((total * (1 - proCommissionRate)).round()),
+                      fcfa(
+                        (total * (1 - ref.read(proCommissionProvider))).round(),
+                      ),
                     ),
                   ],
                 ),

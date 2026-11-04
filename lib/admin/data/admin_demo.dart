@@ -512,7 +512,14 @@ abstract final class AdminDemo {
         ? TxKind.subscription
         : TxKind.refund;
     final amount = switch (kind) {
-      TxKind.subscription => const [1500, 2900, 5900, 15000][r.nextInt(4)],
+      TxKind.subscription => const [
+        1500,
+        2900,
+        5900,
+        4900,
+        14900,
+        29900,
+      ][r.nextInt(6)],
       _ => (r.nextInt(60) + 3) * 25000,
     };
     final commission = switch (kind) {

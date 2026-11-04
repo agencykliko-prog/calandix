@@ -10,6 +10,7 @@ import '../../../ui/theme/eventa_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../ui/widgets/forms.dart';
 import '../../../ui/widgets/ui.dart';
+import '../../commerce/domain/commerce_models.dart';
 import '../../commerce/presentation/commerce_providers.dart';
 import 'creator_providers.dart';
 import 'pro_widgets.dart';
@@ -18,7 +19,8 @@ import '../../../ui/dataviz/dataviz.dart';
 import 'signature_screen.dart';
 
 /// Studio Creator : CRM, facturation, équipe, automatisations, marque
-/// blanche, statistiques avancées et API. Réservé à l'offre Creator.
+/// blanche, statistiques avancées et API. Inclus dans les formules Creator
+/// et Business.
 class StudioScreen extends ConsumerWidget {
   const StudioScreen({super.key});
 
@@ -28,8 +30,8 @@ class StudioScreen extends ConsumerWidget {
     return ProPage(
       title: 'Studio Creator'.tr,
       subtitle: unlocked
-          ? 'Les outils de votre offre Creator, au même endroit.'.tr
-          : 'Réservé aux abonnés de l’offre Creator.'.tr,
+          ? 'Les outils de votre formule, au même endroit.'.tr
+          : 'Inclus dans les formules Creator et Business.'.tr,
       children: unlocked
           ? const [
               _SubBanner(),
@@ -70,7 +72,7 @@ class _Locked extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Tag(
-              label: 'Offre Creator'.tr,
+              label: 'Formule Creator'.tr,
               hue: Hue.gold,
               solid: true,
               icon: AppIcons.lock,
@@ -96,7 +98,9 @@ class _Locked extends StatelessWidget {
               ),
             const SizedBox(height: 8),
             PillButton(
-              label: 'Débloquer · {0} / mois'.trf([fcfa(creatorPlanPrice)]),
+              label: 'Débloquer · {0} / mois'.trf([
+                fcfa(ProPlan.creator.price),
+              ]),
               icon: AppIcons.crown,
               tone: ButtonTone.gold,
               onPressed: () => context.push(Routes.business),
@@ -131,8 +135,8 @@ class _SubBanner extends ConsumerWidget {
                 children: [
                   Text(
                     sub.cancelled
-                        ? 'Offre Creator résiliée'.tr
-                        : 'Offre Creator active'.tr,
+                        ? 'Formule {0} résiliée'.trf([sub.plan.label])
+                        : 'Formule {0} active'.trf([sub.plan.label]),
                     style: context.text.titleSmall,
                   ),
                   Text(

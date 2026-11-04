@@ -291,8 +291,8 @@ class _PricingModuleState extends ConsumerState<PricingModule> {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      e.key.startsWith('Business')
-                          ? 'Offre Creator et agences'
+                      e.key.endsWith('(prestataire)')
+                          ? 'Formule prestataire'
                           : 'Offre Organisateur',
                       style: context.text.bodySmall,
                     ),

@@ -24,7 +24,7 @@ void main() {
     await settle(tester);
   }
 
-  testWidgets('parcours Creator : abonnement 15 000 FCFA puis Studio complet', (
+  testWidgets('parcours Creator : abonnement 14 900 FCFA puis Studio complet', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(430, 932) * 2;
@@ -53,17 +53,23 @@ void main() {
     // 1. Sans abonnement, le Studio est verrouillé.
     expect(c.read(studioUnlockedProvider), isFalse);
     expect(
-      find.text('Réservé aux abonnés de l’offre Creator.'),
+      find.text('Inclus dans les formules Creator et Business.'),
       findsOneWidget,
     );
     expect(find.text('Facturation'), findsNothing);
 
-    // 2. « Débloquer » mène à l'offre, paiement de 15 000 FCFA.
+    // 2. « Débloquer » mène aux formules, paiement Creator de 14 900 FCFA.
     await tapVisible(tester, find.textContaining('Débloquer'));
-    expect(find.text('Offre Creator'), findsOneWidget);
-    await tapVisible(tester, find.textContaining('S’abonner'));
+    expect(find.text('Formules prestataires'), findsOneWidget);
+    final subscribe = find.byKey(const ValueKey('subscribe-creator'));
+    await tester.scrollUntilVisible(
+      subscribe,
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tapVisible(tester, subscribe);
     expect(find.text('Abonnement Creator'), findsOneWidget);
-    expect(find.textContaining(RegExp(r'15.000')), findsWidgets);
+    expect(find.textContaining(RegExp(r'14.900')), findsWidgets);
     final pay = find.textContaining('Payer');
     await tester.ensureVisible(pay);
     await tester.pump();
@@ -74,7 +80,12 @@ void main() {
     await settle(tester);
     expect(c.read(creatorSubProvider), isNotNull);
     expect(c.read(studioUnlockedProvider), isTrue);
-    expect(find.text('Offre Creator active'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('Formule Creator active'),
+      -400,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.text('Formule Creator active'), findsOneWidget);
 
     // 3. Retour au Studio, désormais ouvert.
     await tapVisible(tester, find.text('Ouvrir mon Studio Creator'));
@@ -156,11 +167,11 @@ void main() {
     await settle(tester);
     expect(c.read(studioUnlockedProvider), isTrue);
     await tester.scrollUntilVisible(
-      find.text('Offre Creator résiliée'),
+      find.text('Formule Creator résiliée'),
       -400,
       scrollable: find.byType(Scrollable).first,
     );
-    expect(find.text('Offre Creator résiliée'), findsOneWidget);
+    expect(find.text('Formule Creator résiliée'), findsOneWidget);
 
     await tester.pumpWidget(const SizedBox());
     await tester.pump(const Duration(seconds: 4));

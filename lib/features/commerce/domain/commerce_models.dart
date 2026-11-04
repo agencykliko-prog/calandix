@@ -238,6 +238,174 @@ enum Plan {
       : '{0} Mo'.trf([vaultMb]);
 }
 
+// ─── Formules prestataires (pack prestataire) ───────────────────────────
+
+/// Formules de l'espace pro. Plus la formule monte, plus la commission
+/// prélevée sur les sommes encaissées via Calandix baisse.
+enum ProPlan {
+  decouverte(
+    'Découverte',
+    0,
+    0.08,
+    5,
+    Hues.ink,
+    'Pour rejoindre la marketplace et présenter votre activité.',
+  ),
+  starter(
+    'Starter',
+    4900,
+    0.07,
+    15,
+    Hues.lagoon,
+    'Pour professionnaliser votre présence.',
+  ),
+  creator(
+    'Creator',
+    14900,
+    0.05,
+    null,
+    Hues.violet,
+    'Pour développer votre clientèle.',
+  ),
+  business(
+    'Business',
+    29900,
+    0.03,
+    null,
+    Hues.gold,
+    'Pour les agences et entreprises événementielles.',
+  );
+
+  const ProPlan(
+    this._label,
+    this.price,
+    this.commission,
+    this.catalogLimit,
+    this._hue,
+    this._pitch,
+  );
+
+  final String _label;
+  String get label => _label.tr;
+  final int price;
+
+  /// Part prélevée sur chaque encaissement effectif (0,08 = 8 %).
+  final double commission;
+
+  /// Prestations au catalogue ; null = sans limite.
+  final int? catalogLimit;
+  final Hues _hue;
+  Hue get hue => _hue.hue;
+  final String _pitch;
+  String get pitch => _pitch.tr;
+
+  int get commissionPercent => (commission * 100).round();
+
+  /// Formule annuelle : dix mensualités pour douze mois d'accès.
+  int get yearlyPrice => price * 10;
+  int get yearlySaving => price * 2;
+
+  bool get free => price == 0;
+  bool includes(ProPlan other) => index >= other.index;
+
+  /// Le Studio professionnel est ouvert à partir de Creator.
+  bool get studio => includes(ProPlan.creator);
+
+  /// Montant encaissé par mois à partir duquel la baisse de commission
+  /// rembourse l'abonnement (comparé à Découverte).
+  int? get breakEven => free
+      ? null
+      : (price / (ProPlan.decouverte.commission - commission)).round();
+
+  /// Ce que la formule apporte de plus que la précédente.
+  List<String> get features => switch (this) {
+    ProPlan.decouverte => [
+      'Profil professionnel, photos et réalisations'.tr,
+      'Jusqu’à 5 prestations au catalogue'.tr,
+      'Demandes et envoi de devis'.tr,
+      'Disponibilités, commandes et réservations'.tr,
+      'Avis clients vérifiés'.tr,
+    ],
+    ProPlan.starter => [
+      'Jusqu’à 15 prestations au catalogue'.tr,
+      'Galerie enrichie et profil personnalisé'.tr,
+      'Devis avancés et suivi des demandes'.tr,
+      'Statistiques de consultation et historique clients'.tr,
+      'Badge Starter'.tr,
+    ],
+    ProPlan.creator => [
+      'Catalogue étendu, sans limite'.tr,
+      'Studio professionnel Calandix'.tr,
+      'Visibilité renforcée dans les résultats pertinents'.tr,
+      'Statistiques commerciales, acomptes et reversements'.tr,
+      'Outils de gestion de la réputation'.tr,
+    ],
+    ProPlan.business => [
+      'Plusieurs collaborateurs avec droits d’accès'.tr,
+      'Plusieurs activités ou catégories'.tr,
+      'Analyse des ventes et suivi commercial'.tr,
+      'Mise en avant commerciale renforcée'.tr,
+      'Assistance prioritaire'.tr,
+    ],
+  };
+}
+
+/// Options de visibilité ponctuelles, ouvertes à toutes les formules, y
+/// compris Découverte. Toujours signalées « Sponsorisé ».
+enum ProBoost {
+  profile(
+    'Boost de profil',
+    1500,
+    7,
+    AppIcons.rocket,
+    'Votre profil mis en avant pendant 7 jours.',
+  ),
+  search(
+    'Boost de recherche',
+    2500,
+    7,
+    AppIcons.search,
+    'En tête de votre catégorie, signalé « Sponsorisé ».',
+  ),
+  featured(
+    'Prestataire à la une',
+    3500,
+    7,
+    AppIcons.star,
+    'Un emplacement éditorial sur l’accueil des organisateurs.',
+  ),
+  campaign(
+    'Campagne promotionnelle',
+    5000,
+    null,
+    AppIcons.megaphone,
+    'Une prestation, une offre spéciale ou une promotion mise en avant.',
+  );
+
+  const ProBoost(this._label, this.price, this.days, this.icon, this._desc);
+  final String _label;
+  String get label => _label.tr;
+
+  /// Prix indicatif ; « dès » ce montant pour une campagne.
+  final int price;
+
+  /// Durée en jours ; null = selon la campagne.
+  final int? days;
+  final IconData icon;
+  final String _desc;
+  String get description => _desc.tr;
+}
+
+/// Services réalisés par l'équipe Calandix, facturés à part. Prix null :
+/// sur devis.
+const proServices = <(String, int?, IconData)>[
+  ('Création de profil professionnel', 5000, AppIcons.user),
+  ('Création de catalogue numérique', 10000, AppIcons.images),
+  ('Shooting photo professionnel', null, AppIcons.camera),
+  ('Création de contenus promotionnels', null, AppIcons.palette),
+  ('Accompagnement marketing', null, AppIcons.target),
+];
+
 /// Fonctionnalités soumises à un abonnement, et le niveau minimal requis.
 enum PremiumFeature {
   events('Plus de 4 événements actifs', Plan.azur, AppIcons.calendarPlus),

@@ -134,16 +134,16 @@ class AccountScreen extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Offre Creator'.tr,
+                            'Mes formules pro'.tr,
                             style: context.text.titleMedium?.copyWith(
                               color: Colors.white,
                             ),
                           ),
                           Text(
-                            ref.watch(creatorSubProvider) == null
-                                ? 'CRM, devis, facturation · 29 900 FCFA/mois'
-                                      .tr
-                                : 'Abonnement actif · 29 900 FCFA/mois'.tr,
+                            'Formule {0} · commission {1} %'.trf([
+                              ref.watch(proPlanProvider).label,
+                              ref.watch(proPlanProvider).commissionPercent,
+                            ]),
                             style: context.text.bodySmall?.copyWith(
                               color: Colors.white60,
                             ),

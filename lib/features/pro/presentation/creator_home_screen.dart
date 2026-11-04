@@ -279,13 +279,13 @@ class CreatorHomeScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Gagnez en visibilité'.tr,
+                    'Gardez plus sur chaque prestation'.tr,
                     style: context.text.titleMedium?.copyWith(
                       color: Colors.white,
                     ),
                   ),
                   Text(
-                    'Publicité Premium et offre Business dès 29 900 FCFA/mois'
+                    'Commission de 8 % à 3 % selon votre formule · boosts de visibilité dès 1 500 FCFA'
                         .tr,
                     style: context.text.bodySmall?.copyWith(
                       color: Colors.white60,

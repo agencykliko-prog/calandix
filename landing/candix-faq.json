@@ -1404,7 +1404,7 @@
 "c": "Formules",
 "q": "Combien coûte Calandix ?",
 "a": "L'inscription est gratuite avec la formule Découverte. Puis Azur à 1 500 FCFA, Signature à 2 900 FCFA et Privilège à 5 900 FCFA par mois, avec 14 jours d'essai gratuit ; à l'année, 2 mois sont offerts. Pour un seul événement, le Pass Événement donne les fonctions Signature pendant 30 jours pour 2 500 FCFA. Ces tarifs de démonstration peuvent évoluer avant le lancement.",
-"ap": "Pour un prestataire, l'inscription et la fiche sont gratuites : Calandix prélève seulement une commission de 8 % sur chaque prestation payée via l'application. L'offre Creator, à partir de 15 000 FCFA par mois avec 14 jours d'essai gratuit, ajoute le Studio Creator et plus de visibilité.",
+"ap": "Pour un prestataire, la formule Découverte est gratuite, avec une commission de 8 % sur ce que vous encaissez via Calandix. Starter (4 900 FCFA par mois) la ramène à 7 %, Creator (14 900 FCFA) à 5 % avec le Studio professionnel, et Business (29 900 FCFA) à 3 % pour les agences. 14 jours d'essai gratuit, sans carte bancaire ; à l'année, 2 mois offerts.",
 "f": [
 "Quelle formule me convient le mieux ?",
 "Quelle est la différence entre le mensuel et l'annuel ?"
@@ -1569,10 +1569,10 @@
 "c": "Prestataires et agences",
 "p": "pro",
 "q": "Combien coûte l'inscription pour un prestataire ?",
-"a": "L'inscription est gratuite. Calandix prélève une commission sur chaque prestation payée via l'application.",
+"a": "L'inscription est gratuite avec la formule Découverte : profil professionnel, jusqu'à 5 prestations au catalogue, devis et réservations. Calandix prélève seulement une commission sur les sommes encaissées via l'application.",
 "f": [
-"Quelle est la commission de Calandix ?",
-"Comment créer mon espace pro ?"
+"Quelles sont les formules prestataires ?",
+"Quelle est la commission de Calandix ?"
 ],
 "k": [
 "inscription pour un prestataire",
@@ -1593,12 +1593,16 @@
 "c": "Prestataires et agences",
 "p": "pro",
 "q": "Quelle est la commission de Calandix ?",
-"a": "Actuellement 8 % sur chaque prestation payée via l'application. Elle est affichée dans votre espace.",
+"a": "Elle baisse quand votre formule monte : 8 % en Découverte, 7 % en Starter, 5 % en Creator et 3 % en Business. Elle n'est prélevée que sur les sommes effectivement encaissées via Calandix : jamais sur une demande de devis, ni sur un devis accepté mais pas encore payé. En cas de paiement en plusieurs fois, elle suit chaque échéance encaissée.",
 "k": [
 "commission",
 "8",
+"7",
+"5",
+"3",
 "pourcentage",
-"prelevement"
+"prelevement",
+"degressive"
 ]
 },
 {
@@ -1652,14 +1656,69 @@
 {
 "c": "Prestataires et agences",
 "p": "pro",
-"q": "Qu'est-ce que l'offre Creator ?",
-"a": "Une offre pour les pros, à partir de 15 000 FCFA par mois, avec 14 jours d'essai gratuit et sans engagement, qui donne accès au Studio Creator et à plus de visibilité.",
+"q": "Quelles sont les formules prestataires ?",
+"a": "Quatre formules : Découverte (gratuite, commission 8 %, 5 prestations au catalogue), Starter (4 900 FCFA par mois, 7 %, 15 prestations), Creator (14 900 FCFA, 5 %, Studio professionnel) et Business (29 900 FCFA, 3 %, plusieurs collaborateurs et activités). À l'année, vous payez 10 mois pour 12. Starter, Creator et Business s'essaient 14 jours gratuitement, sans carte bancaire.",
+"f": [
+"Qu'est-ce que la formule Creator ?",
+"Comment booster ma visibilité ?"
+],
+"k": [
+"formules prestataires",
+"formule prestataire",
+"starter",
+"business",
+"abonnement prestataire",
+"tarif prestataire",
+"prix prestataire",
+"offres pro"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Comment booster ma visibilité ?",
+"a": "Sans abonnement, même en Découverte : Boost de profil (1 500 FCFA, 7 jours), Boost de recherche (2 500 FCFA, 7 jours), Prestataire à la une (3 500 FCFA, 7 jours) ou campagne promotionnelle dès 5 000 FCFA. Toute mise en avant payante est signalée « Sponsorisé » ; le classement naturel reste fondé sur la pertinence, les avis vérifiés et la disponibilité.",
+"f": [
+"Quelles sont les formules prestataires ?"
+],
+"k": [
+"boost",
+"booster",
+"visibilite",
+"sponsorise",
+"mise en avant",
+"a la une",
+"publicite",
+"campagne"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Calandix peut-il créer mon profil pour moi ?",
+"a": "Oui, notre équipe peut créer votre profil professionnel (5 000 FCFA) ou votre catalogue numérique (10 000 FCFA). Shooting photo, contenus promotionnels et accompagnement marketing sont sur devis. Ces services sont facturés à part.",
+"k": [
+"creer mon profil",
+"creation profil",
+"catalogue numerique",
+"shooting",
+"photos pro",
+"accompagnement",
+"marketing",
+"service"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Qu'est-ce que la formule Creator ?",
+"a": "La formule des prestataires qui veulent développer leur clientèle : 14 900 FCFA par mois (149 000 FCFA à l'année), commission ramenée à 5 %, catalogue sans limite, Studio professionnel Calandix, visibilité renforcée dans les résultats pertinents et suivi des acomptes et reversements. 14 jours d'essai gratuit, sans engagement.",
 "k": [
 "offre creator",
+"formule creator",
 "studio",
-"15 000",
-"15000",
-"business",
+"14 900",
+"14900",
 "crm",
 "abonnement pro"
 ]
@@ -1752,7 +1811,7 @@
 "c": "Prestataires et agences",
 "p": "pro",
 "q": "Combien vais-je toucher sur une prestation ?",
-"a": "Le montant payé par l'organisateur, moins la commission de 8 %. Exemple : pour 500 000 FCFA, 40 000 FCFA de commission et 460 000 FCFA reversés sous 2 jours ouvrés sur Wave ou Orange Money.",
+"a": "Le montant encaissé, moins la commission de votre formule. Pour une prestation de 500 000 FCFA : 460 000 FCFA en Découverte (8 %), 465 000 en Starter (7 %), 475 000 en Creator (5 %) et 485 000 en Business (3 %), avant frais du partenaire de paiement. Le reversement arrive sous 2 jours ouvrés sur Wave ou Orange Money.",
 "k": [
 "combien je touche",
 "net",
@@ -1831,8 +1890,8 @@
 {
 "c": "Prestataires et agences",
 "p": "pro",
-"q": "L'offre Creator est-elle obligatoire ?",
-"a": "Non : l'inscription et la fiche sont gratuites, seule la commission s'applique. L'offre Creator, dès 15 000 FCFA par mois sans engagement, ajoute le Studio Creator et plus de visibilité.",
+"q": "Une formule payante est-elle obligatoire ?",
+"a": "Non : la formule Découverte est gratuite et le reste. Les formules Starter, Creator et Business baissent la commission et ajoutent des outils ; à partir d'environ 500 000 FCFA encaissés par mois, la baisse de commission couvre l'abonnement. Rien n'est facturé sans votre accord.",
 "k": [
 "obligatoire",
 "sans abonnement",

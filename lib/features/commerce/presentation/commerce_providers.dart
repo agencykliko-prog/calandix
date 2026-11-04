@@ -102,22 +102,22 @@ final eventPassProvider =
       EventPassNotifier.new,
     );
 
-// ─── Abonnement Creator ─────────────────────────────────────────────────
+// ─── Formule prestataire ────────────────────────────────────────────────
 
-/// Prix mensuel de l'offre Creator, à partir de.
-const creatorPlanPrice = 15000;
-
-/// Abonnement Creator en cours (null : pas d'abonnement).
+/// Abonnement prestataire payant en cours (null : formule Découverte).
 class CreatorSubscription {
   const CreatorSubscription({
+    required this.plan,
     required this.since,
     required this.renewsOn,
     required this.method,
     required this.receipt,
     this.cancelled = false,
     this.trial = false,
+    this.yearly = false,
   });
 
+  final ProPlan plan;
   final DateTime since;
   final DateTime renewsOn;
   final PayMethod method;
@@ -129,13 +129,20 @@ class CreatorSubscription {
   /// Essai gratuit : l'offre devient payante à [renewsOn].
   final bool trial;
 
+  /// Payé à l'année (dix mensualités pour douze mois).
+  final bool yearly;
+
+  bool get active => renewsOn.isAfter(DateTime.now());
+
   CreatorSubscription copyWith({bool? cancelled}) => CreatorSubscription(
+    plan: plan,
     since: since,
     renewsOn: renewsOn,
     method: method,
     receipt: receipt,
     cancelled: cancelled ?? this.cancelled,
     trial: trial,
+    yearly: yearly,
   );
 }
 
@@ -143,12 +150,19 @@ class CreatorSubNotifier extends Notifier<CreatorSubscription?> {
   @override
   CreatorSubscription? build() => null;
 
-  /// Active l'abonnement après un paiement réussi (30 jours).
-  void activate(PayMethod method, String receipt) {
+  /// Active la formule après un paiement réussi (30 jours, ou un an).
+  void activate(
+    PayMethod method,
+    String receipt, {
+    ProPlan plan = ProPlan.creator,
+    bool yearly = false,
+  }) {
     final now = DateTime.now();
     state = CreatorSubscription(
+      plan: plan,
+      yearly: yearly,
       since: now,
-      renewsOn: now.add(const Duration(days: 30)),
+      renewsOn: now.add(Duration(days: yearly ? 365 : 30)),
       method: method,
       receipt: receipt,
     );
@@ -158,10 +172,11 @@ class CreatorSubNotifier extends Notifier<CreatorSubscription?> {
     );
   }
 
-  /// Essai gratuit de [trialDays] jours, sans paiement.
-  void startTrial() {
+  /// Essai gratuit de [trialDays] jours, sans paiement ni carte.
+  void startTrial([ProPlan plan = ProPlan.creator]) {
     final now = DateTime.now();
     state = CreatorSubscription(
+      plan: plan,
       since: now,
       renewsOn: now.add(const Duration(days: trialDays)),
       method: PayMethod.values.first,
@@ -177,6 +192,34 @@ class CreatorSubNotifier extends Notifier<CreatorSubscription?> {
 final creatorSubProvider =
     NotifierProvider<CreatorSubNotifier, CreatorSubscription?>(
       CreatorSubNotifier.new,
+    );
+
+/// Formule du prestataire : celle de l'abonnement en cours, sinon
+/// Découverte.
+final proPlanProvider = Provider<ProPlan>((ref) {
+  final sub = ref.watch(creatorSubProvider);
+  return sub != null && sub.active ? sub.plan : ProPlan.decouverte;
+});
+
+/// Commission appliquée aux prochains encaissements, selon la formule.
+final proCommissionProvider = Provider<double>(
+  (ref) => ref.watch(proPlanProvider).commission,
+);
+
+/// Options de visibilité en cours, avec leur date de fin.
+class ProBoostNotifier extends Notifier<Map<ProBoost, DateTime>> {
+  @override
+  Map<ProBoost, DateTime> build() => const {};
+
+  void activate(ProBoost b) =>
+      state = {...state, b: DateTime.now().add(Duration(days: b.days ?? 14))};
+
+  bool active(ProBoost b) => state[b]?.isAfter(DateTime.now()) ?? false;
+}
+
+final proBoostsProvider =
+    NotifierProvider<ProBoostNotifier, Map<ProBoost, DateTime>>(
+      ProBoostNotifier.new,
     );
 
 /// Une fonctionnalité est débloquée par l'abonnement.

@@ -293,7 +293,7 @@ const _screenNames = {
   '/evenement/:id/invites': 'Invités',
   '/nouvel-evenement': 'Nouvel événement',
   '/premium': 'Premium',
-  '/business': 'Offre Creator',
+  '/business': 'Formules prestataires',
   '/pro/devis/:id': 'Demande de devis (Creator)',
   '/pro/verification': 'Vérification (Creator)',
 };

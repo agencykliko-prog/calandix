@@ -30,7 +30,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Calandix","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://eventa.ci/","description":"Organisez vos événements en Côte d’Ivoire : budget, prestataires, invités et équipe au même endroit.","offers":{"@type":"Offer","price":"0","priceCurrency":"XOF"}}
 </script>
-<link rel="stylesheet" href="styles.css?v=56">
+<link rel="stylesheet" href="styles.css?v=58">
 </head>
 <body>
 
@@ -318,8 +318,11 @@
       <li style="--bg:#fff;--fg:#1A0637"><span>06</span><div><h3>Réputation</h3><p>Avis vérifiés et réponses publiques.</p></div></li>
     </ul>
     <div class="creator-cta">
-      <p>Offre Creator à partir de <b>15 000 FCFA</b> par mois, 14 jours d’essai gratuit.</p>
-      <a class="btn btn-cta" data-demo-pro href="#">Créer mon espace pro</a>
+      <p>Gratuit pour commencer. Commission de <b>8 % à 3 %</b> selon la formule, 14 jours d’essai.</p>
+      <div class="creator-cta-btns">
+        <a class="btn btn-cta" data-demo-pro href="#">Créer mon espace pro</a>
+        <a class="btn btn-ghost-light" data-aud-open="pro" href="#tarifs">Voir les formules</a>
+      </div>
     </div>
   </div>
 </section>
@@ -328,14 +331,19 @@
 <section class="band band-cream" id="tarifs" data-edge="wave">
   <div class="wrap">
     <div class="center-head">
-      <p class="eyebrow ink">Tarifs organisateurs</p>
+      <p class="eyebrow ink">Tarifs</p>
       <h2 class="h-xl split">Gratuit pour <em class="script">commencer</em>.</h2>
       <p class="body-l ink-soft">14 jours d’essai gratuit sur les formules payantes, puis sans engagement. À l’année, 2 mois offerts.</p>
+    </div>
+    <div class="aud" role="tablist" aria-label="Je suis">
+      <button type="button" role="tab" data-aud="org" aria-selected="true">Organisateur</button>
+      <button type="button" role="tab" data-aud="pro" aria-selected="false">Prestataire</button>
     </div>
     <div class="billing" role="group" aria-label="Facturation">
       <button type="button" data-bill="m" aria-pressed="true">Mensuel</button>
       <button type="button" data-bill="y" aria-pressed="false">Annuel <span>2 mois offerts</span></button>
     </div>
+    <div class="aud-panel" data-aud-panel="org">
     <div class="plans">
       <article class="plan reveal">
         <h3>Découverte</h3><p class="plan-tag">Pour découvrir la plateforme.</p><p class="price"><b>0</b> <span class="unit">FCFA</span></p><p class="bill-note"></p>
@@ -366,6 +374,46 @@
         <p>Un mariage, un anniversaire, un baptême ? Toutes les fonctions Signature pendant 30 jours, pour un seul événement, sans abonnement.</p>
       </div>
       <a class="btn plan-btn" data-app-link="/inscription" href="#">Prendre un Pass</a>
+    </div>
+    </div>
+    <div class="aud-panel" data-aud-panel="pro" id="tarifs-pro" hidden>
+      <div class="plans">
+        <article class="plan">
+          <h3>Découverte</h3><p class="plan-com">Commission 8 %</p><p class="plan-tag">Pour rejoindre la marketplace et présenter votre activité.</p><p class="price"><b>0</b> <span class="unit">FCFA</span></p><p class="bill-note"></p>
+          <ul><li>Profil professionnel et photos</li><li>Jusqu’à 5 prestations au catalogue</li><li>Demandes et envoi de devis</li><li>Disponibilités et réservations</li><li>Avis clients vérifiés</li></ul>
+          <a class="btn plan-btn" data-demo-pro href="#">Créer mon profil gratuit</a>
+        </article>
+        <article class="plan">
+          <h3>Starter</h3><p class="plan-com">Commission 7 %</p><p class="plan-tag">Pour professionnaliser votre présence.</p><p class="price" data-price="4900"><b>4 900</b> <span class="unit">FCFA / mois</span></p><p class="bill-note" aria-live="polite"></p>
+          <ul><li>Tout Découverte</li><li>Jusqu’à 15 prestations</li><li>Galerie enrichie et profil personnalisé</li><li>Devis avancés et suivi des demandes</li><li>Statistiques de consultation et badge Starter</li></ul>
+          <a class="btn plan-btn" data-app-link="/inscription?profil=creator" href="#">Essayer 14 jours gratuits</a>
+        </article>
+        <article class="plan plan-hot">
+          <span class="badge">Recommandé</span>
+          <h3>Creator</h3><p class="plan-com">Commission 5 %</p><p class="plan-tag">Pour développer votre clientèle.</p><p class="price" data-price="14900"><b>14 900</b> <span class="unit">FCFA / mois</span></p><p class="bill-note" aria-live="polite"></p>
+          <ul><li>Tout Starter</li><li>Catalogue sans limite</li><li>Studio professionnel Calandix</li><li>Visibilité renforcée dans les résultats pertinents</li><li>Acomptes, reversements et réputation</li></ul>
+          <a class="btn plan-btn" data-app-link="/inscription?profil=creator" href="#">Essayer 14 jours gratuits</a>
+        </article>
+        <article class="plan">
+          <h3>Business</h3><p class="plan-com">Commission 3 %</p><p class="plan-tag">Pour les agences et entreprises événementielles.</p><p class="price" data-price="29900"><b>29 900</b> <span class="unit">FCFA / mois</span></p><p class="bill-note" aria-live="polite"></p>
+          <ul><li>Tout Creator</li><li>Plusieurs collaborateurs avec droits</li><li>Plusieurs activités ou catégories</li><li>Analyse des ventes et suivi commercial</li><li>Assistance prioritaire</li></ul>
+          <a class="btn plan-btn" data-app-link="/inscription?profil=creator" href="#">Essayer 14 jours gratuits</a>
+        </article>
+      </div>
+
+      <div class="boosts">
+        <div class="boosts-head">
+          <h3>Booster votre visibilité, sans abonnement</h3>
+          <p>Ouvert à toutes les formules, même Découverte. Toujours signalé « Sponsorisé ».</p>
+        </div>
+        <ul class="boost-list">
+          <li><b>Boost de profil</b><span>1 500 FCFA · 7 jours</span></li>
+          <li><b>Boost de recherche</b><span>2 500 FCFA · 7 jours</span></li>
+          <li><b>Prestataire à la une</b><span>3 500 FCFA · 7 jours</span></li>
+          <li><b>Campagne promotionnelle</b><span>Dès 5 000 FCFA</span></li>
+        </ul>
+        <p class="boost-services">Besoin d’un coup de main ? Notre équipe crée votre profil professionnel (5 000 FCFA) ou votre catalogue numérique (10 000 FCFA). Shooting photo, contenus et accompagnement marketing sur devis.</p>
+      </div>
     </div>
     <p class="fine">Tarifs de la version de démonstration, susceptibles d’évoluer avant le lancement.</p>
   </div>
@@ -423,7 +471,7 @@
       <details><summary>Quels moyens de paiement sont acceptés ?</summary><p>Orange Money, MTN MoMo, Wave, Moov Money et la carte bancaire. Les frais sont affichés avant de payer.</p></details>
       <details><summary>Et si le prestataire annule ?</summary><p>Une annulation par le prestataire entraîne le remboursement intégral de l’organisateur.</p></details>
       <details><summary>Puis-je organiser à plusieurs ?</summary><p>Oui : invitez des co-organisateurs avec des droits différents. Deux collaborateurs sont offerts, au-delà avec un abonnement.</p></details>
-      <details><summary>Je suis prestataire, combien ça coûte ?</summary><p>L’inscription est gratuite. Calandix prélève une commission sur chaque prestation payée via l’application ; l’offre Creator ajoute le Studio et plus de visibilité.</p></details>
+      <details><summary>Je suis prestataire, combien ça coûte ?</summary><p>La formule Découverte est gratuite. Calandix prélève une commission uniquement sur les sommes encaissées via l’application : 8 % en Découverte, 7 % en Starter (4 900 FCFA / mois), 5 % en Creator (14 900 FCFA / mois) et 3 % en Business (29 900 FCFA / mois). Aucune commission sur une demande de devis.</p></details>
       <details><summary>Quand l’application sera-t-elle disponible ?</summary><p>Calandix est en version de démonstration. Essayez-la dès maintenant : vos retours nous aident à préparer le lancement.</p></details>
     </div>
   </div>
@@ -466,7 +514,7 @@
       </div>
     </div>
     <div><h4>Produit</h4><a href="#budget">Budget</a><a href="#prestataires">Prestataires</a><a href="#tarifs">Tarifs</a><a href="#demo">Mon prochain event</a></div>
-    <div><h4>Professionnels</h4><a href="#creators">Espace pro</a><a href="#creators">Offre Creator</a></div>
+    <div><h4>Professionnels</h4><a href="#creators">Espace pro</a><a data-aud-open="pro" href="#tarifs">Formules prestataires</a></div>
     <div><h4>Calandix</h4><a data-app-link="/a-propos" href="#">À propos</a><a data-app-link="/conditions" href="#">Conditions générales</a><a data-app-link="/confidentialite" href="#">Confidentialité</a></div>
   </div>
   <p class="wrap legal">© 2026 Calandix · Version de démonstration</p>
@@ -493,7 +541,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollSmoother.min.js"></script>
-<script defer src="app.js?v=52"></script>
+<script defer src="app.js?v=54"></script>
 <!-- Téléphones 3D : three.js en module, chargé à part. Sans lui, la maquette plate reste. -->
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/" } }</script>
 </body>

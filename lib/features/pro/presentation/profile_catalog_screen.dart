@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/i18n/tr.dart';
 import '../../../app/router/app_router.dart';
+import '../../commerce/presentation/commerce_providers.dart';
 import '../../../ui/theme/app_icons.dart';
 import '../../../ui/theme/eventa_colors.dart';
 import '../../../core/utils/formatters.dart';
@@ -244,8 +245,9 @@ class ProfileCatalogScreen extends ConsumerWidget {
         SectionTitle(
           'Forfaits'.tr,
           action: 'Ajouter'.tr,
-          onAction: () => _editPackage(context, ref, null),
+          onAction: () => _addPackage(context, ref),
         ),
+        _CatalogQuota(used: cat.packages.length),
         for (final p in cat.packages)
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
@@ -411,6 +413,49 @@ class ProfileCatalogScreen extends ConsumerWidget {
                     );
                 Navigator.of(ctx).pop();
                 toast(context, 'Présentation mise à jour'.tr);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Ajout d'un forfait, dans la limite de la formule.
+  void _addPackage(BuildContext context, WidgetRef ref) {
+    final plan = ref.read(proPlanProvider);
+    final limit = plan.catalogLimit;
+    final used = ref.read(proProvider).catalog.packages.length;
+    if (limit != null && used >= limit) {
+      _catalogFull(context, plan.label, limit);
+      return;
+    }
+    _editPackage(context, ref, null);
+  }
+
+  void _catalogFull(BuildContext context, String plan, int limit) {
+    showEventaSheet<void>(
+      context,
+      builder: (ctx) => Padding(
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text('Catalogue complet'.tr, style: ctx.text.headlineSmall),
+            const SizedBox(height: 8),
+            Text(
+              'La formule {0} compte jusqu’à {1} prestations. Passez à la formule supérieure pour en ajouter, avec une commission plus basse.'
+                  .trf([plan, limit]),
+              style: ctx.text.bodyMedium,
+            ),
+            const SizedBox(height: 18),
+            PillButton(
+              label: 'Voir les formules'.tr,
+              icon: AppIcons.crown,
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                context.push(Routes.business);
               },
             ),
           ],
@@ -719,4 +764,49 @@ class _Photo extends StatelessWidget {
       child: Image.asset(path, width: size, height: size, fit: BoxFit.cover),
     ),
   );
+}
+
+/// Prestations utilisées sur le quota de la formule, avec un lien vers les
+/// formules quand la limite approche.
+class _CatalogQuota extends ConsumerWidget {
+  const _CatalogQuota({required this.used});
+
+  final int used;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final plan = ref.watch(proPlanProvider);
+    final limit = plan.catalogLimit;
+    if (limit == null) return const SizedBox.shrink();
+    final near = used >= limit - 1;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              '{0} prestations sur {1} · formule {2}'.trf([
+                used,
+                limit,
+                plan.label,
+              ]),
+              style: context.text.bodySmall?.copyWith(
+                color: near ? Confetti.warning : Confetti.inkMuted,
+              ),
+            ),
+          ),
+          if (near)
+            Pressable(
+              onTap: () => context.push(Routes.business),
+              child: Text(
+                'Plus de place'.tr,
+                style: context.text.labelMedium?.copyWith(
+                  color: Confetti.coralDeep,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 }
