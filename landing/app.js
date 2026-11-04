@@ -454,13 +454,36 @@
       });
       return score >= 3 ? best : null;
     };
+    // Les messages passent par une file : Candix « écrit » (trois points) avant
+    // chaque réponse, le temps de lecture d'une phrase, puis la conversation
+    // descend en douceur. Sans animation si l'utilisateur la réduit.
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    let queue = Promise.resolve();
+    const later = (fn) => { queue = queue.then(fn, fn); };
+    const down = () => log.scrollTo({ top: log.scrollHeight, behavior: still ? 'auto' : 'smooth' });
     const say = (text, me) => {
       const p = document.createElement('p');
       p.textContent = text;
       if (me) p.className = 'me';
-      log.append(p);
-      log.scrollTop = log.scrollHeight;
+      later(async () => {
+        if (!me && !still) {
+          const dots = document.createElement('p');
+          dots.className = 'candix-typing';
+          dots.setAttribute('aria-hidden', 'true');
+          dots.append(document.createElement('i'), document.createElement('i'), document.createElement('i'));
+          log.append(dots);
+          down();
+          await wait(Math.min(1100, 380 + text.length * 5));
+          dots.remove();
+        }
+        log.append(p);
+        down();
+        if (me && !still) await wait(180);
+      });
     };
+    // Retire un groupe de boutons, même s'il n'est pas encore affiché.
+    const drop = (d) => { d.dataset.gone = '1'; d.remove(); };
     const button = (label) => {
       const b = document.createElement('button');
       b.type = 'button';
@@ -471,7 +494,10 @@
     const choices = (kind) => {
       const d = document.createElement('div');
       d.className = `candix-choices${kind ? ` c-${kind}` : ''}`;
-      log.append(d);
+      later(async () => {
+        if (!still) await wait(140);
+        if (!d.dataset.gone) { log.append(d); down(); }
+      });
       return d;
     };
     const suggest = async (list) => {
@@ -486,16 +512,15 @@
       const d = choices();
       qs.forEach((q) => {
         const b = button(q);
-        b.addEventListener('click', () => { d.remove(); ask(q); });
+        b.addEventListener('click', () => { drop(d); ask(q); });
         d.append(b);
       });
-      log.scrollTop = log.scrollHeight;
     };
     const show = (r) => {
       say((profil === 'pro' && r.ap) || r.a);
       if (!r.o) return suggest(r.f);
       const d = choices(r.t);
-      const done = (opts) => { if (opts.length) { d.remove(); choose(r, opts); } };
+      const done = (opts) => { if (opts.length) { drop(d); choose(r, opts); } };
       const ok = button('Valider');
       ok.className = 'ok';
       if (r.t === 'select') {
@@ -522,7 +547,6 @@
           d.append(b);
         });
       }
-      log.scrollTop = log.scrollHeight;
     };
     const choose = async (r, opts) => {
       say(opts.map((o) => o.l).join(', '), true);
@@ -549,9 +573,8 @@
         else f.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
       });
       const again = button('Refaire le point');
-      again.addEventListener('click', () => { d.remove(); audit(); });
+      again.addEventListener('click', () => { drop(d); audit(); });
       d.append(early, again);
-      log.scrollTop = log.scrollHeight;
     };
     const audit = async () => {
       picks = [];
@@ -573,24 +596,30 @@
       pro: ['Bienvenue ! Voyons ce que Calandix peut apporter à votre activité.', ['Faire le point', "Combien coûte l'inscription pour un prestataire ?", 'Quand suis-je payé en tant que prestataire ?']],
       all: ['Avec plaisir. Voici de quoi commencer :', ["Qu'est-ce que Calandix ?", "Pourquoi choisir Calandix plutôt qu'un groupe WhatsApp ou un cahier ?", 'Comment essayer la démo ?']],
     };
-    say('Bonjour, je suis Candix. Pour bien vous répondre, dites-moi qui vous êtes :');
-    const who = choices();
-    [['Je prépare un événement', 'org'], ['Je suis prestataire', 'pro'], ['Je découvre Calandix', 'all']].forEach(([l, k]) => {
-      const b = button(l);
-      b.addEventListener('click', () => {
-        who.remove();
-        profil = k;
-        say(l, true);
-        say(STARTS[k][0]);
-        suggest(STARTS[k][1]);
+    // L'accueil s'écrit à la première ouverture, pas en arrière-plan.
+    let hello = false;
+    const greet = () => {
+      if (hello) return;
+      hello = true;
+      say('Bonjour, je suis Candix. Pour bien vous répondre, dites-moi qui vous êtes :');
+      const who = choices();
+      [['Je prépare un événement', 'org'], ['Je suis prestataire', 'pro'], ['Je découvre Calandix', 'all']].forEach(([l, k]) => {
+        const b = button(l);
+        b.addEventListener('click', () => {
+          drop(who);
+          profil = k;
+          say(l, true);
+          say(STARTS[k][0]);
+          suggest(STARTS[k][1]);
+        });
+        who.append(b);
       });
-      who.append(b);
-    });
+    };
     const hint = box.querySelector('.candix-hint');
     const toggle = (on) => {
       panel.hidden = !on;
       open.setAttribute('aria-expanded', on);
-      if (on) { hint.hidden = true; box.classList.add('seen'); loadFaq(); field.focus({ preventScroll: true }); }
+      if (on) { hint.hidden = true; box.classList.add('seen'); loadFaq(); greet(); field.focus({ preventScroll: true }); }
     };
     // Bulle d'accueil après quelques secondes, une seule fois par visite.
     let greeted = false;
@@ -603,10 +632,32 @@
     hint.querySelector('[data-candix-hint]').addEventListener('click', () => { mute(); toggle(true); });
     hint.querySelector('.candix-hint-x').addEventListener('click', mute);
     open.addEventListener('click', () => { mute(); toggle(panel.hidden); });
+    document.querySelectorAll('[data-candix-ask]').forEach((b) => b.addEventListener('click', () => { mute(); toggle(true); }));
     box.querySelector('[data-candix-close]').addEventListener('click', () => { toggle(false); open.focus(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) toggle(false); });
     form.addEventListener('submit', (e) => { e.preventDefault(); ask(field.value); field.value = ''; });
   })();
+
+  /* ── FAQ : ouverture et fermeture en douceur, une réponse à la fois ── */
+  const faqItems = [...document.querySelectorAll('.faq-item')];
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const slide = (d, open) => {
+    const a = d.querySelector('.faq-a');
+    if (calm || !a.animate) { d.open = open; return; }
+    if (open) d.open = true;
+    const h = a.scrollHeight;
+    const anim = a.animate(
+      [{ height: open ? '0px' : `${h}px`, opacity: open ? 0 : 1 }, { height: open ? `${h}px` : '0px', opacity: open ? 1 : 0 }],
+      { duration: 320, easing: 'cubic-bezier(.23, 1, .32, 1)' },
+    );
+    anim.onfinish = () => { if (!open) d.open = false; window.ScrollTrigger?.refresh(); };
+  };
+  faqItems.forEach((d) => d.querySelector('summary').addEventListener('click', (e) => {
+    e.preventDefault();
+    const open = !d.open;
+    if (open) faqItems.forEach((o) => { if (o !== d && o.open) slide(o, false); });
+    slide(d, open);
+  }));
 
   /* ── Démo : l'application préchargée en arrière-plan ── */
   addEventListener('load', () => setTimeout(() => {

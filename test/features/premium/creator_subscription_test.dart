@@ -87,6 +87,8 @@ void main() {
     expect(find.text('Formule Creator active'), findsOneWidget);
 
     // 4. Résiliation confirmée, puis réactivation.
+    await tester.ensureVisible(find.text('Résilier').first);
+    await tester.pump();
     await tester.tap(find.text('Résilier').first);
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));

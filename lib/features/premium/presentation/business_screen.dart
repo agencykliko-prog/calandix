@@ -8,7 +8,6 @@ import '../../../core/i18n/tr.dart';
 import '../../../ui/theme/app_icons.dart';
 import '../../../ui/theme/app_theme.dart';
 import '../../../ui/theme/eventa_colors.dart';
-import '../../../ui/widgets/entrance.dart';
 import '../../../ui/widgets/pressable.dart';
 import '../../../ui/widgets/ui.dart';
 import '../../../core/utils/formatters.dart';
@@ -165,144 +164,191 @@ class _BusinessScreenState extends ConsumerState<BusinessScreen> {
   Widget build(BuildContext context) {
     final sub = ref.watch(creatorSubProvider);
     final current = ref.watch(proPlanProvider);
-    final w = MediaQuery.sizeOf(context).width;
-    final side = math.max(16.0, (w - 760) / 2);
     return Scaffold(
       body: SafeArea(
         bottom: false,
-        child: ListView(
-          padding: EdgeInsets.fromLTRB(side, 8, side, 40),
-          physics: const BouncingScrollPhysics(),
-          children: [
-            Row(
+        // La largeur utile vient de l'écran lui-même, pas de la fenêtre :
+        // sur desktop il s'ouvre à côté du rail de navigation.
+        child: LayoutBuilder(
+          builder: (context, box) {
+            final side = math.max(16.0, (box.maxWidth - 960) / 2);
+            return ListView(
+              padding: EdgeInsets.fromLTRB(side, 8, side, 40),
+              physics: const BouncingScrollPhysics(),
               children: [
-                RoundIconButton(
-                  icon: AppIcons.back,
-                  tooltip: 'Retour',
-                  onTap: () => context.pop(),
+                Row(
+                  children: [
+                    RoundIconButton(
+                      icon: AppIcons.back,
+                      tooltip: 'Retour',
+                      onTap: () => context.pop(),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            _Hero(
-              sub: sub,
-              current: current,
-              onCancel: _cancel,
-              onResume: () => ref.read(creatorSubProvider.notifier).resume(),
-            ),
-            SectionTitle('Choisir ma formule'.tr),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                Choice(
-                  label: 'Mensuel'.tr,
-                  on: !_yearly,
-                  onTap: () => setState(() => _yearly = false),
+                const SizedBox(height: 16),
+                _Hero(
+                  sub: sub,
+                  current: current,
+                  onCancel: _cancel,
+                  onResume: () =>
+                      ref.read(creatorSubProvider.notifier).resume(),
                 ),
-                Choice(
-                  label: 'Annuel · 2 mois offerts'.tr,
-                  on: _yearly,
-                  onTap: () => setState(() => _yearly = true),
+                _Title('Choisir ma formule'.tr),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    Choice(
+                      label: 'Mensuel'.tr,
+                      on: !_yearly,
+                      onTap: () => setState(() => _yearly = false),
+                    ),
+                    Choice(
+                      label: 'Annuel · 2 mois offerts'.tr,
+                      on: _yearly,
+                      onTap: () => setState(() => _yearly = true),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            for (final (i, plan) in ProPlan.values.indexed)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Entrance(
-                  index: i,
-                  child: _PlanCard(
-                    plan: plan,
-                    yearly: _yearly,
-                    current: plan == current,
-                    canTrial: sub == null,
-                    onTrial: () => _trial(plan),
-                    onSubscribe: () => _subscribe(plan),
-                    onDowngrade: sub == null || sub.cancelled ? null : _cancel,
-                  ),
-                ),
-              ),
-            Text(
-              'Essai de 14 jours sans carte bancaire, prévenu avant la fin. Rien n’est facturé sans votre accord.'
-                  .tr,
-              style: context.text.bodySmall?.copyWith(
-                color: context.eventa.muted,
-              ),
-            ),
-            SectionTitle('Ce que vous gardez'.tr),
-            _Simulator(
-              sales: _sales,
-              current: current,
-              onSales: (v) => setState(() => _sales = v),
-            ),
-            SectionTitle('Une commission juste'.tr),
-            const _Rules(),
-            SectionTitle('Booster ma visibilité'.tr),
-            Text(
-              'Ouvert à toutes les formules, même Découverte : une visibilité ponctuelle, sans abonnement. Toujours signalée « Sponsorisé ».'
-                  .tr,
-              style: context.text.bodyMedium?.copyWith(
-                color: context.eventa.muted,
-              ),
-            ),
-            const SizedBox(height: 12),
-            for (final b in ProBoost.values)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: _BoostRow(boost: b, onBuy: () => _boost(b)),
-              ),
-            SectionTitle('Services Calandix'.tr),
-            Text(
-              'Notre équipe s’en occupe pour vous. Facturés à part.'.tr,
-              style: context.text.bodyMedium?.copyWith(
-                color: context.eventa.muted,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Panel(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-              child: Column(
-                children: [
-                  for (final (i, (label, price, icon))
-                      in proServices.indexed) ...[
-                    if (i > 0) const Divider(height: 1),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
+                const SizedBox(height: 12),
+                // Pas d'animation d'entrée : les formules s'affichent tout de
+                // suite. Deux colonnes dès que la place le permet (desktop).
+                LayoutBuilder(
+                  builder: (context, c) {
+                    Widget card(ProPlan plan) => _PlanCard(
+                      plan: plan,
+                      yearly: _yearly,
+                      current: plan == current,
+                      canTrial: sub == null,
+                      onTrial: () => _trial(plan),
+                      onSubscribe: () => _subscribe(plan),
+                      onDowngrade: sub == null || sub.cancelled
+                          ? null
+                          : _cancel,
+                    );
+                    final plans = ProPlan.values;
+                    if (c.maxWidth < 680) {
+                      return Column(
                         children: [
-                          IconTile(icon: icon, hue: Hue.violet, size: 34),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
+                          for (final p in plans)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: card(p),
+                            ),
+                        ],
+                      );
+                    }
+                    return Column(
+                      children: [
+                        for (var i = 0; i < plans.length; i += 2)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 12),
+                            child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(label.tr, style: context.text.titleSmall),
-                                Text(
-                                  price == null ? 'Sur devis'.tr : fcfa(price),
-                                  style: context.text.bodySmall,
+                                Expanded(child: card(plans[i])),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: i + 1 < plans.length
+                                      ? card(plans[i + 1])
+                                      : const SizedBox(),
                                 ),
                               ],
                             ),
                           ),
-                          TextButton(
-                            onPressed: () => toast(
-                              context,
-                              'Demande envoyée : un conseiller Calandix vous recontacte.'
-                                  .tr,
-                              icon: AppIcons.headset,
-                            ),
-                            child: Text('Demander'.tr),
+                      ],
+                    );
+                  },
+                ),
+                Text(
+                  'Essai de 14 jours sans carte bancaire, prévenu avant la fin. Rien n’est facturé sans votre accord.'
+                      .tr,
+                  style: context.text.bodySmall?.copyWith(
+                    color: context.eventa.muted,
+                  ),
+                ),
+                _Title('Ce que vous gardez'.tr),
+                _Simulator(
+                  sales: _sales,
+                  current: current,
+                  onSales: (v) => setState(() => _sales = v),
+                ),
+                _Title('Une commission juste'.tr),
+                const _Rules(),
+                _Title('Booster ma visibilité'.tr),
+                Text(
+                  'Ouvert à toutes les formules, même Découverte : une visibilité ponctuelle, sans abonnement. Toujours signalée « Sponsorisé ».'
+                      .tr,
+                  style: context.text.bodyMedium?.copyWith(
+                    color: context.eventa.muted,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                for (final b in ProBoost.values)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: _BoostRow(boost: b, onBuy: () => _boost(b)),
+                  ),
+                _Title('Services Calandix'.tr),
+                Text(
+                  'Notre équipe s’en occupe pour vous. Facturés à part.'.tr,
+                  style: context.text.bodyMedium?.copyWith(
+                    color: context.eventa.muted,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Panel(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 4,
+                  ),
+                  child: Column(
+                    children: [
+                      for (final (i, (label, price, icon))
+                          in proServices.indexed) ...[
+                        if (i > 0) const Divider(height: 1),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            children: [
+                              IconTile(icon: icon, hue: Hue.violet, size: 34),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      label.tr,
+                                      style: context.text.titleSmall,
+                                    ),
+                                    Text(
+                                      price == null
+                                          ? 'Sur devis'.tr
+                                          : fcfa(price),
+                                      style: context.text.bodySmall,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () => toast(
+                                  context,
+                                  'Demande envoyée : un conseiller Calandix vous recontacte.'
+                                      .tr,
+                                  icon: AppIcons.headset,
+                                ),
+                                child: Text('Demander'.tr),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ],
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -436,6 +482,11 @@ class _PlanCard extends StatelessWidget {
                 Tag(label: 'Votre formule'.tr, hue: hue)
               else if (recommended)
                 Tag(label: 'Recommandé'.tr, hue: hue, solid: true),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
@@ -567,6 +618,9 @@ class _PlanCard extends StatelessWidget {
 
 /// Simulateur : ce qui reste au prestataire selon la formule, pour un
 /// montant encaissé par mois.
+/// Montant sans l'unité, pour les colonnes du simulateur.
+String _amount(int v) => fcfa(v).replaceAll(RegExp(r'\s*FCFA$'), '');
+
 class _Simulator extends StatelessWidget {
   const _Simulator({
     required this.sales,
@@ -656,7 +710,7 @@ class _Simulator extends StatelessWidget {
                   SizedBox(
                     width: 92,
                     child: Text(
-                      fcfaCompact((sales * p.commission).round()),
+                      _amount((sales * p.commission).round()),
                       textAlign: TextAlign.right,
                       style: context.text.bodySmall,
                     ),
@@ -664,7 +718,7 @@ class _Simulator extends StatelessWidget {
                   SizedBox(
                     width: 108,
                     child: Text(
-                      fcfaCompact(net(p)),
+                      _amount(net(p)),
                       textAlign: TextAlign.right,
                       style: context.text.titleSmall?.copyWith(
                         fontFeatures: const [FontFeature.tabularFigures()],
@@ -676,7 +730,7 @@ class _Simulator extends StatelessWidget {
             ),
           const SizedBox(height: 8),
           Text(
-            'Montant restant après commission et abonnement du mois, avant frais du partenaire de paiement. ★ : la formule la plus avantageuse à ce niveau.'
+            'Montants en FCFA, après commission et abonnement du mois, avant frais du partenaire de paiement. ★ : la formule la plus avantageuse à ce niveau.'
                 .tr,
             style: context.text.bodySmall?.copyWith(
               color: context.eventa.muted,
@@ -876,4 +930,18 @@ class _ActiveSub extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Titre de section aligné sur les cartes de l'écran (SectionTitle ajoute
+/// sa propre marge latérale, pensée pour les listes sans marge).
+class _Title extends StatelessWidget {
+  const _Title(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.fromLTRB(2, 30, 2, 12),
+    child: Text(text, style: context.text.titleLarge),
+  );
 }

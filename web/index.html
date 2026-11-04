@@ -33,18 +33,32 @@
     html, body { margin: 0; height: 100%; background: #fff; }
     #splash { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; background: #fff; transition: opacity .4s ease, visibility .4s; }
     #splash.done { opacity: 0; visibility: hidden; }
-    /* Seul le symbole, à la taille d'une icône d'ouverture d'app (96 px sur
-       téléphone, 112 px au-delà), qui apparaît en douceur. */
-    .sp-mark { display: block; width: 96px; height: 96px; animation: sp-in .5s ease-out both; }
+    /* Le symbole seul (96 px sur téléphone, 112 px au-delà). Les trois
+       cartes arrivent l'une après l'autre, puis le symbole respire
+       doucement tant que l'app charge. */
+    .sp-mark { display: block; width: 96px; height: 96px; overflow: visible; animation: sp-breathe 2.4s ease-in-out .9s infinite; }
     @media (min-width: 600px) { .sp-mark { width: 112px; height: 112px; } }
-    @keyframes sp-in { from { opacity: 0; transform: scale(.92); } }
-    @media (prefers-reduced-motion: reduce) { .sp-mark { animation: none; } }
+    .sp-mark rect { transform-box: fill-box; transform-origin: 50% 100%; animation: sp-card .7s cubic-bezier(.34, 1.56, .64, 1) both; }
+    .sp-mark .c2 { animation-delay: .12s; }
+    .sp-mark .c3 { animation-delay: .24s; }
+    .sp-mark .tilt { transform-box: fill-box; transform-origin: 30% 70%; animation: sp-tilt 2.4s ease-in-out .9s infinite; }
+    @keyframes sp-card { from { opacity: 0; transform: translateY(28%) scale(.86); } to { opacity: 1; transform: none; } }
+    @keyframes sp-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    @keyframes sp-tilt { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-4deg); } }
+    @media (prefers-reduced-motion: reduce) {
+      .sp-mark, .sp-mark .tilt { animation: none; }
+      .sp-mark rect { animation: none; }
+    }
   </style>
 </head>
 <body>
   <noscript><p style="position:fixed;inset:auto 0 24px;z-index:10000;color:#1A0637;text-align:center;font-family:system-ui,sans-serif">Calandix a besoin de JavaScript pour fonctionner.</p></noscript>
   <div id="splash" role="status" aria-label="Chargement de Calandix">
-    <img class="sp-mark" src="brand/calandix-mark.svg" width="136" height="136" alt="">
+    <svg class="sp-mark" viewBox="62.43 35.58 136 136" aria-hidden="true">
+      <rect class="c1" x="71.178" y="41.676" width="118.506" height="72.284" rx="22.016" fill="#e59d1f"/>
+      <rect class="c2" x="71.178" y="64.396" width="118.506" height="72.284" rx="22.016" fill="#e01928"/>
+      <g transform="translate(23.862 -21.748) rotate(10.486)"><g class="tilt"><rect class="c3" x="71.178" y="83.002" width="118.506" height="72.284" rx="22.016" fill="#4d39e2"/></g></g>
+    </svg>
   </div>
   <script src="flutter_bootstrap.js" async></script>
 </body>

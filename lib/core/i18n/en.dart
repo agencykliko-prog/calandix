@@ -1790,4 +1790,5 @@ const en = <String, String>{
   'Les outils de votre formule, au même endroit.':
       'Your plan’s tools, in one place.',
   'Formule Creator': 'Creator plan',
+  'Montants en FCFA, après commission et abonnement du mois, avant frais du partenaire de paiement. ★ : la formule la plus avantageuse à ce niveau.': 'Amounts in FCFA, after commission and the month’s subscription, before payment partner fees. ★: the best plan at this level.',
 };
