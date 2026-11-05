@@ -1545,6 +1545,14 @@ const en = <String, String>{
   'Aucun prestataire ne correspond.': 'No vendor matches.',
   'Cette page n’existe pas.': 'This page doesn’t exist.',
   'Retour à l’accueil': 'Back to home',
+  // Pied de page des pages 404
+  'Commencer': 'Get started',
+  'Je suis prestataire': 'I am a provider',
+  'Le budget parfait pour ': 'The perfect budget to ',
+  'célébrer': 'celebrate',
+  'Conçu pour la Côte d’Ivoire.': 'Designed for Côte d’Ivoire.',
+  'Organiser gratuitement': 'Plan for free',
+  'Calandix est un service délivré par ': 'Calandix is a service provided by ',
   // ─── Signature ─────────────────────────────────────────────────────────
   'Ma signature': 'My signature',
   'À enregistrer': 'To be added',

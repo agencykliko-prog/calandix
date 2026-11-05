@@ -6,27 +6,53 @@
 <meta name="robots" content="noindex">
 <title>Page introuvable · Calandix</title>
 <link rel="icon" type="image/png" href="/img/favicon.png">
+<link rel="stylesheet" href="/styles.css?v=64">
 <style>
-  @font-face { font-family: "Red Hat Display"; src: url(/fonts/RedHatDisplay-800.woff2) format("woff2"); font-weight: 800; font-display: swap; }
-  @font-face { font-family: "Red Hat Display"; src: url(/fonts/RedHatDisplay-500.woff2) format("woff2"); font-weight: 500; font-display: swap; }
-  body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; box-sizing: border-box; background: #fff; color: #1A0637; font-family: "Red Hat Display", system-ui, sans-serif; font-weight: 500; text-align: center; }
-  .logo { display: block; margin: 0 auto 8px; width: 170px; height: auto; }
-  .big { display: flex; align-items: center; justify-content: center; font-size: clamp(120px, 34vw, 300px); font-weight: 800; line-height: 1; letter-spacing: -.06em; color: #4D39E2; }
-  .big img { width: .92em; height: .92em; margin: 0 -.04em; animation: sway 3.4s ease-in-out infinite; transform-origin: 50% 90%; }
+  body { background: #fff; }
+  .nf { min-height: 82vh; display: grid; place-items: center; padding: 48px 24px 120px; text-align: center; }
+  .nf .logo-404 { display: block; margin: 0 auto 8px; width: 170px; height: auto; }
+  .nf .big { display: flex; align-items: center; justify-content: center; font-size: clamp(120px, 34vw, 300px); font-weight: 800; line-height: 1; letter-spacing: -.06em; color: #4D39E2; }
+  .nf .big img { width: .92em; height: .92em; margin: 0 -.04em; animation: sway 3.4s ease-in-out infinite; transform-origin: 50% 90%; }
   @keyframes sway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
-  @media (prefers-reduced-motion: reduce) { .big img { animation: none; } }
-  h1 { margin: 0 0 10px; font-size: clamp(28px, 6vw, 44px); font-weight: 800; letter-spacing: -.03em; }
-  p { margin: 0 0 26px; }
-  a { display: inline-block; padding: 15px 28px; border-radius: 99px; background: #4D39E2; color: #fff; font-weight: 800; text-decoration: none; }
+  @media (prefers-reduced-motion: reduce) { .nf .big img { animation: none; } }
+  .nf h1 { margin: 0 0 10px; font-size: clamp(28px, 6vw, 44px); font-weight: 800; letter-spacing: -.03em; }
+  .nf p { margin: 0 0 26px; color: var(--muted); }
+  .nf .home { display: inline-block; padding: 15px 28px; border-radius: 99px; background: #4D39E2; color: #fff; font-weight: 800; text-decoration: none; }
 </style>
 </head>
 <body>
-  <main>
-    <img class="logo" src="/img/calandix-logo.svg" width="760" height="124" alt="Calandix">
-    <div class="big" role="img" aria-label="Erreur 404"><span>4</span><img src="/img/mascots/triste.webp" width="320" height="320" alt=""><span>4</span></div>
-    <h1>Cette page n’existe pas.</h1>
-    <p>Elle a peut-être changé d’adresse. La fête continue à l’accueil.</p>
-    <a href="/">Retour à l’accueil</a>
+  <main class="nf">
+    <div>
+      <img class="logo-404" src="/img/calandix-logo.svg" width="760" height="124" alt="Calandix">
+      <div class="big" role="img" aria-label="Erreur 404"><span>4</span><img src="/img/mascots/triste.webp" width="320" height="320" alt=""><span>4</span></div>
+      <h1>Cette page n’existe pas.</h1>
+      <p>Elle a peut-être changé d’adresse. La fête continue à l’accueil.</p>
+      <a class="home" href="/">Retour à l’accueil</a>
+    </div>
   </main>
+  <div data-footer></div>
+<script>
+  // Le footer est repris tel quel de la page d'accueil : toute page 404 garde
+  // ainsi le même footer que le site, sans copie à tenir à jour.
+  (async () => {
+    try {
+      const html = await (await fetch('/', { cache: 'no-cache' })).text();
+      const foot = new DOMParser().parseFromString(html, 'text/html').querySelector('footer.footer');
+      if (!foot) return;
+      // Chemins rendus absolus : la 404 peut être servie depuis n'importe quelle adresse.
+      foot.querySelectorAll('[src]').forEach((el) => {
+        const v = el.getAttribute('src');
+        if (!/^(\/|https?:|data:)/.test(v)) el.setAttribute('src', `/${v}`);
+      });
+      foot.querySelectorAll('a[href^="#"]').forEach((a) => { if (!a.hasAttribute('data-soon')) a.setAttribute('href', `/${a.getAttribute('href')}`); });
+      const local = !location.hostname || location.port === '8090';
+      const base = local ? `http://${location.hostname || 'localhost'}:8080/#` : `${location.origin}/app/#`;
+      foot.querySelectorAll('[data-app-link]').forEach((a) => { a.href = base + a.dataset.appLink; a.target = '_blank'; a.rel = 'noopener'; });
+      foot.querySelectorAll('[data-soon]').forEach((a) => a.addEventListener('click', (e) => e.preventDefault()));
+      foot.querySelector('.foot-brand')?.classList.add('in');
+      document.querySelector('[data-footer]').replaceWith(document.adoptNode(foot));
+    } catch (e) { /* hors ligne : la page reste utilisable sans footer */ }
+  })();
+</script>
 </body>
 </html>
