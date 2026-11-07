@@ -1164,7 +1164,6 @@ const en = <String, String>{
   'Reversements effectués': 'Payouts made',
   'Reversements des 6 derniers mois': 'Payouts over the last 6 months',
   'Acompte reçu · prestation {0}': 'Deposit received · service {0}',
-  'Acompte reçu': 'Deposit received',
   '{0} · commission {1}': '{0} · commission {1}',
   'Reversée': 'Paid out',
   'Soldée': 'Settled',
@@ -2132,7 +2131,6 @@ const en = <String, String>{
   'Le lien est incomplet ou l’invitation a été retirée. Demandez un nouveau lien à l’organisateur.': 'The link is incomplete or the invitation was withdrawn. Ask the organiser for a new link.',
   'Découvrir Calandix': 'Discover Calandix',
   'Enregistrer l’acompte reçu': 'Record the deposit received',
-  'Nouvelle demande': 'New request',
   'Suivi des commandes': 'Order tracking',
   'Chaque dossier passe par ces 7 statuts.':
       'Every job goes through these 7 statuses.',
@@ -2192,4 +2190,154 @@ const en = <String, String>{
   'Attribué sur des critères objectifs : note moyenne d’au moins 4,5, au moins 10 avis vérifiés, prestations réalisées et réponses rapides.': 'Awarded on objective criteria: average rating of at least 4.5, at least 10 verified reviews, completed services and quick replies.',
   'Sans abonnement': 'No subscription',
   '{0}\nConditions : {1}': '{0}\nTerms: {1}',
+
+  // Push, page de l’événement, contrat, agenda, devis, hors ligne, statistiques (7 nov. 2026)
+  'Notifications push sur votre téléphone, même application fermée.':
+      'Push notifications on your phone, even when the app is closed.',
+  'Envoyer une notification de test': 'Send a test notification',
+  'Toutes les notifications push sont coupées.':
+      'All push notifications are turned off.',
+  'Ceci est une notification de test.': 'This is a test notification.',
+  'Autres canaux': 'Other channels',
+  'Nouvelle demande': 'New request',
+  'Un organisateur vous demande un devis.':
+      'An organiser is asking you for a quote.',
+  'Un prestataire a répondu à votre demande.':
+      'A vendor has answered your request.',
+  'Un acompte est réglé et la date est bloquée.':
+      'A deposit is paid and the date is held.',
+  'Rappel J-1': 'Day-before reminder',
+  'La veille d’un événement, d’une prestation ou d’une échéance.':
+      'The day before an event, a service or a deadline.',
+  '{0} a lieu demain à {1}.': '{0} takes place tomorrow at {1}.',
+  'Demain : {0} ({1}).': 'Tomorrow: {0} ({1}).',
+  'Prestation demain : {0} à {1}.': 'Service tomorrow: {0} at {1}.',
+  'Acompte reçu': 'Deposit received',
+  'La date est bloquée.': 'The date is held.',
+  'Agenda synchronisé': 'Synced calendar',
+  'Statistiques du budget': 'Budget statistics',
+  'Statistiques et comparaisons du budget': 'Budget statistics and comparisons',
+  'Moyenne de vos {0} autres événements « {1} »':
+      'Average of your {0} other “{1}” events',
+  'Répartition type d’une fête (repère Calandix)':
+      'Typical party breakdown (Calandix benchmark)',
+  'Réel (engagé)': 'Actual (committed)',
+  'Marge restante': 'Remaining margin',
+  'Postes au-dessus du prévu : {0}.': 'Items above plan: {0}.',
+  'Prévu face au réel': 'Planned versus actual',
+  'Réel': 'Actual',
+  'Comparaison': 'Comparison',
+  'repère {0} %': 'benchmark {0}%',
+  'En rouge : un écart de 8 points ou plus avec le repère, à vérifier.':
+      'In red: a gap of 8 points or more from the benchmark, worth checking.',
+  'Retour au budget': 'Back to budget',
+  'Google Agenda': 'Google Calendar',
+  'Connecté · {0}': 'Connected · {0}',
+  'Vos rendez-vous pris hors Calandix bloquent vos dates.':
+      'Appointments booked outside Calandix block your dates.',
+  'Connecter Google Agenda': 'Connect Google Calendar',
+  'Agenda connecté : {0} jours occupés importés':
+      'Calendar connected: {0} busy days imported',
+  'Occupé dans votre agenda': 'Busy in your calendar',
+  'Ajouter mes prestations Calandix à l’agenda':
+      'Add my Calandix services to the calendar',
+  'Dernière synchronisation à {0}': 'Last synced at {0}',
+  'Synchroniser': 'Sync',
+  'Exporter (.ics)': 'Export (.ics)',
+  'Export disponible sur le web': 'Export available on the web',
+  'Déconnecter': 'Disconnect',
+  'Contrat de prestation': 'Service contract',
+  'Signé par {0} · en attente de votre signature':
+      'Signed by {0} · awaiting your signature',
+  'Signé par les deux parties le {0}': 'Signed by both parties on {0}',
+  'Signer': 'Sign',
+  'Contrat signé {0}.pdf': 'Signed contract {0}.pdf',
+  'Contrat signé, copie rangée dans le coffre-fort':
+      'Contract signed, copy saved in the vault',
+  '1. Parties': '1. Parties',
+  '{0} (organisateur) et {1} (prestataire), mis en relation par Calandix.':
+      '{0} (organiser) and {1} (vendor), connected through Calandix.',
+  '2. Prestation': '2. Service',
+  '{0}, le {1}.': '{0}, on {1}.',
+  '3. Prix et paiement': '3. Price and payment',
+  'Total {0} TTC. Acompte de {1} à la réservation, solde avant la prestation, payés via Calandix.': 'Total {0} incl. tax. Deposit of {1} on booking, balance before the service, paid through Calandix.',
+  '4. Conditions du prestataire': '4. Vendor terms',
+  '5. Annulation et litiges': '5. Cancellation and disputes',
+  '4. Annulation et litiges': '4. Cancellation and disputes',
+  'Les conditions d’annulation du devis s’appliquent. En cas de désaccord, la médiation Calandix intervient avant toute autre démarche.': 'The quote’s cancellation terms apply. In case of disagreement, Calandix mediation comes before any other step.',
+  'Signé par {0} le {1} à {2}': 'Signed by {0} on {1} at {2}',
+  'Référence {0} · horodatée': 'Reference {0} · time-stamped',
+  'Votre signature': 'Your signature',
+  'J’ai lu le contrat et je l’accepte. Ma signature électronique a la même valeur qu’une signature manuscrite.': 'I have read and accept the contract. My electronic signature has the same value as a handwritten one.',
+  'Signer le contrat': 'Sign the contract',
+  'Bonjour {0}, avez-vous pu consulter notre devis pour « {1} » ? Il reste valable jusqu’au {2}. Nous restons disponibles pour l’ajuster.': 'Hello {0}, have you had a chance to look at our quote for “{1}”? It is valid until {2}. We are happy to adjust it.',
+  'Mode hors ligne': 'Offline mode',
+  'Réseau faible sur place ?': 'Weak signal on site?',
+  'Liste de {0} invités sur l’appareil, téléchargée à {1}.':
+      'List of {0} guests on this device, downloaded at {1}.',
+  'Téléchargez la liste : les entrées se valident sans réseau.':
+      'Download the list: entries are checked without a connection.',
+  'Liste des invités disponible hors ligne': 'Guest list available offline',
+  '{0} entrée(s) synchronisée(s)': '{0} entry(ies) synced',
+  '{0} entrée(s) en attente de synchronisation':
+      '{0} entry(ies) waiting to sync',
+  'Page': 'Page',
+  'Accueil des invités': 'Guests arrive',
+  'Cérémonie': 'Ceremony',
+  'Cocktail': 'Cocktails',
+  'Dîner': 'Dinner',
+  'Soirée dansante': 'Dancing',
+  'Quel est le code vestimentaire ?': 'What is the dress code?',
+  'Jusqu’à quand puis-je répondre ?': 'Until when can I reply?',
+  'Avant le {0}, depuis votre lien d’invitation.':
+      'Before {0}, from your invitation link.',
+  'Puis-je venir accompagné ?': 'Can I bring someone?',
+  'L’invitation est personnelle.': 'The invitation is personal.',
+  'Oui, jusqu’à {0} personnes : indiquez-les en répondant.':
+      'Yes, up to {0} people: add them when you reply.',
+  'Page de l’événement': 'Event page',
+  'Page publiée': 'Page published',
+  'Page non publiée': 'Page not published',
+  'Les invités l’ouvrent depuis leur invitation.':
+      'Guests open it from their invitation.',
+  'Programme': 'Schedule',
+  'Nouvelle étape': 'New item',
+  'Moment': 'Moment',
+  'Lieu et itinéraire': 'Venue and directions',
+  'Adresse précise': 'Exact address',
+  'Accès et stationnement': 'Access and parking',
+  'Ajouter les indications d’accès (parking, entrée, repères)':
+      'Add access details (parking, entrance, landmarks)',
+  'Hébergements': 'Accommodation',
+  'Hébergement conseillé': 'Recommended accommodation',
+  'Distance, tarif négocié, contact': 'Distance, negotiated rate, contact',
+  'Conseillez des hôtels proches à vos invités qui viennent de loin.':
+      'Suggest nearby hotels to guests coming from afar.',
+  'Questions des invités': 'Guest questions',
+  'Nouvelle question': 'New question',
+  'Question': 'Question',
+  'Cette page n’existe pas ou n’est plus en ligne.':
+      'This page does not exist or is no longer online.',
+  'Aperçu : la page n’est pas encore publiée.':
+      'Preview: the page is not published yet.',
+  'Itinéraire': 'Directions',
+  'Où dormir': 'Where to stay',
+  'Questions fréquentes': 'Frequently asked questions',
+  'Organisé avec Calandix': 'Organised with Calandix',
+  'Programme, accès et hébergements : {0}':
+      'Schedule, access and accommodation: {0}',
+  'Mariage complet': 'Full wedding',
+  '{0} devis relancé(s) automatiquement':
+      '{0} quote(s) followed up automatically',
+  'Relance automatique des devis': 'Automatic quote follow-up',
+  'Un message au client si le devis reste sans réponse après {0} jours.':
+      'A message to the client if the quote gets no reply after {0} days.',
+  'Délai sans réponse': 'Time without reply',
+  'Relance prévue le {0}': 'Follow-up planned on {0}',
+  'Relance envoyée à {0}': 'Follow-up sent to {0}',
+  'Relancé le {0}': 'Followed up on {0}',
+  'Modèle de devis': 'Quote template',
+  'Enregistrer comme modèle': 'Save as template',
+  'Sur mesure': 'Custom',
+  'Modèle de devis enregistré': 'Quote template saved',
 };

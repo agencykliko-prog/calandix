@@ -20,9 +20,15 @@ import '../../events/presentation/events_providers.dart';
 import '../../guests/presentation/remind_sheet.dart';
 import 'invitations_providers.dart';
 import 'rsvp_screen.dart';
+import 'event_site_screen.dart';
 
 /// Message d'invitation envoyé à un invité, avec son code d'entrée.
-String invitationText(Event e, InvitationDesign d, Guest g) {
+String invitationText(
+  Event e,
+  InvitationDesign d,
+  Guest g, {
+  bool site = false,
+}) {
   final first = g.name.trim().split(RegExp(r'\s+')).first;
   final where = [
     e.venue.trim(),
@@ -47,6 +53,9 @@ String invitationText(Event e, InvitationDesign d, Guest g) {
       ]),
     )
     ..writeln(rsvpLink(e.id, g.id));
+  if (site) {
+    b.writeln('Programme, accès et hébergements : {0}'.trf([siteLink(e.id)]));
+  }
   if (d.withQr) {
     b.writeln('Votre code d’entrée : {0}'.trf([guestCode(e.id, g.id)]));
   }
@@ -373,7 +382,13 @@ class _GuestRow extends ConsumerWidget {
               background: number == null ? null : Hue.lagoon.tint,
               foreground: number == null ? null : Hue.lagoon.text,
               onTap: () async {
-                final text = invitationText(event, design, guest);
+                final text = invitationText(
+                  event,
+                  design,
+                  guest,
+                  site:
+                      ref.read(eventSiteProvider)[event.id]?.published ?? false,
+                );
                 if (number == null) {
                   await Clipboard.setData(ClipboardData(text: text));
                   if (context.mounted) {

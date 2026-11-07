@@ -651,10 +651,17 @@ class _ToolsPanel extends ConsumerWidget {
         'Album'.tr,
         () => context.push(Routes.album(e.id)),
       ),
+      (
+        PremiumFeature.invitations,
+        AppIcons.globe,
+        Hue.sky,
+        'Page'.tr,
+        () => context.push(Routes.site(e.id)),
+      ),
     ];
     return LayoutBuilder(
       builder: (context, box) {
-        final w = (box.maxWidth - 8 * 4) / 5;
+        final w = (box.maxWidth - 8 * 5) / 6;
         return Wrap(
           spacing: 8,
           runSpacing: 8,

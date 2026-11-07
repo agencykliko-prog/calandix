@@ -12,6 +12,7 @@ import '../../../ui/widgets/ui.dart';
 import 'creator_providers.dart';
 import 'pro_providers.dart';
 import 'pro_widgets.dart';
+import 'calendar_sync.dart';
 
 /// B. Disponibilités : calendrier, dates bloquées, capacité de production
 /// et prévention des doubles réservations.
@@ -100,6 +101,8 @@ class _AvailabilityState extends ConsumerState<AvailabilityScreen> {
             ],
           ),
         ),
+        SectionTitle('Agenda synchronisé'.tr),
+        const CalendarSyncPanel(),
         SectionTitle('Capacité de production'.tr),
         Panel(
           child: Column(
@@ -372,7 +375,9 @@ class _MonthGrid extends ConsumerWidget {
                       if (n < 1 || n > days) return const SizedBox(height: 46);
                       final day = DateTime(month.year, month.month, n);
                       final load = ref.watch(dayLoadProvider(day));
-                      final blocked = a.blocked.contains(day);
+                      final blocked =
+                          a.blocked.contains(day) ||
+                          ref.watch(calendarSyncProvider).busy.contains(day);
                       final past = day.isBefore(today);
                       final (bg, fg) = blocked
                           ? (Confetti.lavender, Confetti.inkMuted)

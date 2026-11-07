@@ -154,27 +154,33 @@ class _AlbumBody extends ConsumerWidget {
                           ],
                         ),
                         const SizedBox(height: 6),
-                        SwitchListTile.adaptive(
-                          contentPadding: EdgeInsets.zero,
-                          value: a.guestsCanAdd,
-                          onChanged: (v) =>
-                              n.settings(event, demo: demo, guestsCanAdd: v),
-                          title: Text(
-                            'Les invités peuvent ajouter leurs photos'.tr,
-                            style: context.text.bodyMedium,
+                        Material(
+                          type: MaterialType.transparency,
+                          child: SwitchListTile.adaptive(
+                            contentPadding: EdgeInsets.zero,
+                            value: a.guestsCanAdd,
+                            onChanged: (v) =>
+                                n.settings(event, demo: demo, guestsCanAdd: v),
+                            title: Text(
+                              'Les invités peuvent ajouter leurs photos'.tr,
+                              style: context.text.bodyMedium,
+                            ),
                           ),
                         ),
-                        SwitchListTile.adaptive(
-                          contentPadding: EdgeInsets.zero,
-                          value: a.guestsCanDownload,
-                          onChanged: (v) => n.settings(
-                            event,
-                            demo: demo,
-                            guestsCanDownload: v,
-                          ),
-                          title: Text(
-                            'Les invités peuvent télécharger et partager'.tr,
-                            style: context.text.bodyMedium,
+                        Material(
+                          type: MaterialType.transparency,
+                          child: SwitchListTile.adaptive(
+                            contentPadding: EdgeInsets.zero,
+                            value: a.guestsCanDownload,
+                            onChanged: (v) => n.settings(
+                              event,
+                              demo: demo,
+                              guestsCanDownload: v,
+                            ),
+                            title: Text(
+                              'Les invités peuvent télécharger et partager'.tr,
+                              style: context.text.bodyMedium,
+                            ),
                           ),
                         ),
                       ],

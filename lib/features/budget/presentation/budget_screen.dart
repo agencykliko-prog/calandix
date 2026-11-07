@@ -15,6 +15,8 @@ import '../../../ui/widgets/mascot.dart';
 import '../../../ui/widgets/pressable.dart';
 import '../../../ui/widgets/ui.dart';
 import '../../commerce/domain/commerce_models.dart';
+import '../../premium/presentation/paywall.dart';
+import '../../../app/router/app_router.dart';
 import '../../dashboard/presentation/widgets/budget_overview.dart';
 import '../../events/data/event_templates.dart';
 import '../../../core/models/models.dart';
@@ -143,6 +145,18 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
                 ],
               ),
             ),
+            RoundIconButton(
+              icon: AppIcons.chart,
+              tooltip: 'Statistiques',
+              onTap: () => requirePremium(
+                context,
+                ref,
+                feature: PremiumFeature.stats,
+                eventId: e.id,
+                onUnlocked: () => context.push(Routes.budgetStats(e.id)),
+              ),
+            ),
+            const SizedBox(width: 8),
             RoundIconButton(
               icon: AppIcons.download,
               tooltip: 'Exporter',

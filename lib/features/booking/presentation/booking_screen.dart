@@ -17,6 +17,7 @@ import '../../events/presentation/events_providers.dart';
 import '../../premium/presentation/premium_nudge.dart';
 import '../../marketplace/data/vendor_media.dart';
 import 'quote_compare_screen.dart';
+import 'contract_sheet.dart';
 
 /// Parcours de réservation en 7 étapes, sur un seul écran : chaque étape
 /// affiche son contenu et une seule action principale.
@@ -347,6 +348,8 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                   .trf([b.vendor.name, longDate(b.request.date)]),
             ),
             const SizedBox(height: 12),
+            ContractCard(booking: b),
+            const SizedBox(height: 12),
             _QuoteCard(quote: b.quote!, compact: true),
             const SizedBox(height: 14),
             PillButton(
@@ -362,6 +365,8 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            ContractCard(booking: b),
+            const SizedBox(height: 12),
             _InfoCard(
               icon: AppIcons.checkCircle,
               hue: Hue.lagoon,

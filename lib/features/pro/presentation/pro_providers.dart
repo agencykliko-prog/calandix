@@ -7,6 +7,7 @@ import '../../../core/utils/formatters.dart';
 import '../../../core/auth/session_provider.dart';
 import 'creator_providers.dart';
 import '../domain/pro_models.dart';
+import 'calendar_sync.dart';
 
 /// Commission de la formule Découverte, appliquée à l'historique de démo.
 /// Les nouveaux encaissements suivent la formule (`proCommissionProvider`).
@@ -343,5 +344,9 @@ final dayLoadProvider = Provider.family<int, DateTime>((ref, day) {
 final dayFullProvider = Provider.family<bool, DateTime>((ref, day) {
   final a = ref.watch(proProvider.select((s) => s.availability));
   if (a.blocked.contains(dateOnly(day))) return true;
+  // Occupé dans l'agenda synchronisé (Google Agenda).
+  if (ref.watch(calendarSyncProvider).busy.contains(dateOnly(day))) {
+    return true;
+  }
   return ref.watch(dayLoadProvider(day)) >= a.capacityPerDay;
 });

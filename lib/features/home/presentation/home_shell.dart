@@ -14,6 +14,9 @@ import '../../../ui/widgets/brand.dart';
 import '../../../ui/widgets/pressable.dart';
 import '../../../core/auth/session_provider.dart';
 import '../../pro/presentation/creator_providers.dart';
+import '../../../ui/widgets/ui.dart' show toast;
+import '../../notifications/presentation/notifications_provider.dart';
+import '../../notifications/presentation/push_prefs.dart';
 
 /// Branches du shell (ordre fixe) : accueil, explorer, demandes, agenda, compte.
 abstract final class Branch {
@@ -61,6 +64,13 @@ class HomeShell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Les notifications tournent tant que l'app est ouverte ; une
+    // notification push s'affiche en bandeau.
+    ref.watch(noticesProvider);
+    ref.listen(pushBannerProvider, (_, m) {
+      if (m == null) return;
+      toast(context, '{0} · {1}'.trf([m.title, m.body]), icon: m.kind.icon);
+    });
     final creator = ref.watch(profileProvider).isCreator;
     final tabs = creator ? _creatorTabs : _organizerTabs;
     final pending = creator

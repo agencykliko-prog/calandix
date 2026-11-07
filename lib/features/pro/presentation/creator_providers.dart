@@ -5,6 +5,7 @@ import '../../../core/analytics/analytics.dart';
 import '../../../core/i18n/tr.dart';
 import '../../../core/auth/session_provider.dart';
 import '../../../core/models/models.dart';
+import '../../../core/utils/formatters.dart';
 import 'signature_provider.dart';
 
 enum RequestStatus {
@@ -65,6 +66,8 @@ class ClientRequest {
     this.signature,
     this.signedAt,
     this.lastOffer,
+    this.quotedAt,
+    this.followedUpAt,
   });
 
   final String id;
@@ -102,6 +105,10 @@ class ClientRequest {
   /// demande ; null : pas de dernière offre.
   final int? lastOffer;
 
+  /// Envoi du devis, et dernière relance du client.
+  final DateTime? quotedAt;
+  final DateTime? followedUpAt;
+
   bool get expired =>
       status == RequestStatus.quoted &&
       validUntil != null &&
@@ -118,6 +125,8 @@ class ClientRequest {
     Uint8List? signature,
     DateTime? signedAt,
     int? lastOffer,
+    DateTime? quotedAt,
+    DateTime? followedUpAt,
   }) => ClientRequest(
     id: id,
     client: client,
@@ -142,6 +151,8 @@ class ClientRequest {
     signature: signature ?? this.signature,
     signedAt: signedAt ?? this.signedAt,
     lastOffer: lastOffer ?? this.lastOffer,
+    quotedAt: quotedAt ?? this.quotedAt,
+    followedUpAt: followedUpAt ?? this.followedUpAt,
   );
 }
 
@@ -209,6 +220,7 @@ class RequestsNotifier extends Notifier<List<ClientRequest>> {
             'Habillage de salle et photocall aux couleurs de la marque.'.tr,
         receivedAt: n.subtract(const Duration(days: 2)),
         status: RequestStatus.quoted,
+        quotedAt: n.subtract(const Duration(days: 2)),
         quote: 780000,
         place: 'Pullman Abidjan, Plateau',
         validUntil: n.add(const Duration(days: 5)),
@@ -263,6 +275,29 @@ class RequestsNotifier extends Notifier<List<ClientRequest>> {
   void _set(ClientRequest r) =>
       state = [for (final x in state) x.id == r.id ? r : x];
 
+  /// Relance d'un devis sans réponse : message poli au client.
+  void followUp(String id) {
+    final r = state.firstWhere((x) => x.id == id);
+    _set(
+      r.copyWith(
+        followedUpAt: DateTime.now(),
+        thread: [
+          ...r.thread,
+          ChatLine(
+            true,
+            'Bonjour {0}, avez-vous pu consulter notre devis pour « {1} » ? Il reste valable jusqu’au {2}. Nous restons disponibles pour l’ajuster.'
+                .trf([
+                  r.client.split(' ').first,
+                  r.eventName,
+                  r.validUntil == null ? '—' : mediumDate(r.validUntil!),
+                ]),
+            DateTime.now(),
+          ),
+        ],
+      ),
+    );
+  }
+
   void sendQuote(String id, int amount) {
     _set(
       state
@@ -270,6 +305,7 @@ class RequestsNotifier extends Notifier<List<ClientRequest>> {
           .copyWith(
             status: RequestStatus.quoted,
             quote: amount,
+            quotedAt: DateTime.now(),
             signature: ref.read(signatureProvider),
             signedAt: ref.read(signatureProvider) == null
                 ? null
@@ -328,6 +364,7 @@ class RequestsNotifier extends Notifier<List<ClientRequest>> {
           .firstWhere((r) => r.id == id)
           .copyWith(
             status: RequestStatus.quoted,
+            quotedAt: DateTime.now(),
             items: items,
             quote: items.fold<int>(0, (s, i) => s + i.amount),
             validUntil: DateTime.now().add(Duration(days: validityDays)),

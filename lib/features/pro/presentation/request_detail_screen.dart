@@ -19,6 +19,7 @@ import 'pro_providers.dart';
 import 'pro_widgets.dart';
 import 'signature_provider.dart';
 import 'team_rights.dart';
+import 'quote_tools.dart';
 import 'signature_screen.dart';
 
 /// C. Devis & demandes : détail d'une demande, questions au client,
@@ -436,6 +437,22 @@ class _RequestDetailState extends ConsumerState<RequestDetailScreen> {
     final customLabel = TextEditingController();
     final customAmount = TextEditingController();
     final lastOffer = TextEditingController();
+    final templates = ref.read(quoteTemplatesProvider);
+    QuoteTemplate? template;
+    void apply(QuoteTemplate t) {
+      template = t;
+      pkg = packages.where((p) => p.id == t.packageId).firstOrNull ?? pkg;
+      picked
+        ..clear()
+        ..addAll(t.optionIds.where((id) => options.any((o) => o.id == id)));
+      travel = t.travel;
+    }
+
+    // Le modèle du même type d'événement est proposé d'office.
+    if (templates.where((t) => t.category == r.category).firstOrNull
+        case final t?) {
+      apply(t);
+    }
 
     showEventaSheet<void>(
       context,
@@ -461,6 +478,22 @@ class _RequestDetailState extends ConsumerState<RequestDetailScreen> {
                 '{0} · {1} invités'.trf([r.eventName, r.guests]),
                 style: ctx.text.bodySmall,
               ),
+              if (templates.isNotEmpty) ...[
+                const SizedBox(height: 14),
+                FieldLabel('Modèle de devis'.tr),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    for (final t in templates)
+                      Choice(
+                        label: t.name,
+                        on: template == t,
+                        onTap: () => set(() => apply(t)),
+                      ),
+                  ],
+                ),
+              ],
               const SizedBox(height: 14),
               FieldLabel('Forfait'.tr),
               Wrap(
@@ -589,6 +622,31 @@ class _RequestDetailState extends ConsumerState<RequestDetailScreen> {
                 ),
               ),
               const SizedBox(height: 14),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton.icon(
+                  icon: const Icon(AppIcons.add, size: 16),
+                  label: Text('Enregistrer comme modèle'.tr),
+                  onPressed: () {
+                    ref
+                        .read(quoteTemplatesProvider.notifier)
+                        .add(
+                          QuoteTemplate(
+                            id: 't${DateTime.now().millisecondsSinceEpoch}',
+                            name: '{0} · {1}'.trf([
+                              r.category.short,
+                              pkg?.name ?? 'Sur mesure'.tr,
+                            ]),
+                            category: r.category,
+                            packageId: pkg?.id,
+                            optionIds: {...picked},
+                            travel: travel,
+                          ),
+                        );
+                    toast(ctx, 'Modèle de devis enregistré'.tr);
+                  },
+                ),
+              ),
               PillButton(
                 label: canSend
                     ? 'Envoyer le devis'.tr

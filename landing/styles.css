@@ -549,6 +549,17 @@ html.smooth .vs-item { position: relative; top: auto; }
 .pass-kicker { font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--mango-hi); }
 .pass-price { margin: 6px 0 8px; font-weight: 600; color: rgba(255, 255, 255, .75); }
 .pass-price b { font-size: 34px; font-weight: 800; color: var(--white); }
+.pass-more { margin-top: 12px; }
+.pass-more summary { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; list-style: none; font-weight: 700; font-size: 14px; color: var(--mango-hi); border-radius: 8px; }
+.pass-more summary::-webkit-details-marker { display: none; }
+.pass-more summary::after { content: ""; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .2s ease; }
+.pass-more[open] summary::after { transform: translateY(2px) rotate(-135deg); }
+.pass-more summary:focus-visible { outline: 2px solid var(--mango-hi); outline-offset: 3px; }
+.pass-more .pm-close, .pass-more[open] .pm-open { display: none; }
+.pass-more[open] .pm-close { display: inline; }
+.pass-more[open] .pass-list { animation: pass-in .24s ease both; }
+@keyframes pass-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .pass-more[open] .pass-list { animation: none; } .pass-more summary::after { transition: none; } }
 .pass-list { display: flex; flex-wrap: wrap; gap: 6px 8px; margin: 14px 0 0; padding: 0; list-style: none; }
 .pass-list li { padding: 5px 11px; border-radius: 99px; background: rgba(255, 255, 255, .09); font-size: 13px; color: rgba(255, 255, 255, .88); }
 .pass .plan-btn { margin-top: 0; padding: 0 26px; background: var(--mango-hi); color: var(--ink); }

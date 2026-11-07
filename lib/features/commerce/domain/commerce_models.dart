@@ -429,7 +429,8 @@ enum PremiumFeature {
     AppIcons.reminder,
   ),
   concierge('Concierge Calandix', Plan.privilege, AppIcons.headset),
-  album('Album privé de l’événement', Plan.privilege, AppIcons.images);
+  album('Album privé de l’événement', Plan.privilege, AppIcons.images),
+  stats('Statistiques et comparaisons du budget', Plan.azur, AppIcons.chart);
 
   const PremiumFeature(this._label, this.minPlan, this.icon);
   final String _label;

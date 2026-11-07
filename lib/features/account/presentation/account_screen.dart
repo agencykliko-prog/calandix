@@ -28,6 +28,7 @@ import '../../commerce/presentation/payment_sheet.dart';
 import '../../../core/models/models.dart';
 import '../../events/presentation/events_providers.dart';
 import '../../export/presentation/export_sheet.dart';
+import '../../notifications/presentation/push_prefs.dart';
 import '../../../ui/widgets/contact_team.dart';
 
 class AccountScreen extends ConsumerWidget {
@@ -258,7 +259,10 @@ class AccountScreen extends ConsumerWidget {
                   AppIcons.bell,
                   'Notifications'.tr,
                   'Push, e-mail, WhatsApp'.tr,
-                  () => _notificationsSheet(context),
+                  () => showEventaSheet<void>(
+                    context,
+                    builder: (_) => const _NotificationsSheet(),
+                  ),
                 ),
                 if (!p.isCreator)
                   _Row(
@@ -364,19 +368,6 @@ class AccountScreen extends ConsumerWidget {
     );
     if (picked != null && context.mounted) showExportSheet(context, picked.id);
   }
-
-  void _notificationsSheet(BuildContext context) => showEventaSheet<void>(
-    context,
-    builder: (_) => _ToggleSheet(
-      title: 'Notifications'.tr,
-      items: [
-        ('Notifications push'.tr, 'Rappels, devis, paiements'.tr, true),
-        ('E-mail'.tr, 'Récapitulatif hebdomadaire'.tr, true),
-        ('WhatsApp'.tr, 'Rappels importants uniquement'.tr, false),
-        ('SMS'.tr, 'Codes et confirmations'.tr, true),
-      ],
-    ),
-  );
 
   void _privacySheet(BuildContext context, WidgetRef ref) =>
       showEventaSheet<void>(
@@ -807,4 +798,128 @@ class _LanguageToggle extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Compte › Notifications : chaque alerte push se règle à part, puis les
+/// autres canaux.
+class _NotificationsSheet extends ConsumerWidget {
+  const _NotificationsSheet();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final creator = ref.watch(profileProvider).isCreator;
+    final on = ref.watch(pushPrefsProvider);
+    final kinds = PushKind.forRole(creator: creator);
+    return ListView(
+      shrinkWrap: true,
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+      children: [
+        Text('Notifications'.tr, style: context.text.headlineSmall),
+        const SizedBox(height: 4),
+        Text(
+          'Notifications push sur votre téléphone, même application fermée.'.tr,
+          style: context.text.bodySmall,
+        ),
+        const SizedBox(height: 10),
+        for (final k in kinds)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6),
+            child: Row(
+              children: [
+                IconTile(icon: k.icon, hue: Hue.violet, size: 34),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(k.label, style: context.text.titleSmall),
+                      Text(k.caption, style: context.text.bodySmall),
+                    ],
+                  ),
+                ),
+                Switch(
+                  value: on.contains(k),
+                  onChanged: (v) =>
+                      ref.read(pushPrefsProvider.notifier).toggle(k, v),
+                ),
+              ],
+            ),
+          ),
+        const SizedBox(height: 6),
+        PillButton(
+          label: 'Envoyer une notification de test'.tr,
+          icon: AppIcons.bell,
+          tone: ButtonTone.ghost,
+          height: 44,
+          onPressed: () {
+            final k = kinds.firstWhere(on.contains, orElse: () => kinds.first);
+            if (!on.contains(k)) {
+              toast(context, 'Toutes les notifications push sont coupées.'.tr);
+              return;
+            }
+            Navigator.of(context).pop();
+            ref
+                .read(pushBannerProvider.notifier)
+                .show(
+                  PushMessage(
+                    k,
+                    k.label,
+                    'Ceci est une notification de test.'.tr,
+                    DateTime.now(),
+                  ),
+                );
+          },
+        ),
+        const SizedBox(height: 16),
+        Text('Autres canaux'.tr, style: context.text.titleSmall),
+        _ToggleSheetRows(
+          items: [
+            ('E-mail'.tr, 'Récapitulatif hebdomadaire'.tr, true),
+            ('WhatsApp'.tr, 'Rappels importants uniquement'.tr, false),
+            ('SMS'.tr, 'Codes et confirmations'.tr, true),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+/// Lignes à bascule sans titre (canaux secondaires).
+class _ToggleSheetRows extends StatefulWidget {
+  const _ToggleSheetRows({required this.items});
+  final List<(String, String, bool)> items;
+
+  @override
+  State<_ToggleSheetRows> createState() => _ToggleSheetRowsState();
+}
+
+class _ToggleSheetRowsState extends State<_ToggleSheetRows> {
+  late final _values = [for (final i in widget.items) i.$3];
+
+  @override
+  Widget build(BuildContext context) => Column(
+    children: [
+      for (var i = 0; i < widget.items.length; i++)
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(widget.items[i].$1, style: context.text.titleSmall),
+                    Text(widget.items[i].$2, style: context.text.bodySmall),
+                  ],
+                ),
+              ),
+              Switch(
+                value: _values[i],
+                onChanged: (v) => setState(() => _values[i] = v),
+              ),
+            ],
+          ),
+        ),
+    ],
+  );
 }

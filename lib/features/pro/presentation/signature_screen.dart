@@ -83,7 +83,7 @@ class _SignatureScreenState extends ConsumerState<SignatureScreen> {
           ),
           const SizedBox(height: 16),
           if (drawing) ...[
-            _Pad(
+            SignaturePad(
               strokes: _strokes,
               onSize: (s) => _size = s,
               onChanged: () => setState(() {}),
@@ -191,8 +191,9 @@ void _paintStrokes(Canvas canvas, List<List<Offset>> strokes, Color color) {
   }
 }
 
-class _Pad extends StatelessWidget {
-  const _Pad({
+class SignaturePad extends StatelessWidget {
+  const SignaturePad({
+    super.key,
     required this.strokes,
     required this.onSize,
     required this.onChanged,

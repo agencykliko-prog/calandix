@@ -8,6 +8,8 @@ import '../../features/invitations/presentation/album_screen.dart';
 import '../../features/invitations/presentation/entries_screen.dart';
 import '../../features/invitations/presentation/invitation_screen.dart';
 import '../../features/invitations/presentation/rsvp_screen.dart';
+import '../../features/invitations/presentation/event_site_screen.dart';
+import '../../features/budget/presentation/budget_stats_screen.dart';
 import '../../features/about/presentation/about_screen.dart';
 import '../../features/about/presentation/privacy_screen.dart';
 import '../../features/about/presentation/terms_screen.dart';
@@ -77,6 +79,7 @@ abstract final class Routes {
   static String conversation(String id) => '/messages/$id';
   static String event(String id) => '/evenement/$id';
   static String budget(String id) => '/evenement/$id/budget';
+  static String budgetStats(String id) => '/evenement/$id/budget/statistiques';
   static String tasks(String id) => '/evenement/$id/taches';
   static String guests(String id) => '/evenement/$id/invites';
   static String agent(String id) => '/evenement/$id/agent';
@@ -85,6 +88,7 @@ abstract final class Routes {
   static String entries(String id) => '/evenement/$id/entrees';
   static String concierge(String id) => '/evenement/$id/concierge';
   static String album(String id) => '/evenement/$id/album';
+  static String site(String id) => '/evenement/$id/site';
   static String vendor(String id) => '/prestataire/$id';
   static String booking(String id) => '/reservation/$id';
   static String exploreCategory(VendorCategory c) =>
@@ -137,7 +141,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       if (loc == Routes.privacy ||
           loc == Routes.terms ||
           loc == Routes.about ||
-          loc.startsWith('/r/')) {
+          loc.startsWith('/r/') ||
+          loc.startsWith('/e/')) {
         return null;
       }
       final public =
@@ -175,6 +180,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           s,
           AdminShell(module: AdminModule.fromSlug(s.pathParameters['module'])),
         ),
+      ),
+      GoRoute(
+        path: '/e/:event',
+        builder: (c, s) => EventSitePage(id: s.pathParameters['event']!),
       ),
       GoRoute(
         path: '/r/:event/:code',
@@ -399,6 +408,13 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: 'budget',
             builder: (c, s) =>
                 _bounded(BudgetScreen(id: s.pathParameters['id']!)),
+            routes: [
+              GoRoute(
+                path: 'statistiques',
+                builder: (c, s) =>
+                    _bounded(BudgetStatsScreen(id: s.pathParameters['id']!)),
+              ),
+            ],
           ),
           GoRoute(
             path: 'taches',
@@ -434,6 +450,11 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: 'concierge',
             builder: (c, s) =>
                 _bounded(ConciergeScreen(eventId: s.pathParameters['id']!)),
+          ),
+          GoRoute(
+            path: 'site',
+            builder: (c, s) =>
+                _bounded(EventSiteEditor(id: s.pathParameters['id']!)),
           ),
           GoRoute(
             path: 'album',

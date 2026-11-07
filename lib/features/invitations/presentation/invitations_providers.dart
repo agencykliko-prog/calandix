@@ -122,13 +122,63 @@ enum CheckResult { admitted, already, notConfirmed, unknown }
 
 @immutable
 class CheckIn {
-  const CheckIn(this.guestId, this.at, this.people);
+  const CheckIn(this.guestId, this.at, this.people, {this.synced = true});
   final String guestId;
   final DateTime at;
 
   /// L'invité et ses accompagnants entrés avec lui.
   final int people;
+
+  /// Enregistrée hors ligne, pas encore envoyée au serveur.
+  final bool synced;
 }
+
+/// Mode hors ligne du contrôle des entrées : la liste des invités est
+/// gardée sur l'appareil, les entrées sont validées sans réseau puis
+/// synchronisées au retour de la connexion.
+@immutable
+class OfflineEntries {
+  const OfflineEntries({
+    this.enabled = false,
+    this.preparedAt,
+    this.guests = 0,
+  });
+  final bool enabled;
+
+  /// Liste des invités téléchargée sur l'appareil.
+  final DateTime? preparedAt;
+  final int guests;
+}
+
+class OfflineEntriesNotifier extends Notifier<Map<String, OfflineEntries>> {
+  @override
+  Map<String, OfflineEntries> build() => const {};
+
+  OfflineEntries of(String eventId) => state[eventId] ?? const OfflineEntries();
+
+  /// Télécharge la liste des invités confirmés et passe hors ligne.
+  void enable(Event e) => state = {
+    ...state,
+    e.id: OfflineEntries(
+      enabled: true,
+      preparedAt: DateTime.now(),
+      guests: e.guests.list.where((g) => g.rsvp == Rsvp.yes).length,
+    ),
+  };
+
+  void disable(String eventId) => state = {
+    ...state,
+    eventId: OfflineEntries(
+      preparedAt: of(eventId).preparedAt,
+      guests: of(eventId).guests,
+    ),
+  };
+}
+
+final offlineEntriesProvider =
+    NotifierProvider<OfflineEntriesNotifier, Map<String, OfflineEntries>>(
+      OfflineEntriesNotifier.new,
+    );
 
 /// Entrées enregistrées, par événement puis par invité.
 class CheckInNotifier extends Notifier<Map<String, Map<String, CheckIn>>> {
@@ -150,14 +200,32 @@ class CheckInNotifier extends Notifier<Map<String, Map<String, CheckIn>>> {
     if (g == null) return (CheckResult.unknown, null);
     if (of(e.id).containsKey(g.id)) return (CheckResult.already, g);
     if (g.rsvp != Rsvp.yes) return (CheckResult.notConfirmed, g);
+    final offline = ref.read(offlineEntriesProvider.notifier).of(e.id).enabled;
     state = {
       ...state,
       e.id: {
         ...of(e.id),
-        g.id: CheckIn(g.id, DateTime.now(), 1 + g.companions),
+        g.id: CheckIn(g.id, DateTime.now(), 1 + g.companions, synced: !offline),
       },
     };
     return (CheckResult.admitted, g);
+  }
+
+  /// Entrées validées hors ligne, en attente d'envoi.
+  int pending(String eventId) =>
+      of(eventId).values.where((c) => !c.synced).length;
+
+  /// Envoie les entrées hors ligne (au retour du réseau).
+  int sync(String eventId) {
+    final n = pending(eventId);
+    state = {
+      ...state,
+      eventId: {
+        for (final MapEntry(:key, :value) in of(eventId).entries)
+          key: CheckIn(value.guestId, value.at, value.people),
+      },
+    };
+    return n;
   }
 
   void undo(String eventId, String guestId) {

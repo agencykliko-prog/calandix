@@ -12,6 +12,11 @@ import '../../commerce/presentation/commerce_providers.dart';
 import '../../pro/presentation/creator_providers.dart';
 import '../../inbox/presentation/inbox_providers.dart';
 import '../../pro/presentation/verification_providers.dart';
+import '../../pro/domain/pro_models.dart';
+import '../../pro/presentation/pro_providers.dart';
+import '../../events/presentation/events_providers.dart';
+import '../../../core/models/models.dart';
+import 'push_prefs.dart';
 
 /// Notification affichée dans la cloche de l'accueil.
 @immutable
@@ -56,15 +61,23 @@ class Notice {
 class NoticesNotifier extends Notifier<List<Notice>> {
   var _seq = 0;
 
+  /// Rappels J-1 déjà émis (une seule fois par élément).
+  final _dayBefore = <String>{};
+
   @override
   List<Notice> build() {
     final creator = ref.watch(profileProvider).isCreator;
     if (creator) {
-      ref.listen(requestsProvider, _onRequests);
+      ref.listen(requestsProvider, _onRequests, fireImmediately: true);
       ref.listen(verificationProvider, _onVerification);
+      ref.listen(proProvider, _onOrders);
     } else {
       ref.listen(bookingsProvider, _onBookings);
       ref.listen(directThreadsProvider, _onDirect);
+      ref.listen(eventsProvider, (_, next) {
+        final list = next.value;
+        if (list != null) _checkEvents(list);
+      }, fireImmediately: true);
     }
     // Avec un compte réel, pas de notifications fictives.
     if (ref.watch(liveSessionProvider)) return const [];
@@ -77,18 +90,65 @@ class NoticesNotifier extends Notifier<List<Notice>> {
     String title,
     String caption, {
     String? link,
-  }) => state = [
-    Notice(
-      id: 'n${++_seq}',
-      icon: icon,
-      hue: hue,
-      title: title,
-      caption: caption,
-      at: DateTime.now(),
-      link: link,
-    ),
-    ...state,
-  ];
+    PushKind? kind,
+  }) {
+    state = [
+      Notice(
+        id: 'n${++_seq}',
+        icon: icon,
+        hue: hue,
+        title: title,
+        caption: caption,
+        at: DateTime.now(),
+        link: link,
+      ),
+      ...state,
+    ];
+    // Notification push, si ce type n'a pas été coupé dans les réglages.
+    if (kind != null && ref.read(pushPrefsProvider).contains(kind)) {
+      ref
+          .read(pushBannerProvider.notifier)
+          .show(PushMessage(kind, title, caption, DateTime.now(), link: link));
+    }
+  }
+
+  bool _tomorrow(DateTime d) {
+    final t = DateTime.now().add(const Duration(days: 1));
+    return d.year == t.year && d.month == t.month && d.day == t.day;
+  }
+
+  // ─── Rappels J-1 ────────────────────────────────────────────────────
+
+  void _checkEvents(List<Event> events) {
+    for (final e in events) {
+      if (_tomorrow(e.date) && _dayBefore.add('e-${e.id}')) {
+        Future.microtask(
+          () => _push(
+            AppIcons.reminder,
+            Hue.coral,
+            'Rappel J-1'.tr,
+            '{0} a lieu demain à {1}.'.trf([e.name, timeOf(e.date)]),
+            link: Routes.event(e.id),
+            kind: PushKind.dayBefore,
+          ),
+        );
+      }
+      for (final t in e.tasks) {
+        if (!t.done && _tomorrow(t.due) && _dayBefore.add('t-${t.id}')) {
+          Future.microtask(
+            () => _push(
+              AppIcons.reminder,
+              Hue.violet,
+              'Rappel J-1'.tr,
+              'Demain : {0} ({1}).'.trf([t.title, e.name]),
+              link: Routes.event(e.id),
+              kind: PushKind.dayBefore,
+            ),
+          );
+        }
+      }
+    }
+  }
 
   // ─── Organisateur : réservations ────────────────────────────────────
 
@@ -104,6 +164,7 @@ class NoticesNotifier extends Notifier<List<Notice>> {
           'Devis reçu'.tr,
           '{0} · valable 7 jours'.trf([b.vendor.name]),
           link: link,
+          kind: PushKind.quoteReceived,
         );
       } else if (b.messages.length > before.messages.length &&
           !b.messages.last.fromMe) {
@@ -123,6 +184,7 @@ class NoticesNotifier extends Notifier<List<Notice>> {
           'Paiement confirmé'.tr,
           '{0} · {1}'.trf([r.label, fcfa(r.amount)]),
           link: link,
+          kind: PushKind.depositPaid,
         );
       }
     }
@@ -150,8 +212,34 @@ class NoticesNotifier extends Notifier<List<Notice>> {
 
   void _onRequests(List<ClientRequest>? prev, List<ClientRequest> next) {
     for (final r in next) {
+      if (r.status == RequestStatus.confirmed &&
+          _tomorrow(r.date) &&
+          _dayBefore.add('r-${r.id}')) {
+        Future.microtask(
+          () => _push(
+            AppIcons.reminder,
+            Hue.coral,
+            'Rappel J-1'.tr,
+            'Prestation demain : {0} à {1}.'.trf([r.eventName, timeOf(r.date)]),
+            link: '/pro/commandes',
+            kind: PushKind.dayBefore,
+          ),
+        );
+      }
       final before = prev?.where((x) => x.id == r.id).firstOrNull;
-      if (before == null) continue;
+      if (before == null) {
+        if (prev != null && r.status == RequestStatus.received) {
+          _push(
+            AppIcons.inbox,
+            Hue.mango,
+            'Nouvelle demande de devis'.tr,
+            '{0} · {1}'.trf([r.client, r.eventName]),
+            link: '/pro/devis/${r.id}',
+            kind: PushKind.newRequest,
+          );
+        }
+        continue;
+      }
       if (r.thread.length > before.thread.length && !r.thread.last.fromMe) {
         _push(
           AppIcons.message,
@@ -169,6 +257,31 @@ class NoticesNotifier extends Notifier<List<Notice>> {
           'Prestation confirmée'.tr,
           r.eventName,
           link: '/pro/devis/${r.id}',
+        );
+      }
+    }
+  }
+
+  /// Acompte enregistré sur une commande.
+  void _onOrders(ProState? prev, ProState next) {
+    if (prev == null) return;
+    for (final MapEntry(:key, :value) in next.progress.entries) {
+      final before = prev.progressOf(key).stage;
+      if (before == OrderStage.accepted &&
+          value.stage == OrderStage.confirmed) {
+        final r = ref
+            .read(requestsProvider)
+            .where((x) => x.id == key)
+            .firstOrNull;
+        _push(
+          AppIcons.coins,
+          Hue.lagoon,
+          'Acompte reçu'.tr,
+          r == null
+              ? 'La date est bloquée.'.tr
+              : '{0} · {1}'.trf([r.client, r.eventName]),
+          link: '/pro/commandes',
+          kind: PushKind.depositPaid,
         );
       }
     }

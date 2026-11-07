@@ -147,6 +147,8 @@ class _EntriesScreenState extends ConsumerState<EntriesScreen> {
             ],
           ),
         ),
+        const SizedBox(height: 12),
+        _Offline(event: e),
         const SizedBox(height: 18),
         SectionTitle('Scanner un invité'.tr),
         const SizedBox(height: 8),
@@ -330,6 +332,111 @@ class _Result extends StatelessWidget {
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Mode hors ligne : liste gardée sur l'appareil, entrées synchronisées
+/// au retour du réseau.
+class _Offline extends ConsumerWidget {
+  const _Offline({required this.event});
+  final Event event;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final e = event;
+    final o = ref.watch(offlineEntriesProvider)[e.id] ?? const OfflineEntries();
+    ref.watch(checkInProvider);
+    final pending = ref.read(checkInProvider.notifier).pending(e.id);
+    return Panel(
+      color: o.enabled ? Confetti.mangoTint : null,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                o.enabled ? Icons.wifi_off_rounded : AppIcons.download,
+                size: 20,
+                color: o.enabled ? Confetti.mangoText : context.eventa.muted,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      o.enabled
+                          ? 'Mode hors ligne'.tr
+                          : 'Réseau faible sur place ?'.tr,
+                      style: context.text.titleSmall,
+                    ),
+                    Text(
+                      o.enabled
+                          ? 'Liste de {0} invités sur l’appareil, téléchargée à {1}.'
+                                .trf([o.guests, timeOf(o.preparedAt!)])
+                          : 'Téléchargez la liste : les entrées se valident sans réseau.'
+                                .tr,
+                      style: context.text.bodySmall,
+                    ),
+                  ],
+                ),
+              ),
+              Switch(
+                value: o.enabled,
+                onChanged: (v) {
+                  final n = ref.read(offlineEntriesProvider.notifier);
+                  if (v) {
+                    n.enable(e);
+                    toast(
+                      context,
+                      'Liste des invités disponible hors ligne'.tr,
+                    );
+                  } else {
+                    n.disable(e.id);
+                    final sent = ref.read(checkInProvider.notifier).sync(e.id);
+                    if (sent > 0) {
+                      toast(
+                        context,
+                        '{0} entrée(s) synchronisée(s)'.trf([sent]),
+                        icon: AppIcons.checkCircle,
+                      );
+                    }
+                  }
+                },
+              ),
+            ],
+          ),
+          if (pending > 0) ...[
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '{0} entrée(s) en attente de synchronisation'.trf([
+                      pending,
+                    ]),
+                    style: context.text.labelMedium?.copyWith(
+                      color: Confetti.mangoText,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    final sent = ref.read(checkInProvider.notifier).sync(e.id);
+                    toast(
+                      context,
+                      '{0} entrée(s) synchronisée(s)'.trf([sent]),
+                      icon: AppIcons.checkCircle,
+                    );
+                  },
+                  child: Text('Synchroniser'.tr),
+                ),
+              ],
+            ),
+          ],
         ],
       ),
     );

@@ -10,6 +10,7 @@ import '../../../ui/widgets/avatars.dart';
 import '../../../ui/widgets/ui.dart';
 import '../../marketplace/presentation/explore_screen.dart';
 import 'creator_providers.dart';
+import 'quote_tools.dart';
 
 /// Boîte de réception des demandes de devis (Creator).
 class RequestsScreen extends ConsumerStatefulWidget {
@@ -68,6 +69,10 @@ class _RequestsScreenState extends ConsumerState<RequestsScreen> {
                 ],
               ),
             ),
+            if (_filter == RequestStatus.quoted || _filter == null) ...[
+              const SizedBox(height: 14),
+              const FollowUpPanel(),
+            ],
             const SizedBox(height: 14),
             AnimatedSwitcher(
               duration: Motion.base,
