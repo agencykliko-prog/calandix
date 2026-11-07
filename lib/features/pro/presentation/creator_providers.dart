@@ -68,6 +68,7 @@ class ClientRequest {
     this.lastOffer,
     this.quotedAt,
     this.followedUpAt,
+    this.clientSignedAt,
   });
 
   final String id;
@@ -109,6 +110,15 @@ class ClientRequest {
   final DateTime? quotedAt;
   final DateTime? followedUpAt;
 
+  /// Bon pour accord signé par le client : le devis n'est accepté qu'avec
+  /// sa signature électronique.
+  final DateTime? clientSignedAt;
+
+  /// Référence horodatée de la signature du client.
+  String? get clientSignatureRef => clientSignedAt == null
+      ? null
+      : 'DV-${(id.hashCode ^ clientSignedAt!.millisecondsSinceEpoch).toUnsigned(32).toRadixString(16).toUpperCase().padLeft(8, '0')}';
+
   bool get expired =>
       status == RequestStatus.quoted &&
       validUntil != null &&
@@ -127,6 +137,7 @@ class ClientRequest {
     int? lastOffer,
     DateTime? quotedAt,
     DateTime? followedUpAt,
+    DateTime? clientSignedAt,
   }) => ClientRequest(
     id: id,
     client: client,
@@ -153,6 +164,7 @@ class ClientRequest {
     lastOffer: lastOffer ?? this.lastOffer,
     quotedAt: quotedAt ?? this.quotedAt,
     followedUpAt: followedUpAt ?? this.followedUpAt,
+    clientSignedAt: clientSignedAt ?? this.clientSignedAt,
   );
 }
 
@@ -242,6 +254,7 @@ class RequestsNotifier extends Notifier<List<ClientRequest>> {
         message: 'Arche de ballons pastel et table sucrée.'.tr,
         receivedAt: n.subtract(const Duration(days: 6)),
         status: RequestStatus.confirmed,
+        clientSignedAt: n.subtract(const Duration(days: 4, hours: 3)),
         quote: 150000,
         place: 'Villa Les Palmiers, Riviera 3',
         options: [
@@ -261,6 +274,7 @@ class RequestsNotifier extends Notifier<List<ClientRequest>> {
         message: 'Centres de table pour 30 tables rondes.'.tr,
         receivedAt: n.subtract(const Duration(days: 12)),
         status: RequestStatus.confirmed,
+        clientSignedAt: n.subtract(const Duration(days: 9, hours: 5)),
         quote: 1100000,
         place: 'Sofitel Hôtel Ivoire',
         options: [
@@ -318,7 +332,10 @@ class RequestsNotifier extends Notifier<List<ClientRequest>> {
   void confirm(String id) => _set(
     state
         .firstWhere((r) => r.id == id)
-        .copyWith(status: RequestStatus.confirmed),
+        .copyWith(
+          status: RequestStatus.confirmed,
+          clientSignedAt: DateTime.now(),
+        ),
   );
 
   void decline(String id, {String? reason}) => _set(

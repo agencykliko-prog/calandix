@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../events/presentation/event_trash.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -57,8 +60,9 @@ class AlbumScreen extends ConsumerWidget {
         loading: () => const Center(child: MascotLoader.party()),
         error: (e, _) =>
             ErrorState(onRetry: () => ref.invalidate(eventsProvider)),
-        data: (e) =>
-            e == null ? const SizedBox() : _AlbumBody(event: e, guest: guest),
+        data: (e) => e == null
+            ? MissingEvent(id: id)
+            : _AlbumBody(event: e, guest: guest),
       ),
     );
   }

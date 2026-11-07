@@ -25,6 +25,7 @@ import '../../commerce/data/catalog.dart';
 import '../../commerce/presentation/payment_sheet.dart';
 import '../../dashboard/presentation/widgets/budget_overview.dart';
 import '../../../core/models/models.dart';
+import '../../events/presentation/event_trash.dart';
 import '../../events/presentation/events_providers.dart';
 import '../../marketplace/presentation/widgets/vendor_card.dart';
 import '../../premium/presentation/premium_nudge.dart';
@@ -251,6 +252,7 @@ class HomeScreen extends ConsumerWidget {
     final d = _prepare(list);
     final next = d.next;
     final featured = d.featured;
+    final trashCount = ref.watch(trashProvider).length;
 
     return [
       if (ref.watch(planProvider) == Plan.free)
@@ -258,7 +260,13 @@ class HomeScreen extends ConsumerWidget {
           padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
           sliver: SliverToBoxAdapter(child: Entrance(child: _PassPromo())),
         ),
-      SliverToBoxAdapter(child: SectionTitle('Mes événements'.tr)),
+      SliverToBoxAdapter(
+        child: SectionTitle(
+          'Mes événements'.tr,
+          action: trashCount > 0 ? 'Corbeille ({0})'.trf([trashCount]) : null,
+          onAction: () => context.push(Routes.trash),
+        ),
+      ),
       SliverToBoxAdapter(
         child: Entrance(
           child: EventCarousel(
@@ -338,6 +346,7 @@ class HomeScreen extends ConsumerWidget {
   ) {
     final d = _prepare(list);
     final next = d.next;
+    final trashCount = ref.watch(trashProvider).length;
     const pad = EdgeInsets.symmetric(horizontal: 16);
 
     Widget grid({
@@ -389,7 +398,11 @@ class HomeScreen extends ConsumerWidget {
             padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
             child: _PassPromo(),
           ),
-        SectionTitle('Mes événements'.tr),
+        SectionTitle(
+          'Mes événements'.tr,
+          action: trashCount > 0 ? 'Corbeille ({0})'.trf([trashCount]) : null,
+          onAction: () => context.push(Routes.trash),
+        ),
         grid(
           columns: 3,
           height: 300,
@@ -724,11 +737,11 @@ class _Loading extends StatelessWidget {
   );
 }
 
-class _Empty extends StatelessWidget {
+class _Empty extends ConsumerWidget {
   const _Empty();
 
   @override
-  Widget build(BuildContext context) => Padding(
+  Widget build(BuildContext context, WidgetRef ref) => Padding(
     padding: const EdgeInsets.all(32),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -752,6 +765,14 @@ class _Empty extends StatelessWidget {
           expand: false,
           onPressed: () => context.push(Routes.newEvent),
         ),
+        if (ref.watch(trashProvider).length case final n when n > 0) ...[
+          const SizedBox(height: 12),
+          TextButton.icon(
+            icon: const Icon(AppIcons.trash, size: 16),
+            label: Text('Corbeille ({0})'.trf([n])),
+            onPressed: () => context.push(Routes.trash),
+          ),
+        ],
       ],
     ),
   );

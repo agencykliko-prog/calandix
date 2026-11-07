@@ -41,13 +41,59 @@ class SupabaseEventsRepository extends EventsRepository {
 
   @override
   Future<List<Event>> fetchEvents() async {
-    final rows = await _db
-        .from('events')
-        .select('*, budget_lines(*), expenses(*), tasks(*), guests(*)')
-        .eq('archived', false)
-        .order('starts_at');
-    return [for (final r in rows) eventFromRow(r)];
+    const cols = '*, budget_lines(*), expenses(*), tasks(*), guests(*)';
+    try {
+      final rows = await _db
+          .from('events')
+          .select(cols)
+          .eq('archived', false)
+          .isFilter('deleted_at', null)
+          .order('starts_at');
+      return [for (final r in rows) eventFromRow(r)];
+    } on PostgrestException {
+      // Base sans la colonne de corbeille (migration pas encore appliquée).
+      final rows = await _db
+          .from('events')
+          .select(cols)
+          .eq('archived', false)
+          .order('starts_at');
+      return [for (final r in rows) eventFromRow(r)];
+    }
   }
+
+  @override
+  Future<List<(Event, DateTime)>> fetchTrash() async {
+    try {
+      final rows = await _db
+          .from('events')
+          .select('*, budget_lines(*), expenses(*), tasks(*), guests(*)')
+          .not('deleted_at', 'is', null)
+          .order('deleted_at', ascending: false);
+      return [
+        for (final r in rows)
+          (
+            eventFromRow(r),
+            DateTime.parse(r['deleted_at'] as String).toLocal(),
+          ),
+      ];
+    } on PostgrestException {
+      return const [];
+    }
+  }
+
+  @override
+  Future<void> trashEvent(String eventId, DateTime at) => _db
+      .from('events')
+      .update({'deleted_at': at.toUtc().toIso8601String()})
+      .eq('id', eventId);
+
+  @override
+  Future<void> restoreEvent(String eventId) =>
+      _db.from('events').update({'deleted_at': null}).eq('id', eventId);
+
+  @override
+  Future<void> deleteEvent(String eventId) =>
+      _db.from('events').delete().eq('id', eventId);
 
   /// Événement à partir d'une ligne de la base (avec ses postes, dépenses,
   /// tâches et réponses des invités).

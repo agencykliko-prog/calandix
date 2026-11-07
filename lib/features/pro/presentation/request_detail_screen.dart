@@ -262,6 +262,33 @@ class _RequestDetailState extends ConsumerState<RequestDetailScreen> {
           ),
           const SizedBox(height: 10),
           _QuoteSignature(request: r),
+          if (r.clientSignedAt != null) ...[
+            const SizedBox(height: 10),
+            Panel(
+              color: Confetti.lagoonTint,
+              border: false,
+              child: Row(
+                children: [
+                  Icon(AppIcons.checkCircle, color: Confetti.lagoonText),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'Bon pour accord signé par {0} le {1} à {2} · réf. {3}'
+                          .trf([
+                            r.client,
+                            mediumDate(r.clientSignedAt!),
+                            timeOf(r.clientSignedAt!),
+                            r.clientSignatureRef,
+                          ]),
+                      style: context.text.bodySmall?.copyWith(
+                        color: Confetti.lagoonText,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ],
         if (r.status == RequestStatus.declined && r.declineReason != null) ...[
           const SizedBox(height: 12),

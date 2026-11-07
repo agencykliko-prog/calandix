@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/events/presentation/event_trash.dart';
 import '../../features/concierge/presentation/concierge_screen.dart';
 import '../../features/pro/presentation/pro_stats_screen.dart';
 import '../../features/invitations/presentation/album_screen.dart';
@@ -71,6 +72,7 @@ abstract final class Routes {
   static const premium = '/premium';
   static const business = '/business';
   static const vault = '/coffre-fort';
+  static const trash = '/corbeille';
   static const about = '/a-propos';
   static const privacy = '/confidentialite';
   static const terms = '/conditions';
@@ -299,6 +301,11 @@ final routerProvider = Provider<GoRouter>((ref) {
           fullscreenDialog: true,
           child: const PremiumScreen(),
         ),
+      ),
+      GoRoute(
+        path: Routes.trash,
+        parentNavigatorKey: _rootKey,
+        builder: (c, s) => const TrashScreen(),
       ),
       GoRoute(
         path: Routes.business,

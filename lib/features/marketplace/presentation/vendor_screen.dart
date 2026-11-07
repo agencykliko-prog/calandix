@@ -414,11 +414,19 @@ class _ActionBar extends ConsumerWidget {
             ),
           ),
           const SizedBox(width: 8),
+          // Le libellé complet doit rester lisible : version courte sur
+          // les téléphones étroits plutôt qu'un texte tronqué.
           Expanded(
-            child: PillButton(
-              label: 'Demander un devis'.tr,
-              height: 50,
-              onPressed: () => showQuoteRequestSheet(context, ref, v),
+            child: LayoutBuilder(
+              builder: (context, box) => PillButton(
+                key: const ValueKey('request-quote'),
+                label: box.maxWidth >= 190
+                    ? 'Demander un devis'.tr
+                    : 'Devis'.tr,
+                icon: box.maxWidth >= 190 ? null : AppIcons.file,
+                height: 50,
+                onPressed: () => showQuoteRequestSheet(context, ref, v),
+              ),
             ),
           ),
         ],

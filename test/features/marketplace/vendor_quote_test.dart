@@ -50,7 +50,9 @@ void main() {
     expect(tester.takeException(), isNull);
     expect(find.text('Portfolio'), findsOneWidget);
 
-    await tester.tap(find.text('Demander un devis'));
+    // Téléphone étroit : libellé court, jamais tronqué.
+    expect(find.text('Devis'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('request-quote')));
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));
     expect(find.text('Service'), findsOneWidget);

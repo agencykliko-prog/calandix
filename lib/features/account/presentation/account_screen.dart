@@ -7,6 +7,7 @@ import 'theme_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../events/presentation/event_trash.dart';
 import '../../../core/analytics/analytics.dart';
 import '../../../core/i18n/tr.dart';
 import '../../../core/prefs/prefs_provider.dart';
@@ -39,6 +40,7 @@ class AccountScreen extends ConsumerWidget {
     final p = ref.watch(profileProvider);
     final plan = ref.watch(planProvider);
     final bookings = ref.watch(bookingsProvider);
+    final trashCount = ref.watch(trashProvider).length;
 
     return Scaffold(
       body: SafeArea(
@@ -238,6 +240,16 @@ class AccountScreen extends ConsumerWidget {
                     'Coffre-fort'.tr,
                     'Contrats, devis, factures, photos'.tr,
                     () => context.push(Routes.vault),
+                  ),
+                  _Row(
+                    AppIcons.trash,
+                    'Corbeille'.tr,
+                    trashCount == 0
+                        ? 'Événements supprimés, restaurables {0} jours'.trf([
+                            trashRetention.inDays,
+                          ])
+                        : '{0} événement(s) restaurable(s)'.trf([trashCount]),
+                    () => context.push(Routes.trash),
                   ),
                   _Row(
                     AppIcons.download,

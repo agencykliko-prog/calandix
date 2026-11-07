@@ -2340,4 +2340,75 @@ const en = <String, String>{
   'Enregistrer comme modèle': 'Save as template',
   'Sur mesure': 'Custom',
   'Modèle de devis enregistré': 'Quote template saved',
+
+  // Corbeille des événements et signature du devis (7 nov. 2026)
+  'Événements supprimés, restaurables {0} jours':
+      'Deleted events, restorable for {0} days',
+  '{0} événement(s) restaurable(s)': '{0} restorable event(s)',
+  'Pour valider, vous signez le devis : cette signature vaut bon pour accord et reste tracée.': 'To confirm, you sign the quote: your signature counts as approval and is kept on record.',
+  'Signer et réserver': 'Sign and book',
+  'Devis signé · date bloquée le {0}': 'Quote signed · date held on {0}',
+  'Inviter des co-organisateurs': 'Invite co-organisers',
+  'Supprimer l’événement': 'Delete event',
+  'Options de l’événement': 'Event options',
+  'Corbeille ({0})': 'Bin ({0})',
+  '« {0} » est dans la corbeille pendant {1} jours.':
+      '“{0}” is in the bin for {1} days.',
+  'Supprimer « {0} » ?': 'Delete “{0}”?',
+  'L’événement part dans la corbeille. Vous pouvez le restaurer pendant {0} jours, avec son budget, ses invités et ses tâches. Ensuite, il est effacé définitivement.': 'The event goes to the bin. You can restore it for {0} days, with its budget, guests and tasks. After that, it is permanently erased.',
+  '{0} invité(s), {1} tâche(s), {2} poste(s) de budget':
+      '{0} guest(s), {1} task(s), {2} budget item(s)',
+  'Les co-organisateurs n’y auront plus accès.':
+      'Co-organisers will lose access to it.',
+  '{0} réservation(s) en cours ({1}) ne sont pas annulées : les prestataires gardent la date. Annulez-les d’abord si besoin.': '{0} active booking(s) ({1}) are not cancelled: vendors keep the date. Cancel them first if needed.',
+  'Mettre à la corbeille': 'Move to bin',
+  'Garder l’événement': 'Keep the event',
+  'Corbeille': 'Bin',
+  'Vider': 'Empty',
+  'La corbeille est vide': 'The bin is empty',
+  'Un événement supprimé reste ici {0} jours avant d’être effacé.':
+      'A deleted event stays here for {0} days before it is erased.',
+  'Les événements sont effacés automatiquement {0} jours après leur suppression.':
+      'Events are erased automatically {0} days after deletion.',
+  'Vider la corbeille ?': 'Empty the bin?',
+  '{0} événement(s) seront effacés définitivement, avec leurs budgets, invités, tâches et documents. Cette action est irréversible.': '{0} event(s) will be permanently erased, with their budgets, guests, tasks and documents. This cannot be undone.',
+  'Tout effacer définitivement': 'Erase everything permanently',
+  '{0} événement(s) effacé(s) définitivement':
+      '{0} event(s) permanently erased',
+  '{0} · supprimé le {1}': '{0} · deleted on {1}',
+  'Effacé définitivement demain': 'Permanently erased tomorrow',
+  'Effacé définitivement dans {0} jours': 'Permanently erased in {0} days',
+  'Restaurer': 'Restore',
+  '« {0} » est restauré': '“{0}” is restored',
+  'Supprimer définitivement': 'Delete permanently',
+  'Supprimer définitivement ?': 'Delete permanently?',
+  '« {0} » sera effacé avec son budget, ses invités, ses tâches et ses documents. Cette action est irréversible.': '“{0}” will be erased with its budget, guests, tasks and documents. This cannot be undone.',
+  '« {0} » est effacé définitivement': '“{0}” is permanently erased',
+  'Recopiez « {0} » pour confirmer': 'Type “{0}” to confirm',
+  'Je comprends que rien ne pourra être récupéré.':
+      'I understand that nothing can be recovered.',
+  'Devis signé {0}.pdf': 'Signed quote {0}.pdf',
+  'Devis signé électroniquement par {0} · réf. {1}':
+      'Quote e-signed by {0} · ref. {1}',
+  'Signer le devis': 'Sign the quote',
+  'Votre signature vaut bon pour accord : le prestataire bloque la date et vous recevez une copie horodatée.': 'Your signature counts as approval: the vendor holds the date and you get a time-stamped copy.',
+  'Nom du signataire': 'Signer’s name',
+  'J’accepte ce devis, ses conditions et la politique d’annulation. Ma signature électronique a la même valeur qu’une signature manuscrite.': 'I accept this quote, its terms and the cancellation policy. My electronic signature has the same value as a handwritten one.',
+  'Signer et accepter le devis': 'Sign and accept the quote',
+  'Vous pourrez encore annuler selon les conditions du prestataire.':
+      'You can still cancel under the vendor’s terms.',
+  'Signez dans le cadre et cochez la case pour continuer.':
+      'Sign in the box and tick the checkbox to continue.',
+  'Devis signé': 'Signed quote',
+  'Par {0} le {1} à {2} · réf. {3}': 'By {0} on {1} at {2} · ref. {3}',
+
+  // Événement absent (7 nov. 2026)
+  '« {0} » est dans la corbeille': '“{0}” is in the bin',
+  'Restaurez-le pour le retrouver tel quel. Sans restauration, il sera effacé dans {0} jours.': 'Restore it to get it back as it was. Otherwise it will be erased in {0} days.',
+  'Il a peut-être été supprimé, ou le lien n’est plus valable.':
+      'It may have been deleted, or the link is no longer valid.',
+
+  // Signature du client côté prestataire (7 nov. 2026)
+  'Bon pour accord signé par {0} le {1} à {2} · réf. {3}':
+      'Approval signed by {0} on {1} at {2} · ref. {3}',
 };

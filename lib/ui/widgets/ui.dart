@@ -6,7 +6,8 @@ import '../theme/app_theme.dart';
 import '../theme/eventa_colors.dart';
 import 'pressable.dart';
 
-enum ButtonTone { primary, dark, ghost, light, gold }
+/// [danger] : action destructive (suppression définitive).
+enum ButtonTone { primary, dark, ghost, light, gold, danger }
 
 /// Bouton pilule. [loading] remplace le libellé sans changer la largeur.
 class PillButton extends StatelessWidget {
@@ -48,6 +49,7 @@ class PillButton extends StatelessWidget {
       ButtonTone.ghost => (Confetti.surface, Confetti.ink, Confetti.line),
       ButtonTone.light => (Confetti.surface, Confetti.ink, Colors.transparent),
       ButtonTone.gold => (Confetti.gold, Confetti.inkFixed, Colors.transparent),
+      ButtonTone.danger => (Confetti.coral, Colors.white, Colors.transparent),
     };
     final lip = switch (tone) {
       ButtonTone.ghost || ButtonTone.light => Confetti.line,

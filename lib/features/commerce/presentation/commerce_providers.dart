@@ -513,9 +513,19 @@ class BookingsNotifier extends Notifier<List<Booking>> {
   }
 
   /// Étape 4 : acceptation, la date est bloquée, l'engagé est mis à jour.
-  void accept(String id) {
+  /// [note] : trace de l'accord (signature électronique) ajoutée au fil.
+  void accept(String id, {String? note}) {
     final b = byId(id);
-    _set(b.copyWith(step: BookingStep.reserved));
+    _set(
+      b.copyWith(
+        step: BookingStep.reserved,
+        messages: [
+          ...b.messages,
+          if (note != null)
+            ChatMessage(fromMe: true, text: note, at: DateTime.now()),
+        ],
+      ),
+    );
     ref.read(audienceProvider.notifier).track(Metric.booking);
     ref.read(soundProvider).play(Sfx.booking);
     final events = ref.read(eventsProvider.notifier);

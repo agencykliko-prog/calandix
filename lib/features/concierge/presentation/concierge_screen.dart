@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../events/presentation/event_trash.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -178,7 +181,7 @@ class _ConciergeScreenState extends ConsumerState<ConciergeScreen> {
         loading: () => const Center(child: MascotLoader.party()),
         error: (e, _) =>
             ErrorState(onRetry: () => ref.invalidate(eventsProvider)),
-        data: (e) => e == null ? const SizedBox() : _body(e),
+        data: (e) => e == null ? MissingEvent(id: widget.eventId) : _body(e),
       ),
     );
   }

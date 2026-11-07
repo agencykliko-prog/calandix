@@ -30,7 +30,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Calandix","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://eventa.ci/","description":"Organisez vos événements en Côte d’Ivoire : budget, prestataires, invités et équipe au même endroit.","offers":{"@type":"Offer","price":"0","priceCurrency":"XOF"}}
 </script>
-<link rel="stylesheet" href="styles.css?v=66">
+<link rel="stylesheet" href="styles.css?v=67">
 </head>
 <body>
 
@@ -192,7 +192,7 @@
       </ul>
       <div class="b-foot">
         <label class="b-guests"><span>Invités</span><output id="simGuestsOut">150</output>
-          <input type="range" id="simGuests" min="10" max="600" step="10" value="150"></label>
+          <input type="range" id="simGuests" aria-label="Nombre d’invités" min="10" max="600" step="10" value="150"></label>
         <p class="b-per"><span>Par invité</span><b id="simPerGuest">23 333 FCFA</b></p>
       </div>
     </form>
@@ -320,7 +320,7 @@
     <div class="creator-cta">
       <p>Gratuit pour commencer. Commission de <b>6 % à 2 %</b> selon la formule, 14 jours d’essai.</p>
       <div class="creator-cta-btns">
-        <a class="btn btn-cta" data-demo-pro href="#">Créer mon espace pro</a>
+        <a class="btn btn-cta" data-signup-pro href="#">Créer mon espace pro</a>
         <a class="btn btn-ghost-light" data-aud-open="pro" href="#tarifs">Voir les formules</a>
       </div>
     </div>
@@ -348,7 +348,7 @@
       <article class="plan reveal">
         <h3>Découverte</h3><p class="plan-tag">Pour découvrir la plateforme.</p><p class="price"><b>0</b> <span class="unit">FCFA</span></p><p class="bill-note"></p>
         <ul><li>Checklist et rétroplanning</li><li>Budget intelligent : prévu, engagé, payé</li><li>4 événements actifs</li><li>2 collaborateurs</li><li>Coffre-fort numérique 1 Go</li><li>Marketplace et réservations</li></ul>
-        <a class="btn plan-btn" data-demo href="#">Choisir Découverte</a>
+        <a class="btn plan-btn" data-signup href="#">Choisir Découverte</a>
       </article>
       <article class="plan reveal">
         <h3>Azur</h3><p class="plan-tag">Pour les personnes qui organisent régulièrement.</p><p class="price" data-price="1500"><b>1 500</b> <span class="unit">FCFA / mois</span></p><p class="bill-note" aria-live="polite"></p>
@@ -382,7 +382,7 @@
         <article class="plan">
           <h3>Découverte</h3><p class="plan-com">Commission 6 %</p><p class="plan-tag">Pour rejoindre la marketplace et présenter votre activité.</p><p class="price"><b>0</b> <span class="unit">FCFA</span></p><p class="bill-note"></p>
           <ul><li>Profil professionnel et photos</li><li>Jusqu’à 5 prestations au catalogue</li><li>Demandes et envoi de devis</li><li>Disponibilités et réservations</li><li>Avis clients vérifiés</li></ul>
-          <a class="btn plan-btn" data-demo-pro href="#">Créer mon profil gratuit</a>
+          <a class="btn plan-btn" data-signup-pro href="#">Créer mon profil gratuit</a>
         </article>
         <article class="plan">
           <h3>Starter</h3><p class="plan-com">Commission 5 %</p><p class="plan-tag">Pour professionnaliser votre présence.</p><p class="price" data-price="3000"><b>3 000</b> <span class="unit">FCFA / mois</span></p><p class="bill-note" aria-live="polite"></p>
@@ -574,7 +574,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollSmoother.min.js"></script>
-<script defer src="app.js?v=57"></script>
+<script defer src="app.js?v=58"></script>
 <!-- Téléphones 3D : three.js en module, chargé à part. Sans lui, la maquette plate reste. -->
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/" } }</script>
 </body>

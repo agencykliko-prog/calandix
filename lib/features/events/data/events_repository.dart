@@ -28,6 +28,18 @@ abstract class EventsRepository {
   Future<void> saveGuest(String eventId, Guest g) async {}
 
   Future<void> deleteGuest(String guestId) async {}
+
+  // ─── Corbeille ───────────────────────────────────────────────────────
+
+  /// Événements mis à la corbeille, avec leur date de suppression.
+  Future<List<(Event, DateTime)>> fetchTrash() async => const [];
+
+  Future<void> trashEvent(String eventId, DateTime at) async {}
+
+  Future<void> restoreEvent(String eventId) async {}
+
+  /// Suppression définitive (depuis la corbeille uniquement).
+  Future<void> deleteEvent(String eventId) async {}
 }
 
 class DemoEventsRepository extends EventsRepository {

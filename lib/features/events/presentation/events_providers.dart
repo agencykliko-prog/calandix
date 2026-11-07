@@ -127,6 +127,29 @@ class EventsNotifier extends AsyncNotifier<List<Event>> {
     return saved.id;
   }
 
+  /// Retire l'événement de la liste (mise à la corbeille). Renvoie
+  /// l'événement retiré.
+  Event? detach(String eventId) {
+    final events = state.value;
+    final e = events?.where((x) => x.id == eventId).firstOrNull;
+    if (events == null || e == null) return null;
+    state = AsyncData([
+      for (final x in events)
+        if (x.id != eventId) x,
+    ]);
+    return e;
+  }
+
+  /// Remet un événement restauré dans la liste, à sa place chronologique.
+  void reattach(Event e) {
+    final events = [
+      for (final x in state.value ?? const <Event>[])
+        if (x.id != e.id) x,
+      e,
+    ]..sort((a, b) => a.date.compareTo(b.date));
+    state = AsyncData(events);
+  }
+
   // ─── Budget ──────────────────────────────────────────────────────────
 
   void setTarget(String eventId, int target) {

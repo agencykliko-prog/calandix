@@ -18,6 +18,7 @@ import '../../premium/presentation/premium_nudge.dart';
 import '../../marketplace/data/vendor_media.dart';
 import 'quote_compare_screen.dart';
 import 'contract_sheet.dart';
+import 'quote_signature.dart';
 
 /// Parcours de réservation en 7 étapes, sur un seul écran : chaque étape
 /// affiche son contenu et une seule action principale.
@@ -31,7 +32,6 @@ class BookingScreen extends ConsumerStatefulWidget {
 }
 
 class _BookingScreenState extends ConsumerState<BookingScreen> {
-  bool _accepted = false;
   final _composer = TextEditingController();
 
   @override
@@ -259,37 +259,19 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
               ),
             _QuoteCard(quote: b.quote!),
             const SizedBox(height: 14),
-            Pressable(
-              onTap: () => setState(() => _accepted = !_accepted),
+            Panel(
+              color: Confetti.violetTint,
+              border: false,
               child: Row(
                 children: [
-                  AnimatedContainer(
-                    duration: Motion.fast,
-                    width: 22,
-                    height: 22,
-                    decoration: BoxDecoration(
-                      color: _accepted ? Confetti.ink : Confetti.surface,
-                      borderRadius: BorderRadius.circular(7),
-                      border: Border.all(
-                        color: _accepted ? Confetti.ink : Confetti.border,
-                        width: 1.6,
-                      ),
-                    ),
-                    child: _accepted
-                        ? const Icon(
-                            AppIcons.check,
-                            size: 14,
-                            color: Colors.white,
-                          )
-                        : null,
-                  ),
+                  Icon(AppIcons.edit, size: 18, color: Confetti.violetText),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      'J’accepte les conditions du devis et la politique d’annulation.'
+                      'Pour valider, vous signez le devis : cette signature vaut bon pour accord et reste tracée.'
                           .tr,
                       style: context.text.bodySmall?.copyWith(
-                        color: Confetti.ink,
+                        color: Confetti.violetText,
                       ),
                     ),
                   ),
@@ -298,23 +280,26 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
             ),
             const SizedBox(height: 14),
             PillButton(
-              label: 'Accepter et réserver'.tr,
-              icon: AppIcons.calendarCheck,
-              onPressed: _accepted
-                  ? () {
-                      _n.accept(b.id);
-                      toast(
-                        context,
-                        'Date bloquée le {0}'.trf([mediumDate(b.request.date)]),
-                      );
-                      maybeShowPremiumNudge(
-                        context,
-                        ref,
-                        PremiumNudge.booking,
-                        delay: const Duration(milliseconds: 1600),
-                      );
-                    }
-                  : null,
+              key: const ValueKey('open-sign-quote'),
+              label: 'Signer et réserver'.tr,
+              icon: AppIcons.edit,
+              onPressed: () async {
+                final signed = await showQuoteSignSheet(context, b);
+                if (!signed || !context.mounted) return;
+                toast(
+                  context,
+                  'Devis signé · date bloquée le {0}'.trf([
+                    mediumDate(b.request.date),
+                  ]),
+                  icon: AppIcons.calendarCheck,
+                );
+                maybeShowPremiumNudge(
+                  context,
+                  ref,
+                  PremiumNudge.booking,
+                  delay: const Duration(milliseconds: 1600),
+                );
+              },
             ),
             const SizedBox(height: 10),
             PillButton(
@@ -348,6 +333,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                   .trf([b.vendor.name, longDate(b.request.date)]),
             ),
             const SizedBox(height: 12),
+            QuoteSignatureCard(booking: b),
             ContractCard(booking: b),
             const SizedBox(height: 12),
             _QuoteCard(quote: b.quote!, compact: true),
@@ -365,6 +351,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            QuoteSignatureCard(booking: b),
             ContractCard(booking: b),
             const SizedBox(height: 12),
             _InfoCard(

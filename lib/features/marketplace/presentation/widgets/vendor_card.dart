@@ -394,7 +394,7 @@ class SponsorTag extends StatelessWidget {
       child: Text(
         sponsor == Sponsor.recommended ? 'Recommandé'.tr : 'Sponsorisé'.tr,
         style: context.text.labelSmall?.copyWith(
-          color: Confetti.ink,
+          color: Confetti.inkFixed,
           fontSize: 10.5,
         ),
       ),

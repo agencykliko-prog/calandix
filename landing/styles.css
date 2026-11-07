@@ -549,8 +549,8 @@ html.smooth .vs-item { position: relative; top: auto; }
 .pass-kicker { font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--mango-hi); }
 .pass-price { margin: 6px 0 8px; font-weight: 600; color: rgba(255, 255, 255, .75); }
 .pass-price b { font-size: 34px; font-weight: 800; color: var(--white); }
-.pass-more { margin-top: 12px; }
-.pass-more summary { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; list-style: none; font-weight: 700; font-size: 14px; color: var(--mango-hi); border-radius: 8px; }
+.pass-more { margin-top: 4px; }
+.pass-more summary { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; list-style: none; font-weight: 700; font-size: 14px; color: var(--mango-hi); border-radius: 8px; min-height: 44px; }
 .pass-more summary::-webkit-details-marker { display: none; }
 .pass-more summary::after { content: ""; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .2s ease; }
 .pass-more[open] summary::after { transform: translateY(2px) rotate(-135deg); }

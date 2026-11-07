@@ -16,6 +16,7 @@ import '../../booking/presentation/quote_compare_screen.dart';
 import '../../commerce/domain/commerce_models.dart';
 import '../../commerce/presentation/commerce_providers.dart';
 import '../../../core/models/models.dart';
+import '../../events/presentation/event_trash.dart';
 import '../../events/presentation/events_providers.dart';
 import '../../events/presentation/widgets/task_timeline.dart';
 import '../../guests/presentation/remind_sheet.dart';
@@ -45,10 +46,7 @@ class EventDashboardScreen extends ConsumerWidget {
             body: ErrorState(onRetry: () => ref.invalidate(eventsProvider)),
           ),
           data: (event) => event == null
-              ? Scaffold(
-                  appBar: AppBar(),
-                  body: Center(child: Text('Événement introuvable'.tr)),
-                )
+              ? MissingEventScreen(id: id)
               : _Dashboard(event: event),
         );
   }
@@ -105,6 +103,65 @@ class _DashboardState extends ConsumerState<_Dashboard> {
     onUnlocked: () => context.push(Routes.agent(e.id)),
   );
 
+  /// Options de l'événement : partage, page, statistiques, suppression.
+  void _options(Event e) => showEventaSheet<void>(
+    context,
+    builder: (sheet) {
+      Widget row(
+        IconData icon,
+        String label,
+        VoidCallback onTap, {
+        bool danger = false,
+        Key? key,
+      }) => ListTile(
+        key: key,
+        leading: Icon(icon, color: danger ? Confetti.coralDeep : Confetti.ink),
+        title: Text(
+          label,
+          style: danger ? TextStyle(color: Confetti.coralDeep) : null,
+        ),
+        onTap: () {
+          Navigator.of(sheet).pop();
+          onTap();
+        },
+      );
+      return Material(
+        type: MaterialType.transparency,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(8, 12, 8, 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              row(
+                AppIcons.userPlus,
+                'Inviter des co-organisateurs'.tr,
+                () => showCollaboratorsSheet(context, e.id),
+              ),
+              row(
+                AppIcons.globe,
+                'Page de l’événement'.tr,
+                () => context.push(Routes.site(e.id)),
+              ),
+              row(
+                AppIcons.chart,
+                'Statistiques du budget'.tr,
+                () => context.push(Routes.budgetStats(e.id)),
+              ),
+              const Divider(height: 16),
+              row(
+                AppIcons.trash,
+                'Supprimer l’événement'.tr,
+                () => confirmTrashEvent(context, ref, e),
+                danger: true,
+                key: const ValueKey('event-delete'),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+
   @override
   Widget build(BuildContext context) {
     final e = widget.event;
@@ -151,6 +208,14 @@ class _DashboardState extends ConsumerState<_Dashboard> {
                   tooltip: 'Partager l’événement',
                   background: btnBg,
                   onTap: () => showCollaboratorsSheet(context, e.id),
+                ),
+                const SizedBox(width: 8),
+                RoundIconButton(
+                  key: const ValueKey('event-more'),
+                  icon: AppIcons.more,
+                  tooltip: 'Options de l’événement',
+                  background: btnBg,
+                  onTap: () => _options(e),
                 ),
               ],
             ),

@@ -10,6 +10,7 @@ import '../../../ui/theme/app_icons.dart';
 import '../../../ui/theme/eventa_colors.dart';
 import '../../../ui/widgets/mascot.dart';
 import '../../../ui/widgets/ui.dart';
+import '../../events/presentation/event_trash.dart';
 import '../../events/presentation/events_providers.dart';
 
 /// Répartition type d'un budget de fête, en % (la même que le simulateur
@@ -51,7 +52,7 @@ class BudgetStatsScreen extends ConsumerWidget {
             ErrorState(onRetry: () => ref.invalidate(eventsProvider)),
         data: (events) {
           final e = events.where((x) => x.id == id).firstOrNull;
-          if (e == null) return const SizedBox();
+          if (e == null) return MissingEvent(id: id);
           final similar = [
             for (final x in events)
               if (x.id != e.id &&

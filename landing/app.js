@@ -761,6 +761,9 @@
   const app = (path) => base + path;
   document.querySelectorAll('[data-demo]').forEach((a) => { a.href = app('/connexion'); a.target = '_blank'; a.rel = 'noopener'; });
   document.querySelectorAll('[data-demo-pro]').forEach((a) => { a.href = app('/connexion?profil=creator'); a.target = '_blank'; a.rel = 'noopener'; });
+  // Les boutons « créer / choisir une formule gratuite » mènent à l'inscription.
+  document.querySelectorAll('[data-signup]').forEach((a) => { a.href = app('/inscription'); a.target = '_blank'; a.rel = 'noopener'; });
+  document.querySelectorAll('[data-signup-pro]').forEach((a) => { a.href = app('/inscription?profil=creator'); a.target = '_blank'; a.rel = 'noopener'; });
   document.querySelectorAll('[data-app-link]').forEach((a) => { a.href = app(a.dataset.appLink); a.target = '_blank'; a.rel = 'noopener'; });
 
   /* ── Petit message en bas d'écran ──────────────────────── */
