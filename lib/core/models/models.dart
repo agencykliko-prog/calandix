@@ -285,10 +285,18 @@ enum Sponsor {
 
 @immutable
 class VendorPackage {
-  const VendorPackage(this.name, this.price, this.description);
+  const VendorPackage(
+    this.name,
+    this.price,
+    this.description, [
+    this.conditions,
+  ]);
   final String name;
   final int price;
   final String description;
+
+  /// Conditions propres à l'offre (minimum d'invités, délai…).
+  final String? conditions;
 }
 
 @immutable

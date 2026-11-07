@@ -22,6 +22,7 @@ import '../../guests/presentation/remind_sheet.dart';
 import '../../export/presentation/export_sheet.dart';
 import '../../premium/presentation/paywall.dart';
 import '../../premium/presentation/premium_nudge.dart';
+import '../../invitations/presentation/auto_reminders_sheet.dart';
 import 'collaborators_sheet.dart';
 import 'widgets/budget_overview.dart';
 import 'widgets/guests_panel.dart';
@@ -201,6 +202,8 @@ class _DashboardState extends ConsumerState<_Dashboard> {
                       onTeam: () => _scrollTo(_teamKey),
                     ),
                   ),
+                  const SizedBox(height: 12),
+                  Entrance(index: 3, child: _ToolsPanel(event: e)),
                 ],
               ),
             ),
@@ -598,6 +601,119 @@ class _Action extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Outils des invités et du jour J, et services de l'offre : chacun indique
+/// s'il demande une offre supérieure.
+class _ToolsPanel extends ConsumerWidget {
+  const _ToolsPanel({required this.event});
+
+  final Event event;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final e = event;
+    final tools = [
+      (
+        PremiumFeature.invitations,
+        AppIcons.mail,
+        Hue.coral,
+        'Invitation'.tr,
+        () => context.push(Routes.invitation(e.id)),
+      ),
+      (
+        PremiumFeature.entries,
+        AppIcons.qr,
+        Hue.violet,
+        'Entrées'.tr,
+        () => context.push(Routes.entries(e.id)),
+      ),
+      (
+        PremiumFeature.reminders,
+        AppIcons.reminder,
+        Hue.lagoon,
+        'Rappels'.tr,
+        () => showAutoReminders(context, e),
+      ),
+      (
+        PremiumFeature.concierge,
+        AppIcons.headset,
+        Hue.gold,
+        'Concierge'.tr,
+        () => context.push(Routes.concierge(e.id)),
+      ),
+      (
+        PremiumFeature.album,
+        AppIcons.images,
+        Hue.candy,
+        'Album'.tr,
+        () => context.push(Routes.album(e.id)),
+      ),
+    ];
+    return LayoutBuilder(
+      builder: (context, box) {
+        final w = (box.maxWidth - 8 * 4) / 5;
+        return Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final (feature, icon, hue, label, open) in tools)
+              SizedBox(
+                width: w < 64 ? (box.maxWidth - 8 * 2) / 3 : w,
+                child: Pressable(
+                  semanticLabel: label,
+                  onTap: () => requirePremium(
+                    context,
+                    ref,
+                    feature: feature,
+                    eventId: e.id,
+                    onUnlocked: open,
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    decoration: BoxDecoration(
+                      color: hue.tint,
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Column(
+                      children: [
+                        Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Icon(icon, size: 22, color: hue.text),
+                            if (!ref.watch(
+                              featureUnlockedProvider((feature, e.id)),
+                            ))
+                              Positioned(
+                                right: -10,
+                                top: -6,
+                                child: Icon(
+                                  AppIcons.lock,
+                                  size: 12,
+                                  color: hue.text,
+                                ),
+                              ),
+                          ],
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          label,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: context.text.labelSmall?.copyWith(
+                            color: hue.text,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 }

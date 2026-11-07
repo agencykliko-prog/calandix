@@ -13,6 +13,10 @@ String fcfa(num amount) => '{0}{1}FCFA'.trf([
   _nbsp,
 ]);
 
+/// 2 000 — un nombre avec séparateur de milliers insécable.
+String formatNumber(num n) =>
+    _fcfa.format(n).replaceAll('\u202f', _nbsp).replaceAll(' ', _nbsp);
+
 /// 12,5 M — pour les chiffres compacts des cartes.
 String fcfaCompact(num amount) {
   if (amount >= 1000000) {

@@ -30,7 +30,6 @@ class _BusinessScreenState extends ConsumerState<BusinessScreen> {
   bool _yearly = false;
 
   /// Montant encaissé par mois, pour le simulateur.
-  int _sales = 500000;
 
   Future<void> _subscribe(ProPlan plan) async {
     final r = await showPaymentSheet(
@@ -267,14 +266,6 @@ class _BusinessScreenState extends ConsumerState<BusinessScreen> {
                     color: context.eventa.muted,
                   ),
                 ),
-                _Title('Ce que vous gardez'.tr),
-                _Simulator(
-                  sales: _sales,
-                  current: current,
-                  onSales: (v) => setState(() => _sales = v),
-                ),
-                _Title('Une commission juste'.tr),
-                const _Rules(),
                 _Title('Booster ma visibilité'.tr),
                 Text(
                   'Ouvert à toutes les formules, même Découverte : une visibilité ponctuelle, sans abonnement. Toujours signalée « Sponsorisé ».'
@@ -385,7 +376,7 @@ class _Hero extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'Commencez gratuitement. Quand votre activité grandit, la commission baisse : de 8 % à 3 %, prélevée seulement sur ce que vous encaissez via Calandix.'
+            'Commencez gratuitement. Quand votre activité grandit, la commission baisse : de 6 % à 2 %, prélevée seulement sur ce que vous encaissez via Calandix.'
                 .tr,
             style: context.text.bodyMedium?.copyWith(color: Colors.white70),
           ),
@@ -481,7 +472,9 @@ class _PlanCard extends StatelessWidget {
               if (current)
                 Tag(label: 'Votre formule'.tr, hue: hue)
               else if (recommended)
-                Tag(label: 'Recommandé'.tr, hue: hue, solid: true),
+                Tag(label: 'Recommandé'.tr, hue: hue, solid: true)
+              else if (plan == ProPlan.business)
+                Tag(label: 'Formule premium'.tr, hue: hue),
             ],
           ),
           const SizedBox(height: 8),
@@ -610,178 +603,6 @@ class _PlanCard extends StatelessWidget {
               onPressed: onSubscribe,
             ),
           ],
-        ],
-      ),
-    );
-  }
-}
-
-/// Simulateur : ce qui reste au prestataire selon la formule, pour un
-/// montant encaissé par mois.
-/// Montant sans l'unité, pour les colonnes du simulateur.
-String _amount(int v) => fcfa(v).replaceAll(RegExp(r'\s*FCFA$'), '');
-
-class _Simulator extends StatelessWidget {
-  const _Simulator({
-    required this.sales,
-    required this.current,
-    required this.onSales,
-  });
-
-  final int sales;
-  final ProPlan current;
-  final ValueChanged<int> onSales;
-
-  static const _amounts = [250000, 500000, 1000000, 2000000];
-
-  @override
-  Widget build(BuildContext context) {
-    // Le meilleur net, abonnement déduit.
-    int net(ProPlan p) => (sales * (1 - p.commission)).round() - p.price;
-    final best = ProPlan.values.reduce((a, b) => net(b) >= net(a) ? b : a);
-    return Panel(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Vous encaissez par mois via Calandix :'.tr,
-            style: context.text.bodyMedium,
-          ),
-          const SizedBox(height: 10),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              for (final a in _amounts)
-                Choice(
-                  label: fcfaCompact(a),
-                  on: a == sales,
-                  onTap: () => onSales(a),
-                ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Row(
-            children: [
-              const Expanded(child: SizedBox()),
-              SizedBox(
-                width: 92,
-                child: Text(
-                  'Commission'.tr,
-                  textAlign: TextAlign.right,
-                  style: context.text.labelSmall,
-                ),
-              ),
-              SizedBox(
-                width: 108,
-                child: Text(
-                  'Il vous reste'.tr,
-                  textAlign: TextAlign.right,
-                  style: context.text.labelSmall,
-                ),
-              ),
-            ],
-          ),
-          const Divider(height: 14),
-          for (final p in ProPlan.values)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Flexible(
-                          child: Text(
-                            p.label,
-                            style: context.text.titleSmall?.copyWith(
-                              color: p == current ? p.hue.text : null,
-                            ),
-                          ),
-                        ),
-                        if (p == best) ...[
-                          const SizedBox(width: 6),
-                          Icon(AppIcons.star, size: 14, color: Confetti.gold),
-                        ],
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: 92,
-                    child: Text(
-                      _amount((sales * p.commission).round()),
-                      textAlign: TextAlign.right,
-                      style: context.text.bodySmall,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 108,
-                    child: Text(
-                      _amount(net(p)),
-                      textAlign: TextAlign.right,
-                      style: context.text.titleSmall?.copyWith(
-                        fontFeatures: const [FontFeature.tabularFigures()],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          const SizedBox(height: 8),
-          Text(
-            'Montants en FCFA, après commission et abonnement du mois, avant frais du partenaire de paiement. ★ : la formule la plus avantageuse à ce niveau.'
-                .tr,
-            style: context.text.bodySmall?.copyWith(
-              color: context.eventa.muted,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Règles de la commission, en clair.
-class _Rules extends StatelessWidget {
-  const _Rules();
-
-  @override
-  Widget build(BuildContext context) {
-    final rules = [
-      'Aucune commission sur une demande de devis, ni sur un devis accepté mais pas encore payé.'
-          .tr,
-      'Calculée à chaque encaissement effectif via Calandix, au prorata en cas de paiement en plusieurs fois.'
-          .tr,
-      'Un remboursement régularise la commission correspondante.'.tr,
-      'Les frais du partenaire de paiement sont affichés à part, avant validation.'
-          .tr,
-      'Une mise en avant payante est toujours signalée « Sponsorisé » ; le classement naturel reste fondé sur la pertinence, les avis vérifiés et la disponibilité.'
-          .tr,
-    ];
-    return Panel(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          for (final r in rules)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 2),
-                    child: Icon(
-                      AppIcons.checkCircle,
-                      size: 16,
-                      color: Confetti.success,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(child: Text(r, style: context.text.bodyMedium)),
-                ],
-              ),
-            ),
         ],
       ),
     );

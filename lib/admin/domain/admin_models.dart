@@ -439,24 +439,25 @@ class Transaction {
 @immutable
 class PricingModel {
   const PricingModel({
-    this.commission = 8,
+    this.commission = 6,
     this.serviceFee = 2,
     this.mobileMoneyFee = 1,
     this.payoutDelayDays = 2,
     this.subscriptions = const {
       'Azur': 1500,
-      'Signature': 2900,
-      'Privilège': 5900,
-      'Starter (prestataire)': 4900,
-      'Creator (prestataire)': 14900,
-      'Business (prestataire)': 29900,
+      'Signature': 2500,
+      'Privilège': 4900,
+      'Pass Événement': 9900,
+      'Starter (prestataire)': 3000,
+      'Creator (prestataire)': 5900,
+      'Business (prestataire)': 9900,
     },
     this.categoryCommission = const {
       'Lieux': 6,
-      'Traiteur': 8,
-      'Décoration': 10,
-      'Photo & vidéo': 10,
-      'Musique & DJ': 10,
+      'Traiteur': 6,
+      'Décoration': 6,
+      'Photo & vidéo': 6,
+      'Musique & DJ': 6,
     },
   });
 

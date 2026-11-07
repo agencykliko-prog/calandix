@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/concierge/presentation/concierge_screen.dart';
+import '../../features/pro/presentation/pro_stats_screen.dart';
+import '../../features/invitations/presentation/album_screen.dart';
+import '../../features/invitations/presentation/entries_screen.dart';
+import '../../features/invitations/presentation/invitation_screen.dart';
+import '../../features/invitations/presentation/rsvp_screen.dart';
 import '../../features/about/presentation/about_screen.dart';
 import '../../features/about/presentation/privacy_screen.dart';
 import '../../features/about/presentation/terms_screen.dart';
@@ -75,6 +81,10 @@ abstract final class Routes {
   static String guests(String id) => '/evenement/$id/invites';
   static String agent(String id) => '/evenement/$id/agent';
   static String compareQuotes(String id) => '/evenement/$id/devis';
+  static String invitation(String id) => '/evenement/$id/invitation';
+  static String entries(String id) => '/evenement/$id/entrees';
+  static String concierge(String id) => '/evenement/$id/concierge';
+  static String album(String id) => '/evenement/$id/album';
   static String vendor(String id) => '/prestataire/$id';
   static String booking(String id) => '/reservation/$id';
   static String exploreCategory(VendorCategory c) =>
@@ -122,8 +132,12 @@ final routerProvider = Provider<GoRouter>((ref) {
         }
         return null;
       }
-      // Les pages d'information restent lisibles, connecté ou non.
-      if (loc == Routes.privacy || loc == Routes.terms || loc == Routes.about) {
+      // Les pages d'information restent lisibles, connecté ou non, comme
+      // la page de réponse d'un invité (ouverte depuis son lien).
+      if (loc == Routes.privacy ||
+          loc == Routes.terms ||
+          loc == Routes.about ||
+          loc.startsWith('/r/')) {
         return null;
       }
       final public =
@@ -160,6 +174,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         pageBuilder: (c, s) => _fade(
           s,
           AdminShell(module: AdminModule.fromSlug(s.pathParameters['module'])),
+        ),
+      ),
+      GoRoute(
+        path: '/r/:event/:code',
+        builder: (c, s) => GuestRsvpScreen(
+          eventId: s.pathParameters['event']!,
+          code: s.pathParameters['code']!,
         ),
       ),
       GoRoute(
@@ -329,6 +350,11 @@ final routerProvider = Provider<GoRouter>((ref) {
             _bounded(ConversationScreen(id: s.pathParameters['id']!)),
       ),
       GoRoute(
+        path: '/pro/statistiques',
+        parentNavigatorKey: _rootKey,
+        builder: (c, s) => _bounded(const ProStatsScreen()),
+      ),
+      GoRoute(
         path: '/pro/reputation',
         parentNavigatorKey: _rootKey,
         builder: (c, s) => _bounded(const ReputationScreen()),
@@ -393,6 +419,30 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: 'agent',
             builder: (c, s) =>
                 _bounded(AgentScreen(eventId: s.pathParameters['id']!)),
+          ),
+          GoRoute(
+            path: 'invitation',
+            builder: (c, s) =>
+                _bounded(InvitationScreen(id: s.pathParameters['id']!)),
+          ),
+          GoRoute(
+            path: 'entrees',
+            builder: (c, s) =>
+                _bounded(EntriesScreen(id: s.pathParameters['id']!)),
+          ),
+          GoRoute(
+            path: 'concierge',
+            builder: (c, s) =>
+                _bounded(ConciergeScreen(eventId: s.pathParameters['id']!)),
+          ),
+          GoRoute(
+            path: 'album',
+            builder: (c, s) => _bounded(
+              AlbumScreen(
+                id: s.pathParameters['id']!,
+                guest: s.uri.queryParameters['vue'] == 'invite',
+              ),
+            ),
           ),
         ],
       ),

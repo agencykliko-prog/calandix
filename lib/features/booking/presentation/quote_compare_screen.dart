@@ -37,6 +37,128 @@ class QuoteGroup {
       .firstOrNull;
 }
 
+/// Lecture assistée d'un groupe de devis : ce qui les distingue vraiment
+/// (contenu, acompte, avis, validité) et l'offre la plus équilibrée.
+@immutable
+class QuoteAnalysis {
+  const QuoteAnalysis({
+    required this.best,
+    required this.points,
+    required this.exclusive,
+  });
+
+  /// Meilleur équilibre prix, contenu et avis.
+  final Booking best;
+
+  /// Constats, du plus utile au moins utile.
+  final List<String> points;
+
+  /// Prestations incluses chez un seul prestataire.
+  final Map<String, List<String>> exclusive;
+}
+
+String _norm(String s) =>
+    s.toLowerCase().replaceAll(RegExp(r'\s+'), ' ').trim();
+
+QuoteAnalysis? analyzeQuotes(QuoteGroup g) {
+  final offers = [
+    for (final b in g.offers)
+      if (b.quote != null) b,
+  ];
+  if (offers.length < 2) return null;
+  int included(Booking b) => b.quote!.lines.where((l) => !l.optional).length;
+  final minTotal = offers.first.quote!.total;
+  final maxTotal = offers.last.quote!.total;
+  final maxLines = offers.map(included).reduce((a, b) => a > b ? a : b);
+  double score(Booking b) {
+    final q = b.quote!;
+    final price = maxTotal == minTotal
+        ? 1.0
+        : 1 - (q.total - minTotal) / (maxTotal - minTotal);
+    final rating = (b.vendor.rating - 4).clamp(0, 1).toDouble();
+    final content = maxLines == 0 ? 1.0 : included(b) / maxLines;
+    final deposit = 1 - q.depositRate;
+    return price * .4 + rating * .3 + content * .2 + deposit * .1;
+  }
+
+  final best = offers.reduce((a, b) => score(b) > score(a) ? b : a);
+  final points = <String>[];
+  final cheapest = offers.first;
+  final complete = offers.reduce((a, b) => included(b) > included(a) ? b : a);
+  final rated = offers.reduce(
+    (a, b) => b.vendor.rating > a.vendor.rating ? b : a,
+  );
+  final lowDeposit = offers.reduce(
+    (a, b) => b.quote!.depositRate < a.quote!.depositRate ? b : a,
+  );
+  points.add(
+    '{0} est le moins cher, {1} de moins que le plus cher.'.trf([
+      cheapest.vendor.name,
+      fcfa(maxTotal - minTotal),
+    ]),
+  );
+  if (included(complete) > included(cheapest)) {
+    points.add(
+      '{0} inclut le plus de prestations ({1} lignes, contre {2}).'.trf([
+        complete.vendor.name,
+        included(complete),
+        included(cheapest),
+      ]),
+    );
+  }
+  if (rated.id != cheapest.id) {
+    points.add(
+      '{0} est le mieux noté : {1} sur {2} avis.'.trf([
+        rated.vendor.name,
+        rated.vendor.rating.toStringAsFixed(1).replaceAll('.', ','),
+        rated.vendor.reviews,
+      ]),
+    );
+  }
+  final rates = {for (final b in offers) b.quote!.depositRate};
+  if (rates.length > 1) {
+    points.add(
+      'L’acompte le plus léger : {0} ({1} %).'.trf([
+        lowDeposit.vendor.name,
+        (lowDeposit.quote!.depositRate * 100).round(),
+      ]),
+    );
+  }
+  final soon = offers
+      .where(
+        (b) =>
+            b.quote!.validUntil.difference(DateTime.now()).inDays <= 3 &&
+            b.quote!.validUntil.isAfter(DateTime.now()),
+      )
+      .toList();
+  for (final b in soon) {
+    points.add(
+      'Le devis de {0} expire le {1} : décidez avant.'.trf([
+        b.vendor.name,
+        shortDate(b.quote!.validUntil),
+      ]),
+    );
+  }
+
+  // Prestations qu'un seul devis contient.
+  final owners = <String, Set<String>>{};
+  final labels = <String, String>{};
+  for (final b in offers) {
+    for (final l in b.quote!.lines) {
+      final k = _norm(l.label);
+      labels[k] = l.label;
+      owners.putIfAbsent(k, () => {}).add(b.vendor.name);
+    }
+  }
+  final exclusive = <String, List<String>>{};
+  owners.forEach((k, who) {
+    if (who.length == 1) {
+      exclusive.putIfAbsent(who.first, () => []).add(labels[k]!);
+    }
+  });
+  return QuoteAnalysis(best: best, points: points, exclusive: exclusive);
+}
+
 /// Catégories d'un événement ayant reçu au moins un devis.
 final quoteGroupsProvider = Provider.family<List<QuoteGroup>, String>((
   ref,
@@ -171,6 +293,8 @@ class _Group extends StatelessWidget {
               style: context.text.bodySmall?.copyWith(color: Confetti.inkMuted),
             ),
           ),
+        if (analyzeQuotes(g) case final a? when chosen == null)
+          _Analysis(analysis: a),
         LayoutBuilder(
           builder: (context, box) {
             // Sur grand écran, les devis se partagent la largeur ; sur
@@ -375,6 +499,77 @@ class _Offer extends StatelessWidget {
                 : () => context.push(Routes.booking(b.id)),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Lecture assistée : ce qui différencie les devis, et notre avis.
+class _Analysis extends StatelessWidget {
+  const _Analysis({required this.analysis});
+  final QuoteAnalysis analysis;
+
+  @override
+  Widget build(BuildContext context) {
+    final a = analysis;
+    Widget bullet(String text) => Padding(
+      padding: const EdgeInsets.only(top: 6),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 3),
+            child: Icon(AppIcons.check, size: 14, color: Confetti.violet),
+          ),
+          const SizedBox(width: 8),
+          Expanded(child: Text(text, style: context.text.bodySmall)),
+        ],
+      ),
+    );
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Panel(
+        color: Confetti.violetTint,
+        border: false,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(AppIcons.sparkle, size: 18, color: Confetti.violetText),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Analyse Calandix'.tr,
+                    style: context.text.titleSmall,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Meilleur équilibre prix, contenu et avis : {0}.'.trf([
+                a.best.vendor.name,
+              ]),
+              style: context.text.titleSmall?.copyWith(
+                color: Confetti.violetText,
+              ),
+            ),
+            for (final p in a.points) bullet(p),
+            for (final e in a.exclusive.entries)
+              bullet(
+                'Seulement chez {0} : {1}.'.trf([e.key, e.value.join(', ')]),
+              ),
+            const SizedBox(height: 8),
+            Text(
+              'Calcul indicatif : prix 40 %, note 30 %, contenu 20 %, acompte 10 %. Lisez les conditions avant de choisir.'
+                  .tr,
+              style: context.text.labelSmall?.copyWith(
+                color: context.eventa.muted,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

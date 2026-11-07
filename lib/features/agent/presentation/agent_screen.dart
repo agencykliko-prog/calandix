@@ -377,7 +377,7 @@ class _Bubble extends StatelessWidget {
           ),
           child: Text(
             msg.text,
-            style: context.text.bodyMedium?.copyWith(color: Colors.white),
+            style: context.text.bodyMedium?.copyWith(color: Confetti.onInk),
           ),
         ),
       );

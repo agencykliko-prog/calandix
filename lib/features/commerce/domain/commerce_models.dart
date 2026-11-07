@@ -207,8 +207,8 @@ class Booking {
 enum Plan {
   free('Découverte', 0, Hues.ink),
   azur('Azur', 1500, Hues.lagoon),
-  signature('Signature', 2900, Hues.violet),
-  privilege('Privilège', 5900, Hues.gold);
+  signature('Signature', 2500, Hues.violet),
+  privilege('Privilège', 4900, Hues.gold);
 
   const Plan(this._label, this.price, this._hue);
   final String _label;
@@ -233,6 +233,15 @@ enum Plan {
   /// Événements à venir en même temps ; sans limite avec un abonnement.
   int? get activeEvents => this == Plan.free ? 4 : null;
 
+  /// Rappels WhatsApp et SMS envoyés par Calandix chaque mois (chaque
+  /// message a un coût d'envoi : le quota le plafonne).
+  int get reminderQuota => switch (this) {
+    Plan.free => 0,
+    Plan.azur => 100,
+    Plan.signature => 300,
+    Plan.privilege => 1000,
+  };
+
   String get vaultLabel => vaultMb >= 1024
       ? '{0} Go'.trf([vaultMb ~/ 1024])
       : '{0} Mo'.trf([vaultMb]);
@@ -246,31 +255,31 @@ enum ProPlan {
   decouverte(
     'Découverte',
     0,
-    0.08,
+    0.06,
     5,
     Hues.ink,
     'Pour rejoindre la marketplace et présenter votre activité.',
   ),
   starter(
     'Starter',
-    4900,
-    0.07,
+    3000,
+    0.05,
     15,
     Hues.lagoon,
     'Pour professionnaliser votre présence.',
   ),
   creator(
     'Creator',
-    14900,
-    0.05,
+    5900,
+    0.04,
     null,
     Hues.violet,
     'Pour développer votre clientèle.',
   ),
   business(
     'Business',
-    29900,
-    0.03,
+    9900,
+    0.02,
     null,
     Hues.gold,
     'Pour les agences et entreprises événementielles.',
@@ -289,7 +298,7 @@ enum ProPlan {
   String get label => _label.tr;
   final int price;
 
-  /// Part prélevée sur chaque encaissement effectif (0,08 = 8 %).
+  /// Part prélevée sur chaque encaissement effectif (0,06 = 6 %).
   final double commission;
 
   /// Prestations au catalogue ; null = sans limite.
@@ -330,18 +339,18 @@ enum ProPlan {
       'Jusqu’à 15 prestations au catalogue'.tr,
       'Galerie enrichie et profil personnalisé'.tr,
       'Devis avancés et suivi des demandes'.tr,
-      'Statistiques de consultation et historique clients'.tr,
+      'Statistiques commerciales et historique des clients'.tr,
       'Badge Starter'.tr,
     ],
     ProPlan.creator => [
       'Catalogue étendu, sans limite'.tr,
-      'Studio professionnel Calandix'.tr,
+      'Studio Calandix : créations, CRM et factures'.tr,
       'Visibilité renforcée dans les résultats pertinents'.tr,
       'Statistiques commerciales, acomptes et reversements'.tr,
       'Outils de gestion de la réputation'.tr,
     ],
     ProPlan.business => [
-      'Plusieurs collaborateurs avec droits d’accès'.tr,
+      'Équipe multi-utilisateurs, droits par rôle'.tr,
       'Plusieurs activités ou catégories'.tr,
       'Analyse des ventes et suivi commercial'.tr,
       'Mise en avant commerciale renforcée'.tr,
@@ -411,7 +420,16 @@ enum PremiumFeature {
   events('Plus de 4 événements actifs', Plan.azur, AppIcons.calendarPlus),
   collaborators('Plus de 2 collaborateurs', Plan.azur, AppIcons.userPlus),
   agent('Agent IA de votre événement', Plan.signature, AppIcons.sparkle),
-  vault('Coffre-fort au-delà de 1 Go', Plan.azur, AppIcons.lock);
+  vault('Coffre-fort au-delà de 1 Go', Plan.azur, AppIcons.lock),
+  invitations('Invitations numériques et QR code', Plan.azur, AppIcons.mail),
+  entries('Gestion des entrées par QR code', Plan.azur, AppIcons.qr),
+  reminders(
+    'Rappels WhatsApp et SMS automatiques',
+    Plan.azur,
+    AppIcons.reminder,
+  ),
+  concierge('Concierge Calandix', Plan.privilege, AppIcons.headset),
+  album('Album privé de l’événement', Plan.privilege, AppIcons.images);
 
   const PremiumFeature(this._label, this.minPlan, this.icon);
   final String _label;
@@ -427,6 +445,7 @@ enum VaultFolder {
   quotes('Devis', AppIcons.file),
   invoices('Factures & reçus', AppIcons.invoice),
   photos('Photos', AppIcons.images),
+  inspirations('Inspirations', AppIcons.palette),
   certificates('Certificats', AppIcons.certificate),
   documents('Documents', AppIcons.folder);
 

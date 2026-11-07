@@ -132,7 +132,7 @@ void main() {
     c.read(planProvider.notifier).subscribe(Plan.signature);
     expect(unlocked(PremiumFeature.agent), isTrue);
     // À l'année : deux mois offerts.
-    expect(Plan.signature.yearlyPrice, 29000);
+    expect(Plan.signature.yearlyPrice, 25000);
   });
 
   test('essai gratuit de 14 jours et Pass Événement', () {

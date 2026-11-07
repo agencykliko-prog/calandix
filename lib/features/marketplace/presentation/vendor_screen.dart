@@ -85,8 +85,30 @@ class VendorScreen extends ConsumerWidget {
                           hue: Hue.violet,
                           icon: AppIcons.verified,
                         ),
+                      if (Catalog.qualityOf(v))
+                        Tag(
+                          label: 'Qualité Calandix'.tr,
+                          hue: Hue.candy,
+                          icon: AppIcons.star,
+                        ),
+                      if (!Catalog.planOf(v).free)
+                        Tag(
+                          label: 'Formule {0}'.trf([Catalog.planOf(v).label]),
+                          hue: Hue.gold,
+                          icon: AppIcons.crown,
+                        ),
                       if (v.sponsor != null) SponsorTag(sponsor: v.sponsor!),
                     ],
+                  ),
+                  const SizedBox(height: 6),
+                  Pressable(
+                    onTap: () => showBadgesInfo(context, v),
+                    child: Text(
+                      'Que signifient ces badges ?'.tr,
+                      style: context.text.labelMedium?.copyWith(
+                        color: Confetti.coralDeep,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 12),
                   Text(v.name, style: context.text.headlineMedium),
@@ -216,7 +238,15 @@ class VendorScreen extends ConsumerWidget {
                     const SizedBox(height: 10),
                     _InfoList(
                       rows: [for (final p in v.packages) (null, p.name)],
-                      captions: [for (final p in v.packages) p.description],
+                      captions: [
+                        for (final p in v.packages)
+                          p.conditions == null
+                              ? p.description
+                              : '{0}\nConditions : {1}'.trf([
+                                  p.description,
+                                  p.conditions!,
+                                ]),
+                      ],
                       trailing: [for (final p in v.packages) fcfa(p.price)],
                     ),
                   ],
@@ -438,12 +468,24 @@ class _ActionBar extends ConsumerWidget {
   }
 }
 
+/// Demande pré-remplie (par le concierge) : événement, invités, budget du
+/// poste et premier message.
+@immutable
+class QuotePrefill {
+  const QuotePrefill({this.eventId, this.guests, this.budget, this.message});
+  final String? eventId;
+  final int? guests;
+  final int? budget;
+  final String? message;
+}
+
 /// Étape 2 : demande de devis personnalisée.
 Future<void> showQuoteRequestSheet(
   BuildContext context,
   WidgetRef ref,
-  Vendor v,
-) async {
+  Vendor v, {
+  QuotePrefill? prefill,
+}) async {
   final events = ref.read(eventsProvider).value ?? const <Event>[];
   if (events.isEmpty) {
     toast(context, 'Créez d’abord un événement'.tr, icon: AppIcons.info);
@@ -451,7 +493,7 @@ Future<void> showQuoteRequestSheet(
   }
   final bookingId = await showEventaSheet<String>(
     context,
-    builder: (_) => _QuoteRequest(vendor: v, events: events),
+    builder: (_) => _QuoteRequest(vendor: v, events: events, prefill: prefill),
   );
   if (bookingId != null && context.mounted) {
     context.push(Routes.booking(bookingId));
@@ -573,18 +615,27 @@ const _needs = <VendorCategory, List<_Need>>{
 };
 
 class _QuoteRequest extends ConsumerStatefulWidget {
-  const _QuoteRequest({required this.vendor, required this.events});
+  const _QuoteRequest({
+    required this.vendor,
+    required this.events,
+    this.prefill,
+  });
 
   final Vendor vendor;
   final List<Event> events;
+  final QuotePrefill? prefill;
 
   @override
   ConsumerState<_QuoteRequest> createState() => _QuoteRequestState();
 }
 
 class _QuoteRequestState extends ConsumerState<_QuoteRequest> {
-  late Event _event = widget.events.first;
-  late double _guests = _event.guests.invited.clamp(1, 5000).toDouble();
+  late Event _event =
+      widget.events.where((e) => e.id == widget.prefill?.eventId).firstOrNull ??
+      widget.events.first;
+  late double _guests = (widget.prefill?.guests ?? _event.guests.invited)
+      .clamp(1, 5000)
+      .toDouble();
   late final _guestsCtrl = TextEditingController(
     text: _guests.round().toString(),
   );
@@ -617,6 +668,19 @@ class _QuoteRequestState extends ConsumerState<_QuoteRequest> {
   void initState() {
     super.initState();
     _address.text = _event.venue;
+    final p = widget.prefill;
+    if (p?.message != null) _message.text = p!.message!;
+    if (p?.budget case final b?) {
+      _budget = b < 250000
+          ? _budgets[0]
+          : b < 500000
+          ? _budgets[1]
+          : b < 1000000
+          ? _budgets[2]
+          : b <= 3000000
+          ? _budgets[3]
+          : _budgets[4];
+    }
   }
 
   @override
@@ -1331,5 +1395,67 @@ class _StarRow extends StatelessWidget {
           color: i < rating ? Confetti.mango : Confetti.inkFaint,
         ),
     ],
+  );
+}
+
+/// Les trois badges d'une fiche, expliqués à l'organisateur.
+void showBadgesInfo(BuildContext context, Vendor v) {
+  final plan = Catalog.planOf(v);
+  final quality = Catalog.qualityOf(v);
+  Widget row(IconData icon, Hue hue, String title, String body, bool on) =>
+      Padding(
+        padding: const EdgeInsets.only(bottom: 14),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            IconTile(icon: icon, hue: hue, size: 36, solid: on),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: context.text.titleSmall),
+                  const SizedBox(height: 2),
+                  Text(body, style: context.text.bodySmall),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+  showEventaSheet<void>(
+    context,
+    builder: (ctx) => ListView(
+      shrinkWrap: true,
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+      children: [
+        Text('Les badges de {0}'.trf([v.name]), style: ctx.text.headlineSmall),
+        const SizedBox(height: 16),
+        row(
+          AppIcons.verified,
+          Hue.violet,
+          v.verified ? 'Profil vérifié'.tr : 'Profil non vérifié'.tr,
+          'L’équipe Calandix a contrôlé la pièce d’identité, le RCCM, l’adresse et des réalisations.'
+              .tr,
+          v.verified,
+        ),
+        row(
+          AppIcons.star,
+          Hue.candy,
+          quality ? 'Qualité Calandix'.tr : 'Badge de qualité non obtenu'.tr,
+          'Attribué sur des critères objectifs : note moyenne d’au moins 4,5, au moins 10 avis vérifiés, prestations réalisées et réponses rapides.'
+              .tr,
+          quality,
+        ),
+        row(
+          AppIcons.crown,
+          Hue.gold,
+          plan.free ? 'Sans abonnement'.tr : 'Formule {0}'.trf([plan.label]),
+          'Indique la formule souscrite. Il ne dit rien de la qualité des prestations.'
+              .tr,
+          !plan.free,
+        ),
+      ],
+    ),
   );
 }

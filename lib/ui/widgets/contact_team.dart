@@ -37,7 +37,7 @@ Future<void> showContactTeam(BuildContext context, {bool privilege = false}) {
           const SizedBox(height: 6),
           Text(
             privilege
-                ? 'Support Privilège 7 j/7 : écrivez-nous sur WhatsApp, on vous répond vite.'
+                ? 'Assistance prioritaire 7 j/7 : écrivez-nous sur WhatsApp, un conseiller traite votre demande en priorité.'
                       .tr
                 : 'Une question, un souci ? Écrivez-nous, on vous répond vite.'
                       .tr,
@@ -50,7 +50,10 @@ Future<void> showContactTeam(BuildContext context, {bool privilege = false}) {
             onPressed: () {
               Navigator.of(ctx).pop();
               EventaContact.openWhatsApp(
-                'Bonjour Calandix, j’ai besoin d’aide.'.tr,
+                privilege
+                    ? 'Bonjour Calandix, demande prioritaire : j’ai besoin d’aide.'
+                          .tr
+                    : 'Bonjour Calandix, j’ai besoin d’aide.'.tr,
               );
             },
           ),

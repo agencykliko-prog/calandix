@@ -102,7 +102,7 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
           ? null
           : FloatingActionButton.extended(
               backgroundColor: Confetti.ink,
-              foregroundColor: Colors.white,
+              foregroundColor: Confetti.onInk,
               elevation: 2,
               shape: const StadiumBorder(),
               onPressed: () => _expenseSheet(async.value!),

@@ -15,7 +15,13 @@ import '../../dashboard/presentation/widgets/guests_panel.dart';
 import '../../../core/models/models.dart';
 import '../../events/presentation/events_providers.dart';
 import '../../premium/presentation/premium_nudge.dart';
+import '../../../app/router/app_router.dart';
+import '../../commerce/domain/commerce_models.dart';
+import '../../invitations/presentation/auto_reminders_sheet.dart';
+import '../../premium/presentation/paywall.dart';
 import 'remind_sheet.dart';
+import '../../../core/utils/formatters.dart';
+import '../../commerce/presentation/commerce_providers.dart';
 
 enum _Filter { all, yes, pending, no }
 
@@ -105,6 +111,51 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
                     maybeShowPremiumNudge(context, ref, PremiumNudge.guests);
                   }
                 },
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  for (final (feature, icon, label, open) in [
+                    (
+                      PremiumFeature.invitations,
+                      AppIcons.mail,
+                      'Invitation'.tr,
+                      () => context.push(Routes.invitation(e.id)),
+                    ),
+                    (
+                      PremiumFeature.entries,
+                      AppIcons.qr,
+                      'Entrées'.tr,
+                      () => context.push(Routes.entries(e.id)),
+                    ),
+                    (
+                      PremiumFeature.reminders,
+                      AppIcons.reminder,
+                      'Rappels auto'.tr,
+                      () => showAutoReminders(context, e),
+                    ),
+                  ]) ...[
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        onPressed: () => requirePremium(
+                          context,
+                          ref,
+                          feature: feature,
+                          eventId: e.id,
+                          onUnlocked: open,
+                        ),
+                        icon: Icon(icon, size: 16),
+                        label: Text(
+                          label,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                    if (feature != PremiumFeature.reminders)
+                      const SizedBox(width: 6),
+                  ],
+                ],
               ),
               if (g.list.isNotEmpty) ...[
                 const SizedBox(height: 10),
@@ -501,6 +552,20 @@ Future<void> showGuestSheet(
                 if (n == null) {
                   set(() => error = 'Indiquez le nom de l’invité.'.tr);
                   return;
+                }
+                final caps = ref.read(passCapsProvider(eventId));
+                final current = ref.read(eventProvider(eventId)).value;
+                if (caps != null && current != null) {
+                  final others = current.guests.list
+                      .where((x) => x.id != guest?.id)
+                      .fold<int>(0, (s, x) => s + 1 + x.companions);
+                  if (others + 1 + companions > caps.guests) {
+                    set(
+                      () => error = 'Le Pass Événement compte jusqu’à {0} invités, accompagnants compris.'
+                          .trf([formatNumber(caps.guests)]),
+                    );
+                    return;
+                  }
                 }
                 final events = ref.read(eventsProvider.notifier);
                 final saved = Guest(

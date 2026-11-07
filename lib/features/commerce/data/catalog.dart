@@ -26,9 +26,24 @@ abstract final class Catalog {
       sponsor: Sponsor.ofTheMonth,
       responseTime: '30 min',
       packages: [
-        VendorPackage('Soirée', 2500000, 'Salle 18 h – 3 h, mobilier inclus'),
-        VendorPackage('Journée', 3800000, 'Salle et jardin 10 h – 3 h'),
-        VendorPackage('Week-end', 6200000, 'Dot + réception, 2 jours'),
+        VendorPackage(
+          'Soirée',
+          2500000,
+          'Salle 18 h – 3 h, mobilier inclus',
+          '150 invités minimum · acompte de 40 %',
+        ),
+        VendorPackage(
+          'Journée',
+          3800000,
+          'Salle et jardin 10 h – 3 h',
+          'Réservation au moins 60 jours avant',
+        ),
+        VendorPackage(
+          'Week-end',
+          6200000,
+          'Dot + réception, 2 jours',
+          'Caution de 500 000 FCFA restituée après l’état des lieux',
+        ),
       ],
     ),
     Vendor(
@@ -87,7 +102,12 @@ abstract final class Catalog {
       reviews: 178,
       sponsor: Sponsor.recommended,
       packages: [
-        VendorPackage('Essentiel', 450000, 'Arche + 10 centres de table'),
+        VendorPackage(
+          'Essentiel',
+          450000,
+          'Arche + 10 centres de table',
+          'Installation 3 h avant · déplacement hors Abidjan en sus',
+        ),
         VendorPackage('Signature', 1200000, 'Scénographie complète'),
       ],
     ),
@@ -1054,6 +1074,27 @@ abstract final class Catalog {
 
   static Vendor vendor(String id) => vendors.firstWhere((v) => v.id == id);
 
+  /// Formule souscrite par les prestataires de démonstration (badge
+  /// d'abonnement de la fiche publique) ; absents : Découverte.
+  static const vendorPlans = <String, ProPlan>{
+    'latrille': ProPlan.business,
+    'ines-deco': ProPlan.business,
+    'location-prestige': ProPlan.business,
+    'villa-azur': ProPlan.creator,
+    'saveurs': ProPlan.creator,
+    'studio-lumiere': ProPlan.creator,
+    'ballon-studio': ProPlan.starter,
+    'lagune-sound': ProPlan.starter,
+    'glam-fatim': ProPlan.starter,
+  };
+
+  static ProPlan planOf(Vendor v) => vendorPlans[v.id] ?? ProPlan.decouverte;
+
+  /// Badge de qualité visible des organisateurs : note, volume d'avis et
+  /// profil vérifié.
+  static bool qualityOf(Vendor v) =>
+      v.verified && v.rating >= 4.5 && v.reviews >= 10;
+
   static const reviews = [
     Review(
       'Aminata K.',
@@ -1097,33 +1138,55 @@ abstract final class Catalog {
 
   static const planFeatures = <Plan, List<String>>{
     Plan.free: [
+      'Checklist et rétroplanning',
+      'Budget intelligent : prévu, engagé, payé',
       '4 événements actifs',
-      'Coffre-fort numérique 1 Go',
-      'Budget réparti par l’IA et checklist',
       '2 collaborateurs',
+      'Coffre-fort numérique 1 Go',
       'Marketplace et réservations',
     ],
     Plan.azur: [
+      'Invitations numériques et RSVP',
+      'QR code et gestion des entrées',
+      'Rappels WhatsApp et SMS (100 / mois)',
+      'Jusqu’à 5 collaborateurs',
       'Graphiques et export',
       'Coffre-fort numérique 5 Go',
-      'Jusqu’à 5 collaborateurs',
-      'Rappels WhatsApp et SMS',
-      'QR code RSVP',
     ],
     Plan.signature: [
       'Tout Azur',
-      'Agent IA de votre événement',
-      'Coffre-fort numérique 10 Go',
+      'Assistant IA de votre événement',
+      'Comparaison assistée des devis',
       'Collaborateurs illimités',
-      'Négociation de devis par l’IA',
+      'Rappels WhatsApp et SMS (300 / mois)',
+      'Coffre-fort numérique 10 Go',
     ],
     Plan.privilege: [
       'Tout Signature',
-      'Concierge IA prioritaire',
-      'Coffre-fort 20 Go et album privé',
-      'Support WhatsApp 7 j/7',
+      'Concierge Calandix',
+      'Album privé de l’événement',
+      'Assistance prioritaire',
+      'Rappels WhatsApp et SMS (1 000 / mois)',
+      'Coffre-fort numérique 20 Go',
     ],
   };
+
+  /// Contenu du Pass Événement (paiement unique, un événement, 90 jours).
+  static const passFeatures = <String>[
+    'Toutes les fonctionnalités de Privilège',
+    'Jusqu’à 2 000 invités',
+    'Jusqu’à 30 collaborateurs',
+    'Budget avancé et suivi des dépenses',
+    'Checklist et rétroplanning',
+    'Invitations numériques et RSVP',
+    'QR code et gestion des entrées',
+    'Assistant IA et Concierge IA',
+    'Comparaison des devis',
+    'Espace documentaire',
+    'Album privé',
+    'Assistance prioritaire',
+    'Quota de notifications défini',
+  ];
 
   // ─── Agents IA ───────────────────────────────────────────────────────
 

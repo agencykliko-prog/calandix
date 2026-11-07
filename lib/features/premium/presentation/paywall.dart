@@ -153,10 +153,10 @@ class _Paywall extends ConsumerWidget {
               onPaid: () => ref.read(planProvider.notifier).subscribe(plan),
             ),
           ),
-          if (eventId != null && Plan.signature.includes(plan)) ...[
+          if (eventId != null && Plan.privilege.includes(plan)) ...[
             const SizedBox(height: 10),
             PillButton(
-              label: 'Pass Événement · {0} / 30 jours'.trf([
+              label: 'Pass Événement · {0} · 90 jours'.trf([
                 fcfa(eventPassPrice),
               ]),
               icon: AppIcons.ticket,
@@ -164,14 +164,16 @@ class _Paywall extends ConsumerWidget {
               onPressed: () => _pay(
                 context,
                 title: 'Pass Événement'.tr,
-                options: [PayOption('30 jours'.tr, eventPassPrice)],
+                options: [
+                  PayOption('Paiement unique · 90 jours'.tr, eventPassPrice),
+                ],
                 onPaid: () =>
                     ref.read(eventPassProvider.notifier).activate(eventId!),
               ),
             ),
             const SizedBox(height: 6),
             Text(
-              'Les fonctions Signature pour cet événement seulement, sans abonnement.'
+              'Les fonctions Privilège pour cet événement seulement, pendant 90 jours, sans abonnement.'
                   .tr,
               textAlign: TextAlign.center,
               style: context.text.bodySmall?.copyWith(color: Colors.white70),

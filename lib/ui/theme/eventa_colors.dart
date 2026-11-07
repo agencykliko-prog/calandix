@@ -17,24 +17,39 @@ abstract final class Confetti {
 
   static Color get coral => _c(0xFFE01928, 0xFFF0434F); // primaire, CTA
   static Color get coralDeep => _c(0xFFA3101B, 0xFFFF9AA1);
-  static Color get coralTint => _c(0xFFFDE8E9, 0xFF3B1320);
+  static Color get coralTint => _c(0xFFFDE8E9, 0xFF35161C);
 
   static Color get violet =>
-      accent ?? _c(0xFF4D39E2, 0xFF7C6BFF); // couleur principale, CTA
+      _accent ?? _c(0xFF4D39E2, 0xFF7C6BFF); // couleur principale, CTA
+
+  /// Couleur choisie, éclaircie en mode sombre quand elle est trop foncée
+  /// pour rester visible sur le fond nuit (marine, noir, gris anthracite).
+  static Color? get _accent {
+    final a = accent;
+    if (a == null || !dark) return a;
+    final l = a.computeLuminance();
+    if (l >= .18) return a;
+    return Color.lerp(a, const Color(0xFFE8E4F5), l < .03 ? .62 : .4);
+  }
+
   static Color get violetText => accent == null
       ? _c(0xFF3C2BC4, 0xFFB3A7FF)
       : Color.lerp(
-          accent,
+          _accent,
           dark ? Colors.white : Colors.black,
           dark ? .45 : .22,
         )!;
   static Color get violetDeep => accent == null
       ? _c(0xFF251783, 0xFFD4CDFF)
-      : Color.lerp(accent, dark ? Colors.white : Colors.black, dark ? .7 : .5)!;
-  static Color get violetTint => accent == null
-      ? _c(0xFFE9E6FC, 0xFF241A55)
       : Color.lerp(
-          accent,
+          _accent,
+          dark ? Colors.white : Colors.black,
+          dark ? .7 : .5,
+        )!;
+  static Color get violetTint => accent == null
+      ? _c(0xFFE9E6FC, 0xFF2A2152)
+      : Color.lerp(
+          _accent,
           dark ? Colors.black : Colors.white,
           dark ? .72 : .88,
         )!;
@@ -46,40 +61,44 @@ abstract final class Confetti {
   static Color get lagoon => _c(0xFF2CE5B9, 0xFF2CE5B9); // budget
   static Color get lagoonText => _c(0xFF08705A, 0xFF62EDCB);
   static Color get lagoonDeep => _c(0xFF043F33, 0xFFBAF7E8);
-  static Color get lagoonTint => _c(0xFFDDFBF3, 0xFF0D302B);
+  static Color get lagoonTint => _c(0xFFDDFBF3, 0xFF102925);
 
   static Color get mango => _c(0xFFE59D1F, 0xFFEBAC3A); // prestataires
   static Color get mangoText => _c(0xFF7A4E00, 0xFFF4C766);
   static Color get mangoDeep => _c(0xFF4E3200, 0xFFFBE2A8);
-  static Color get mangoTint => _c(0xFFFBEFD3, 0xFF33270C);
+  static Color get mangoTint => _c(0xFFFBEFD3, 0xFF2E2412);
 
   static Color get candy => _c(0xFFDB4F9E, 0xFFE863AD); // équipes
   static Color get candyText => _c(0xFFA11F6C, 0xFFF59BCD);
   static Color get candyDeep => _c(0xFF650E43, 0xFFFBD0E8);
-  static Color get candyTint => _c(0xFFFBE3F0, 0xFF3A1332);
+  static Color get candyTint => _c(0xFFFBE3F0, 0xFF331628);
 
   /// Texte et icônes (violet nuit en clair, lavande pâle en sombre).
   static Color get ink => _c(0xFF1A0637, 0xFFF1EDFA);
 
   /// Premier plan posé sur [ink] (pastilles et boutons « encre »).
-  static Color get onInk => _c(0xFFFFFFFF, 0xFF140829);
-  static Color get night => _c(0xFF221043, 0xFF26174A);
-  static Color get nightLine => _c(0xFF362458, 0xFF3D2C66);
-  static Color get inkMuted => _c(0xFF645A7C, 0xFFB1A8C8);
-  static Color get inkFaint => _c(0xFF9A95AE, 0xFF7C7496);
+  static Color get onInk => _c(0xFFFFFFFF, 0xFF120D21);
+
+  /// Mode sombre : des fonds presque neutres (une pointe de violet), étagés
+  /// du plus profond au plus clair (fond, cartes, surfaces, panneaux nuit)
+  /// pour que chaque niveau se détache sans contour appuyé.
+  static Color get night => _c(0xFF221043, 0xFF2A2347);
+  static Color get nightLine => _c(0xFF362458, 0xFF433A66);
+  static Color get inkMuted => _c(0xFF645A7C, 0xFFBDB6D0);
+  static Color get inkFaint => _c(0xFF9A95AE, 0xFF8F88A8);
   static Color get cream => dark
-      ? const Color(0xFF110722)
+      ? const Color(0xFF0D0B14)
       : (backdrop ?? const Color(0xFFF7F5F2)); // fond
-  static Color get surface => _c(0xFFFFFFFF, 0xFF1B0F33); // cartes
-  static Color get lavender => _c(0xFFEAE7F3, 0xFF271A45); // surfaces
-  static Color get line => _c(0xFFE4E0EC, 0xFF2F2250);
+  static Color get surface => _c(0xFFFFFFFF, 0xFF17141F); // cartes
+  static Color get lavender => _c(0xFFEAE7F3, 0xFF221E2E); // surfaces
+  static Color get line => _c(0xFFE4E0EC, 0xFF2C2739);
 
   /// Contours de contrôles (cases, pastilles vides).
-  static Color get border => _c(0xFFCBC5DA, 0xFF4A3B6E);
+  static Color get border => _c(0xFFCBC5DA, 0xFF4B4560);
 
   /// Or discret réservé aux marqueurs Premium.
   static Color get gold => _c(0xFFD9A93F, 0xFFE0B456);
-  static Color get goldTint => _c(0xFFF7EBCB, 0xFF33290F);
+  static Color get goldTint => _c(0xFFF7EBCB, 0xFF2D2614);
 
   static Color get success => _c(0xFF17804A, 0xFF3DC27C);
   static Color get warning => _c(0xFFA86200, 0xFFF0A23C);

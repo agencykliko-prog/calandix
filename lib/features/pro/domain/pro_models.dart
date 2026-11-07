@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../../../core/i18n/tr.dart';
+import '../../../core/models/models.dart';
 
 // Modèles de l'espace professionnel du Creator (démo locale).
 
@@ -16,12 +17,22 @@ class ProPackage {
     required this.includes,
     this.unit = 'forfait',
     this.active = true,
+    this.conditions = '',
+    this.activity,
   });
 
   final String id;
   final String name;
   final int price;
   final List<String> includes;
+
+  /// Conditions propres à cette offre (acompte, délai, nombre d'invités…),
+  /// en plus des conditions de vente générales.
+  final String conditions;
+
+  /// Activité à laquelle l'offre est rattachée (formule Business) ;
+  /// `null` : l'activité principale.
+  final VendorCategory? activity;
 
   /// « forfait », « par invité », « par heure »…
   final String unit;
@@ -33,6 +44,9 @@ class ProPackage {
     List<String>? includes,
     String? unit,
     bool? active,
+    String? conditions,
+    VendorCategory? activity,
+    bool clearActivity = false,
   }) => ProPackage(
     id: id,
     name: name ?? this.name,
@@ -40,6 +54,8 @@ class ProPackage {
     includes: includes ?? this.includes,
     unit: unit ?? this.unit,
     active: active ?? this.active,
+    conditions: conditions ?? this.conditions,
+    activity: clearActivity ? null : activity ?? this.activity,
   );
 }
 
@@ -123,7 +139,16 @@ class ProCatalog {
     required this.packages,
     required this.options,
     this.terms = const SaleTerms(),
+    this.logo,
+    this.activities = const [],
   });
+
+  /// Logo importé par le prestataire (affiché sur la fiche publique).
+  final Uint8List? logo;
+
+  /// Activités supplémentaires (formule Business) : le prestataire apparaît
+  /// aussi dans ces catégories.
+  final List<VendorCategory> activities;
 
   /// Photos (assets) mises en avant sur la fiche publique.
   final List<String> portfolio;
@@ -142,6 +167,9 @@ class ProCatalog {
     List<ProPackage>? packages,
     List<ProOption>? options,
     SaleTerms? terms,
+    Uint8List? logo,
+    bool clearLogo = false,
+    List<VendorCategory>? activities,
   }) => ProCatalog(
     portfolio: portfolio ?? this.portfolio,
     zones: zones ?? this.zones,
@@ -149,6 +177,8 @@ class ProCatalog {
     packages: packages ?? this.packages,
     options: options ?? this.options,
     terms: terms ?? this.terms,
+    logo: clearLogo ? null : logo ?? this.logo,
+    activities: activities ?? this.activities,
   );
 }
 
@@ -184,12 +214,16 @@ class Availability {
 
 // ─── Commandes & prestations ────────────────────────────────────────────
 
+/// Étapes d'une commande après l'acceptation du devis. Avec « Nouvelle
+/// demande » et « Devis envoyé » (côté demandes), elles forment les
+/// 7 statuts du suivi : le jour J est un repère dans « Prestation confirmée ».
 enum OrderStage {
-  confirmed('Confirmée'),
-  preparing('En préparation'),
+  accepted('Devis accepté'),
+  confirmed('Acompte payé'),
+  preparing('Prestation confirmée'),
   delivering('Jour J'),
-  done('Réalisée'),
-  closed('Clôturée');
+  done('Prestation réalisée'),
+  closed('Commande clôturée');
 
   const OrderStage(this._label);
   final String _label;
@@ -200,7 +234,7 @@ enum OrderStage {
 @immutable
 class OrderProgress {
   const OrderProgress({
-    this.stage = OrderStage.confirmed,
+    this.stage = OrderStage.accepted,
     this.checked = const {},
     this.note,
   });

@@ -69,12 +69,8 @@ const en = <String, String>{
 
   // ─── Compte ────────────────────────────────────────────────────────────
   'Business / Creator': 'Business / Creator',
-  'CRM, devis, facturation · dès 29 900 FCFA/mois':
-      'CRM, quotes, invoicing · from 29,900 FCFA/month',
   'Passer à Premium': 'Upgrade to Premium',
   'Abonnement {0}': '{0} plan',
-  'IA, coffre-fort, collaboration · dès 2 900 FCFA/mois':
-      'AI, vault, collaboration · from 2,900 FCFA/month',
   'Visibilité': 'Visibility',
   'Publicité Premium': 'Premium Ads',
   'Sponsor du mois, mise en avant, résultat sponsorisé':
@@ -451,8 +447,6 @@ const en = <String, String>{
   '{0} · {1} invités': '{0} · {1} guests',
   'Mon profil public': 'My public profile',
   'Gagnez en visibilité': 'Get more visibility',
-  'Publicité Premium et offre Business dès 29 900 FCFA/mois':
-      'Premium Ads and Business plan from 29,900 FCFA/month',
   'Mariage Awa & Kouassi': 'Awa & Kouassi’s wedding',
   'Livraison & installation': 'Delivery & set-up',
   'Arche florale': 'Floral arch',
@@ -589,7 +583,6 @@ const en = <String, String>{
   // ─── Notifications ─────────────────────────────────────────────────────
   'Nouvelle demande de devis': 'New quote request',
   'Awa Traoré · Mariage du 7 déc.': 'Awa Traoré · Wedding on 7 Dec',
-  'Prestation confirmée': 'Service confirmed',
   'Baby shower de Mariam · acompte reçu':
       'Mariam’s baby shower · deposit received',
   'Nouvel avis 5 étoiles': 'New 5-star review',
@@ -705,7 +698,6 @@ const en = <String, String>{
   'Votre agence événementielle, dans une seule app.':
       'Your event agency, in a single app.',
   'Clients, devis, contrats, facturation et équipe. En marque blanche, avec API et automatisations.': 'Clients, quotes, contracts, invoicing and team. White-label, with API and automations.',
-  '29 900 FCFA': '29,900 FCFA',
   'Demander une démo': 'Request a demo',
   'Demande envoyée, un conseiller vous rappelle sous 24 h':
       'Request sent, an advisor will call you back within 24 h',
@@ -945,7 +937,6 @@ const en = <String, String>{
 
   // ─── Divers ────────────────────────────────────────────────────────────
   'Informations professionnelles': 'Business information',
-  'Activité': 'Business',
   'À faire': 'To do',
   '{0} / {1} gratuits': '{0} / {1} free',
   'sur {0}': 'of {0}',
@@ -1095,8 +1086,6 @@ const en = <String, String>{
       'Yes, part of it is covered. Access possible from 2 pm.',
   '{0} (option)': '{0} (option)',
   'Acompte ({0} %)': 'Deposit ({0}%)',
-  'Vous recevrez (après commission 8 %)':
-      'You’ll receive (after 8% commission)',
   'Valable jusqu’au': 'Valid until',
   'Refusée : {0}': 'Declined: {0}',
   'Établir le devis': 'Prepare the quote',
@@ -1275,10 +1264,6 @@ const en = <String, String>{
   // ─── Offre Creator ─────────────────────────────────────────────────────
   'Offre Creator': 'Creator plan',
   'Abonnement Creator': 'Creator subscription',
-  'CRM, devis, facturation · 29 900 FCFA/mois':
-      'CRM, quotes, invoicing · 29,900 FCFA/month',
-  'Abonnement actif · 29 900 FCFA/mois':
-      'Active subscription · 29,900 FCFA/month',
   'Bienvenue dans l’offre Creator': 'Welcome to the Creator plan',
   'Résilier l’offre Creator ?': 'Cancel the Creator plan?',
   'Vos avantages restent actifs jusqu’à la fin de la période payée. Aucun prélèvement ensuite.': 'Your benefits stay active until the end of the paid period. No further charges.',
@@ -1589,16 +1574,11 @@ const en = <String, String>{
       'Then {0}/month. Nothing to pay during the trial.',
   'S’abonner à {0} · {1}/mois': 'Subscribe to {0} · {1}/month',
   'Annuel · 2 mois offerts': 'Yearly · 2 months free',
-  'Pass Événement · {0} / 30 jours': 'Event Pass · {0} / 30 days',
   'Pass Événement': 'Event Pass',
   '30 jours': '30 days',
-  'Les fonctions Signature pour cet événement seulement, sans abonnement.':
-      'Signature features for this event only, no subscription.',
   'Essai {0} activé : 14 jours offerts': '{0} trial on: 14 days free',
   'Pour quel événement ?': 'For which event?',
   'Créez d’abord un événement.': 'Create an event first.',
-  'Pass actif pour « {0} » pendant 30 jours':
-      'Pass active for “{0}” for 30 days',
   '14 jours d’essai gratuit, puis sans engagement. À l’année, 2 mois offerts.':
       '14-day free trial, then no commitment. Yearly: 2 months free.',
   'Essai {0} jusqu’au {1}, puis {2}/mois.':
@@ -1607,8 +1587,6 @@ const en = <String, String>{
   'Essayer 14 jours gratuitement': 'Try free for 14 days',
   'S’abonner directement': 'Subscribe now',
   'PASS ÉVÉNEMENT': 'EVENT PASS',
-  '  FCFA / 30 jours': '  FCFA / 30 days',
-  'Un mariage, un anniversaire, un baptême ? Toutes les fonctions Signature pendant 30 jours, pour un seul événement, sans abonnement.': 'A wedding, a birthday, a christening? All Signature features for 30 days, for one event, no subscription.',
   'Prendre un Pass Événement': 'Get an Event Pass',
   'Essai Creator activé : 14 jours offerts': 'Creator trial on: 14 days free',
   '14 jours d’essai, puis sans engagement · 2 mois offerts à l’année':
@@ -1638,12 +1616,9 @@ const en = <String, String>{
   'Masquer les montants': 'Hide amounts',
   '{0} % engagé': '{0}% committed',
   '{0} engagés · {1} %': '{0} committed · {1}%',
-  'Créer': 'Create',
   'Ajouter une dépense': 'Add an expense',
   'Ouvrir l’événement': 'Open the event',
   'Pass Événement · {0}': 'Event Pass · {0}',
-  'Toutes les fonctions Signature pendant 30 jours, pour un seul événement.':
-      'All Signature features for 30 days, for one event.',
   'Passé': 'Past',
   '+ Nouvel événement': '+ New event',
   'Recommandés': 'Recommended',
@@ -1703,11 +1678,9 @@ const en = <String, String>{
   'Outils de gestion de la réputation': 'Reputation management tools',
   'Plusieurs collaborateurs avec droits d’accès':
       'Several team members with access rights',
-  'Plusieurs activités ou catégories': 'Several businesses or categories',
   'Analyse des ventes et suivi commercial':
       'Sales analysis and pipeline tracking',
   'Mise en avant commerciale renforcée': 'Stronger commercial promotion',
-  'Assistance prioritaire': 'Priority support',
   'Boost de profil': 'Profile boost',
   'Boost de recherche': 'Search boost',
   'Prestataire à la une': 'Featured vendor',
@@ -1745,7 +1718,6 @@ const en = <String, String>{
   'Demander': 'Request',
   'Formules prestataires': 'Vendor plans',
   'Gardez plus sur chaque prestation.': 'Keep more on every job.',
-  'Commencez gratuitement. Quand votre activité grandit, la commission baisse : de 8 % à 3 %, prélevée seulement sur ce que vous encaissez via Calandix.': 'Start for free. As your business grows, the commission drops from 8% to 3%, taken only on what you collect through Calandix.',
   'Votre formule : {0} · commission {1} %': 'Your plan: {0} · {1}% commission',
   'Votre formule': 'Your plan',
   'Commission {0} %': '{0}% commission',
@@ -1794,9 +1766,430 @@ const en = <String, String>{
   'Avec {0}, gardez {1} de plus par mois': 'With {0}, keep {1} more per month',
   'Commission {0} % au lieu de {1} %, abonnement déduit, d’après vos encaissements moyens des 6 derniers mois.': '{0}% commission instead of {1}%, subscription included, based on your average takings over the last 6 months.',
   'Gardez plus sur chaque prestation': 'Keep more on every job',
-  'Commission de 8 % à 3 % selon votre formule · boosts de visibilité dès 1 500 FCFA': '8% to 3% commission depending on your plan · visibility boosts from 1,500 FCFA',
   'Les outils de votre formule, au même endroit.':
       'Your plan’s tools, in one place.',
   'Formule Creator': 'Creator plan',
   'Montants en FCFA, après commission et abonnement du mois, avant frais du partenaire de paiement. ★ : la formule la plus avantageuse à ce niveau.': 'Amounts in FCFA, after commission and the month’s subscription, before payment partner fees. ★: the best plan at this level.',
+
+  // Grille tarifaire du 7 novembre 2026 : Pass Événement et commissions
+  'IA, coffre-fort, collaboration · dès 1 500 FCFA/mois':
+      'AI, vault, collaboration · from 1,500 FCFA/month',
+  'Commencez gratuitement. Quand votre activité grandit, la commission baisse : de 6 % à 2 %, prélevée seulement sur ce que vous encaissez via Calandix.': 'Start for free. As your business grows, the commission drops from 6% to 2%, taken only on what you collect through Calandix.',
+  'Commission de 6 % à 2 % selon votre formule · boosts de visibilité dès 1 500 FCFA': '6% to 2% commission depending on your plan · visibility boosts from 1,500 FCFA',
+  'Toutes les fonctions Privilège pendant 90 jours, pour un seul événement.':
+      'All Privilège features for 90 days, for a single event.',
+  'Pass Événement · {0} · 90 jours': 'Event Pass · {0} · 90 days',
+  'Paiement unique · 90 jours': 'One-time payment · 90 days',
+  'Les fonctions Privilège pour cet événement seulement, pendant 90 jours, sans abonnement.':
+      'Privilège features for this event only, for 90 days, no subscription.',
+  'Pass actif pour « {0} » pendant {1} jours':
+      'Pass active for “{0}” for {1} days',
+  '  FCFA · paiement unique': '  FCFA · one-time payment',
+  '1 événement · 90 jours': '1 event · 90 days',
+  'Organisez votre événement avec toute la puissance de Calandix, sans abonnement.':
+      'Plan your event with the full power of Calandix, no subscription.',
+  'Toutes les fonctionnalités de Privilège, pour un seul événement et pendant 90 jours.':
+      'All Privilège features, for a single event and for 90 days.',
+
+  // Invitations, entrées, album, rappels, Concierge ; espace pro (statistiques, équipe, badges, Studio)
+  'Formule phare': 'Flagship plan',
+  'Formule premium': 'Premium plan',
+  'Checklist et rétroplanning': 'Checklist and countdown plan',
+  'Budget intelligent : prévu, engagé, payé':
+      'Smart budget: planned, committed, paid',
+  'Invitations numériques et RSVP': 'Digital invitations and RSVP',
+  'QR code et gestion des entrées': 'QR code and entry management',
+  'Rappels WhatsApp et SMS (100 / mois)':
+      'WhatsApp and SMS reminders (100 / month)',
+  'Rappels WhatsApp et SMS (300 / mois)':
+      'WhatsApp and SMS reminders (300 / month)',
+  'Rappels WhatsApp et SMS (1 000 / mois)':
+      'WhatsApp and SMS reminders (1,000 / month)',
+  'Assistant IA de votre événement': 'AI assistant for your event',
+  'Comparaison assistée des devis': 'Assisted quote comparison',
+  'Concierge Calandix': 'Calandix Concierge',
+  'Album privé de l’événement': 'Private event album',
+  'Assistance prioritaire': 'Priority support',
+  'Coffre-fort numérique 20 Go': 'Digital vault 20 GB',
+  'Toutes les fonctionnalités de Privilège': 'All Privilège features',
+  'Jusqu’à 2 000 invités': 'Up to 2,000 guests',
+  'Jusqu’à 30 collaborateurs': 'Up to 30 collaborators',
+  'Budget avancé et suivi des dépenses': 'Advanced budget and expense tracking',
+  'Assistant IA et Concierge IA': 'AI assistant and AI Concierge',
+  'Comparaison des devis': 'Quote comparison',
+  'Espace documentaire': 'Document space',
+  'Album privé': 'Private album',
+  'Quota de notifications défini': 'Set notification quota',
+  'Invitations numériques et QR code': 'Digital invitations and QR code',
+  'Gestion des entrées par QR code': 'QR code entry management',
+  'Rappels WhatsApp et SMS automatiques':
+      'Automatic WhatsApp and SMS reminders',
+  'Statistiques commerciales et historique des clients':
+      'Sales statistics and client history',
+  'Studio Calandix : créations, CRM et factures':
+      'Calandix Studio: creations, CRM and invoices',
+  'Équipe multi-utilisateurs, droits par rôle':
+      'Multi-user team, rights by role',
+  'Invitations numériques avec QR code d’entrée, et rappels WhatsApp et SMS automatiques.': 'Digital invitations with an entry QR code, and automatic WhatsApp and SMS reminders.',
+  'Invitations et QR code': 'Invitations and QR code',
+  'Invitation': 'Invitation',
+  'Entrées': 'Entries',
+  'Rappels': 'Reminders',
+  'Rappels auto': 'Auto reminders',
+  'Concierge': 'Concierge',
+  'Album': 'Album',
+  'Élégante': 'Elegant',
+  'Festive': 'Festive',
+  'Épurée': 'Minimal',
+  'Nous serions heureux de vous compter parmi nous pour célébrer ce moment.':
+      'We would be delighted to have you with us to celebrate this moment.',
+  'Bonjour {0} !': 'Hello {0}!',
+  '« {0} »': '“{0}”',
+  'Le {0}': 'On {0}',
+  'Tenue : {0}': 'Dress code: {0}',
+  'Merci de confirmer votre présence avant le {0}, en répondant à ce message.':
+      'Please confirm your attendance before {0} by replying to this message.',
+  'Votre code d’entrée : {0}': 'Your entry code: {0}',
+  'Invitation numérique': 'Digital invitation',
+  'Mise en page': 'Layout',
+  'Mot d’accueil': 'Welcome message',
+  'Tenue souhaitée (facultatif)': 'Dress code (optional)',
+  'Tenue traditionnelle, touche de doré': 'Traditional attire, a touch of gold',
+  'Réponse attendue avant le': 'Reply expected before',
+  'QR code d’entrée personnel': 'Personal entry QR code',
+  'Chaque invité reçoit son code ; il est scanné à l’entrée le jour J.': 'Each guest gets their own code; it is scanned at the entrance on the day.',
+  'Envoyer aux invités': 'Send to guests',
+  'Ajoutez vos invités pour leur envoyer l’invitation.':
+      'Add your guests to send them the invitation.',
+  'Ajouter des invités': 'Add guests',
+  'Sans réponse': 'No reply',
+  'Copier le message': 'Copy the message',
+  'Envoyer par WhatsApp': 'Send via WhatsApp',
+  'Message copié : collez-le dans la conversation de votre choix.':
+      'Message copied: paste it into the conversation of your choice.',
+  'Invitation de {0}': '{0}’s invitation',
+  'Réponse de l’invité': 'Guest’s reply',
+  'Accompagnants : {0}': 'Plus-ones: {0}',
+  'QR code d’entrée': 'Entry QR code',
+  'VOUS ÊTES INVITÉ': 'YOU ARE INVITED',
+  'Réponse souhaitée avant le {0}': 'Please reply before {0}',
+  'Contrôle des entrées': 'Entry check',
+  'PERSONNES ARRIVÉES': 'PEOPLE ARRIVED',
+  '{0} invités entrés sur {1} confirmés, accompagnants compris dans le total.':
+      '{0} of {1} confirmed guests in, plus-ones included in the total.',
+  'Scanner un invité': 'Check a guest',
+  'Saisissez le code inscrit sous le QR code de l’invité. Le scan par la caméra arrive avec l’application mobile.': 'Enter the code printed under the guest’s QR code. Camera scanning comes with the mobile app.',
+  'Code d’entrée': 'Entry code',
+  'Vérifier l’entrée': 'Check entry',
+  'Invités confirmés': 'Confirmed guests',
+  'Aucun invité confirmé pour l’instant. Les réponses arrivent depuis l’invitation.':
+      'No confirmed guests yet. Replies come in from the invitation.',
+  'Nom ou code': 'Name or code',
+  'Entré à {0} · {1} pers.': 'In at {0} · {1} ppl',
+  '{0} · {1} pers.': '{0} · {1} ppl',
+  'Voir son invitation': 'View their invitation',
+  'Faire entrer': 'Let in',
+  'Bienvenue, {0}': 'Welcome, {0}',
+  '{0} personne(s) enregistrée(s).': '{0} person(s) checked in.',
+  'Déjà entré : {0}': 'Already in: {0}',
+  'Ce code a été utilisé à {0}. Vérifiez l’identité avant de laisser entrer.':
+      'This code was used at {0}. Check identity before letting them in.',
+  '{0} n’a pas confirmé': '{0} has not confirmed',
+  'Sa présence n’est pas confirmée : voyez avec l’organisateur.':
+      'Their attendance is not confirmed: check with the organizer.',
+  'Code inconnu': 'Unknown code',
+  'Ce code ne correspond à aucun invité de l’événement.':
+      'This code does not match any guest of the event.',
+  'Équipe d’organisation': 'Organizing team',
+  'Toute personne ayant le lien privé': 'Anyone with the private link',
+  '{0} photo(s) ajoutée(s) à l’album': '{0} photo(s) added to the album',
+  'Qui peut voir l’album': 'Who can see the album',
+  'Les invités peuvent ajouter leurs photos': 'Guests can add their photos',
+  'Les invités peuvent télécharger et partager':
+      'Guests can download and share',
+  'Ajouter des photos': 'Add photos',
+  'Inviter à l’album': 'Invite to the album',
+  'Retrouvez les photos de « {0} » dans l’album privé Calandix. Demandez l’accès à l’organisateur.': 'Find the photos of “{0}” in the private Calandix album. Ask the organizer for access.',
+  'Message d’invitation copié': 'Invitation message copied',
+  'L’album est vide. Ajoutez les premières photos, puis invitez vos proches à partager les leurs.': 'The album is empty. Add the first photos, then invite your loved ones to share theirs.',
+  'Ajoutée par {0} · {1}': 'Added by {0} · {1}',
+  'Retirer de l’album': 'Remove from album',
+  'Invités sans réponse': 'Guests with no reply',
+  'Relance des invités qui n’ont pas encore répondu, 7 jours après l’invitation.': 'Follow-up to guests who have not replied yet, 7 days after the invitation.',
+  'Date limite de réponse': 'Reply deadline',
+  'Rappel aux invités 3 jours avant la date limite de réponse.':
+      'Reminder to guests 3 days before the reply deadline.',
+  'Vos échéances': 'Your deadlines',
+  'Rappel la veille de chaque tâche et de chaque paiement à venir.':
+      'Reminder the day before each upcoming task and payment.',
+  'Tâches des collaborateurs': 'Collaborators’ tasks',
+  'Rappel à chaque collaborateur pour les tâches qui lui sont attribuées.':
+      'Reminder to each collaborator for the tasks assigned to them.',
+  'Rappels automatiques': 'Automatic reminders',
+  'Calandix envoie les rappels à votre place, au bon moment.':
+      'Calandix sends reminders for you, at the right time.',
+  'Quota du mois': 'This month’s quota',
+  '{0} / {1} messages': '{0} / {1} messages',
+  'Les envois s’arrêtent au quota ; il se renouvelle chaque mois.':
+      'Sending stops at the quota; it renews every month.',
+  'Canal d’envoi': 'Sending channel',
+  'Version de démonstration : aucun message n’est réellement envoyé tant que l’envoi WhatsApp et SMS n’est pas branché.': 'Demo version: no message is actually sent until WhatsApp and SMS sending is connected.',
+  'J’organise « {0} » pour {1} personnes à {2}. J’ai besoin d’un traiteur, d’un décorateur et d’un photographe. Mon budget est de {3}. Aide-moi à avancer.': 'I’m organizing “{0}” for {1} people in {2}. I need a caterer, a decorator and a photographer. My budget is {3}. Help me move forward.',
+  'Dites-moi ce dont vous avez besoin.': 'Tell me what you need.',
+  'J’analyse votre demande, je propose un plan, je trouve des prestataires sur Calandix et je prépare vos échéances. Vous gardez la décision.': 'I analyze your request, suggest a plan, find vendors on Calandix and prepare your deadlines. You keep the final say.',
+  'Exemple de demande': 'Sample request',
+  'Votre demande': 'Your request',
+  'Besoins, nombre d’invités, budget…': 'Needs, number of guests, budget…',
+  '1. Vos besoins': '1. Your needs',
+  'Soit environ {0} par invité, tous postes compris.':
+      'That is about {0} per guest, all items included.',
+  '2. Répartition proposée': '2. Suggested split',
+  'Répartition type, à ajuster selon vos priorités.':
+      'Typical split, to adjust to your priorities.',
+  '3. Prestataires pertinents sur Calandix': '3. Relevant vendors on Calandix',
+  '{0} · dès {1}': '{0} · from {1}',
+  '4. Plan d’organisation': '4. Planning',
+  'Réserver le lieu': 'Book the venue',
+  'Choisir et réserver le traiteur': 'Choose and book the caterer',
+  'Valider la décoration': 'Approve the decoration',
+  'Réserver le photographe': 'Book the photographer',
+  'Réserver l’animation': 'Book the entertainment',
+  'Envoyer les invitations': 'Send the invitations',
+  'Confirmer chaque prestataire et l’acompte':
+      'Confirm each vendor and deposit',
+  'Relancer les invités sans réponse': 'Follow up guests with no reply',
+  'Faire le point final avec l’équipe': 'Final check-in with the team',
+  'Ajouter ces échéances à mes tâches': 'Add these deadlines to my tasks',
+  'Ces échéances sont déjà dans vos tâches.':
+      'These deadlines are already in your tasks.',
+  '{0} échéances ajoutées, avec rappels la veille.':
+      '{0} deadlines added, with reminders the day before.',
+  'Le concierge prépare et vous conseille ; il ne réserve ni ne paie rien sans votre accord.': 'The concierge prepares and advises; it never books or pays without your consent.',
+  'Devis accepté': 'Quote accepted',
+  'Acompte payé': 'Deposit paid',
+  'Prestation confirmée': 'Service confirmed',
+  'Prestation réalisée': 'Service delivered',
+  'Commande clôturée': 'Order closed',
+  'Confirmer la prestation': 'Confirm the service',
+  'Commercial': 'Sales',
+  'Traite les demandes et prépare les devis.':
+      'Handles requests and prepares quotes.',
+  'Responsable': 'Manager',
+  'Valide les devis avant leur envoi au client.':
+      'Approves quotes before they are sent to the client.',
+  'Comptable': 'Accountant',
+  'Suit les paiements, les factures et les reversements.':
+      'Tracks payments, invoices and payouts.',
+  'Gère le compte, la formule et l’équipe.':
+      'Manages the account, the plan and the team.',
+  'Travaillez à plusieurs': 'Work as a team',
+  'Commercial, responsable, comptable, administrateur : chacun ses droits. Inclus dans la formule Business.': 'Sales, manager, accountant, administrator: each with their own rights. Included in the Business plan.',
+  'Rôles et droits': 'Roles and rights',
+  'Invitez vos commerciaux, responsables et comptables.':
+      'Invite your sales staff, managers and accountants.',
+  'Badges du profil': 'Profile badges',
+  'Badge d’abonnement': 'Subscription badge',
+  'Aucun': 'None',
+  'Formule {0}': '{0} plan',
+  'Indique la formule souscrite. Il ne dit rien de la qualité des prestations.': 'Shows the plan you subscribed to. It says nothing about service quality.',
+  'Badge de vérification': 'Verification badge',
+  'Non vérifié': 'Not verified',
+  'L’équipe Calandix a contrôlé la pièce d’identité, le RCCM, l’adresse et des réalisations.': 'The Calandix team has checked the ID, the RCCM, the address and past work.',
+  'Faire vérifier mon profil': 'Get my profile verified',
+  'Badge de qualité': 'Quality badge',
+  'Obtenu': 'Earned',
+  'Attribué automatiquement quand tous les critères sont remplis, retiré sinon.':
+      'Awarded automatically when all criteria are met, removed otherwise.',
+  'Note moyenne d’au moins {0}': 'Average rating of at least {0}',
+  'Au moins {0} avis vérifiés': 'At least {0} verified reviews',
+  'Au moins {0} prestations réalisées via Calandix':
+      'At least {0} services delivered via Calandix',
+  'Réponse à 90 % des demandes': 'Reply to 90% of requests',
+  'Statistiques & clients': 'Statistics & clients',
+  '{0} clients': '{0} clients',
+  'Dès la formule Starter': 'From the Starter plan',
+  'Créations, CRM, factures': 'Creations, CRM, invoices',
+  'Comprenez votre activité et retrouvez vos clients.':
+      'Understand your business and find your clients.',
+  'Inclus dès la formule Starter.': 'Included from the Starter plan.',
+  'Visites du profil, demandes, devis, taux de transformation et historique de chaque client : passez à Starter ({0} / mois).': 'Profile visits, requests, quotes, conversion rate and each client’s history: upgrade to Starter ({0} / month).',
+  'Statistiques commerciales': 'Sales statistics',
+  'Visites du profil': 'Profile visits',
+  'Mesure bientôt disponible': 'Tracking coming soon',
+  '30 derniers jours': 'Last 30 days',
+  'Demandes reçues': 'Requests received',
+  'Devis envoyés': 'Quotes sent',
+  'Taux de transformation': 'Conversion rate',
+  'Demandes devenues réservations': 'Requests turned into bookings',
+  'Réservations réalisées': 'Bookings completed',
+  '{0} réservations': '{0} bookings',
+  'Prestations les plus demandées': 'Most requested services',
+  '{0} demandes': '{0} requests',
+  'Historique des clients': 'Client history',
+  'Vos clients apparaîtront ici dès la première demande.':
+      'Your clients will appear here from the first request.',
+  '{0} demandes · {1} commandes · dernière le {2}':
+      '{0} requests · {1} orders · last on {2}',
+  'Catalogue': 'Catalog',
+  'Toutes vos offres sur une page.': 'All your offers on one page.',
+  'Fiche d’offre': 'Offer sheet',
+  'Une offre détaillée, prête à envoyer.': 'A detailed offer, ready to send.',
+  'Visuel promotionnel': 'Promotional visual',
+  'Une offre mise en avant, format carré.': 'A featured offer, square format.',
+  'Brochure numérique': 'Digital brochure',
+  'Présentation de votre activité.': 'An overview of your business.',
+  'Publication réseaux': 'Social post',
+  'Format story pour WhatsApp et Instagram.':
+      'Story format for WhatsApp and Instagram.',
+  'Proposition commerciale': 'Sales proposal',
+  'Une offre personnalisée pour un client.': 'A tailored offer for a client.',
+  'Créer': 'Create',
+  'Des modèles prêts à l’emploi, remplis avec votre catalogue et votre marque.':
+      'Ready-to-use templates, filled with your catalog and brand.',
+  'Image téléchargée': 'Image downloaded',
+  'Le téléchargement d’image arrive avec l’application mobile.':
+      'Image download comes with the mobile app.',
+  'Nom du client': 'Client name',
+  'Télécharger l’image': 'Download the image',
+  'Ajoutez d’abord une offre à votre catalogue.':
+      'Add an offer to your catalog first.',
+  'Nos offres': 'Our offers',
+  'Votre événement, notre savoir-faire': 'Your event, our expertise',
+  'Proposition pour {0}': 'Proposal for {0}',
+  'Proposition valable {0} jours.': 'Proposal valid for {0} days.',
+  'Réservez sur Calandix': 'Book on Calandix',
+
+  // Studio verrouillé
+  'Créations : catalogues, visuels, brochures':
+      'Creations: catalogs, visuals, brochures',
+
+  // Points 1 à 14, Pass déroulant, droits et plafonds (7 nov. 2026)
+  'Assistance prioritaire activée': 'Priority support on',
+  'Vos demandes passent en tête de file et sont suivies par un conseiller, 7 j/7.': 'Your requests jump the queue and are handled by an advisor, 7 days a week.',
+  'Avec Privilège, un Pass Événement ou la formule Business, vos demandes passent en priorité.': 'With Privilège, an Event Pass or the Business plan, your requests are handled first.',
+  'Assistance prioritaire 7 j/7 : écrivez-nous sur WhatsApp, un conseiller traite votre demande en priorité.': 'Priority support 7 days a week: message us on WhatsApp and an advisor will handle your request first.',
+  'Bonjour Calandix, demande prioritaire : j’ai besoin d’aide.':
+      'Hello Calandix, priority request: I need help.',
+  'Album · vue invité': 'Album · guest view',
+  'Un invité': 'A guest',
+  '{0} photo(s) et {1} vidéo(s) ajoutée(s) à l’album':
+      '{0} photo(s) and {1} video(s) added to the album',
+  'Photos et vidéos': 'Photos and videos',
+  'Voir comme un invité': 'View as a guest',
+  '{0} photos · {1} vidéos': '{0} photos · {1} videos',
+  'Aperçu pour : {0}.': 'Preview for: {0}.',
+  'L’album est réservé à l’équipe d’organisation : les invités ne le voient pas.':
+      'The album is limited to the organising team: guests cannot see it.',
+  'Partager mes photos et vidéos': 'Share my photos and videos',
+  'Vidéo': 'Video',
+  '{0} · {1} Mo': '{0} · {1} MB',
+  'Télécharger la vidéo': 'Download the video',
+  'Télécharger la photo': 'Download the photo',
+  'Téléchargement disponible sur le web': 'Download available on the web',
+  '{0} / {1} · Pass': '{0} / {1} · Pass',
+  'Le Pass Événement compte jusqu’à {0} collaborateurs.':
+      'The Event Pass includes up to {0} collaborators.',
+  'Le Pass Événement compte jusqu’à {0} invités, accompagnants compris.':
+      'The Event Pass includes up to {0} guests, plus-ones included.',
+  'Inspirations': 'Inspiration',
+  'Moodboard déco blanc et or — 18 images':
+      'White and gold decor moodboard — 18 images',
+  'Idées de gâteau et table sucrée.pdf': 'Cake and dessert table ideas.pdf',
+  'Bonjour, je prépare « {0} » le {1} à {2}, pour {3} invités. Pouvez-vous me faire une proposition ?': 'Hello, I am planning “{0}” on {1} in {2}, for {3} guests. Could you send me a proposal?',
+  'Demande pré-remplie': 'Pre-filled request',
+  '4. Suivi de vos réservations': '4. Your bookings',
+  '5. Plan d’organisation': '5. Planning schedule',
+  'À demander': 'To request',
+  '{0} · {1} devis': '{0} · {1} quotes',
+  'Comparer les devis reçus': 'Compare the quotes received',
+  'Merci de confirmer votre présence avant le {0} :':
+      'Please confirm your attendance before {0}:',
+  'Accompagnants par invité': 'Plus-ones per guest',
+  'Chaque invité les déclare depuis son lien de réponse.':
+      'Each guest declares them from their reply link.',
+  'Lien de réponse': 'Reply link',
+  'Copier le lien': 'Copy the link',
+  'Lien copié': 'Link copied',
+  'Ouvrir comme l’invité': 'Open as the guest',
+  'Votre invitation': 'Your invitation',
+  'Merci {0}, votre présence est confirmée.':
+      'Thank you {0}, your attendance is confirmed.',
+  'Merci {0}, l’organisateur est prévenu.':
+      'Thank you {0}, the organiser has been told.',
+  'Présentez ce QR code à l’entrée.': 'Show this QR code at the entrance.',
+  'Serez-vous présent ?': 'Will you attend?',
+  'La date limite de réponse est passée, mais vous pouvez encore répondre.':
+      'The reply deadline has passed, but you can still answer.',
+  'Merci de répondre avant le {0}.': 'Please reply before {0}.',
+  'Je serai là': 'I will be there',
+  'Je ne pourrai pas venir': 'I cannot come',
+  'Jusqu’à {0} personnes avec vous.': 'Up to {0} people with you.',
+  'Allergies ou régime alimentaire (facultatif)':
+      'Allergies or diet (optional)',
+  'Envoyer ma réponse': 'Send my reply',
+  'Modifier ma réponse': 'Change my reply',
+  'Invitation introuvable': 'Invitation not found',
+  'Le lien est incomplet ou l’invitation a été retirée. Demandez un nouveau lien à l’organisateur.': 'The link is incomplete or the invitation was withdrawn. Ask the organiser for a new link.',
+  'Découvrir Calandix': 'Discover Calandix',
+  'Enregistrer l’acompte reçu': 'Record the deposit received',
+  'Nouvelle demande': 'New request',
+  'Suivi des commandes': 'Order tracking',
+  'Chaque dossier passe par ces 7 statuts.':
+      'Every job goes through these 7 statuses.',
+  'Masquer le contenu du Pass': 'Hide what the Pass includes',
+  'Voir le contenu du Pass ({0})': 'See what the Pass includes ({0})',
+  'Logo': 'Logo',
+  'Changer le logo': 'Change the logo',
+  'Retirer le logo': 'Remove the logo',
+  'Logo retiré': 'Logo removed',
+  'Logo enregistré': 'Logo saved',
+  'Conditions de cette offre': 'Terms of this offer',
+  'Ex. 50 invités minimum, réservation 30 jours avant':
+      'E.g. 50 guests minimum, booking 30 days ahead',
+  'Activité': 'Activity',
+  'Principale': 'Main',
+  'Autres activités': 'Other activities',
+  'Plusieurs activités ou catégories': 'Several activities or categories',
+  'Avec la formule Business, proposez par exemple la décoration et la location de mobilier sur la même fiche.': 'With the Business plan, offer for example decoration and furniture rental on the same profile.',
+  'Vous apparaissez aussi dans ces catégories. Rattachez ensuite chaque forfait à son activité.': 'You also appear in these categories. Then link each package to its activity.',
+  '{0} est le moins cher, {1} de moins que le plus cher.':
+      '{0} is the cheapest, {1} less than the most expensive.',
+  '{0} inclut le plus de prestations ({1} lignes, contre {2}).':
+      '{0} includes the most services ({1} lines, versus {2}).',
+  '{0} est le mieux noté : {1} sur {2} avis.':
+      '{0} is the best rated: {1} from {2} reviews.',
+  'L’acompte le plus léger : {0} ({1} %).': 'Lowest deposit: {0} ({1}%).',
+  'Le devis de {0} expire le {1} : décidez avant.':
+      'The quote from {0} expires on {1}: decide before then.',
+  'Analyse Calandix': 'Calandix analysis',
+  'Meilleur équilibre prix, contenu et avis : {0}.':
+      'Best balance of price, content and reviews: {0}.',
+  'Seulement chez {0} : {1}.': 'Only from {0}: {1}.',
+  'Calcul indicatif : prix 40 %, note 30 %, contenu 20 %, acompte 10 %. Lisez les conditions avant de choisir.': 'Indicative score: price 40%, rating 30%, content 20%, deposit 10%. Read the terms before choosing.',
+  'Soumettre au responsable': 'Submit to a manager',
+  'Devis de {0} transmis à un responsable pour validation':
+      'Quote of {0} sent to a manager for approval',
+  'Utiliser l’espace en tant que': 'Use the space as',
+  'Autorisé : {0}.': 'Allowed: {0}.',
+  'Votre rôle {0} ne permet pas de {1}.':
+      'Your {0} role does not allow you to {1}.',
+  'traiter les demandes et préparer les devis':
+      'handle requests and prepare quotes',
+  'envoyer un devis au client': 'send a quote to the client',
+  'facturer et encaisser': 'invoice and collect payments',
+  'modifier le catalogue et les conditions': 'edit the catalogue and terms',
+  'gérer l’équipe, la marque et les automatisations':
+      'manage the team, branding and automations',
+  '{0}/{1} tâches': '{0}/{1} tasks',
+  '{0} en retard': '{0} overdue',
+  'Prochaine : {0}': 'Next: {0}',
+  'Tout est fait': 'All done',
+  'Qualité Calandix': 'Calandix quality',
+  'Que signifient ces badges ?': 'What do these badges mean?',
+  'Les badges de {0}': 'Badges of {0}',
+  'Profil non vérifié': 'Profile not verified',
+  'Badge de qualité non obtenu': 'Quality badge not earned',
+  'Attribué sur des critères objectifs : note moyenne d’au moins 4,5, au moins 10 avis vérifiés, prestations réalisées et réponses rapides.': 'Awarded on objective criteria: average rating of at least 4.5, at least 10 verified reviews, completed services and quick replies.',
+  'Sans abonnement': 'No subscription',
+  '{0}\nConditions : {1}': '{0}\nTerms: {1}',
 };

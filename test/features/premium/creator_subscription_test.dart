@@ -12,16 +12,16 @@ void main() {
 
   test('la commission baisse avec la formule, et chaque formule est rentable '
       'au bon seuil', () {
-    expect([for (final p in ProPlan.values) p.commissionPercent], [8, 7, 5, 3]);
+    expect([for (final p in ProPlan.values) p.commissionPercent], [6, 5, 4, 2]);
     expect(
       [for (final p in ProPlan.values) p.yearlyPrice],
-      [0, 49000, 149000, 299000],
+      [0, 30000, 59000, 99000],
     );
     expect(ProPlan.decouverte.catalogLimit, 5);
     expect(ProPlan.starter.catalogLimit, 15);
     expect(ProPlan.creator.catalogLimit, isNull);
-    // 4 900 FCFA d'abonnement / 1 point de commission en moins.
-    expect(ProPlan.starter.breakEven, 490000);
+    // 3 000 FCFA d'abonnement / 1 point de commission en moins.
+    expect(ProPlan.starter.breakEven, 300000);
     expect(ProPlan.starter.studio, isFalse);
     expect(ProPlan.creator.studio, isTrue);
   });
@@ -44,7 +44,7 @@ void main() {
     await tester.pump(const Duration(seconds: 1));
     expect(c.read(creatorSubProvider), isNull);
     expect(c.read(proPlanProvider), ProPlan.decouverte);
-    expect(c.read(proCommissionProvider), 0.08);
+    expect(c.read(proCommissionProvider), 0.06);
     expect(find.text('Formules prestataires'), findsOneWidget);
 
     // 1. Souscription Creator : la feuille de paiement s'ouvre au bon montant.
@@ -59,9 +59,9 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));
     expect(find.text('Abonnement Creator'), findsOneWidget);
-    expect(find.textContaining(RegExp(r'14.900')), findsWidgets);
+    expect(find.textContaining(RegExp(r'5.900')), findsWidgets);
 
-    // 2. Paiement Mobile Money, puis reçu : commission passée à 5 %.
+    // 2. Paiement Mobile Money, puis reçu : commission passée à 4 %.
     final pay = find.textContaining('Payer');
     await tester.ensureVisible(pay);
     await tester.pump();
@@ -74,7 +74,7 @@ void main() {
     expect(sub!.plan, ProPlan.creator);
     expect(sub.cancelled, isFalse);
     expect(sub.renewsOn.difference(sub.since).inDays, 30);
-    expect(c.read(proCommissionProvider), 0.05);
+    expect(c.read(proCommissionProvider), 0.04);
 
     // 3. Retour aux formules : l'abonnement apparaît comme actif.
     await tester.tap(find.text('Terminé'));

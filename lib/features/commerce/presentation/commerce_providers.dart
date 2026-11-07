@@ -78,10 +78,14 @@ int lastOfferPercent(VendorCategory c) => switch (c) {
 
 // ─── Pass Événement ─────────────────────────────────────────────────────
 
-/// Pass Événement : les fonctions Signature pendant 30 jours, pour un seul
-/// événement, sans abonnement.
-const eventPassPrice = 2500;
-const eventPassDays = 30;
+/// Pass Événement : toutes les fonctions Privilège pendant 90 jours, pour un
+/// seul événement, sans abonnement (paiement unique).
+const eventPassPrice = 9900;
+const eventPassDays = 90;
+
+/// Plafonds du Pass Événement.
+const eventPassGuests = 2000;
+const eventPassCollaborators = 30;
 
 /// Fin du pass de chaque événement, par identifiant d'événement.
 class EventPassNotifier extends Notifier<Map<String, DateTime>> {
@@ -101,6 +105,28 @@ final eventPassProvider =
     NotifierProvider<EventPassNotifier, Map<String, DateTime>>(
       EventPassNotifier.new,
     );
+
+/// Plafonds d'un événement couvert par un Pass (et non par un abonnement
+/// Privilège) : invités, accompagnants compris, et collaborateurs.
+/// null : pas de plafond Pass.
+final passCapsProvider =
+    Provider.family<({int guests, int collaborators})?, String>((ref, eventId) {
+      if (ref.watch(planProvider) == Plan.privilege) return null;
+      ref.watch(eventPassProvider);
+      if (!ref.read(eventPassProvider.notifier).active(eventId)) return null;
+      return (guests: eventPassGuests, collaborators: eventPassCollaborators);
+    });
+
+/// Assistance prioritaire : Privilège, un Pass Événement en cours ou,
+/// côté prestataire, la formule Business.
+final prioritySupportProvider = Provider<bool>((ref) {
+  if (ref.watch(profileProvider).isCreator) {
+    return ref.watch(proPlanProvider).includes(ProPlan.business);
+  }
+  if (ref.watch(planProvider) == Plan.privilege) return true;
+  final now = DateTime.now();
+  return ref.watch(eventPassProvider).values.any((d) => d.isAfter(now));
+});
 
 // ─── Formule prestataire ────────────────────────────────────────────────
 
@@ -223,12 +249,12 @@ final proBoostsProvider =
     );
 
 /// Une fonctionnalité est débloquée par l'abonnement.
-/// Le Pass Événement débloque les fonctions Signature de son événement.
+/// Le Pass Événement débloque les fonctions Privilège de son événement.
 final featureUnlockedProvider =
     Provider.family<bool, (PremiumFeature, String?)>((ref, arg) {
       if (ref.watch(planProvider).includes(arg.$1.minPlan)) return true;
       final id = arg.$2;
-      if (id == null || !Plan.signature.includes(arg.$1.minPlan)) return false;
+      if (id == null || !Plan.privilege.includes(arg.$1.minPlan)) return false;
       ref.watch(eventPassProvider);
       return ref.read(eventPassProvider.notifier).active(id);
     });
@@ -291,6 +317,20 @@ class VaultNotifier extends Notifier<List<VaultDoc>> {
         folder: VaultFolder.photos,
         sizeKb: 18400,
         date: ago(3),
+        eventId: w,
+      ),
+      VaultDoc(
+        name: 'Moodboard déco blanc et or — 18 images'.tr,
+        folder: VaultFolder.inspirations,
+        sizeKb: 9600,
+        date: ago(9),
+        eventId: w,
+      ),
+      VaultDoc(
+        name: 'Idées de gâteau et table sucrée.pdf'.tr,
+        folder: VaultFolder.inspirations,
+        sizeKb: 2300,
+        date: ago(5),
         eventId: w,
       ),
       VaultDoc(

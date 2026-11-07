@@ -35,6 +35,7 @@ class _Collaborators extends ConsumerWidget {
       featureUnlockedProvider((PremiumFeature.collaborators, eventId)),
     );
     final used = e.collaborators;
+    final caps = ref.watch(passCapsProvider(eventId));
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
       child: Column(
@@ -55,7 +56,11 @@ class _Collaborators extends ConsumerWidget {
             children: [
               Expanded(
                 child: Meter(
-                  value: unlocked ? 1 : (used / freeCollaborators).clamp(0, 1),
+                  value: caps != null
+                      ? (used / caps.collaborators).clamp(0, 1)
+                      : unlocked
+                      ? 1
+                      : (used / freeCollaborators).clamp(0, 1),
                   color: used > freeCollaborators && !unlocked
                       ? Confetti.coral
                       : Confetti.candy,
@@ -64,7 +69,9 @@ class _Collaborators extends ConsumerWidget {
               ),
               const SizedBox(width: 10),
               Text(
-                unlocked
+                caps != null
+                    ? '{0} / {1} · Pass'.trf([used, caps.collaborators])
+                    : unlocked
                     ? '{0} invités'.trf([used])
                     : '{0} / {1} gratuits'.trf([used, freeCollaborators]),
                 style: context.text.labelMedium,
@@ -78,6 +85,16 @@ class _Collaborators extends ConsumerWidget {
             tone: ButtonTone.dark,
             onPressed: () {
               void open() => _invite(context, ref, e);
+              if (caps != null && used >= caps.collaborators) {
+                toast(
+                  context,
+                  'Le Pass Événement compte jusqu’à {0} collaborateurs.'.trf([
+                    caps.collaborators,
+                  ]),
+                  icon: AppIcons.info,
+                );
+                return;
+              }
               if (used < freeCollaborators) {
                 open();
               } else {

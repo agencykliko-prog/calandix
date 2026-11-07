@@ -82,7 +82,7 @@ class _CropScreenState extends State<_CropScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Confetti.ink,
+      backgroundColor: Confetti.dark ? Confetti.cream : Confetti.ink,
       body: SafeArea(
         child: Column(
           children: [

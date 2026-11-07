@@ -120,8 +120,12 @@ void main() {
     expect(find.text('Le moins cher'), findsOneWidget);
     expect(find.text(cheapest.vendor.name), findsOneWidget);
 
+    // L'analyse Calandix précède les devis : on fait défiler jusqu'au bouton.
     final choose = find.byKey(ValueKey('choose-${cheapest.id}'));
+    await tester.drag(find.byType(ListView).first, const Offset(0, -500));
+    await tester.pump();
     await tester.ensureVisible(choose);
+    await tester.pump();
     await tester.tap(choose);
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));

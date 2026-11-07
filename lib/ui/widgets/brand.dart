@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/eventa_colors.dart';
+
 /// Symbole Calandix : trois cartes empilées (mangue, corail, violet).
 class CalandixMark extends StatelessWidget {
   const CalandixMark({super.key, this.size = 32});
@@ -28,7 +30,10 @@ class CalandixWordmark extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final light = color != null && color!.computeLuminance() > 0.5;
+    // Sans couleur imposée, la version claire suit le mode sombre.
+    final light = color != null
+        ? color!.computeLuminance() > 0.5
+        : Confetti.dark;
     return Image.asset(
       light
           ? 'assets/brand/calandix_logo_light.png'

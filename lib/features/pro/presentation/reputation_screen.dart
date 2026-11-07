@@ -11,6 +11,7 @@ import '../../../ui/widgets/ui.dart';
 import 'creator_providers.dart';
 import '../domain/pro_models.dart';
 import 'pro_providers.dart';
+import 'pro_badges.dart';
 import 'pro_widgets.dart';
 import '../../../ui/dataviz/dataviz.dart';
 
@@ -150,6 +151,7 @@ class ReputationScreen extends ConsumerWidget {
             ),
           ],
         ),
+        const ProBadges(),
         SectionTitle('Satisfaction client'.tr),
         Panel(
           child: Column(

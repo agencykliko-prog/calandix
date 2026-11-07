@@ -89,6 +89,8 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
           ],
         ),
         const SizedBox(height: 18),
+        const OrderPipeline(),
+        const SizedBox(height: 18),
         Row(
           children: [
             Choice(
@@ -256,7 +258,7 @@ class _OrderCard extends ConsumerWidget {
                 label: 'Acompte ({0} %)'.trf([r.depositPercent]),
                 amount: deposit,
                 date: r.receivedAt,
-                done: true,
+                done: p.stage.index >= OrderStage.confirmed.index,
               ),
               _Deadline(
                 label: 'Solde'.tr,
@@ -282,12 +284,13 @@ class _OrderCard extends ConsumerWidget {
               if (nextStage != null)
                 PillButton(
                   label: switch (nextStage) {
-                    OrderStage.preparing => 'Démarrer la préparation'.tr,
+                    OrderStage.confirmed => 'Enregistrer l’acompte reçu'.tr,
+                    OrderStage.preparing => 'Confirmer la prestation'.tr,
                     OrderStage.delivering => 'Passer au jour J'.tr,
                     OrderStage.done => 'Déclarer la prestation réalisée'.tr,
                     OrderStage.closed =>
                       'Clôturer et demander le reversement'.tr,
-                    OrderStage.confirmed => '',
+                    OrderStage.accepted => '',
                   },
                   icon: nextStage == OrderStage.closed
                       ? AppIcons.coins
@@ -328,6 +331,7 @@ class _OrderCard extends ConsumerWidget {
 }
 
 Hue _hue(OrderStage s) => switch (s) {
+  OrderStage.accepted => Hue.sky,
   OrderStage.confirmed => Hue.violet,
   OrderStage.preparing => Hue.mango,
   OrderStage.delivering => Hue.coral,
@@ -335,7 +339,7 @@ Hue _hue(OrderStage s) => switch (s) {
   OrderStage.closed => Hue.ink,
 };
 
-/// Barre d'avancement en 5 étapes.
+/// Barre d'avancement des étapes de la commande.
 class StageBar extends StatelessWidget {
   const StageBar({super.key, required this.stage, this.labels = false});
 
@@ -429,4 +433,87 @@ class _Deadline extends StatelessWidget {
       ],
     ),
   );
+}
+
+/// Les 7 statuts du suivi, de la demande à la clôture, avec le nombre de
+/// dossiers à chaque étape.
+class OrderPipeline extends ConsumerWidget {
+  const OrderPipeline({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pro = ref.watch(proProvider);
+    final requests = ref.watch(requestsProvider);
+    int stage(Set<OrderStage> s) => requests
+        .where(
+          (r) =>
+              r.status == RequestStatus.confirmed &&
+              s.contains(pro.progressOf(r.id).stage),
+        )
+        .length;
+    final steps = <(String, int, Hue)>[
+      (
+        'Nouvelle demande'.tr,
+        requests.where((r) => r.status == RequestStatus.received).length,
+        Hue.sky,
+      ),
+      (
+        'Devis envoyé'.tr,
+        requests.where((r) => r.status == RequestStatus.quoted).length,
+        Hue.peach,
+      ),
+      ('Devis accepté'.tr, stage({OrderStage.accepted}), Hue.sky),
+      ('Acompte payé'.tr, stage({OrderStage.confirmed}), Hue.violet),
+      (
+        'Prestation confirmée'.tr,
+        stage({OrderStage.preparing, OrderStage.delivering}),
+        Hue.mango,
+      ),
+      ('Prestation réalisée'.tr, stage({OrderStage.done}), Hue.lagoon),
+      ('Commande clôturée'.tr, stage({OrderStage.closed}), Hue.ink),
+    ];
+    return Panel(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Suivi des commandes'.tr, style: context.text.titleMedium),
+          const SizedBox(height: 2),
+          Text(
+            'Chaque dossier passe par ces 7 statuts.'.tr,
+            style: context.text.bodySmall,
+          ),
+          const SizedBox(height: 10),
+          for (final (i, (label, n, hue)) in steps.indexed)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              child: Row(
+                children: [
+                  Container(
+                    width: 22,
+                    height: 22,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: hue.tint,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Text(
+                      '${i + 1}',
+                      style: context.text.labelSmall?.copyWith(color: hue.text),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(child: Text(label, style: context.text.bodyMedium)),
+                  Text(
+                    '$n',
+                    style: context.text.titleSmall?.copyWith(
+                      color: n == 0 ? context.eventa.muted : null,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 }

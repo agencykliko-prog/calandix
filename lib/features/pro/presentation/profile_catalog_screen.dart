@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
+import '../../../core/models/models.dart';
+import '../../commerce/domain/commerce_models.dart';
 import '../../../core/i18n/tr.dart';
 import '../../../app/router/app_router.dart';
 import '../../commerce/presentation/commerce_providers.dart';
@@ -19,6 +22,7 @@ import 'pro_providers.dart';
 import 'pro_widgets.dart';
 import 'verification_providers.dart';
 import 'verification_screen.dart';
+import 'team_rights.dart';
 
 /// A. Profil & catalogue : présentation, portfolio, coordonnées, zone,
 /// catégories, forfaits, options et conditions de vente.
@@ -71,8 +75,16 @@ class ProfileCatalogScreen extends ConsumerWidget {
             children: [
               Row(
                 children: [
-                  if (c != null)
-                    IconTile(icon: c.category.icon, hue: Hue.mango, size: 46),
+                  _Logo(
+                    bytes: cat.logo,
+                    initials: (c?.displayName ?? profile.name)
+                        .split(' ')
+                        .where((w) => w.isNotEmpty)
+                        .take(2)
+                        .map((w) => w[0].toUpperCase())
+                        .join(),
+                    onPick: () => _pickLogo(context, ref),
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -242,6 +254,7 @@ class ProfileCatalogScreen extends ConsumerWidget {
               ),
           ],
         ),
+        _Activities(main: c?.category),
         SectionTitle(
           'Forfaits'.tr,
           action: 'Ajouter'.tr,
@@ -287,6 +300,36 @@ class ProfileCatalogScreen extends ConsumerWidget {
                         ],
                       ),
                     ),
+                  if (p.conditions.isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          AppIcons.info,
+                          size: 14,
+                          color: context.eventa.muted,
+                        ),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            p.conditions,
+                            style: context.text.bodySmall?.copyWith(
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                  if (p.activity != null) ...[
+                    const SizedBox(height: 6),
+                    Tag(
+                      label: p.activity!.label,
+                      hue: Hue.gold,
+                      icon: p.activity!.icon,
+                    ),
+                  ],
                   const SizedBox(height: 6),
                   Row(
                     children: [
@@ -378,6 +421,58 @@ class ProfileCatalogScreen extends ConsumerWidget {
     );
   }
 
+  Future<void> _pickLogo(BuildContext context, WidgetRef ref) async {
+    final cat = ref.read(proProvider).catalog;
+    if (cat.logo != null) {
+      final remove = await showEventaSheet<bool>(
+        context,
+        builder: (ctx) => Padding(
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text('Logo'.tr, style: ctx.text.headlineSmall),
+              const SizedBox(height: 14),
+              PillButton(
+                label: 'Changer le logo'.tr,
+                icon: AppIcons.edit,
+                tone: ButtonTone.dark,
+                onPressed: () => Navigator.of(ctx).pop(false),
+              ),
+              const SizedBox(height: 8),
+              PillButton(
+                label: 'Retirer le logo'.tr,
+                tone: ButtonTone.ghost,
+                onPressed: () => Navigator.of(ctx).pop(true),
+              ),
+            ],
+          ),
+        ),
+      );
+      if (remove == null) return;
+      if (remove) {
+        ref
+            .read(proProvider.notifier)
+            .setCatalog(
+              ref.read(proProvider).catalog.copyWith(clearLogo: true),
+            );
+        if (context.mounted) toast(context, 'Logo retiré'.tr);
+        return;
+      }
+    }
+    final file = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 600,
+    );
+    if (file == null) return;
+    final bytes = await file.readAsBytes();
+    ref
+        .read(proProvider.notifier)
+        .setCatalog(ref.read(proProvider).catalog.copyWith(logo: bytes));
+    if (context.mounted) toast(context, 'Logo enregistré'.tr);
+  }
+
   void _editDescription(BuildContext context, WidgetRef ref) {
     final p = ref.read(profileProvider);
     final c = p.creator;
@@ -423,6 +518,7 @@ class ProfileCatalogScreen extends ConsumerWidget {
 
   /// Ajout d'un forfait, dans la limite de la formule.
   void _addPackage(BuildContext context, WidgetRef ref) {
+    if (!checkRight(context, ref, TeamRight.catalog)) return;
     final plan = ref.read(proPlanProvider);
     final limit = plan.catalogLimit;
     final used = ref.read(proProvider).catalog.packages.length;
@@ -465,72 +561,114 @@ class ProfileCatalogScreen extends ConsumerWidget {
   }
 
   void _editPackage(BuildContext context, WidgetRef ref, ProPackage? p) {
+    if (!checkRight(context, ref, TeamRight.catalog)) return;
     final name = TextEditingController(text: p?.name);
     final price = TextEditingController(text: p == null ? '' : '${p.price}');
     final inc = TextEditingController(text: p?.includes.join('\n'));
+    final cond = TextEditingController(text: p?.conditions);
+    final activities = ref.read(proProvider).catalog.activities;
+    var activity = p?.activity;
     showEventaSheet<void>(
       context,
-      builder: (ctx) => ListView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
-        children: [
-          Text(
-            p == null ? 'Nouveau forfait'.tr : 'Modifier le forfait'.tr,
-            style: ctx.text.headlineSmall,
-          ),
-          const SizedBox(height: 12),
-          AppField(label: 'Nom'.tr, controller: name, autofocus: p == null),
-          const SizedBox(height: 12),
-          AppField(
-            label: 'Prix'.tr,
-            controller: price,
-            suffixText: 'FCFA',
-            keyboard: TextInputType.number,
-            formatters: [FilteringTextInputFormatter.digitsOnly],
-          ),
-          const SizedBox(height: 12),
-          AppField(
-            label: 'Ce qui est inclus (une ligne par élément)'.tr,
-            controller: inc,
-            maxLines: 4,
-          ),
-          const SizedBox(height: 14),
-          PillButton(
-            label: 'Enregistrer'.tr,
-            tone: ButtonTone.dark,
-            onPressed: () {
-              final v = int.tryParse(price.text) ?? 0;
-              if (name.text.trim().isEmpty || v <= 0) return;
-              final includes = inc.text
-                  .split('\n')
-                  .map((e) => e.trim())
-                  .where((e) => e.isNotEmpty)
-                  .toList();
-              ref
-                  .read(proProvider.notifier)
-                  .savePackage(
-                    p?.copyWith(
-                          name: name.text.trim(),
-                          price: v,
-                          includes: includes,
-                        ) ??
-                        ProPackage(
-                          id: 'p${DateTime.now().millisecondsSinceEpoch}',
-                          name: name.text.trim(),
-                          price: v,
-                          includes: includes,
-                        ),
-                  );
-              Navigator.of(ctx).pop();
-              toast(context, 'Forfait enregistré'.tr);
-            },
-          ),
-        ],
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, set) => ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+          children: [
+            Text(
+              p == null ? 'Nouveau forfait'.tr : 'Modifier le forfait'.tr,
+              style: ctx.text.headlineSmall,
+            ),
+            const SizedBox(height: 12),
+            AppField(label: 'Nom'.tr, controller: name, autofocus: p == null),
+            const SizedBox(height: 12),
+            AppField(
+              label: 'Prix'.tr,
+              controller: price,
+              suffixText: 'FCFA',
+              keyboard: TextInputType.number,
+              formatters: [FilteringTextInputFormatter.digitsOnly],
+            ),
+            const SizedBox(height: 12),
+            AppField(
+              label: 'Ce qui est inclus (une ligne par élément)'.tr,
+              controller: inc,
+              maxLines: 4,
+            ),
+            const SizedBox(height: 12),
+            AppField(
+              label: 'Conditions de cette offre'.tr,
+              controller: cond,
+              optional: true,
+              maxLines: 3,
+              hint: 'Ex. 50 invités minimum, réservation 30 jours avant'.tr,
+            ),
+            if (activities.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              Text('Activité'.tr, style: ctx.text.titleSmall),
+              const SizedBox(height: 6),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  Choice(
+                    label: 'Principale'.tr,
+                    on: activity == null,
+                    onTap: () => set(() => activity = null),
+                  ),
+                  for (final a in activities)
+                    Choice(
+                      label: a.label,
+                      on: activity == a,
+                      onTap: () => set(() => activity = a),
+                    ),
+                ],
+              ),
+            ],
+            const SizedBox(height: 14),
+            PillButton(
+              label: 'Enregistrer'.tr,
+              tone: ButtonTone.dark,
+              onPressed: () {
+                final v = int.tryParse(price.text) ?? 0;
+                if (name.text.trim().isEmpty || v <= 0) return;
+                final includes = inc.text
+                    .split('\n')
+                    .map((e) => e.trim())
+                    .where((e) => e.isNotEmpty)
+                    .toList();
+                ref
+                    .read(proProvider.notifier)
+                    .savePackage(
+                      p?.copyWith(
+                            name: name.text.trim(),
+                            price: v,
+                            includes: includes,
+                            conditions: cond.text.trim(),
+                            activity: activity,
+                            clearActivity: activity == null,
+                          ) ??
+                          ProPackage(
+                            id: 'p${DateTime.now().millisecondsSinceEpoch}',
+                            name: name.text.trim(),
+                            price: v,
+                            includes: includes,
+                            conditions: cond.text.trim(),
+                            activity: activity,
+                          ),
+                    );
+                Navigator.of(ctx).pop();
+                toast(context, 'Forfait enregistré'.tr);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
 
   void _editOption(BuildContext context, WidgetRef ref, ProOption? o) {
+    if (!checkRight(context, ref, TeamRight.catalog)) return;
     final name = TextEditingController(text: o?.name);
     final price = TextEditingController(text: o == null ? '' : '${o.price}');
     showEventaSheet<void>(
@@ -583,6 +721,7 @@ class ProfileCatalogScreen extends ConsumerWidget {
   }
 
   void _editTerms(BuildContext context, WidgetRef ref) {
+    if (!checkRight(context, ref, TeamRight.catalog)) return;
     var t = ref.read(proProvider).catalog.terms;
     final notes = TextEditingController(text: t.notes);
     showEventaSheet<void>(
@@ -807,6 +946,155 @@ class _CatalogQuota extends ConsumerWidget {
             ),
         ],
       ),
+    );
+  }
+}
+
+/// Logo du prestataire : importé, sinon ses initiales.
+class _Logo extends StatelessWidget {
+  const _Logo({
+    required this.bytes,
+    required this.initials,
+    required this.onPick,
+  });
+
+  final Uint8List? bytes;
+  final String initials;
+  final VoidCallback onPick;
+
+  @override
+  Widget build(BuildContext context) => Pressable(
+    onTap: onPick,
+    semanticLabel: 'Logo'.tr,
+    child: Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          width: 56,
+          height: 56,
+          clipBehavior: Clip.antiAlias,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: Hue.mango.tint,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Confetti.line),
+          ),
+          child: bytes != null
+              ? Image.memory(bytes!, width: 56, height: 56, fit: BoxFit.cover)
+              : Text(
+                  initials,
+                  style: context.text.titleMedium?.copyWith(
+                    color: Hue.mango.text,
+                  ),
+                ),
+        ),
+        Positioned(
+          right: -4,
+          bottom: -4,
+          child: Container(
+            width: 22,
+            height: 22,
+            decoration: BoxDecoration(
+              color: Confetti.surface,
+              shape: BoxShape.circle,
+              border: Border.all(color: Confetti.line),
+            ),
+            child: Icon(
+              bytes == null ? AppIcons.add : AppIcons.edit,
+              size: 12,
+              color: Confetti.ink,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+/// Formule Business : le prestataire ajoute d'autres activités, avec leurs
+/// propres offres, et apparaît dans ces catégories.
+class _Activities extends ConsumerWidget {
+  const _Activities({required this.main});
+
+  final VendorCategory? main;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final plan = ref.watch(proPlanProvider);
+    final cat = ref.watch(proProvider.select((s) => s.catalog));
+    final open = plan.includes(ProPlan.business);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SectionTitle('Autres activités'.tr),
+        if (!open)
+          Panel(
+            onTap: () => context.push(Routes.business),
+            child: Row(
+              children: [
+                IconTile(icon: AppIcons.lock, hue: Hue.gold, size: 38),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Plusieurs activités ou catégories'.tr,
+                        style: context.text.titleSmall,
+                      ),
+                      Text(
+                        'Avec la formule Business, proposez par exemple la décoration et la location de mobilier sur la même fiche.'
+                            .tr,
+                        style: context.text.bodySmall,
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(AppIcons.chevron, size: 14, color: Confetti.inkFaint),
+              ],
+            ),
+          )
+        else ...[
+          Text(
+            'Vous apparaissez aussi dans ces catégories. Rattachez ensuite chaque forfait à son activité.'
+                .tr,
+            style: context.text.bodySmall,
+          ),
+          const SizedBox(height: 10),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final k in VendorCategory.values)
+                if (k != main)
+                  Choice(
+                    label: k.label,
+                    on: cat.activities.contains(k),
+                    onTap: () {
+                      final on = cat.activities.contains(k);
+                      ref
+                          .read(proProvider.notifier)
+                          .setCatalog(
+                            cat.copyWith(
+                              activities: on
+                                  ? cat.activities.where((x) => x != k).toList()
+                                  : [...cat.activities, k],
+                              packages: on
+                                  ? [
+                                      for (final p in cat.packages)
+                                        p.activity == k
+                                            ? p.copyWith(clearActivity: true)
+                                            : p,
+                                    ]
+                                  : null,
+                            ),
+                          );
+                    },
+                  ),
+            ],
+          ),
+        ],
+      ],
     );
   }
 }

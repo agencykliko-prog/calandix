@@ -262,11 +262,11 @@
 },
 {
 "l": "150 à 300",
-"a": "Sur une liste de cette taille, le QR code RSVP (formule Azur) laisse les invités répondre seuls, et la relance WhatsApp prépare chaque message pour vous. Classez vos invités par groupe pour placer les tables."
+"a": "Sur une liste de cette taille, les invitations numériques avec QR code (formule Azur) laissent les invités répondre seuls, et les rappels automatiques relancent ceux qui n'ont pas répondu. Classez vos invités par groupe pour placer les tables."
 },
 {
 "l": "Plus de 300",
-"a": "Pour un grand événement, partagez le suivi des invités entre plusieurs co-organisateurs (collaborateurs illimités avec Signature) et appuyez-vous sur le QR code RSVP pour connaître les présences exactes."
+"a": "Pour un grand événement, partagez le suivi des invités entre plusieurs co-organisateurs (collaborateurs illimités avec Signature) et contrôlez les entrées par QR code le jour J. Le Pass Événement couvre jusqu'à 2 000 invités."
 }
 ],
 "n": "Quel est votre budget global ?",
@@ -300,7 +300,7 @@
 },
 {
 "l": "Plus de 7 millions FCFA",
-"a": "Pour 10 000 000 FCFA : lieu 2 800 000, traiteur 2 400 000, décoration 1 400 000, musique et DJ 1 200 000, photo et vidéo 1 200 000, tenues et beauté 1 000 000 FCFA. À ce niveau, la négociation de devis par l'IA (Signature) peut peser."
+"a": "Pour 10 000 000 FCFA : lieu 2 800 000, traiteur 2 400 000, décoration 1 400 000, musique et DJ 1 200 000, photo et vidéo 1 200 000, tenues et beauté 1 000 000 FCFA. À ce niveau, la comparaison assistée des devis (Signature) peut peser."
 }
 ],
 "n": "Quand a lieu votre événement ?",
@@ -400,27 +400,27 @@
 {
 "l": "Seul ou à deux",
 "r": "Découverte",
-"a": "Découverte, gratuite, suffit pour démarrer : 4 événements actifs, budget réparti par l'IA, checklist, marketplace, 2 collaborateurs et 1 Go de coffre-fort. Passez à Azur pour les graphiques et l'export, les rappels WhatsApp et SMS ou le QR code RSVP."
+"a": "Découverte, gratuite, suffit pour démarrer : checklist et rétroplanning, budget intelligent, 4 événements actifs, marketplace, 2 collaborateurs et 1 Go de coffre-fort. Passez à Azur pour les invitations numériques, le QR code d'entrée et les rappels WhatsApp et SMS."
 },
 {
 "l": "Un seul grand événement",
 "r": "Pass Événement",
-"a": "Le Pass Événement : 2 500 FCFA pour 30 jours de fonctions Signature, sur un seul événement, sans abonnement. Idéal pour un mariage, un anniversaire ou un baptême."
+"a": "Le Pass Événement : 9 900 FCFA en paiement unique, toutes les fonctionnalités de Privilège pendant 90 jours sur un seul événement, jusqu'à 2 000 invités et 30 collaborateurs, sans abonnement. Idéal pour un mariage, un anniversaire ou un baptême."
 },
 {
 "l": "Trois à cinq",
 "r": "Azur",
-"a": "Azur : 1 500 FCFA par mois, ou 15 000 FCFA par an. Jusqu'à 5 collaborateurs, graphiques et export, coffre-fort de 5 Go, rappels WhatsApp et SMS, QR code RSVP. 14 jours d'essai gratuit."
+"a": "Azur : 1 500 FCFA par mois, ou 15 000 FCFA par an. Invitations numériques et RSVP, QR code et gestion des entrées, rappels WhatsApp et SMS (100 par mois), jusqu'à 5 collaborateurs, graphiques et export, coffre-fort de 5 Go. 14 jours d'essai gratuit."
 },
 {
 "l": "Un comité complet",
 "r": "Signature",
-"a": "Signature, la plus choisie : 2 900 FCFA par mois, ou 29 000 FCFA par an. Collaborateurs illimités, agent IA de votre événement, négociation de devis par l'IA et coffre-fort de 10 Go. 14 jours d'essai gratuit."
+"a": "Signature, la formule phare : 2 500 FCFA par mois, ou 25 000 FCFA par an. Tout Azur, assistant IA de votre événement, comparaison assistée des devis, collaborateurs illimités et coffre-fort de 10 Go. 14 jours d'essai gratuit."
 },
 {
 "l": "Je veux être accompagné",
 "r": "Privilège",
-"a": "Privilège : 5 900 FCFA par mois, ou 59 000 FCFA par an. Tout Signature, plus le concierge IA prioritaire, 20 Go de coffre-fort avec album privé et le support WhatsApp 7 j/7. 14 jours d'essai gratuit."
+"a": "Privilège : 4 900 FCFA par mois, ou 49 000 FCFA par an. Tout Signature, plus le Concierge Calandix, l'album privé, l'assistance prioritaire et 20 Go de coffre-fort. 14 jours d'essai gratuit."
 }
 ],
 "k": [
@@ -496,7 +496,7 @@
 },
 {
 "l": "Être payé sans relancer",
-"a": "L'organisateur paie l'acompte dans l'application pour réserver. Après la prestation validée, le montant est reversé sous 2 jours ouvrés sur Wave ou Orange Money, commission de 8 % déduite."
+"a": "L'organisateur paie l'acompte dans l'application pour réserver. Après la prestation validée, le montant est reversé sous 2 jours ouvrés sur Wave ou Orange Money, commission de votre formule déduite (de 6 % à 2 %)."
 },
 {
 "l": "Mieux m'organiser",
@@ -527,7 +527,7 @@
 "o": [
 {
 "l": "Moins de 5",
-"a": "Commencez gratuitement : fiche, devis et reversements sont inclus, vous ne payez que la commission de 8 % sur les prestations payées via l'application."
+"a": "Commencez gratuitement : fiche, devis et reversements sont inclus, vous ne payez que la commission de 6 % sur les prestations payées via l'application."
 },
 {
 "l": "5 à 20",
@@ -707,7 +707,7 @@
 {
 "c": "Organiser un événement",
 "q": "Reçoit-on des notifications ?",
-"a": "L'application vous propose d'activer les notifications à votre arrivée. Les rappels WhatsApp et SMS sont inclus à partir de la formule Azur.",
+"a": "L'application vous propose d'activer les notifications à votre arrivée. Les rappels automatiques par WhatsApp et SMS sont inclus à partir de la formule Azur, dans la limite d'un quota mensuel.",
 "k": [
 "notification",
 "notifications",
@@ -952,11 +952,60 @@
 {
 "c": "Invités et équipe",
 "q": "Y a-t-il un QR code pour les invités ?",
-"a": "Le QR code RSVP fait partie de la formule Azur et des formules supérieures.",
+"a": "Oui : chaque invitation contient un QR code et un code d'entrée uniques. Le jour J, un membre de l'équipe vérifie le code à l'entrée : seul un invité confirmé entre, et une seule fois, ce qui évite les doublons. Inclus dès la formule Azur.",
 "k": [
 "qr",
 "qr code",
 "code"
+]
+},
+{
+"c": "Invités et équipe",
+"q": "Comment envoyer une invitation numérique ?",
+"a": "Créez votre invitation dans l'événement : mise en page, mot d'accueil, tenue souhaitée et date limite de réponse. Envoyez-la ensuite à chaque invité par WhatsApp, ou copiez le message pour l'envoyer ailleurs. Chacun reçoit son code d'entrée personnel. Inclus dès la formule Azur.",
+"k": [
+"invitation numerique",
+"faire-part",
+"carte d invitation",
+"envoyer invitation",
+"inviter mes invites"
+]
+},
+{
+"c": "Invités et équipe",
+"q": "Comment contrôler les entrées le jour J ?",
+"a": "Ouvrez « Entrées » dans l'événement et saisissez le code de l'invité. Calandix indique s'il est confirmé ou déjà entré, et compte les personnes arrivées, accompagnants compris. Le scan par la caméra arrive avec l'application mobile.",
+"k": [
+"entree",
+"controle",
+"scanner",
+"jour j",
+"doublon",
+"liste a l entree"
+]
+},
+{
+"c": "Invités et équipe",
+"q": "Calandix envoie-t-il les rappels automatiquement ?",
+"a": "Oui, à partir d'Azur : relance des invités sans réponse, rappel avant la date limite, vos propres échéances et les tâches des collaborateurs, par WhatsApp ou SMS. Chaque envoi a un coût, d'où un quota mensuel : 100 messages avec Azur, 300 avec Signature et 1 000 avec Privilège ou le Pass Événement.",
+"k": [
+"rappel",
+"relance automatique",
+"sms",
+"quota",
+"whatsapp automatique"
+]
+},
+{
+"c": "Invités et équipe",
+"q": "Qu'est-ce que l'album privé ?",
+"a": "Un espace qui réunit les photos et vidéos de l'événement. Vous choisissez qui le voit (l'équipe, les invités confirmés ou les personnes ayant le lien privé) et si les invités peuvent ajouter ou télécharger des photos. Inclus avec Privilège et le Pass Événement.",
+"k": [
+"album",
+"photos",
+"souvenirs",
+"partager les photos",
+"videos"
 ]
 },
 {
@@ -1194,7 +1243,7 @@
 {
 "c": "Prestataires",
 "q": "Puis-je négocier un devis ?",
-"a": "Vous pouvez échanger avec le prestataire avant d'accepter. Avec la formule Signature, l'IA vous aide en plus à négocier vos devis.",
+"a": "Vous pouvez échanger avec le prestataire avant d'accepter. Avec la formule Signature, l'assistant IA compare en plus vos devis (prix, quantités, prestations incluses, conditions) pour vous aider à comprendre les différences ; il ne choisit pas à votre place.",
 "k": [
 "negocier",
 "baisser le prix",
@@ -1403,8 +1452,8 @@
 {
 "c": "Formules",
 "q": "Combien coûte Calandix ?",
-"a": "L'inscription est gratuite avec la formule Découverte. Puis Azur à 1 500 FCFA, Signature à 2 900 FCFA et Privilège à 5 900 FCFA par mois, avec 14 jours d'essai gratuit ; à l'année, 2 mois sont offerts. Pour un seul événement, le Pass Événement donne les fonctions Signature pendant 30 jours pour 2 500 FCFA. Ces tarifs de démonstration peuvent évoluer avant le lancement.",
-"ap": "Pour un prestataire, la formule Découverte est gratuite, avec une commission de 8 % sur ce que vous encaissez via Calandix. Starter (4 900 FCFA par mois) la ramène à 7 %, Creator (14 900 FCFA) à 5 % avec le Studio professionnel, et Business (29 900 FCFA) à 3 % pour les agences. 14 jours d'essai gratuit, sans carte bancaire ; à l'année, 2 mois offerts.",
+"a": "L'inscription est gratuite avec la formule Découverte. Puis Azur à 1 500 FCFA, Signature à 2 500 FCFA et Privilège à 4 900 FCFA par mois, avec 14 jours d'essai gratuit ; à l'année, 2 mois sont offerts. Pour un seul événement, le Pass Événement donne toutes les fonctionnalités de Privilège pendant 90 jours pour 9 900 FCFA, en paiement unique. Ces tarifs de démonstration peuvent évoluer avant le lancement.",
+"ap": "Pour un prestataire, la formule Découverte est gratuite, avec une commission de 6 % sur ce que vous encaissez via Calandix. Starter (3 000 FCFA par mois) la ramène à 5 %, Creator (5 900 FCFA) à 4 % avec le Studio Calandix, et Business (9 900 FCFA) à 2 % pour les agences. 14 jours d'essai gratuit, sans carte bancaire ; à l'année, 2 mois offerts.",
 "f": [
 "Quelle formule me convient le mieux ?",
 "Quelle est la différence entre le mensuel et l'annuel ?"
@@ -1436,7 +1485,7 @@
 {
 "c": "Formules",
 "q": "Que comprend la formule Azur ?",
-"a": "1 500 FCFA par mois, ou 15 000 FCFA par an (2 mois offerts) : graphiques et export, coffre-fort de 5 Go, jusqu'à 5 collaborateurs, rappels WhatsApp et SMS, QR code RSVP.",
+"a": "1 500 FCFA par mois, ou 15 000 FCFA par an (2 mois offerts) : invitations numériques et RSVP, QR code et gestion des entrées, rappels WhatsApp et SMS (100 par mois), jusqu'à 5 collaborateurs, graphiques et export, coffre-fort de 5 Go.",
 "k": [
 "azur",
 "1500",
@@ -1446,25 +1495,27 @@
 {
 "c": "Formules",
 "q": "Que comprend la formule Signature ?",
-"a": "2 900 FCFA par mois, ou 29 000 FCFA par an (2 mois offerts) : tout Azur, agent IA de votre événement, coffre-fort de 10 Go, collaborateurs illimités et négociation de devis par l'IA.",
+"a": "2 500 FCFA par mois, ou 25 000 FCFA par an (2 mois offerts) : tout Azur, assistant IA de votre événement, comparaison assistée des devis, collaborateurs illimités, rappels WhatsApp et SMS (300 par mois) et coffre-fort de 10 Go.",
 "k": [
 "signature",
-"agent ia",
-"negociation",
-"2900",
-"2 900"
+"assistant ia",
+"comparaison devis",
+"formule phare",
+"2500",
+"2 500"
 ]
 },
 {
 "c": "Formules",
 "q": "Que comprend la formule Privilège ?",
-"a": "5 900 FCFA par mois, ou 59 000 FCFA par an (2 mois offerts) : tout Signature, concierge IA prioritaire, coffre-fort de 20 Go et album privé, support WhatsApp 7 j/7.",
+"a": "4 900 FCFA par mois, ou 49 000 FCFA par an (2 mois offerts) : tout Signature, Concierge Calandix, album privé de l'événement, assistance prioritaire, rappels WhatsApp et SMS (1 000 par mois) et coffre-fort de 20 Go.",
 "k": [
 "privilege",
 "concierge",
 "album",
-"5900",
-"5 900"
+"assistance prioritaire",
+"4900",
+"4 900"
 ]
 },
 {
@@ -1497,7 +1548,7 @@
 {
 "c": "Formules",
 "q": "Quelle est la différence entre le mensuel et l'annuel ?",
-"a": "Au mois, vous payez chaque mois, sans engagement. À l'année, vous payez 10 mois pour 12 : Azur revient à 15 000 FCFA par an au lieu de 18 000, Signature à 29 000 au lieu de 34 800, Privilège à 59 000 au lieu de 70 800.",
+"a": "Au mois, vous payez chaque mois, sans engagement. À l'année, vous payez 10 mois pour 12 : Azur revient à 15 000 FCFA par an au lieu de 18 000, Signature à 25 000 au lieu de 30 000, Privilège à 49 000 au lieu de 58 800.",
 "k": [
 "annuel",
 "annee",
@@ -1510,7 +1561,7 @@
 {
 "c": "Formules",
 "q": "Combien économise-t-on avec l'annuel ?",
-"a": "Deux mois offerts sur douze : 3 000 FCFA par an sur Azur, 5 800 FCFA sur Signature et 11 800 FCFA sur Privilège.",
+"a": "Deux mois offerts sur douze : 3 000 FCFA par an sur Azur, 5 000 FCFA sur Signature et 9 800 FCFA sur Privilège.",
 "k": [
 "economiser",
 "economie",
@@ -1526,7 +1577,7 @@
 {
 "c": "Formules",
 "q": "La formule gratuite suffit-elle ?",
-"a": "Pour beaucoup d'événements, oui : jusqu'à 4 événements actifs, budget réparti par l'IA, checklist, marketplace, réservations, 2 collaborateurs et 1 Go de coffre-fort. L'abonnement ajoute graphiques et export, rappels WhatsApp et SMS, QR code RSVP, plus de collaborateurs et plus d'espace.",
+"a": "Pour beaucoup d'événements, oui : checklist et rétroplanning, budget intelligent, jusqu'à 4 événements actifs, marketplace, réservations, 2 collaborateurs et 1 Go de coffre-fort. L'abonnement ajoute invitations numériques, QR code d'entrée, rappels WhatsApp et SMS, graphiques et export, plus de collaborateurs et plus d'espace.",
 "k": [
 "rester gratuit",
 "sans payer",
@@ -1540,7 +1591,7 @@
 {
 "c": "Formules",
 "q": "Qu'est-ce que le Pass Événement ?",
-"a": "Pour un mariage, un anniversaire, un baptême ou une cérémonie ponctuelle : toutes les fonctions Signature pendant 30 jours, pour un seul événement, à 2 500 FCFA, sans souscrire d'abonnement.",
+"a": "Le Pass Événement coûte 9 900 FCFA, en paiement unique, pour un seul événement pendant 90 jours. Il donne toutes les fonctionnalités de Privilège sans abonnement : jusqu'à 2 000 invités et 30 collaborateurs, budget avancé et suivi des dépenses, checklist et rétroplanning, invitations numériques et RSVP, QR code et gestion des entrées, assistant IA et Concierge IA, comparaison des devis, espace documentaire, album privé, assistance prioritaire et un quota de notifications défini.",
 "k": [
 "pass",
 "pass evenement",
@@ -1548,8 +1599,34 @@
 "un seul evenement",
 "2500",
 "2 500",
-"30 jours",
-"sans abonnement"
+"sans abonnement",
+"90 jours",
+"9900",
+"9 900",
+"paiement unique"
+]
+},
+{
+"c": "Formules",
+"q": "Qu'est-ce que le Concierge Calandix ?",
+"a": "Un service d'aide à l'organisation, inclus avec Privilège et le Pass Événement. Décrivez votre besoin, par exemple un mariage de 300 personnes à Abidjan avec 6 millions FCFA de budget et un traiteur, un décorateur et un photographe à trouver : il analyse la demande, propose une répartition du budget et un plan d'organisation, sélectionne des prestataires sur Calandix et ajoute les échéances à vos tâches. Il prépare, vous décidez.",
+"k": [
+"concierge",
+"aide a l organisation",
+"wedding planner",
+"assistant",
+"debordee"
+]
+},
+{
+"c": "Formules",
+"q": "Qu'est-ce que l'assistance prioritaire ?",
+"a": "Avec Privilège et le Pass Événement, vos demandes au support Calandix sont traitées en priorité. Ce n'est pas une assistance humaine disponible 24 h/24 : les horaires et délais de réponse seront précisés au lancement.",
+"k": [
+"assistance prioritaire",
+"support",
+"priorite",
+"aide rapide"
 ]
 },
 {
@@ -1593,7 +1670,7 @@
 "c": "Prestataires et agences",
 "p": "pro",
 "q": "Quelle est la commission de Calandix ?",
-"a": "Elle baisse quand votre formule monte : 8 % en Découverte, 7 % en Starter, 5 % en Creator et 3 % en Business. Elle n'est prélevée que sur les sommes effectivement encaissées via Calandix : jamais sur une demande de devis, ni sur un devis accepté mais pas encore payé. En cas de paiement en plusieurs fois, elle suit chaque échéance encaissée.",
+"a": "Elle baisse quand votre formule monte : 6 % en Découverte, 5 % en Starter, 4 % en Creator et 2 % en Business. Elle n'est prélevée que sur les sommes effectivement encaissées via Calandix : jamais sur une demande de devis, ni sur un devis accepté mais pas encore payé. En cas de paiement en plusieurs fois, elle suit chaque échéance encaissée.",
 "k": [
 "commission",
 "8",
@@ -1657,7 +1734,7 @@
 "c": "Prestataires et agences",
 "p": "pro",
 "q": "Quelles sont les formules prestataires ?",
-"a": "Quatre formules : Découverte (gratuite, commission 8 %, 5 prestations au catalogue), Starter (4 900 FCFA par mois, 7 %, 15 prestations), Creator (14 900 FCFA, 5 %, Studio professionnel) et Business (29 900 FCFA, 3 %, plusieurs collaborateurs et activités). À l'année, vous payez 10 mois pour 12. Starter, Creator et Business s'essaient 14 jours gratuitement, sans carte bancaire.",
+"a": "Quatre formules : Découverte (gratuite, commission 6 %, 5 prestations au catalogue), Starter (3 000 FCFA par mois ou 30 000 par an, 5 %, 15 prestations, statistiques et historique des clients), Creator (5 900 FCFA ou 59 000 par an, 4 %, Studio Calandix) et Business (9 900 FCFA ou 99 000 par an, 2 %, équipe multi-utilisateurs). Starter, Creator et Business s'essaient 14 jours gratuitement, sans carte bancaire.",
 "f": [
 "Qu'est-ce que la formule Creator ?",
 "Comment booster ma visibilité ?"
@@ -1712,15 +1789,69 @@
 "c": "Prestataires et agences",
 "p": "pro",
 "q": "Qu'est-ce que la formule Creator ?",
-"a": "La formule des prestataires qui veulent développer leur clientèle : 14 900 FCFA par mois (149 000 FCFA à l'année), commission ramenée à 5 %, catalogue sans limite, Studio professionnel Calandix, visibilité renforcée dans les résultats pertinents et suivi des acomptes et reversements. 14 jours d'essai gratuit, sans engagement.",
+"a": "La formule des prestataires qui veulent développer leur clientèle : 5 900 FCFA par mois (59 000 FCFA à l'année), commission ramenée à 4 %, catalogue sans limite, Studio Calandix (catalogues, visuels, brochures, propositions commerciales), visibilité renforcée dans les résultats pertinents et suivi des acomptes et reversements. 14 jours d'essai gratuit, sans engagement.",
 "k": [
 "offre creator",
 "formule creator",
 "studio",
-"14 900",
-"14900",
 "crm",
-"abonnement pro"
+"abonnement pro",
+"5 900",
+"5900"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Que permet le Studio Calandix ?",
+"a": "Dès la formule Creator, le Studio crée des supports à partir de votre catalogue et de votre marque : catalogue, fiche d'offre, visuel promotionnel, brochure numérique, publication pour les réseaux sociaux et proposition commerciale personnalisée, à télécharger en image. Il réunit aussi CRM, factures et automatisations.",
+"k": [
+"studio",
+"visuel",
+"brochure",
+"catalogue numerique",
+"publication",
+"proposition commerciale"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Quelles statistiques puis-je suivre ?",
+"a": "Dès Starter : visites de votre profil, demandes reçues, devis envoyés, taux de transformation, montant des réservations réalisées et prestations les plus demandées, avec l'historique de chaque client (événements, demandes et commandes).",
+"k": [
+"statistiques",
+"visites",
+"taux de transformation",
+"historique clients",
+"chiffres"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Puis-je travailler à plusieurs dans mon espace pro ?",
+"a": "Oui, avec la formule Business : invitez vos collaborateurs avec un rôle adapté. Le commercial traite les demandes, le responsable valide les devis, le comptable suit les paiements et l'administrateur gère le compte.",
+"k": [
+"equipe",
+"collaborateurs",
+"agence",
+"multi utilisateurs",
+"roles",
+"comptable"
+]
+},
+{
+"c": "Prestataires et agences",
+"p": "pro",
+"q": "Quels badges puis-je obtenir ?",
+"a": "Trois badges distincts. Le badge d'abonnement indique votre formule. Le badge de vérification indique que l'équipe Calandix a contrôlé vos pièces. Le badge de qualité s'obtient sur des critères objectifs : note moyenne d'au moins 4,5, au moins 10 avis vérifiés, 5 prestations réalisées via Calandix, réponse à 90 % des demandes et profil vérifié.",
+"k": [
+"badge",
+"verifie",
+"qualite",
+"label",
+"certification"
 ]
 },
 {
@@ -1811,7 +1942,7 @@
 "c": "Prestataires et agences",
 "p": "pro",
 "q": "Combien vais-je toucher sur une prestation ?",
-"a": "Le montant encaissé, moins la commission de votre formule. Pour une prestation de 500 000 FCFA : 460 000 FCFA en Découverte (8 %), 465 000 en Starter (7 %), 475 000 en Creator (5 %) et 485 000 en Business (3 %), avant frais du partenaire de paiement. Le reversement arrive sous 2 jours ouvrés sur Wave ou Orange Money.",
+"a": "Le montant encaissé, moins la commission de votre formule. Pour une prestation de 500 000 FCFA : 470 000 FCFA en Découverte (6 %), 475 000 en Starter (5 %), 480 000 en Creator (4 %) et 490 000 en Business (2 %), avant frais du partenaire de paiement. Le reversement arrive sous 2 jours ouvrés sur Wave ou Orange Money.",
 "k": [
 "combien je touche",
 "net",
@@ -1891,7 +2022,7 @@
 "c": "Prestataires et agences",
 "p": "pro",
 "q": "Une formule payante est-elle obligatoire ?",
-"a": "Non : la formule Découverte est gratuite et le reste. Les formules Starter, Creator et Business baissent la commission et ajoutent des outils ; à partir d'environ 500 000 FCFA encaissés par mois, la baisse de commission couvre l'abonnement. Rien n'est facturé sans votre accord.",
+"a": "Non : la formule Découverte est gratuite et le reste. Les formules Starter, Creator et Business baissent la commission et ajoutent des outils ; à partir d'environ 250 000 à 300 000 FCFA encaissés par mois, la baisse de commission couvre l'abonnement. Rien n'est facturé sans votre accord.",
 "k": [
 "obligatoire",
 "sans abonnement",

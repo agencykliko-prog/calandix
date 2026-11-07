@@ -13,11 +13,12 @@ import '../domain/pro_models.dart';
 import '../../commerce/domain/commerce_models.dart';
 import 'pro_providers.dart';
 import 'studio_providers.dart';
+import '../../commerce/presentation/commerce_providers.dart';
 import 'verification_providers.dart';
 import 'verification_screen.dart';
 import 'signature_provider.dart';
 
-/// Accès aux huit sections de l'espace pro, chacune avec son chiffre clé.
+/// Accès aux sections de l'espace pro, chacune avec son chiffre clé.
 class ProHub extends ConsumerWidget {
   const ProHub({super.key});
 
@@ -106,18 +107,28 @@ class ProHub extends ConsumerWidget {
       ),
       (
         'G',
+        AppIcons.chart,
+        Hue.lagoon,
+        'Statistiques & clients'.tr,
+        ref.watch(proPlanProvider).includes(ProPlan.starter)
+            ? '{0} clients'.trf([ref.watch(studioClientsProvider).length])
+            : 'Dès la formule Starter'.tr,
+        '/pro/statistiques',
+      ),
+      (
+        'H',
         AppIcons.crown,
         Hue.gold,
         'Studio Creator'.tr,
         studio
-            ? 'CRM, factures, équipe'.tr
+            ? 'Créations, CRM, factures'.tr
             : 'Dès la formule Creator · {0}/mois'.trf([
                 fcfaCompact(ProPlan.creator.price),
               ]),
         '/pro/studio',
       ),
       (
-        'H',
+        'I',
         verification.step.icon,
         verification.step.hue,
         'Vérification'.tr,
@@ -125,7 +136,7 @@ class ProHub extends ConsumerWidget {
         '/pro/verification',
       ),
       (
-        'I',
+        'J',
         AppIcons.edit,
         Hue.violet,
         'Ma signature'.tr,

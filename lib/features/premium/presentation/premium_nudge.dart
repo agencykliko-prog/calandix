@@ -31,7 +31,7 @@ enum PremiumNudge {
   /// Le budget est consulté souvent : graphiques et export.
   budget(Plan.azur),
 
-  /// Relance des invités : rappels et QR code RSVP.
+  /// Relance des invités : invitations, QR code et rappels.
   guests(Plan.azur);
 
   const PremiumNudge(this.plan);
@@ -55,7 +55,7 @@ enum PremiumNudge {
       'Suivez chaque poste en graphiques et exportez votre budget pour le partager.'
           .tr,
     guests =>
-      'Vos invités scannent le QR code RSVP et répondent ; les rappels WhatsApp et SMS complètent.'
+      'Invitations numériques avec QR code d’entrée, et rappels WhatsApp et SMS automatiques.'
           .tr,
   };
 
@@ -70,7 +70,7 @@ enum PremiumNudge {
     _ => [
       (AppIcons.lock, 'Coffre-fort 5 Go'.tr),
       (AppIcons.whatsapp, 'Rappels WhatsApp et SMS'.tr),
-      (AppIcons.qr, 'QR code RSVP'.tr),
+      (AppIcons.qr, 'Invitations et QR code'.tr),
       (AppIcons.chart, 'Graphiques et export'.tr),
     ],
   };

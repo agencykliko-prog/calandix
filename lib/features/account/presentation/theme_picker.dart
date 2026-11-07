@@ -25,20 +25,7 @@ const _presets = [
 ];
 
 /// Couleurs assez soutenues pour porter boutons et accents.
-const _accents = [
-  0xFF0D1639,
-  0xFF7DA1B1,
-  0xFF0DD392,
-  0xFF2373E1,
-  0xFFB400FF,
-  0xFFFF5C35,
-  0xFF000000,
-  0xFF454545,
-  0xFF102930,
-  0xFF4FA6F3,
-  0xFFFD9467,
-  0xFF808080,
-];
+const _accents = [0xFF0D1639, 0xFF7DA1B1, 0xFF0DD392];
 
 /// Couleurs claires, pour le fond de l'interface.
 const _backdrops = [0xFFFFFFFF, 0xFFD4FDD1, 0xFFC8F0FD];

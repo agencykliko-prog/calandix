@@ -17,6 +17,9 @@ import 'pro_widgets.dart';
 import 'studio_providers.dart';
 import '../../../ui/dataviz/dataviz.dart';
 import 'signature_screen.dart';
+import 'studio_creations.dart';
+import 'team_rights.dart';
+import '../../marketplace/presentation/explore_screen.dart';
 
 /// Studio Creator : CRM, facturation, équipe, automatisations, marque
 /// blanche, statistiques avancées et API. Inclus dans les formules Creator
@@ -36,6 +39,7 @@ class StudioScreen extends ConsumerWidget {
           ? const [
               _SubBanner(),
               _Stats(),
+              StudioCreations(),
               _Crm(),
               _Invoices(),
               _Team(),
@@ -58,7 +62,7 @@ class _Locked extends StatelessWidget {
     const features = [
       (AppIcons.crm, 'CRM clients avec notes privées'),
       (AppIcons.invoice, 'Factures en un geste, suivi des paiements'),
-      (AppIcons.team, 'Équipe multi-utilisateurs'),
+      (AppIcons.palette, 'Créations : catalogues, visuels, brochures'),
       (AppIcons.lightning, 'Automatisations des relances'),
       (AppIcons.palette, 'Marque blanche sur vos documents'),
       (AppIcons.chart, 'Statistiques avancées'),
@@ -376,6 +380,7 @@ class _Invoices extends ConsumerWidget {
                     expand: false,
                     height: 38,
                     onPressed: () {
+                      if (!checkRight(context, ref, TeamRight.billing)) return;
                       final inv = ref.read(studioProvider.notifier).invoice(r);
                       if (inv != null) {
                         toast(
@@ -451,9 +456,12 @@ class _Invoices extends ConsumerWidget {
                       tone: ButtonTone.ghost,
                       expand: false,
                       height: 38,
-                      onPressed: () => ref
-                          .read(studioProvider.notifier)
-                          .markPaid(inv.number),
+                      onPressed: () {
+                        if (!checkRight(context, ref, TeamRight.billing)) {
+                          return;
+                        }
+                        ref.read(studioProvider.notifier).markPaid(inv.number);
+                      },
                     ),
                 ],
               ),
@@ -470,7 +478,8 @@ class _Team extends ConsumerWidget {
   const _Team();
 
   Future<void> _invite(BuildContext context, WidgetRef ref) async {
-    var role = TeamRole.planner;
+    if (!checkRight(context, ref, TeamRight.admin)) return;
+    var role = TeamRole.sales;
     final name = await showEventaSheet<String>(
       context,
       builder: (ctx) => _FieldSheet(
@@ -505,6 +514,8 @@ class _Team extends ConsumerWidget {
                       ),
                   ],
                 ),
+                const SizedBox(height: 8),
+                Text(role.rights, style: ctx.text.bodySmall),
                 const SizedBox(height: 14),
                 PillButton(
                   label: 'Envoyer l’invitation'.tr,
@@ -532,6 +543,42 @@ class _Team extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final team = ref.watch(studioProvider.select((s) => s.team));
+    // Plusieurs collaborateurs avec droits : formule Business.
+    if (!ref.watch(proPlanProvider).includes(ProPlan.business)) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SectionTitle('Équipe'.tr),
+          Panel(
+            onTap: () => context.push(Routes.business),
+            child: Row(
+              children: [
+                IconTile(icon: AppIcons.team, hue: Hue.gold, size: 40),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Travaillez à plusieurs'.tr,
+                        style: context.text.titleSmall,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        'Commercial, responsable, comptable, administrateur : chacun ses droits. Inclus dans la formule Business.'
+                            .tr,
+                        style: context.text.bodySmall,
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(AppIcons.lock, size: 18, color: Hue.gold.text),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -540,9 +587,35 @@ class _Team extends ConsumerWidget {
           action: 'Inviter'.tr,
           onAction: () => _invite(context, ref),
         ),
+        Panel(
+          padding: const EdgeInsets.fromLTRB(14, 12, 14, 6),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Rôles et droits'.tr, style: context.text.titleSmall),
+              const SizedBox(height: 6),
+              for (final r in TeamRole.values)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 6),
+                  child: Text.rich(
+                    TextSpan(
+                      text: '${r.label} · ',
+                      style: context.text.labelMedium,
+                      children: [
+                        TextSpan(text: r.rights, style: context.text.bodySmall),
+                      ],
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 8),
+        const _ActingRole(),
+        const SizedBox(height: 8),
         if (team.isEmpty)
           Text(
-            'Invitez vos chefs de projet et votre équipe terrain.'.tr,
+            'Invitez vos commerciaux, responsables et comptables.'.tr,
             style: context.text.bodyMedium,
           ),
         for (final m in team)
@@ -571,8 +644,10 @@ class _Team extends ConsumerWidget {
                   IconButton(
                     tooltip: 'Retirer {0}'.trf([m.name]),
                     icon: const Icon(AppIcons.trash, size: 18),
-                    onPressed: () =>
-                        ref.read(studioProvider.notifier).remove(m.name),
+                    onPressed: () {
+                      if (!checkRight(context, ref, TeamRight.admin)) return;
+                      ref.read(studioProvider.notifier).remove(m.name);
+                    },
                   ),
                 ],
               ),
@@ -618,7 +693,9 @@ class _Automations extends ConsumerWidget {
                         key: ValueKey('auto-${a.name}'),
                         value: on.contains(a),
                         onChanged: (_) =>
-                            ref.read(studioProvider.notifier).toggle(a),
+                            checkRight(context, ref, TeamRight.admin)
+                            ? ref.read(studioProvider.notifier).toggle(a)
+                            : null,
                       ),
                     ],
                   ),
@@ -683,7 +760,11 @@ class _BrandState extends ConsumerState<_Brand> {
                         selected: c == s.brandColor,
                         label: 'Couleur de marque'.tr,
                         child: GestureDetector(
-                          onTap: () => n.setBrand(color: c),
+                          onTap: () {
+                            if (checkRight(context, ref, TeamRight.admin)) {
+                              n.setBrand(color: c);
+                            }
+                          },
                           child: Container(
                             width: 32,
                             height: 32,
@@ -808,4 +889,46 @@ class _FieldSheetState extends State<_FieldSheet> {
 
   @override
   Widget build(BuildContext context) => widget.builder(context, _ctrl);
+}
+
+/// Démo : se mettre à la place d'un membre pour vérifier ses droits.
+class _ActingRole extends ConsumerWidget {
+  const _ActingRole();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final role = ref.watch(actingRoleProvider);
+    return Panel(
+      padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Utiliser l’espace en tant que'.tr,
+            style: context.text.titleSmall,
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final r in TeamRole.values)
+                Choice(
+                  label: r.label,
+                  on: r == role,
+                  onTap: () => ref.read(actingRoleProvider.notifier).set(r),
+                ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Autorisé : {0}.'.trf([
+              [for (final g in role.grants) g.label].join(', '),
+            ]),
+            style: context.text.bodySmall,
+          ),
+        ],
+      ),
+    );
+  }
 }

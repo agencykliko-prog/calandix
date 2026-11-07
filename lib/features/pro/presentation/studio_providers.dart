@@ -56,14 +56,21 @@ class StudioInvoice {
   );
 }
 
+/// Rôles d'une équipe d'agence, chacun avec les droits de son métier.
 enum TeamRole {
-  admin('Administrateur'),
-  planner('Chef de projet'),
-  staff('Équipe terrain');
+  sales('Commercial', 'Traite les demandes et prépare les devis.'),
+  manager('Responsable', 'Valide les devis avant leur envoi au client.'),
+  accountant(
+    'Comptable',
+    'Suit les paiements, les factures et les reversements.',
+  ),
+  admin('Administrateur', 'Gère le compte, la formule et l’équipe.');
 
-  const TeamRole(this._label);
+  const TeamRole(this._label, this._rights);
   final String _label;
+  final String _rights;
   String get label => _label.tr;
+  String get rights => _rights.tr;
 }
 
 @immutable

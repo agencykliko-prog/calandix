@@ -549,6 +549,8 @@ html.smooth .vs-item { position: relative; top: auto; }
 .pass-kicker { font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--mango-hi); }
 .pass-price { margin: 6px 0 8px; font-weight: 600; color: rgba(255, 255, 255, .75); }
 .pass-price b { font-size: 34px; font-weight: 800; color: var(--white); }
+.pass-list { display: flex; flex-wrap: wrap; gap: 6px 8px; margin: 14px 0 0; padding: 0; list-style: none; }
+.pass-list li { padding: 5px 11px; border-radius: 99px; background: rgba(255, 255, 255, .09); font-size: 13px; color: rgba(255, 255, 255, .88); }
 .pass .plan-btn { margin-top: 0; padding: 0 26px; background: var(--mango-hi); color: var(--ink); }
 .billing { display: flex; width: max-content; max-width: 100%; margin: -8px auto 36px; padding: 5px; border-radius: 99px; background: var(--white); border: 1px solid rgba(26, 6, 55, .12); }
 .billing button { display: flex; align-items: center; gap: 8px; height: 42px; padding: 0 20px; border: 0; border-radius: 99px; background: none; color: var(--ink); font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; transition: background-color .25s, color .25s; }
@@ -561,6 +563,7 @@ html.smooth .vs-item { position: relative; top: auto; }
 [data-theme="dark"] .billing button[aria-pressed="true"] { background: var(--violet); }
 [data-theme="dark"] .bill-note { color: #A99BFF; }
 .badge { position: absolute; top: -14px; right: 24px; background: var(--mango-hi); color: var(--ink); border-radius: 99px; padding: 6px 14px; font-size: 13px; font-weight: 800; transform: rotate(4deg); }
+.badge-soft { background: var(--violet, #4D39E2); color: #fff; transform: rotate(-3deg); }
 .fine { text-align: center; color: var(--muted); font-size: 14px; margin-top: 28px; }
 
 /* ── FAQ ────────────────────────────────────────────────── */

@@ -7,7 +7,9 @@ import 'package:eventa/features/pro/presentation/availability_screen.dart';
 import 'package:eventa/features/pro/presentation/orders_screen.dart';
 import 'package:eventa/features/pro/presentation/profile_catalog_screen.dart';
 import 'package:eventa/features/pro/presentation/pro_providers.dart';
+import 'package:eventa/features/pro/presentation/pro_stats_screen.dart';
 import 'package:eventa/features/pro/presentation/reputation_screen.dart';
+import 'package:eventa/features/pro/presentation/studio_screen.dart';
 import 'package:eventa/features/pro/presentation/request_detail_screen.dart';
 import 'package:eventa/features/pro/presentation/revenue_screen.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +34,8 @@ void main() {
     'commandes': const OrdersScreen(),
     'revenus': const RevenueScreen(),
     'réputation': const ReputationScreen(),
+    'statistiques': const ProStatsScreen(),
+    'studio': const StudioScreen(),
   };
 
   for (final size in const [Size(375, 812), Size(1280, 860)]) {
@@ -75,7 +79,11 @@ void main() {
     expect(r.status, RequestStatus.quoted);
     expect(r.quote, 1285000);
     expect(r.depositPercent, 50);
-    expect(r.validUntil!.difference(DateTime.now()).inDays, 13);
+    // 14 jours à quelques millisecondes près, selon la précision de l'horloge.
+    expect(
+      r.validUntil!.difference(DateTime.now()).inMinutes,
+      inInclusiveRange(14 * 24 * 60 - 1, 14 * 24 * 60),
+    );
   });
 
   test('un refus garde son motif', () {

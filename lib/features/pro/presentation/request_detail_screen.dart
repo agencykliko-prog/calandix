@@ -18,6 +18,7 @@ import '../../commerce/presentation/commerce_providers.dart';
 import 'pro_providers.dart';
 import 'pro_widgets.dart';
 import 'signature_provider.dart';
+import 'team_rights.dart';
 import 'signature_screen.dart';
 
 /// C. Devis & demandes : détail d'une demande, questions au client,
@@ -367,6 +368,7 @@ class _RequestDetailState extends ConsumerState<RequestDetailScreen> {
   }
 
   void _decline(BuildContext context, ClientRequest r) {
+    if (!checkRight(context, ref, TeamRight.quotes)) return;
     var reason = 'Date indisponible'.tr;
     showEventaSheet<void>(
       context,
@@ -421,6 +423,8 @@ class _RequestDetailState extends ConsumerState<RequestDetailScreen> {
   }
 
   void _quote(BuildContext context, ClientRequest r, SaleTerms terms) {
+    if (!checkRight(context, ref, TeamRight.quotes)) return;
+    final canSend = ref.read(canProvider(TeamRight.sendQuotes));
     final cat = ref.read(proProvider).catalog;
     final packages = cat.packages.where((p) => p.active).toList();
     final options = cat.options.where((o) => o.active).toList();
@@ -586,11 +590,23 @@ class _RequestDetailState extends ConsumerState<RequestDetailScreen> {
               ),
               const SizedBox(height: 14),
               PillButton(
-                label: 'Envoyer le devis'.tr,
+                label: canSend
+                    ? 'Envoyer le devis'.tr
+                    : 'Soumettre au responsable'.tr,
                 icon: AppIcons.send,
                 onPressed: total <= 0
                     ? null
                     : () {
+                        if (!canSend) {
+                          Navigator.of(ctx).pop();
+                          toast(
+                            context,
+                            'Devis de {0} transmis à un responsable pour validation'
+                                .trf([fcfa(total)]),
+                            icon: AppIcons.send,
+                          );
+                          return;
+                        }
                         ref
                             .read(requestsProvider.notifier)
                             .sendDetailedQuote(

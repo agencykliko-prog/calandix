@@ -1,4 +1,5 @@
 import 'package:eventa/ui/theme/app_theme.dart';
+import 'package:eventa/features/commerce/domain/commerce_models.dart';
 import 'package:eventa/features/commerce/presentation/commerce_providers.dart';
 import 'package:eventa/features/premium/presentation/business_screen.dart';
 import 'package:eventa/features/pro/presentation/studio_providers.dart';
@@ -24,7 +25,7 @@ void main() {
     await settle(tester);
   }
 
-  testWidgets('parcours Creator : abonnement 14 900 FCFA puis Studio complet', (
+  testWidgets('parcours Creator : abonnement 5 900 FCFA puis Studio complet', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(430, 932) * 2;
@@ -58,7 +59,7 @@ void main() {
     );
     expect(find.text('Facturation'), findsNothing);
 
-    // 2. « Débloquer » mène aux formules, paiement Creator de 14 900 FCFA.
+    // 2. « Débloquer » mène aux formules, paiement Creator de 5 900 FCFA.
     await tapVisible(tester, find.textContaining('Débloquer'));
     expect(find.text('Formules prestataires'), findsOneWidget);
     final subscribe = find.byKey(const ValueKey('subscribe-creator'));
@@ -69,7 +70,7 @@ void main() {
     );
     await tapVisible(tester, subscribe);
     expect(find.text('Abonnement Creator'), findsOneWidget);
-    expect(find.textContaining(RegExp(r'14.900')), findsWidgets);
+    expect(find.textContaining(RegExp(r'5.900')), findsWidgets);
     final pay = find.textContaining('Payer');
     await tester.ensureVisible(pay);
     await tester.pump();
@@ -90,6 +91,13 @@ void main() {
     // 3. Retour au Studio, désormais ouvert.
     await tapVisible(tester, find.text('Ouvrir mon Studio Creator'));
     expect(find.text('Statistiques avancées'), findsOneWidget);
+    // Le CRM est plus bas dans la liste (après l'atelier de création).
+    final list = tester.state<ScrollableState>(find.byType(Scrollable).first);
+    while (find.text('CRM clients').evaluate().isEmpty &&
+        list.position.pixels < list.position.maxScrollExtent) {
+      list.position.jumpTo(list.position.pixels + 300);
+      await tester.pump();
+    }
     expect(find.text('CRM clients'), findsOneWidget);
 
     // 4. CRM : les clients sont consolidés depuis les demandes.
@@ -119,13 +127,19 @@ void main() {
     expect(c.read(studioStatsProvider).outstanding, 0);
     expect(c.read(studioStatsProvider).collected, 150000);
 
-    // 6. Équipe : inviter un membre, refuser un doublon, le retirer.
+    // 6. Équipe : réservée à Business. En Creator, l'offre est présentée ;
+    // en Business, inviter un membre, refuser un doublon, le retirer.
+    expect(find.text('Travaillez à plusieurs'), findsOneWidget);
+    c
+        .read(creatorSubProvider.notifier)
+        .activate(PayMethod.values.first, 'TEST', plan: ProPlan.business);
+    await tester.pump();
     await tapVisible(tester, find.text('Inviter'));
     await tester.enterText(find.byType(TextField).last, 'Koffi Yao');
     await tapVisible(tester, find.text('Envoyer l’invitation'));
     expect(c.read(studioProvider).team.single.name, 'Koffi Yao');
     expect(
-      c.read(studioProvider.notifier).invite('koffi yao', TeamRole.staff),
+      c.read(studioProvider.notifier).invite('koffi yao', TeamRole.sales),
       isFalse,
     );
     await tester.pump();
@@ -167,11 +181,11 @@ void main() {
     await settle(tester);
     expect(c.read(studioUnlockedProvider), isTrue);
     await tester.scrollUntilVisible(
-      find.text('Formule Creator résiliée'),
+      find.text('Formule Business résiliée'),
       -400,
       scrollable: find.byType(Scrollable).first,
     );
-    expect(find.text('Formule Creator résiliée'), findsOneWidget);
+    expect(find.text('Formule Business résiliée'), findsOneWidget);
 
     await tester.pumpWidget(const SizedBox());
     await tester.pump(const Duration(seconds: 4));

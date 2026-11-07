@@ -67,6 +67,7 @@ class TeamPanel extends StatelessWidget {
                 ],
               ),
             ),
+            _Progress(event: event, member: event.team[i]),
           ],
           if (event.activity.isNotEmpty) ...[
             const Divider(height: 1),
@@ -118,6 +119,67 @@ class TeamPanel extends StatelessWidget {
               ),
             const SizedBox(height: 6),
           ],
+        ],
+      ),
+    );
+  }
+}
+
+/// Avancement d'un membre : tâches qui lui sont confiées, faites, en retard.
+class _Progress extends StatelessWidget {
+  const _Progress({required this.event, required this.member});
+
+  final Event event;
+  final TeamMember member;
+
+  @override
+  Widget build(BuildContext context) {
+    final mine = event.tasks.where((t) => t.assigneeId == member.id).toList();
+    if (mine.isEmpty) return const SizedBox.shrink();
+    final done = mine.where((t) => t.done).length;
+    final now = DateTime.now();
+    final late = mine.where((t) => !t.done && t.due.isBefore(now)).length;
+    final next =
+        (mine.where((t) => !t.done).toList()
+              ..sort((a, b) => a.due.compareTo(b.due)))
+            .firstOrNull;
+    final hue = late > 0 ? Hue.coral : Hue.lagoon;
+    return Padding(
+      padding: const EdgeInsets.only(left: 52, bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Meter(
+                  value: done / mine.length,
+                  color: hue.base,
+                  height: 6,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                '{0}/{1} tâches'.trf([done, mine.length]),
+                style: context.text.labelSmall,
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            [
+              if (late > 0) '{0} en retard'.trf([late]),
+              if (next != null)
+                'Prochaine : {0}'.trf([next.title])
+              else
+                'Tout est fait'.tr,
+            ].join(' · '),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: context.text.bodySmall?.copyWith(
+              color: late > 0 ? Hue.coral.text : null,
+            ),
+          ),
         ],
       ),
     );

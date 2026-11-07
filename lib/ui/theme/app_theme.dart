@@ -27,7 +27,7 @@ abstract final class AppTheme {
       primaryContainer: Confetti.coralTint,
       onPrimaryContainer: Confetti.coralDeep,
       secondary: Confetti.violet,
-      onSecondary: Colors.white,
+      onSecondary: Confetti.onViolet,
       secondaryContainer: Confetti.violetTint,
       onSecondaryContainer: Confetti.violetDeep,
       tertiary: Confetti.lagoon,
@@ -39,7 +39,7 @@ abstract final class AppTheme {
       onSurfaceVariant: Confetti.inkMuted,
       surfaceContainerLowest: Confetti.surface,
       surfaceContainerLow: dark
-          ? const Color(0xFF170B2C)
+          ? const Color(0xFF13111B)
           : const Color(0xFFFBFAF8),
       surfaceContainer: Confetti.surface,
       surfaceContainerHigh: Confetti.lavender,

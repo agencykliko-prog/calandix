@@ -10,7 +10,7 @@ import 'signature_provider.dart';
 enum RequestStatus {
   received('Nouvelle'),
   quoted('Devis envoyé'),
-  confirmed('Confirmée'),
+  confirmed('Devis accepté'),
   declined('Déclinée');
 
   const RequestStatus(this._label);

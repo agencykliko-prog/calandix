@@ -180,7 +180,7 @@ class AccountScreen extends ConsumerWidget {
                           ),
                           Text(
                             plan == Plan.free
-                                ? 'IA, coffre-fort, collaboration · dès 2 900 FCFA/mois'
+                                ? 'IA, coffre-fort, collaboration · dès 1 500 FCFA/mois'
                                       .tr
                                 : '{0} / mois · gérer'.trf([fcfa(plan.price)]),
                             style: context.text.bodySmall?.copyWith(
@@ -276,8 +276,10 @@ class AccountScreen extends ConsumerWidget {
                 _Row(
                   AppIcons.help,
                   'Aide & support'.tr,
-                  'Questions fréquentes, nous contacter'.tr,
-                  () => _helpSheet(context),
+                  ref.watch(prioritySupportProvider)
+                      ? 'Assistance prioritaire activée'.tr
+                      : 'Questions fréquentes, nous contacter'.tr,
+                  () => _helpSheet(context, ref.read(prioritySupportProvider)),
                 ),
               ],
             ),
@@ -437,13 +439,52 @@ class AccountScreen extends ConsumerWidget {
     );
   }
 
-  void _helpSheet(BuildContext context) => showEventaSheet<void>(
+  void _helpSheet(BuildContext context, bool priority) => showEventaSheet<void>(
     context,
     builder: (ctx) => ListView(
       shrinkWrap: true,
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
       children: [
         Text('Aide & support'.tr, style: ctx.text.headlineSmall),
+        const SizedBox(height: 12),
+        if (priority)
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: Confetti.goldTint,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(AppIcons.headset, color: Hue.gold.text, size: 22),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Assistance prioritaire'.tr,
+                        style: ctx.text.titleSmall,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        'Vos demandes passent en tête de file et sont suivies par un conseiller, 7 j/7.'
+                            .tr,
+                        style: ctx.text.bodySmall,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
+        else
+          Text(
+            'Avec Privilège, un Pass Événement ou la formule Business, vos demandes passent en priorité.'
+                .tr,
+            style: ctx.text.bodySmall,
+          ),
         const SizedBox(height: 8),
         for (final (q, a) in [
           (
@@ -480,7 +521,7 @@ class AccountScreen extends ConsumerWidget {
           tone: ButtonTone.dark,
           onPressed: () {
             Navigator.of(ctx).pop();
-            showContactTeam(context);
+            showContactTeam(context, privilege: priority);
           },
         ),
       ],

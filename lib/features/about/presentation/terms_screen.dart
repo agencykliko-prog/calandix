@@ -79,8 +79,8 @@ class _TermsScreenState extends State<TermsScreen> {
       bi('6. Paiements et reversements', '6. Payments and payouts'),
       [
         bi(
-          '• Les paiements passent par des opérateurs agréés (Mobile Money, carte bancaire).\n• Les fonds sont conservés jusqu’à la validation de la prestation par l’organisateur, puis reversés au Creator, déduction faite de la commission Calandix (actuellement 8 %), sous 2 jours ouvrés.\n• Des frais de service (actuellement 2 %) peuvent s’ajouter au montant payé par l’organisateur ; ils sont affichés avant paiement.\n• Le paiement en dehors de l’application d’une prestation trouvée sur Calandix est interdit.',
-          '• Payments go through licensed operators (Mobile Money, bank card).\n• Funds are held until the organizer approves the service, then paid to the Creator, minus Calandix’s commission (currently 8%), within 2 business days.\n• A service fee (currently 2%) may be added to the organizer’s payment; it is shown before payment.\n• Paying outside the app for a service found on Calandix is prohibited.',
+          '• Les paiements passent par des opérateurs agréés (Mobile Money, carte bancaire).\n• Les fonds sont conservés jusqu’à la validation de la prestation par l’organisateur, puis reversés au Creator, déduction faite de la commission Calandix (de 6 % à 2 % selon la formule du Creator), sous 2 jours ouvrés.\n• Des frais de service (actuellement 2 %) peuvent s’ajouter au montant payé par l’organisateur ; ils sont affichés avant paiement.\n• Le paiement en dehors de l’application d’une prestation trouvée sur Calandix est interdit.',
+          '• Payments go through licensed operators (Mobile Money, bank card).\n• Funds are held until the organizer approves the service, then paid to the Creator, minus Calandix’s commission (6% to 2% depending on the Creator’s plan), within 2 business days.\n• A service fee (currently 2%) may be added to the organizer’s payment; it is shown before payment.\n• Paying outside the app for a service found on Calandix is prohibited.',
         ),
       ],
     ),

@@ -90,21 +90,28 @@ class _PremiumScreenState extends ConsumerState<PremiumScreen> {
       context,
       title: 'Pass Événement'.tr,
       payee: 'Calandix'.tr,
-      options: [PayOption('30 jours'.tr, eventPassPrice)],
+      options: [PayOption('Paiement unique · 90 jours'.tr, eventPassPrice)],
       onPay: (amount, m) {
         ref.read(eventPassProvider.notifier).activate(e.id);
         return _receipt('Pass Événement'.tr, amount, m);
       },
     );
     if (r != null && mounted) {
-      toast(context, 'Pass actif pour « {0} » pendant 30 jours'.trf([e.name]));
+      toast(
+        context,
+        'Pass actif pour « {0} » pendant {1} jours'.trf([
+          e.name,
+          eventPassDays,
+        ]),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Confetti.ink,
+      // Page nuit : encre en clair, fond profond en mode sombre.
+      backgroundColor: Confetti.dark ? Confetti.cream : Confetti.ink,
       body: SafeArea(
         bottom: false,
         child: CustomScrollView(
@@ -267,7 +274,7 @@ class _PlanCard extends StatelessWidget {
               ),
               const Spacer(),
               if (highlight && !current)
-                Tag(label: 'Le plus choisi'.tr, hue: Hue.coral, solid: true),
+                Tag(label: 'Formule phare'.tr, hue: Hue.coral, solid: true),
               if (current)
                 Tag(label: 'Votre offre'.tr, hue: Hue.lagoon, solid: true),
             ],
@@ -356,11 +363,21 @@ class _PlanCard extends StatelessWidget {
   }
 }
 
-/// Pass Événement : Signature pendant 30 jours, pour un seul événement.
-class _PassCard extends StatelessWidget {
+/// Pass Événement : Privilège pendant 90 jours, pour un seul événement.
+class _PassCard extends StatefulWidget {
   const _PassCard({required this.onTap});
 
   final VoidCallback onTap;
+
+  @override
+  State<_PassCard> createState() => _PassCardState();
+}
+
+class _PassCardState extends State<_PassCard> {
+  /// Le contenu du Pass se déroule à la demande.
+  bool _open = false;
+
+  VoidCallback get onTap => widget.onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -394,7 +411,7 @@ class _PassCard extends StatelessWidget {
               style: context.text.headlineMedium?.copyWith(color: Colors.white),
               children: [
                 TextSpan(
-                  text: '  FCFA / 30 jours'.tr,
+                  text: '  FCFA · paiement unique'.tr,
                   style: context.text.bodySmall?.copyWith(
                     color: Colors.white60,
                   ),
@@ -404,11 +421,98 @@ class _PassCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Un mariage, un anniversaire, un baptême ? Toutes les fonctions Signature pendant 30 jours, pour un seul événement, sans abonnement.'
+            '1 événement · 90 jours'.tr,
+            style: context.text.labelMedium?.copyWith(color: Confetti.gold),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Organisez votre événement avec toute la puissance de Calandix, sans abonnement.'
                 .tr,
             style: context.text.bodyMedium?.copyWith(
               color: Colors.white.withValues(alpha: 0.88),
             ),
+          ),
+          const SizedBox(height: 10),
+          InkWell(
+            borderRadius: BorderRadius.circular(12),
+            onTap: () => setState(() => _open = !_open),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      _open
+                          ? 'Masquer le contenu du Pass'.tr
+                          : 'Voir le contenu du Pass ({0})'.trf([
+                              Catalog.passFeatures.length,
+                            ]),
+                      style: context.text.labelLarge?.copyWith(
+                        color: Confetti.gold,
+                      ),
+                    ),
+                  ),
+                  AnimatedRotation(
+                    turns: _open ? 0.5 : 0,
+                    duration: const Duration(milliseconds: 200),
+                    child: Icon(
+                      AppIcons.chevronDown,
+                      size: 18,
+                      color: Confetti.gold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          AnimatedSize(
+            duration: const Duration(milliseconds: 240),
+            curve: Curves.easeOutCubic,
+            alignment: Alignment.topCenter,
+            child: _open
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 6),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        for (final f in Catalog.passFeatures)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 6),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 2),
+                                  child: Icon(
+                                    AppIcons.check,
+                                    size: 15,
+                                    color: Confetti.gold,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    f.tr,
+                                    style: context.text.bodySmall?.copyWith(
+                                      color: Colors.white.withValues(
+                                        alpha: 0.88,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                      ],
+                    ),
+                  )
+                : const SizedBox(width: double.infinity),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Toutes les fonctionnalités de Privilège, pour un seul événement et pendant 90 jours.'
+                .tr,
+            style: context.text.bodySmall?.copyWith(color: Colors.white60),
           ),
           const SizedBox(height: 14),
           PillButton(

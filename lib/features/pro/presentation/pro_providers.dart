@@ -10,7 +10,7 @@ import '../domain/pro_models.dart';
 
 /// Commission de la formule Découverte, appliquée à l'historique de démo.
 /// Les nouveaux encaissements suivent la formule (`proCommissionProvider`).
-const proCommissionRate = 0.08;
+const proCommissionRate = 0.06;
 
 @immutable
 class ProState {

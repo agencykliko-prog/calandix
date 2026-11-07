@@ -285,7 +285,7 @@ class CreatorHomeScreen extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    'Commission de 8 % à 3 % selon votre formule · boosts de visibilité dès 1 500 FCFA'
+                    'Commission de 6 % à 2 % selon votre formule · boosts de visibilité dès 1 500 FCFA'
                         .tr,
                     style: context.text.bodySmall?.copyWith(
                       color: Colors.white60,
