@@ -1,3 +1,3 @@
 <?php
-// Toute autre adresse : la landing (le site est une page unique).
+// Repli : la landing statique.
 calandix_render( 'index.html' );

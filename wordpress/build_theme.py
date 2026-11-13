@@ -25,8 +25,11 @@ SKIP = {'robots.txt', 'sitemap.xml'}
 def main() -> None:
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with zipfile.ZipFile(OUT, 'w', zipfile.ZIP_DEFLATED) as z:
-        for name in sorted(os.listdir(THEME)):
-            z.write(os.path.join(THEME, name), f'calandix/{name}')
+        for root, _, files in os.walk(THEME):
+            for f in sorted(files):
+                full = os.path.join(root, f)
+                rel = os.path.relpath(full, THEME).replace(os.sep, '/')
+                z.write(full, f'calandix/{rel}')
         for root, _, files in os.walk(LANDING):
             for f in files:
                 full = os.path.join(root, f)
