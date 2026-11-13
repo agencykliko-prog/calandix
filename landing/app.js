@@ -13,7 +13,9 @@
   /* ── Mascottes ─────────────────────────────────────────
      data-mascot="rire" : une pose de la fourmi. */
   const poses = ['rire', 'salut', 'sport', 'idee', 'bouee', 'course'];
-  const src = (name) => `img/mascots/${name}.webp`;
+  // Dossier des fichiers : la racine en local, le thème sur WordPress.
+  const ASSETS = document.documentElement.dataset.assets || '';
+  const src = (name) => `${ASSETS}img/mascots/${name}.webp`;
   const mascots = [];
   document.querySelectorAll('[data-mascot]').forEach((host) => {
     const name = host.dataset.mascot;
@@ -429,7 +431,7 @@
     // « Faire le point ». Le profil (p) adapte la recherche et la réponse (ap) ;
     // f propose des questions de suite.
     let faq = null;
-    const loadFaq = () => { faq ||= fetch('candix-faq.json?v=6').then((r) => r.json()).then(prepare).catch(() => []); return faq; };
+    const loadFaq = () => { faq ||= fetch(`${document.documentElement.dataset.assets || ''}candix-faq.json?v=6`).then((r) => r.json()).then(prepare).catch(() => []); return faq; };
     const clean = (t) => ` ${t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim()} `;
     const STOP = new Set('a au aux avec ce ces c ca comment combien dans de des du d elle en est et etre faire faut il ils j je l la le les leur ma mes mon ne n on ou par pas peut peux plus pour puis puisje qu que quel quelle quelles quels qui quoi s sa se ses si son sont sur t te tu un une vos votre vous y y a t il'.split(' '));
     const words = (t) => clean(t).trim().split(' ').filter((w) => w.length > 1 && !STOP.has(w));

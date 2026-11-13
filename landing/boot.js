@@ -17,7 +17,7 @@
     const c = navigator.connection;
     const modest = c?.saveData || /2g|3g/.test(c?.effectiveType || '') || navigator.deviceMemory < 4 || navigator.hardwareConcurrency < 4;
     if (modest) return;
-    const go = () => import('./phone3d.js?v=3');
+    const go = () => import(`${d.dataset.assets || './'}phone3d.js?v=3`);
     window.requestIdleCallback ? requestIdleCallback(go, { timeout: 2500 }) : setTimeout(go, 800);
   }, { once: true });
 })();
