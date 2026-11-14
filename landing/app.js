@@ -431,7 +431,7 @@
     // « Faire le point ». Le profil (p) adapte la recherche et la réponse (ap) ;
     // f propose des questions de suite.
     let faq = null;
-    const loadFaq = () => { faq ||= fetch(`${document.documentElement.dataset.assets || ''}candix-faq.json?v=6`).then((r) => r.json()).then(prepare).catch(() => []); return faq; };
+    const loadFaq = () => { faq ||= fetch(`${document.documentElement.dataset.assets || ''}candix-faq.json?v=7`).then((r) => r.json()).then(prepare).catch(() => []); return faq; };
     const clean = (t) => ` ${t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim()} `;
     const STOP = new Set('a au aux avec ce ces c ca comment combien dans de des du d elle en est et etre faire faut il ils j je l la le les leur ma mes mon ne n on ou par pas peut peux plus pour puis puisje qu que quel quelle quelles quels qui quoi s sa se ses si son sont sur t te tu un une vos votre vous y y a t il'.split(' '));
     const words = (t) => clean(t).trim().split(' ').filter((w) => w.length > 1 && !STOP.has(w));
@@ -675,19 +675,22 @@
 
   /* ── Tarifs : mensuel ou annuel ──────────────────────── */
   const bills = document.querySelectorAll('[data-bill]');
+  // Mois offerts à l'année : 1 pour les organisateurs, 2 pour les
+  // prestataires (data-free de chaque panneau).
+  const offered = (n) => (n > 1 ? `${n} mois offerts` : `${n} mois offert`);
   const setBill = (yearly) => {
     bills.forEach((b) => b.setAttribute('aria-pressed', (b.dataset.bill === 'y') === yearly));
     document.querySelectorAll('.price[data-price]').forEach((p) => {
       const m = +p.dataset.price;
-      // À l'année : dix mois payés, deux offerts.
-      p.querySelector('b').textContent = fcfa(yearly ? m * 10 : m);
+      const free = +(p.closest('[data-free]')?.dataset.free || 2);
+      p.querySelector('b').textContent = fcfa(yearly ? m * (12 - free) : m);
       p.querySelector('.unit').textContent = yearly ? 'FCFA / an' : 'FCFA / mois';
       const note = p.nextElementSibling;
       note.textContent = '';
       if (!yearly) return;
       const was = document.createElement('s');
       was.textContent = fcfa(m * 12);
-      note.append('Au lieu de ', was, ' · 2 mois offerts');
+      note.append('Au lieu de ', was, ` · ${offered(free)}`);
     });
   };
   bills.forEach((b) => b.addEventListener('click', () => setBill(b.dataset.bill === 'y')));
@@ -696,7 +699,13 @@
   const auds = document.querySelectorAll('[data-aud]');
   const setAud = (who) => {
     auds.forEach((b) => b.setAttribute('aria-selected', b.dataset.aud === who));
-    document.querySelectorAll('[data-aud-panel]').forEach((p) => { p.hidden = p.dataset.audPanel !== who; });
+    document.querySelectorAll('[data-aud-panel]').forEach((p) => {
+      p.hidden = p.dataset.audPanel !== who;
+      // Le badge « Annuel » suit le public affiché.
+      if (!p.hidden) {
+        document.querySelectorAll('[data-bill-badge]').forEach((s) => { s.textContent = offered(+(p.dataset.free || 2)); });
+      }
+    });
     window.ScrollTrigger?.refresh();
   };
   auds.forEach((b) => b.addEventListener('click', () => setAud(b.dataset.aud)));
