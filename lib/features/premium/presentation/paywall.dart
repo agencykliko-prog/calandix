@@ -15,29 +15,37 @@ import '../../commerce/presentation/payment_sheet.dart';
 
 /// Exécute [onUnlocked] si la fonctionnalité est débloquée, sinon ouvre
 /// le paywall. Après souscription, l'action reprend d'elle-même.
+///
+/// [plan] : formule à proposer quand une limite est atteinte (événements
+/// actifs, collaborateurs) ; le paywall s'ouvre alors même si la
+/// fonctionnalité est déjà incluse dans la formule actuelle.
 Future<void> requirePremium(
   BuildContext context,
   WidgetRef ref, {
   required PremiumFeature feature,
   String? eventId,
+  Plan? plan,
   required VoidCallback onUnlocked,
 }) async {
-  if (ref.read(featureUnlockedProvider((feature, eventId)))) {
+  if (plan == null && ref.read(featureUnlockedProvider((feature, eventId)))) {
     onUnlocked();
     return;
   }
   final ok = await showEventaSheet<bool>(
     context,
     dark: true,
-    builder: (_) => _Paywall(feature: feature, eventId: eventId),
+    builder: (_) => _Paywall(feature: feature, eventId: eventId, plan: plan),
   );
   if (ok == true && context.mounted) onUnlocked();
 }
 
 class _Paywall extends ConsumerWidget {
-  const _Paywall({required this.feature, this.eventId});
+  const _Paywall({required this.feature, this.eventId, this.plan});
 
   final PremiumFeature feature;
+
+  /// Formule proposée ; par défaut, celle qui ouvre la fonctionnalité.
+  final Plan? plan;
 
   /// Événement concerné : le Pass Événement peut alors suffire.
   final String? eventId;
@@ -70,7 +78,9 @@ class _Paywall extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final plan = feature.minPlan;
+    final plan = this.plan ?? feature.minPlan;
+    // Essai gratuit : Privilège seulement, une fois.
+    final canTry = !ref.watch(trialUsedProvider);
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(22, 18, 22, 20),
       child: Column(
@@ -92,7 +102,7 @@ class _Paywall extends ConsumerWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Disponible dès l’abonnement {0}. Essai gratuit de 14 jours, puis sans engagement, résiliable à tout moment.'
+            'Disponible dès l’abonnement {0}, sans engagement, résiliable à tout moment.'
                 .trf([plan.label]),
             style: context.text.bodyMedium?.copyWith(color: Colors.white70),
           ),
@@ -116,20 +126,21 @@ class _Paywall extends ConsumerWidget {
               ),
             ),
           const SizedBox(height: 12),
-          if (!ref.watch(trialUsedProvider)) ...[
+          if (canTry) ...[
             PillButton(
-              label: 'Essayer {0} gratuitement 14 jours'.trf([plan.label]),
+              label: 'Essayer Privilège gratuitement {0} jours'.trf([
+                trialDays,
+              ]),
               tone: ButtonTone.gold,
               onPressed: () {
-                ref.read(planProvider.notifier).startTrial(plan);
+                ref.read(planProvider.notifier).startTrial(Plan.privilege);
                 Navigator.of(context).pop(true);
               },
             ),
             const SizedBox(height: 6),
             Text(
-              'Ensuite {0}/mois. Rien à payer pendant l’essai.'.trf([
-                fcfa(plan.price),
-              ]),
+              'Toutes les fonctions, ensuite {0}/mois. Rien à payer pendant l’essai.'
+                  .trf([fcfa(Plan.privilege.price)]),
               textAlign: TextAlign.center,
               style: context.text.bodySmall?.copyWith(color: Colors.white70),
             ),
@@ -140,20 +151,18 @@ class _Paywall extends ConsumerWidget {
               plan.label,
               fcfa(plan.price),
             ]),
-            tone: ref.watch(trialUsedProvider)
-                ? ButtonTone.gold
-                : ButtonTone.light,
+            tone: canTry ? ButtonTone.light : ButtonTone.gold,
             onPressed: () => _pay(
               context,
               title: 'Abonnement {0}'.trf([plan.label]),
               options: [
                 PayOption('Mensuel'.tr, plan.price),
-                PayOption('Annuel · 2 mois offerts'.tr, plan.yearlyPrice),
+                PayOption('Annuel · 1 mois offert'.tr, plan.yearlyPrice),
               ],
               onPaid: () => ref.read(planProvider.notifier).subscribe(plan),
             ),
           ),
-          if (eventId != null && Plan.privilege.includes(plan)) ...[
+          if (eventId != null && eventPassPlan.includes(plan)) ...[
             const SizedBox(height: 10),
             PillButton(
               label: 'Pass Événement · {0} · 90 jours'.trf([
@@ -173,7 +182,7 @@ class _Paywall extends ConsumerWidget {
             ),
             const SizedBox(height: 6),
             Text(
-              'Les fonctions Privilège pour cet événement seulement, pendant 90 jours, sans abonnement.'
+              'Les fonctions Signature pour cet événement seulement, pendant 90 jours, sans abonnement.'
                   .tr,
               textAlign: TextAlign.center,
               style: context.text.bodySmall?.copyWith(color: Colors.white70),

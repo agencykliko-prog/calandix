@@ -122,7 +122,7 @@ void main() {
         c.read(featureUnlockedProvider((f, null)));
 
     expect(unlocked(PremiumFeature.events), isFalse);
-    expect(Plan.free.activeEvents, 4);
+    expect(Plan.free.activeEvents, 1);
     c.read(planProvider.notifier).subscribe(Plan.azur);
     expect(unlocked(PremiumFeature.events), isTrue);
     // Coffre-fort : 1 Go offert, l'espace étendu dès Azur.
@@ -131,17 +131,18 @@ void main() {
     expect(unlocked(PremiumFeature.agent), isFalse);
     c.read(planProvider.notifier).subscribe(Plan.signature);
     expect(unlocked(PremiumFeature.agent), isTrue);
-    // À l'année : deux mois offerts.
-    expect(Plan.signature.yearlyPrice, 25000);
+    // À l'année : un mois offert.
+    expect(Plan.signature.yearlyPrice, 33000);
   });
 
-  test('essai gratuit de 14 jours et Pass Événement', () {
+  test('essai gratuit de 7 jours (Privilège) et Pass Événement', () {
     final c = _container();
     bool unlocked(PremiumFeature f, [String? id]) =>
         c.read(featureUnlockedProvider((f, id)));
 
-    c.read(planProvider.notifier).startTrial(Plan.signature);
+    c.read(planProvider.notifier).startTrial(Plan.privilege);
     expect(unlocked(PremiumFeature.agent), isTrue);
+    expect(unlocked(PremiumFeature.concierge), isTrue);
     expect(
       c.read(trialEndsProvider)!.difference(DateTime.now()).inDays,
       closeTo(trialDays, 1),

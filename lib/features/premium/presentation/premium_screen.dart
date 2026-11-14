@@ -40,7 +40,7 @@ class _PremiumScreenState extends ConsumerState<PremiumScreen> {
       payee: 'Calandix'.tr,
       options: [
         PayOption('Mensuel'.tr, p.price),
-        PayOption('Annuel · 2 mois offerts'.tr, p.yearlyPrice),
+        PayOption('Annuel · 1 mois offert'.tr, p.yearlyPrice),
       ],
       onPay: (amount, m) {
         ref.read(planProvider.notifier).subscribe(p);
@@ -56,7 +56,7 @@ class _PremiumScreenState extends ConsumerState<PremiumScreen> {
     ref.read(planProvider.notifier).startTrial(p);
     toast(
       context,
-      'Essai {0} activé : 14 jours offerts'.trf([p.label]),
+      'Essai {0} activé : {1} jours offerts'.trf([p.label, trialDays]),
       icon: AppIcons.sparkle,
     );
   }
@@ -149,8 +149,8 @@ class _PremiumScreenState extends ConsumerState<PremiumScreen> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      '14 jours d’essai gratuit, puis sans engagement. À l’année, 2 mois offerts.'
-                          .tr,
+                      'Sans engagement. Privilège s’essaie {0} jours gratuitement ; à l’année, 1 mois offert.'
+                          .trf([trialDays]),
                       style: context.text.bodyLarge?.copyWith(
                         color: Colors.white70,
                       ),
@@ -209,7 +209,7 @@ class _PremiumScreenState extends ConsumerState<PremiumScreen> {
                 plan: p,
                 current: current == p,
                 highlight: p == Plan.signature,
-                trial: canTry,
+                trial: canTry && p.hasTrial,
                 onTap: current == p ? null : () => _subscribe(p),
                 onTrial: () => _trial(p),
               ),
@@ -298,9 +298,18 @@ class _PlanCard extends StatelessWidget {
           ),
           const SizedBox(height: 2),
           Text(
-            'ou {0} par an, 2 mois offerts'.trf([fcfa(plan.yearlyPrice)]),
+            'ou {0} par an, 1 mois offert'.trf([fcfa(plan.yearlyPrice)]),
             style: context.text.bodySmall?.copyWith(
               color: highlight ? const Color(0xFF645A7C) : Colors.white60,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            plan.pitch,
+            style: context.text.bodySmall?.copyWith(
+              color: highlight
+                  ? Confetti.inkFixed
+                  : Colors.white.withValues(alpha: 0.88),
             ),
           ),
           const SizedBox(height: 14),
@@ -331,7 +340,7 @@ class _PlanCard extends StatelessWidget {
           const SizedBox(height: 10),
           if (trial && !current) ...[
             PillButton(
-              label: 'Essayer 14 jours gratuitement'.tr,
+              label: 'Essayer {0} jours gratuitement'.trf([trialDays]),
               tone: highlight ? ButtonTone.primary : ButtonTone.gold,
               height: 48,
               onPressed: onTrial,
@@ -363,7 +372,7 @@ class _PlanCard extends StatelessWidget {
   }
 }
 
-/// Pass Événement : Privilège pendant 90 jours, pour un seul événement.
+/// Pass Événement : Signature pendant 90 jours, pour un seul événement.
 class _PassCard extends StatefulWidget {
   const _PassCard({required this.onTap});
 
@@ -510,7 +519,7 @@ class _PassCardState extends State<_PassCard> {
           ),
           const SizedBox(height: 6),
           Text(
-            'Toutes les fonctionnalités de Privilège, pour un seul événement et pendant 90 jours.'
+            'Toutes les fonctionnalités de Signature, pour un seul événement et pendant 90 jours.'
                 .tr,
             style: context.text.bodySmall?.copyWith(color: Colors.white60),
           ),

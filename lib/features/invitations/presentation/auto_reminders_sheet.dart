@@ -6,18 +6,13 @@ import '../../../core/models/models.dart';
 import '../../../ui/theme/app_icons.dart';
 import '../../../ui/theme/eventa_colors.dart';
 import '../../../ui/widgets/ui.dart';
-import '../../commerce/domain/commerce_models.dart';
 import '../../commerce/presentation/commerce_providers.dart';
 import 'invitations_providers.dart';
 
 /// Quota mensuel de rappels de l'événement : celui de l'abonnement, ou
-/// celui de Privilège avec un Pass Événement actif.
-int reminderQuotaFor(WidgetRef ref, String eventId) {
-  final plan = ref.watch(planProvider);
-  ref.watch(eventPassProvider);
-  final pass = ref.read(eventPassProvider.notifier).active(eventId);
-  return pass ? Plan.privilege.reminderQuota : plan.reminderQuota;
-}
+/// celui de Signature avec un Pass Événement actif.
+int reminderQuotaFor(WidgetRef ref, String eventId) =>
+    ref.watch(eventCapsProvider(eventId)).plan.reminderQuota;
 
 /// Rappels WhatsApp et SMS envoyés automatiquement par Calandix, dans la
 /// limite du quota de l'offre (chaque message a un coût d'envoi).

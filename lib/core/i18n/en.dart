@@ -2411,4 +2411,110 @@ const en = <String, String>{
   // Signature du client côté prestataire (7 nov. 2026)
   'Bon pour accord signé par {0} le {1} à {2} · réf. {3}':
       'Approval signed by {0} on {1} at {2} · ref. {3}',
+
+  // ─── Grille du 14 novembre 2026 ───
+  'IA, coffre-fort, collaboration · dès 2 000 FCFA/mois':
+      'AI, vault, collaboration · from 2,000 FCFA/month',
+  'Galerie de réalisations enrichie': 'Richer portfolio gallery',
+  'Personnalisation du profil': 'Profile customisation',
+  'Gestion avancée des devis': 'Advanced quote management',
+  'Suivi des demandes clients': 'Client request tracking',
+  'Statistiques de consultation du profil': 'Profile view statistics',
+  'Catalogue de prestations étendu': 'Extended service catalogue',
+  'Accès au Studio professionnel Calandix':
+      'Access to the Calandix professional Studio',
+  'Mise en avant du profil selon les règles de classement':
+      'Profile highlighting under the ranking rules',
+  'Statistiques commerciales avancées': 'Advanced sales statistics',
+  'Gestion des commandes et échéances': 'Orders and deadlines management',
+  'Suivi des acomptes et reversements': 'Deposits and payouts tracking',
+  'Gestion avancée des disponibilités': 'Advanced availability management',
+  'Gestion multi-utilisateurs': 'Multi-user management',
+  'Gestion de plusieurs activités ou catégories':
+      'Several activities or categories',
+  'Tableau de bord de performance': 'Performance dashboard',
+  'Analyse des ventes et réservations': 'Sales and bookings analysis',
+  'Gestion avancée de la clientèle': 'Advanced client management',
+  'Outils de suivi commercial': 'Sales follow-up tools',
+  'Mise en avant commerciale renforcée selon les règles de la marketplace':
+      'Stronger commercial highlighting under the marketplace rules',
+  '{0} collaborateurs avec votre offre {1}. Chacun a ses propres droits.':
+      '{0} team members with your {1} plan. Each has their own rights.',
+  'Votre offre compte jusqu’à {0} collaborateurs par événement.':
+      'Your plan allows up to {0} team members per event.',
+  'Votre offre {0} compte jusqu’à {1} invités par événement, accompagnants compris.':
+      'Your {0} plan allows up to {1} guests per event, plus-ones included.',
+  'Toutes les fonctions Signature pendant 90 jours, pour un seul événement.':
+      'All Signature features for 90 days, for a single event.',
+  'Essai {0} activé : {1} jours offerts': '{0} trial on: {1} days free',
+  'Creator et Business s’essaient {0} jours sans carte bancaire, prévenu avant la fin. Rien n’est facturé sans votre accord.': 'Creator and Business can be tried for {0} days without a card, with a reminder before it ends. Nothing is charged without your consent.',
+  'Essayer {0} jours gratuitement': 'Try free for {0} days',
+  'Disponible dès l’abonnement {0}, sans engagement, résiliable à tout moment.':
+      'Available from the {0} plan, no commitment, cancel anytime.',
+  'Essayer Privilège gratuitement {0} jours': 'Try Privilège free for {0} days',
+  'Toutes les fonctions, ensuite {0}/mois. Rien à payer pendant l’essai.':
+      'Every feature, then {0}/month. Nothing to pay during the trial.',
+  'Annuel · 1 mois offert': 'Yearly · 1 month free',
+  'Les fonctions Signature pour cet événement seulement, pendant 90 jours, sans abonnement.': 'Signature features for this event only, for 90 days, without a subscription.',
+  'Sans engagement. Privilège s’essaie {0} jours gratuitement ; à l’année, 1 mois offert.': 'No commitment. Privilège can be tried free for {0} days; yearly, 1 month free.',
+  'ou {0} par an, 1 mois offert': 'or {0} per year, 1 month free',
+  'Toutes les fonctionnalités de Signature, pour un seul événement et pendant 90 jours.':
+      'Every Signature feature, for a single event and for 90 days.',
+  'Pour découvrir Calandix et préparer un premier événement.':
+      'To discover Calandix and plan a first event.',
+  'Pour les particuliers qui souhaitent mieux maîtriser leur organisation.':
+      'For individuals who want better control of their planning.',
+  'Pour les événements importants et les organisations collectives.':
+      'For major events and group organising.',
+  'Pour les organisateurs exigeants et les événements de grande envergure.':
+      'For demanding organisers and large-scale events.',
+  'Pour les petits prestataires qui souhaitent professionnaliser leur présence.':
+      'For small vendors who want a more professional presence.',
+  'Pour les prestataires qui souhaitent développer leur activité.':
+      'For vendors who want to grow their business.',
+  'Pour les agences et entreprises événementielles structurées.':
+      'For established event agencies and companies.',
+  'Plus d’événements actifs': 'More active events',
+  'Plus de collaborateurs': 'More team members',
+  '1 événement actif': '1 active event',
+  'Tout le contenu Découverte': 'Everything in Découverte',
+  'Jusqu’à 3 événements actifs': 'Up to 3 active events',
+  '5 collaborateurs par événement': '5 team members per event',
+  'Jusqu’à 250 invités par événement': 'Up to 250 guests per event',
+  'Budget détaillé avec graphiques et export':
+      'Detailed budget with charts and export',
+  'Suivi des dépenses, paiements et échéances':
+      'Expenses, payments and deadlines tracking',
+  'Rétroplanning personnalisé': 'Custom countdown plan',
+  '50 relances WhatsApp/SMS par mois': '50 WhatsApp/SMS reminders per month',
+  '2 Go de stockage': '2 GB of storage',
+  'Tout le contenu Azur': 'Everything in Azur',
+  'Jusqu’à 10 événements actifs': 'Up to 10 active events',
+  '15 collaborateurs par événement': '15 team members per event',
+  'Jusqu’à 750 invités par événement': 'Up to 750 guests per event',
+  'Agent IA dédié à l’événement': 'AI agent dedicated to the event',
+  'Assistance à la comparaison des devis': 'Help comparing quotes',
+  'Aide à la préparation et au suivi des échanges avec les prestataires':
+      'Help preparing and following up conversations with vendors',
+  '10 Go de stockage': '10 GB of storage',
+  '150 relances WhatsApp/SMS par mois': '150 WhatsApp/SMS reminders per month',
+  'Gestion avancée des accès collaborateurs': 'Advanced team access management',
+  'Tout le contenu Signature': 'Everything in Signature',
+  'Événements actifs illimités': 'Unlimited active events',
+  'Jusqu’à 30 collaborateurs par événement': 'Up to 30 team members per event',
+  'Jusqu’à 2 000 invités par événement': 'Up to 2,000 guests per event',
+  'Assistance prioritaire par WhatsApp': 'Priority support on WhatsApp',
+  'Coffre-fort numérique de 50 Go': '50 GB digital vault',
+  '300 relances WhatsApp/SMS par mois': '300 WhatsApp/SMS reminders per month',
+  'Accès prioritaire aux nouvelles fonctionnalités':
+      'Early access to new features',
+  'Toutes les fonctionnalités de Signature': 'Every Signature feature',
+  'Jusqu’à 750 invités': 'Up to 750 guests',
+  'Jusqu’à 15 collaborateurs': 'Up to 15 team members',
+  'Budget détaillé et suivi des dépenses':
+      'Detailed budget and expense tracking',
+  'Invitations numériques et QR code RSVP':
+      'Digital invitations and RSVP QR code',
+  'Aide aux échanges avec les prestataires': 'Help with vendor conversations',
+  'Coffre-fort numérique de 10 Go': '10 GB digital vault',
 };

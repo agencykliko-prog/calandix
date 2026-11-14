@@ -15,13 +15,13 @@ void main() {
     expect([for (final p in ProPlan.values) p.commissionPercent], [6, 5, 4, 2]);
     expect(
       [for (final p in ProPlan.values) p.yearlyPrice],
-      [0, 30000, 59000, 99000],
+      [0, 50000, 100000, 150000],
     );
     expect(ProPlan.decouverte.catalogLimit, 5);
     expect(ProPlan.starter.catalogLimit, 15);
     expect(ProPlan.creator.catalogLimit, isNull);
-    // 3 000 FCFA d'abonnement / 1 point de commission en moins.
-    expect(ProPlan.starter.breakEven, 300000);
+    // 5 000 FCFA d'abonnement / 1 point de commission en moins.
+    expect(ProPlan.starter.breakEven, 500000);
     expect(ProPlan.starter.studio, isFalse);
     expect(ProPlan.creator.studio, isTrue);
   });
@@ -59,7 +59,7 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));
     expect(find.text('Abonnement Creator'), findsOneWidget);
-    expect(find.textContaining(RegExp(r'5.900')), findsWidgets);
+    expect(find.textContaining(RegExp(r'10.000')), findsWidgets);
 
     // 2. Paiement Mobile Money, puis reçu : commission passée à 4 %.
     final pay = find.textContaining('Payer');

@@ -25,7 +25,7 @@ void main() {
     await settle(tester);
   }
 
-  testWidgets('parcours Creator : abonnement 5 900 FCFA puis Studio complet', (
+  testWidgets('parcours Creator : abonnement 10 000 FCFA puis Studio complet', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(430, 932) * 2;
@@ -59,7 +59,7 @@ void main() {
     );
     expect(find.text('Facturation'), findsNothing);
 
-    // 2. « Débloquer » mène aux formules, paiement Creator de 5 900 FCFA.
+    // 2. « Débloquer » mène aux formules, paiement Creator de 10 000 FCFA.
     await tapVisible(tester, find.textContaining('Débloquer'));
     expect(find.text('Formules prestataires'), findsOneWidget);
     final subscribe = find.byKey(const ValueKey('subscribe-creator'));
@@ -70,7 +70,7 @@ void main() {
     );
     await tapVisible(tester, subscribe);
     expect(find.text('Abonnement Creator'), findsOneWidget);
-    expect(find.textContaining(RegExp(r'5.900')), findsWidgets);
+    expect(find.textContaining(RegExp(r'10.000')), findsWidgets);
     final pay = find.textContaining('Payer');
     await tester.ensureVisible(pay);
     await tester.pump();

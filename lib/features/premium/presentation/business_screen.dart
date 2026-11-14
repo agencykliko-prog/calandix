@@ -77,7 +77,7 @@ class _BusinessScreenState extends ConsumerState<BusinessScreen> {
     ref.read(creatorSubProvider.notifier).startTrial(plan);
     toast(
       context,
-      'Essai {0} activé : 14 jours offerts'.trf([plan.label]),
+      'Essai {0} activé : {1} jours offerts'.trf([plan.label, trialDays]),
       icon: AppIcons.crown,
     );
   }
@@ -218,7 +218,7 @@ class _BusinessScreenState extends ConsumerState<BusinessScreen> {
                       plan: plan,
                       yearly: _yearly,
                       current: plan == current,
-                      canTrial: sub == null,
+                      canTrial: sub == null && plan.hasTrial,
                       onTrial: () => _trial(plan),
                       onSubscribe: () => _subscribe(plan),
                       onDowngrade: sub == null || sub.cancelled
@@ -260,8 +260,8 @@ class _BusinessScreenState extends ConsumerState<BusinessScreen> {
                   },
                 ),
                 Text(
-                  'Essai de 14 jours sans carte bancaire, prévenu avant la fin. Rien n’est facturé sans votre accord.'
-                      .tr,
+                  'Creator et Business s’essaient {0} jours sans carte bancaire, prévenu avant la fin. Rien n’est facturé sans votre accord.'
+                      .trf([trialDays]),
                   style: context.text.bodySmall?.copyWith(
                     color: context.eventa.muted,
                   ),
@@ -586,7 +586,7 @@ class _PlanCard extends StatelessWidget {
             if (canTrial) ...[
               PillButton(
                 key: ValueKey('trial-${plan.name}'),
-                label: 'Essayer 14 jours gratuitement'.tr,
+                label: 'Essayer {0} jours gratuitement'.trf([trialDays]),
                 tone: recommended ? ButtonTone.primary : ButtonTone.dark,
                 height: 46,
                 onPressed: onTrial,

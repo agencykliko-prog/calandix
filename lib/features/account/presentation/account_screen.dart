@@ -183,7 +183,7 @@ class AccountScreen extends ConsumerWidget {
                           ),
                           Text(
                             plan == Plan.free
-                                ? 'IA, coffre-fort, collaboration · dès 1 500 FCFA/mois'
+                                ? 'IA, coffre-fort, collaboration · dès 2 000 FCFA/mois'
                                       .tr
                                 : '{0} / mois · gérer'.trf([fcfa(plan.price)]),
                             style: context.text.bodySmall?.copyWith(

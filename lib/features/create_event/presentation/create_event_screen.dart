@@ -110,9 +110,11 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
     _go(2);
   }
 
-  /// Découverte : 4 événements actifs à la fois ; au-delà, un abonnement.
+  /// Événements actifs à la fois selon la formule (1, 3, 10, illimité) ;
+  /// au-delà, la formule suivante.
   Future<void> _open() async {
-    final limit = ref.read(planProvider).activeEvents;
+    final plan = ref.read(planProvider);
+    final limit = plan.activeEvents;
     final today = DateUtils.dateOnly(DateTime.now());
     final active = (ref.read(eventsProvider).value ?? const <Event>[])
         .where((x) => !x.date.isBefore(today))
@@ -122,6 +124,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
         context,
         ref,
         feature: PremiumFeature.events,
+        plan: plan.nextFor(active, (p) => p.activeEvents),
         onUnlocked: _save,
       );
       return;

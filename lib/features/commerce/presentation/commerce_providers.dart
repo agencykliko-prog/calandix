@@ -14,8 +14,9 @@ import '../domain/commerce_models.dart';
 
 // ─── Abonnement ─────────────────────────────────────────────────────────
 
-/// Durée de l'essai gratuit des offres payantes (organisateurs et Creators).
-const trialDays = 14;
+/// Durée de l'essai gratuit : Privilège côté organisateur, Creator et
+/// Business côté prestataire.
+const trialDays = 7;
 
 class PlanNotifier extends Notifier<Plan> {
   @override
@@ -27,7 +28,10 @@ class PlanNotifier extends Notifier<Plan> {
   }
 
   /// Essai gratuit de [trialDays] jours : l'offre devient payante ensuite.
-  void startTrial(Plan p) {
+  /// Seul Privilège en propose un.
+  void startTrial([Plan p = Plan.privilege]) {
+    assert(p.hasTrial, 'Essai réservé à Privilège');
+    if (!p.hasTrial) return;
     ref
         .read(trialEndsProvider.notifier)
         .set(DateTime.now().add(const Duration(days: trialDays)));
@@ -78,14 +82,15 @@ int lastOfferPercent(VendorCategory c) => switch (c) {
 
 // ─── Pass Événement ─────────────────────────────────────────────────────
 
-/// Pass Événement : toutes les fonctions Privilège pendant 90 jours, pour un
+/// Pass Événement : toutes les fonctions Signature pendant 90 jours, pour un
 /// seul événement, sans abonnement (paiement unique).
-const eventPassPrice = 9900;
+const eventPassPrice = 5000;
 const eventPassDays = 90;
 
-/// Plafonds du Pass Événement.
-const eventPassGuests = 2000;
-const eventPassCollaborators = 30;
+/// Formule dont le Pass ouvre les fonctions, et ses plafonds.
+const eventPassPlan = Plan.signature;
+final eventPassGuests = eventPassPlan.guests!;
+final eventPassCollaborators = eventPassPlan.collaborators;
 
 /// Fin du pass de chaque événement, par identifiant d'événement.
 class EventPassNotifier extends Notifier<Map<String, DateTime>> {
@@ -106,26 +111,32 @@ final eventPassProvider =
       EventPassNotifier.new,
     );
 
-/// Plafonds d'un événement couvert par un Pass (et non par un abonnement
-/// Privilège) : invités, accompagnants compris, et collaborateurs.
-/// null : pas de plafond Pass.
-final passCapsProvider =
-    Provider.family<({int guests, int collaborators})?, String>((ref, eventId) {
-      if (ref.watch(planProvider) == Plan.privilege) return null;
-      ref.watch(eventPassProvider);
-      if (!ref.read(eventPassProvider.notifier).active(eventId)) return null;
-      return (guests: eventPassGuests, collaborators: eventPassCollaborators);
-    });
+/// Plafonds d'un événement : invités (accompagnants compris, null : sans
+/// plafond) et collaborateurs, selon la formule ou le Pass s'il fait mieux.
+/// [plan] : formule qui fixe ces plafonds ; [pass] : ils viennent du Pass.
+typedef EventCaps = ({int? guests, int collaborators, Plan plan, bool pass});
 
-/// Assistance prioritaire : Privilège, un Pass Événement en cours ou,
-/// côté prestataire, la formule Business.
+final eventCapsProvider = Provider.family<EventCaps, String>((ref, eventId) {
+  final plan = ref.watch(planProvider);
+  ref.watch(eventPassProvider);
+  final pass =
+      !plan.includes(eventPassPlan) &&
+      ref.read(eventPassProvider.notifier).active(eventId);
+  final p = pass ? eventPassPlan : plan;
+  return (
+    guests: p.guests,
+    collaborators: p.collaborators,
+    plan: p,
+    pass: pass,
+  );
+});
+
+/// Assistance prioritaire : Privilège ou, côté prestataire, Business.
 final prioritySupportProvider = Provider<bool>((ref) {
   if (ref.watch(profileProvider).isCreator) {
     return ref.watch(proPlanProvider).includes(ProPlan.business);
   }
-  if (ref.watch(planProvider) == Plan.privilege) return true;
-  final now = DateTime.now();
-  return ref.watch(eventPassProvider).values.any((d) => d.isAfter(now));
+  return ref.watch(planProvider) == Plan.privilege;
 });
 
 // ─── Formule prestataire ────────────────────────────────────────────────
@@ -198,8 +209,11 @@ class CreatorSubNotifier extends Notifier<CreatorSubscription?> {
     );
   }
 
-  /// Essai gratuit de [trialDays] jours, sans paiement ni carte.
+  /// Essai gratuit de [trialDays] jours, sans paiement ni carte : Creator et
+  /// Business seulement.
   void startTrial([ProPlan plan = ProPlan.creator]) {
+    assert(plan.hasTrial, 'Essai réservé à Creator et Business');
+    if (!plan.hasTrial) return;
     final now = DateTime.now();
     state = CreatorSubscription(
       plan: plan,
@@ -249,12 +263,12 @@ final proBoostsProvider =
     );
 
 /// Une fonctionnalité est débloquée par l'abonnement.
-/// Le Pass Événement débloque les fonctions Privilège de son événement.
+/// Le Pass Événement débloque les fonctions Signature de son événement.
 final featureUnlockedProvider =
     Provider.family<bool, (PremiumFeature, String?)>((ref, arg) {
       if (ref.watch(planProvider).includes(arg.$1.minPlan)) return true;
       final id = arg.$2;
-      if (id == null || !Plan.privilege.includes(arg.$1.minPlan)) return false;
+      if (id == null || !eventPassPlan.includes(arg.$1.minPlan)) return false;
       ref.watch(eventPassProvider);
       return ref.read(eventPassProvider.notifier).active(id);
     });

@@ -17,35 +17,36 @@ void main() {
 
   final e = DemoData.wedding();
 
-  test('grille du 7 novembre 2026 : prix, annuel, commissions et Pass', () {
-    expect([for (final p in Plan.values) p.price], [0, 1500, 2500, 4900]);
+  test('grille du 14 novembre 2026 : prix, annuel, commissions et Pass', () {
+    expect([for (final p in Plan.values) p.price], [0, 2000, 3000, 5000]);
     expect(
       [for (final p in Plan.values) p.yearlyPrice],
-      [0, 15000, 25000, 49000],
+      [0, 22000, 33000, 55000],
     );
-    expect([for (final p in ProPlan.values) p.price], [0, 3000, 5900, 9900]);
+    expect([for (final p in ProPlan.values) p.price], [0, 5000, 10000, 15000]);
     expect([for (final p in ProPlan.values) p.commissionPercent], [6, 5, 4, 2]);
-    expect(eventPassPrice, 9900);
+    expect(eventPassPrice, 5000);
     expect(eventPassDays, 90);
-    expect(eventPassGuests, 2000);
-    expect(eventPassCollaborators, 30);
+    expect(eventPassGuests, 750);
+    expect(eventPassCollaborators, 15);
   });
 
-  test('le Pass Événement débloque les fonctions Privilège', () {
+  test('le Pass Événement débloque les fonctions Signature', () {
     final c = ProviderContainer();
     addTearDown(c.dispose);
     expect(
-      c.read(featureUnlockedProvider((PremiumFeature.concierge, e.id))),
+      c.read(featureUnlockedProvider((PremiumFeature.agent, e.id))),
       isFalse,
     );
     c.read(eventPassProvider.notifier).activate(e.id);
     expect(
-      c.read(featureUnlockedProvider((PremiumFeature.concierge, e.id))),
+      c.read(featureUnlockedProvider((PremiumFeature.agent, e.id))),
       isTrue,
     );
+    // Les fonctions Privilège restent fermées.
     expect(
       c.read(featureUnlockedProvider((PremiumFeature.album, e.id))),
-      isTrue,
+      isFalse,
     );
     expect(
       c.read(featureUnlockedProvider((PremiumFeature.entries, e.id))),
@@ -53,7 +54,7 @@ void main() {
     );
     // Un autre événement reste sans pass.
     expect(
-      c.read(featureUnlockedProvider((PremiumFeature.album, 'autre'))),
+      c.read(featureUnlockedProvider((PremiumFeature.agent, 'autre'))),
       isFalse,
     );
   });

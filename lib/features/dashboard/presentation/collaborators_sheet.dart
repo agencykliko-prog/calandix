@@ -14,7 +14,8 @@ import '../../../core/models/models.dart';
 import '../../events/presentation/events_providers.dart';
 import '../../premium/presentation/paywall.dart';
 
-const freeCollaborators = 2;
+/// Collaborateurs offerts avec Découverte.
+final freeCollaborators = Plan.free.collaborators;
 
 Future<void> showCollaboratorsSheet(BuildContext context, String eventId) =>
     showEventaSheet<void>(
@@ -31,11 +32,9 @@ class _Collaborators extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final e = ref.watch(eventProvider(eventId)).value;
     if (e == null) return const SizedBox();
-    final unlocked = ref.watch(
-      featureUnlockedProvider((PremiumFeature.collaborators, eventId)),
-    );
     final used = e.collaborators;
-    final caps = ref.watch(passCapsProvider(eventId));
+    final caps = ref.watch(eventCapsProvider(eventId));
+    final limit = caps.collaborators;
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
       child: Column(
@@ -44,11 +43,11 @@ class _Collaborators extends ConsumerWidget {
           Text('Partager l’événement'.tr, style: context.text.headlineSmall),
           const SizedBox(height: 4),
           Text(
-            unlocked
-                ? 'Collaborateurs selon votre offre. Chacun a ses propres droits.'
-                      .tr
-                : '{0} collaborateurs offerts, Premium à partir du 3ᵉ. Chacun a ses propres droits.'
-                      .trf([freeCollaborators]),
+            '{0} collaborateurs avec votre offre {1}. Chacun a ses propres droits.'
+                .trf([
+                  limit,
+                  caps.pass ? 'Pass Événement'.tr : caps.plan.label,
+                ]),
             style: context.text.bodySmall,
           ),
           const SizedBox(height: 14),
@@ -56,24 +55,16 @@ class _Collaborators extends ConsumerWidget {
             children: [
               Expanded(
                 child: Meter(
-                  value: caps != null
-                      ? (used / caps.collaborators).clamp(0, 1)
-                      : unlocked
-                      ? 1
-                      : (used / freeCollaborators).clamp(0, 1),
-                  color: used > freeCollaborators && !unlocked
-                      ? Confetti.coral
-                      : Confetti.candy,
+                  value: (used / limit).clamp(0, 1),
+                  color: used >= limit ? Confetti.coral : Confetti.candy,
                   height: 6,
                 ),
               ),
               const SizedBox(width: 10),
               Text(
-                caps != null
-                    ? '{0} / {1} · Pass'.trf([used, caps.collaborators])
-                    : unlocked
-                    ? '{0} invités'.trf([used])
-                    : '{0} / {1} gratuits'.trf([used, freeCollaborators]),
+                caps.pass
+                    ? '{0} / {1} · Pass'.trf([used, limit])
+                    : '{0} / {1}'.trf([used, limit]),
                 style: context.text.labelMedium,
               ),
             ],
@@ -85,27 +76,27 @@ class _Collaborators extends ConsumerWidget {
             tone: ButtonTone.dark,
             onPressed: () {
               void open() => _invite(context, ref, e);
-              if (caps != null && used >= caps.collaborators) {
+              if (used < limit) {
+                open();
+                return;
+              }
+              final next = caps.plan.nextFor(used, (p) => p.collaborators);
+              if (next == null) {
                 toast(
                   context,
-                  'Le Pass Événement compte jusqu’à {0} collaborateurs.'.trf([
-                    caps.collaborators,
-                  ]),
+                  'Votre offre compte jusqu’à {0} collaborateurs par événement.'
+                      .trf([limit]),
                   icon: AppIcons.info,
                 );
                 return;
               }
-              if (used < freeCollaborators) {
-                open();
-              } else {
-                requirePremium(
-                  context,
-                  ref,
-                  feature: PremiumFeature.collaborators,
-                  eventId: eventId,
-                  onUnlocked: open,
-                );
-              }
+              requirePremium(
+                context,
+                ref,
+                feature: PremiumFeature.collaborators,
+                plan: next,
+                onUnlocked: open,
+              );
             },
           ),
           const SizedBox(height: 10),

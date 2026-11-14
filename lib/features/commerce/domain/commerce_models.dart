@@ -205,42 +205,103 @@ class Booking {
 // ─── Abonnements ────────────────────────────────────────────────────────
 
 enum Plan {
-  free('Découverte', 0, Hues.ink),
-  azur('Azur', 1500, Hues.lagoon),
-  signature('Signature', 2500, Hues.violet),
-  privilege('Privilège', 4900, Hues.gold);
+  free(
+    'Découverte',
+    0,
+    Hues.ink,
+    'Pour découvrir Calandix et préparer un premier événement.',
+  ),
+  azur(
+    'Azur',
+    2000,
+    Hues.lagoon,
+    'Pour les particuliers qui souhaitent mieux maîtriser leur organisation.',
+  ),
+  signature(
+    'Signature',
+    3000,
+    Hues.violet,
+    'Pour les événements importants et les organisations collectives.',
+  ),
+  privilege(
+    'Privilège',
+    5000,
+    Hues.gold,
+    'Pour les organisateurs exigeants et les événements de grande envergure.',
+  );
 
-  const Plan(this._label, this.price, this._hue);
+  const Plan(this._label, this.price, this._hue, this._pitch);
   final String _label;
   String get label => _label.tr;
   final int price;
   final Hues _hue;
   Hue get hue => _hue.hue;
+  final String _pitch;
+  String get pitch => _pitch.tr;
 
-  /// Formule annuelle : deux mois offerts, soit dix mois payés.
-  int get yearlyPrice => price * 10;
+  /// Mois offerts sur la formule annuelle des organisateurs.
+  static const yearlyMonthsFree = 1;
+
+  /// Formule annuelle : un mois offert, soit onze mois payés.
+  int get yearlyPrice => price * (12 - yearlyMonthsFree);
+  int get yearlySaving => price * yearlyMonthsFree;
+
+  /// Essai gratuit : réservé à Privilège.
+  bool get hasTrial => this == Plan.privilege;
 
   bool includes(Plan other) => index >= other.index;
 
-  /// Espace du coffre-fort : 1 Go offert, davantage avec un abonnement.
+  /// Espace du coffre-fort.
   int get vaultMb => switch (this) {
     Plan.free => 1024,
-    Plan.azur => 5 * 1024,
+    Plan.azur => 2 * 1024,
     Plan.signature => 10 * 1024,
-    Plan.privilege => 20 * 1024,
+    Plan.privilege => 50 * 1024,
   };
 
-  /// Événements à venir en même temps ; sans limite avec un abonnement.
-  int? get activeEvents => this == Plan.free ? 4 : null;
+  /// Événements à venir en même temps ; null : illimité.
+  int? get activeEvents => switch (this) {
+    Plan.free => 1,
+    Plan.azur => 3,
+    Plan.signature => 10,
+    Plan.privilege => null,
+  };
+
+  /// Collaborateurs par événement.
+  int get collaborators => switch (this) {
+    Plan.free => 2,
+    Plan.azur => 5,
+    Plan.signature => 15,
+    Plan.privilege => 30,
+  };
+
+  /// Invités par événement, accompagnants compris ; null : sans plafond
+  /// (Découverte n'envoie pas d'invitations).
+  int? get guests => switch (this) {
+    Plan.free => null,
+    Plan.azur => 250,
+    Plan.signature => 750,
+    Plan.privilege => 2000,
+  };
 
   /// Rappels WhatsApp et SMS envoyés par Calandix chaque mois (chaque
   /// message a un coût d'envoi : le quota le plafonne).
   int get reminderQuota => switch (this) {
     Plan.free => 0,
-    Plan.azur => 100,
-    Plan.signature => 300,
-    Plan.privilege => 1000,
+    Plan.azur => 50,
+    Plan.signature => 150,
+    Plan.privilege => 300,
   };
+
+  /// Première formule au-dessus de celle-ci qui dépasse [count] pour
+  /// [limit] (null : illimité) ; null s'il n'y en a pas.
+  Plan? nextFor(int count, int? Function(Plan) limit) {
+    for (final p in Plan.values.skip(index + 1)) {
+      final l = limit(p);
+      if (l == null || l > count) return p;
+    }
+    return null;
+  }
 
   String get vaultLabel => vaultMb >= 1024
       ? '{0} Go'.trf([vaultMb ~/ 1024])
@@ -262,27 +323,27 @@ enum ProPlan {
   ),
   starter(
     'Starter',
-    3000,
+    5000,
     0.05,
     15,
     Hues.lagoon,
-    'Pour professionnaliser votre présence.',
+    'Pour les petits prestataires qui souhaitent professionnaliser leur présence.',
   ),
   creator(
     'Creator',
-    5900,
+    10000,
     0.04,
     null,
     Hues.violet,
-    'Pour développer votre clientèle.',
+    'Pour les prestataires qui souhaitent développer leur activité.',
   ),
   business(
     'Business',
-    9900,
+    15000,
     0.02,
     null,
     Hues.gold,
-    'Pour les agences et entreprises événementielles.',
+    'Pour les agences et entreprises événementielles structurées.',
   );
 
   const ProPlan(
@@ -310,9 +371,15 @@ enum ProPlan {
 
   int get commissionPercent => (commission * 100).round();
 
+  /// Mois offerts sur la formule annuelle des prestataires.
+  static const yearlyMonthsFree = 2;
+
   /// Formule annuelle : dix mensualités pour douze mois d'accès.
-  int get yearlyPrice => price * 10;
-  int get yearlySaving => price * 2;
+  int get yearlyPrice => price * (12 - yearlyMonthsFree);
+  int get yearlySaving => price * yearlyMonthsFree;
+
+  /// Essai gratuit : réservé à Creator et Business.
+  bool get hasTrial => this == ProPlan.creator || this == ProPlan.business;
 
   bool get free => price == 0;
   bool includes(ProPlan other) => index >= other.index;
@@ -337,23 +404,35 @@ enum ProPlan {
     ],
     ProPlan.starter => [
       'Jusqu’à 15 prestations au catalogue'.tr,
-      'Galerie enrichie et profil personnalisé'.tr,
-      'Devis avancés et suivi des demandes'.tr,
-      'Statistiques commerciales et historique des clients'.tr,
+      'Galerie de réalisations enrichie'.tr,
+      'Personnalisation du profil'.tr,
+      'Gestion avancée des devis'.tr,
+      'Suivi des demandes clients'.tr,
+      'Statistiques de consultation du profil'.tr,
+      'Historique des clients'.tr,
       'Badge Starter'.tr,
     ],
     ProPlan.creator => [
-      'Catalogue étendu, sans limite'.tr,
-      'Studio Calandix : créations, CRM et factures'.tr,
+      'Catalogue de prestations étendu'.tr,
+      'Accès au Studio professionnel Calandix'.tr,
+      'Mise en avant du profil selon les règles de classement'.tr,
       'Visibilité renforcée dans les résultats pertinents'.tr,
-      'Statistiques commerciales, acomptes et reversements'.tr,
+      'Statistiques commerciales avancées'.tr,
+      'Gestion des commandes et échéances'.tr,
+      'Suivi des acomptes et reversements'.tr,
+      'Gestion avancée des disponibilités'.tr,
       'Outils de gestion de la réputation'.tr,
     ],
     ProPlan.business => [
-      'Équipe multi-utilisateurs, droits par rôle'.tr,
-      'Plusieurs activités ou catégories'.tr,
-      'Analyse des ventes et suivi commercial'.tr,
-      'Mise en avant commerciale renforcée'.tr,
+      'Gestion multi-utilisateurs'.tr,
+      'Plusieurs collaborateurs avec droits d’accès'.tr,
+      'Gestion de plusieurs activités ou catégories'.tr,
+      'Tableau de bord de performance'.tr,
+      'Analyse des ventes et réservations'.tr,
+      'Gestion avancée de la clientèle'.tr,
+      'Outils de suivi commercial'.tr,
+      'Mise en avant commerciale renforcée selon les règles de la marketplace'
+          .tr,
       'Assistance prioritaire'.tr,
     ],
   };
@@ -417,8 +496,8 @@ const proServices = <(String, int?, IconData)>[
 
 /// Fonctionnalités soumises à un abonnement, et le niveau minimal requis.
 enum PremiumFeature {
-  events('Plus de 4 événements actifs', Plan.azur, AppIcons.calendarPlus),
-  collaborators('Plus de 2 collaborateurs', Plan.azur, AppIcons.userPlus),
+  events('Plus d’événements actifs', Plan.azur, AppIcons.calendarPlus),
+  collaborators('Plus de collaborateurs', Plan.azur, AppIcons.userPlus),
   agent('Agent IA de votre événement', Plan.signature, AppIcons.sparkle),
   vault('Coffre-fort au-delà de 1 Go', Plan.azur, AppIcons.lock),
   invitations('Invitations numériques et QR code', Plan.azur, AppIcons.mail),
@@ -428,7 +507,7 @@ enum PremiumFeature {
     Plan.azur,
     AppIcons.reminder,
   ),
-  concierge('Concierge Calandix', Plan.privilege, AppIcons.headset),
+  concierge('Concierge IA prioritaire', Plan.privilege, AppIcons.headset),
   album('Album privé de l’événement', Plan.privilege, AppIcons.images),
   stats('Statistiques et comparaisons du budget', Plan.azur, AppIcons.chart);
 

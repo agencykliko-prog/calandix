@@ -66,30 +66,82 @@ void main() {
     expect(c.read(canProvider(TeamRight.admin)), isFalse);
   });
 
-  test('plafonds du Pass : 2 000 invités et 30 collaborateurs', () {
+  test('plafonds par formule, et Pass Événement au niveau Signature', () {
     final c = ProviderContainer();
     addTearDown(c.dispose);
-    expect(c.read(passCapsProvider('e1')), isNull);
+    final free = c.read(eventCapsProvider('e1'));
+    expect(free.collaborators, 2);
+    expect(free.guests, isNull);
+    expect(free.pass, isFalse);
     c.read(eventPassProvider.notifier).activate('e1');
-    final caps = c.read(passCapsProvider('e1'))!;
-    expect(caps.guests, 2000);
-    expect(caps.collaborators, 30);
-    // Un abonnement Privilège lève le plafond du Pass.
+    final caps = c.read(eventCapsProvider('e1'));
+    expect(caps.pass, isTrue);
+    expect(caps.guests, 750);
+    expect(caps.collaborators, 15);
+    // Le Pass n'ouvre pas les fonctions Privilège.
+    expect(
+      c.read(featureUnlockedProvider((PremiumFeature.agent, 'e1'))),
+      isTrue,
+    );
+    expect(
+      c.read(featureUnlockedProvider((PremiumFeature.concierge, 'e1'))),
+      isFalse,
+    );
+    // Privilège fait mieux que le Pass : ses plafonds s'appliquent.
     final p = ProviderContainer(
       overrides: [planProvider.overrideWith(_Privilege.new)],
     );
     addTearDown(p.dispose);
     p.read(eventPassProvider.notifier).activate('e1');
-    expect(p.read(passCapsProvider('e1')), isNull);
+    final priv = p.read(eventCapsProvider('e1'));
+    expect(priv.pass, isFalse);
+    expect(priv.guests, 2000);
+    expect(priv.collaborators, 30);
   });
 
-  test('assistance prioritaire : Privilège ou Pass en cours', () {
+  test('assistance prioritaire : Privilège seulement', () {
     final c = ProviderContainer();
     addTearDown(c.dispose);
     c.read(sessionProvider.notifier).signIn(UserRole.organizer);
     expect(c.read(prioritySupportProvider), isFalse);
     c.read(eventPassProvider.notifier).activate('e1');
-    expect(c.read(prioritySupportProvider), isTrue);
+    expect(c.read(prioritySupportProvider), isFalse);
+    final p = ProviderContainer(
+      overrides: [planProvider.overrideWith(_Privilege.new)],
+    );
+    addTearDown(p.dispose);
+    p.read(sessionProvider.notifier).signIn(UserRole.organizer);
+    expect(p.read(prioritySupportProvider), isTrue);
+  });
+
+  test('grille du 14 novembre : prix, annuel, essais, limites', () {
+    expect([for (final p in Plan.values) p.price], [0, 2000, 3000, 5000]);
+    expect(Plan.signature.yearlyPrice, 3000 * 11);
+    expect([for (final p in ProPlan.values) p.price], [0, 5000, 10000, 15000]);
+    expect(ProPlan.creator.yearlyPrice, 10000 * 10);
+    expect(
+      [for (final p in Plan.values) p.hasTrial],
+      [false, false, false, true],
+    );
+    expect(
+      [for (final p in ProPlan.values) p.hasTrial],
+      [false, false, true, true],
+    );
+    expect(trialDays, 7);
+    expect(eventPassPrice, 5000);
+    expect(eventPassPlan, Plan.signature);
+    expect([for (final p in Plan.values) p.activeEvents], [1, 3, 10, null]);
+    expect([for (final p in Plan.values) p.reminderQuota], [0, 50, 150, 300]);
+    expect([for (final p in Plan.values) p.vaultMb ~/ 1024], [1, 2, 10, 50]);
+    expect(Plan.azur.nextFor(3, (p) => p.activeEvents), Plan.signature);
+    expect(Plan.privilege.nextFor(30, (p) => p.collaborators), isNull);
+    // Starter n'a pas d'essai : l'appel est sans effet.
+    final c = ProviderContainer();
+    addTearDown(c.dispose);
+    expect(
+      () => c.read(creatorSubProvider.notifier).startTrial(ProPlan.starter),
+      throwsA(isA<AssertionError>()),
+    );
   });
 
   test('badges publics : qualité et formule de la fiche', () {

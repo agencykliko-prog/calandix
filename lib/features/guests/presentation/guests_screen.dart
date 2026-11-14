@@ -556,16 +556,20 @@ Future<void> showGuestSheet(
                   set(() => error = 'Indiquez le nom de l’invité.'.tr);
                   return;
                 }
-                final caps = ref.read(passCapsProvider(eventId));
+                final caps = ref.read(eventCapsProvider(eventId));
+                final max = caps.guests;
                 final current = ref.read(eventProvider(eventId)).value;
-                if (caps != null && current != null) {
+                if (max != null && current != null) {
                   final others = current.guests.list
                       .where((x) => x.id != guest?.id)
                       .fold<int>(0, (s, x) => s + 1 + x.companions);
-                  if (others + 1 + companions > caps.guests) {
+                  if (others + 1 + companions > max) {
                     set(
-                      () => error = 'Le Pass Événement compte jusqu’à {0} invités, accompagnants compris.'
-                          .trf([formatNumber(caps.guests)]),
+                      () => error = 'Votre offre {0} compte jusqu’à {1} invités par événement, accompagnants compris.'
+                          .trf([
+                            caps.pass ? 'Pass Événement'.tr : caps.plan.label,
+                            formatNumber(max),
+                          ]),
                     );
                     return;
                   }
