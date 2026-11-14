@@ -12,7 +12,11 @@ defined( 'ABSPATH' ) || exit;
 
 const CALANDIX_LANDING_VERSION = '67';
 
+require_once __DIR__ . '/inc/agents.php';
+
 add_action( 'after_setup_theme', function () {
+	// <title> écrit par WordPress (ou Yoast) sur toutes les pages.
+	add_theme_support( 'title-tag' );
 	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 	remove_action( 'wp_print_styles', 'print_emoji_styles' );
 	remove_action( 'wp_head', 'wp_generator' );
@@ -59,13 +63,22 @@ function calandix_landing_parts(): array {
 	// Avec Yoast SEO, le titre, la description, l'adresse canonique et les
 	// aperçus de partage se règlent dans Yoast (page « Accueil »).
 	if ( defined( 'WPSEO_VERSION' ) ) {
-		$head = preg_replace( '#<title>.*?</title>|<meta name="description"[^>]*>|<link rel="canonical"[^>]*>|<meta (?:property="og:|name="twitter:)[^>]*>#s', '', $head );
+		$head = preg_replace( '#<meta name="description"[^>]*>|<link rel="canonical"[^>]*>|<meta (?:property="og:|name="twitter:)[^>]*>#s', '', $head );
 	}
+	// Le <title> vient de WordPress (title-tag) : pas de doublon.
+	$head = preg_replace( '#<title>.*?</title>#s', '', $head );
+	$head = (string) apply_filters( 'calandix_landing_head', $head );
 	preg_match( '#(?:.*</canvas>.*?</button>)(.*?)</body>#s', $html, $f );
 	$scripts = '';
 	if ( preg_match_all( '#<script\b[^>]*>.*?</script>|<!--.*?-->#s', $f[1] ?? '', $m ) ) {
 		$scripts = implode( "\n", $m[0] );
 	}
+	// Les optimisations de cache (LiteSpeed, mode invité) retardent sinon ces
+	// scripts jusqu'à la première interaction : formulaire, Candix et
+	// animations doivent être prêts dès l'affichage.
+	$keep    = '<script data-no-optimize="1" data-no-defer="1" ';
+	$head    = str_replace( '<script ', $keep, $head );
+	$scripts = str_replace( '<script ', $keep, $scripts );
 	return $parts = [ 'head' => $head, 'scripts' => $scripts ];
 }
 
@@ -75,7 +88,7 @@ add_action( 'wp_head', function () {
 	}
 	$uri = esc_js( calandix_landing_uri() );
 	// Les scripts de la landing lisent ce préfixe (mascottes, FAQ, 3D).
-	echo "<script>document.documentElement.dataset.assets='{$uri}';</script>\n";
+	echo "<script data-no-optimize=\"1\" data-no-defer=\"1\">document.documentElement.dataset.assets='{$uri}';</script>\n";
 	$head = calandix_landing_parts()['head'];
 	if ( calandix_is_editor_preview() ) {
 		// Dans l'éditeur : pas d'animation d'ouverture ni de script de page.
@@ -188,6 +201,8 @@ function calandix_render( string $file ): void {
 	$html = calandix_rewrite( (string) file_get_contents( calandix_landing_dir() . $file ) );
 	$uri  = calandix_landing_uri();
 	$html = preg_replace( '#<html([^>]*)>#', '<html$1 data-assets="' . esc_attr( $uri ) . '">', $html, 1 );
+	// wp_head() écrit déjà le <title> (title-tag).
+	$html = preg_replace( '#<title>.*?</title>#s', '', $html, 1 );
 
 	ob_start();
 	wp_head();

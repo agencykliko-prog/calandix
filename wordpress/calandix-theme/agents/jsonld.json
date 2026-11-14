@@ -1,0 +1,216 @@
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Organization",
+   "@id": "https://calandix.com/#organisation",
+   "name": "Calandix",
+   "url": "https://calandix.com/",
+   "logo": "https://calandix.com/wp-content/themes/calandix/landing/img/calandix-logo-email.png",
+   "slogan": "Le budget parfait pour célébrer",
+   "description": "Calandix organise vos fêtes en Côte d’Ivoire : budget maîtrisé, prestataires vérifiés, invités et équipe au même endroit. Essai 100 % gratuit.",
+   "areaServed": {
+    "@type": "Country",
+    "name": "Côte d’Ivoire"
+   },
+   "telephone": "+2250757633765",
+   "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+2250757633765",
+    "contactType": "customer support",
+    "availableLanguage": [
+     "fr"
+    ],
+    "areaServed": "CI",
+    "url": "https://wa.me/2250757633765"
+   },
+   "parentOrganization": {
+    "@type": "Organization",
+    "name": "TOOTEBO"
+   }
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://calandix.com/#site",
+   "url": "https://calandix.com/",
+   "name": "Calandix",
+   "inLanguage": "fr",
+   "publisher": {
+    "@id": "https://calandix.com/#organisation"
+   }
+  },
+  {
+   "@type": "SoftwareApplication",
+   "@id": "https://calandix.com/#application",
+   "name": "Calandix",
+   "url": "https://calandix.com/app/",
+   "applicationCategory": "BusinessApplication",
+   "operatingSystem": "Web",
+   "description": "Calandix organise vos fêtes en Côte d’Ivoire : budget maîtrisé, prestataires vérifiés, invités et équipe au même endroit. Essai 100 % gratuit.",
+   "inLanguage": "fr",
+   "publisher": {
+    "@id": "https://calandix.com/#organisation"
+   },
+   "offers": [
+    {
+     "@type": "Offer",
+     "name": "Découverte (organisateurs)",
+     "price": "0",
+     "priceCurrency": "XOF",
+     "description": "Pour découvrir la plateforme."
+    },
+    {
+     "@type": "Offer",
+     "name": "Azur (organisateurs)",
+     "price": "2000",
+     "priceCurrency": "XOF",
+     "description": "Pour les particuliers qui souhaitent mieux maîtriser leur organisation.",
+     "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": "2000",
+      "priceCurrency": "XOF",
+      "billingDuration": 1,
+      "unitCode": "MON"
+     }
+    },
+    {
+     "@type": "Offer",
+     "name": "Signature (organisateurs)",
+     "price": "3000",
+     "priceCurrency": "XOF",
+     "description": "Pour les événements importants et les organisations collectives.",
+     "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": "3000",
+      "priceCurrency": "XOF",
+      "billingDuration": 1,
+      "unitCode": "MON"
+     }
+    },
+    {
+     "@type": "Offer",
+     "name": "Privilège (organisateurs)",
+     "price": "5000",
+     "priceCurrency": "XOF",
+     "description": "Pour les organisateurs exigeants et les événements de grande envergure.",
+     "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": "5000",
+      "priceCurrency": "XOF",
+      "billingDuration": 1,
+      "unitCode": "MON"
+     }
+    },
+    {
+     "@type": "Offer",
+     "name": "Découverte (prestataires)",
+     "price": "0",
+     "priceCurrency": "XOF",
+     "description": "Pour rejoindre la marketplace et présenter votre activité."
+    },
+    {
+     "@type": "Offer",
+     "name": "Starter (prestataires)",
+     "price": "5000",
+     "priceCurrency": "XOF",
+     "description": "Pour les petits prestataires qui souhaitent professionnaliser leur présence.",
+     "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": "5000",
+      "priceCurrency": "XOF",
+      "billingDuration": 1,
+      "unitCode": "MON"
+     }
+    },
+    {
+     "@type": "Offer",
+     "name": "Creator (prestataires)",
+     "price": "10000",
+     "priceCurrency": "XOF",
+     "description": "Pour les prestataires qui souhaitent développer leur activité.",
+     "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": "10000",
+      "priceCurrency": "XOF",
+      "billingDuration": 1,
+      "unitCode": "MON"
+     }
+    },
+    {
+     "@type": "Offer",
+     "name": "Business (prestataires)",
+     "price": "15000",
+     "priceCurrency": "XOF",
+     "description": "Pour les agences et entreprises événementielles structurées.",
+     "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": "15000",
+      "priceCurrency": "XOF",
+      "billingDuration": 1,
+      "unitCode": "MON"
+     }
+    },
+    {
+     "@type": "Offer",
+     "name": "Pass Événement (90 jours, un événement)",
+     "price": "5000",
+     "priceCurrency": "XOF"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "@id": "https://calandix.com/#faq",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Mon argent est-il en sécurité ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "L’acompte est conservé jusqu’à la validation de la prestation, puis reversé au prestataire. En cas de litige, les fonds restent bloqués le temps de l’examen."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Quels moyens de paiement sont acceptés ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Orange Money, MTN MoMo, Wave, Moov Money et la carte bancaire. Les frais sont affichés avant de payer."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Et si le prestataire annule ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Une annulation par le prestataire entraîne le remboursement intégral de l’organisateur."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Puis-je organiser à plusieurs ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Oui : invitez des co-organisateurs avec des droits différents. Deux collaborateurs sont offerts, au-delà avec un abonnement."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Je suis prestataire, combien ça coûte ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "La formule Découverte est gratuite. Calandix prélève une commission uniquement sur les sommes encaissées via l’application : 6 % en Découverte, 5 % en Starter (5 000 FCFA / mois), 4 % en Creator (10 000 FCFA / mois) et 2 % en Business (15 000 FCFA / mois). Aucune commission sur une demande de devis."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Quand l’application sera-t-elle disponible ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Calandix est en version de démonstration. Essayez-la dès maintenant : vos retours nous aident à préparer le lancement."
+     }
+    }
+   ]
+  }
+ ]
+}
