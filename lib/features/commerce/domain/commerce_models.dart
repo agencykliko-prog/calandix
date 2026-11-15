@@ -284,15 +284,6 @@ enum Plan {
     Plan.privilege => 2000,
   };
 
-  /// Rappels WhatsApp et SMS envoyés par Calandix chaque mois (chaque
-  /// message a un coût d'envoi : le quota le plafonne).
-  int get reminderQuota => switch (this) {
-    Plan.free => 0,
-    Plan.azur => 50,
-    Plan.signature => 150,
-    Plan.privilege => 300,
-  };
-
   /// Première formule au-dessus de celle-ci qui dépasse [count] pour
   /// [limit] (null : illimité) ; null s'il n'y en a pas.
   Plan? nextFor(int count, int? Function(Plan) limit) {
@@ -502,11 +493,6 @@ enum PremiumFeature {
   vault('Coffre-fort au-delà de 1 Go', Plan.azur, AppIcons.lock),
   invitations('Invitations numériques et QR code', Plan.azur, AppIcons.mail),
   entries('Gestion des entrées par QR code', Plan.azur, AppIcons.qr),
-  reminders(
-    'Rappels WhatsApp et SMS automatiques',
-    Plan.azur,
-    AppIcons.reminder,
-  ),
   concierge('Concierge IA prioritaire', Plan.privilege, AppIcons.headset),
   album('Album privé de l’événement', Plan.privilege, AppIcons.images),
   stats('Statistiques et comparaisons du budget', Plan.azur, AppIcons.chart);

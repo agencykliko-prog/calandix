@@ -52,7 +52,7 @@
           .filter((x) => x.s > 0 && x.r.a)
           .sort((a, b) => b.s - a.s)
           .slice(0, 3);
-        if (!scored.length) return reply('Pas de réponse dans la FAQ. Contact : WhatsApp +225 07 57 63 37 65.');
+        if (!scored.length) return reply('Pas de réponse dans la FAQ. Contact : WhatsApp +225 07 04 25 22 25 ou contact@calandix.com.');
         return reply(scored.map(({ r }) => `Q : ${r.q}\nR : ${r.a}`).join('\n\n'));
       },
     },

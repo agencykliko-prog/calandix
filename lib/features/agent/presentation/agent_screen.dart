@@ -166,7 +166,7 @@ class _AgentScreenState extends ConsumerState<AgentScreen> {
           bullets: [
             '« Les familles ont la joie de vous convier à {0}, le {1}, à {2}. »'
                 .trf([e.name, longDate(e.date), e.venue]),
-            'Version WhatsApp courte avec lien RSVP et plan d’accès'.tr,
+            'Version courte avec lien RSVP et plan d’accès'.tr,
             'Version imprimée pour les aînés'.tr,
           ],
         );
@@ -185,11 +185,11 @@ class _AgentScreenState extends ConsumerState<AgentScreen> {
                 ]),
           ],
           action: (
-            'Envoyer sur WhatsApp'.tr,
+            'Copier le message'.tr,
             () => toast(
               context,
-              'Relance envoyée à {0} invités'.trf([g.pending]),
-              icon: AppIcons.whatsapp,
+              'Message copié : partagez-le à vos invités.'.tr,
+              icon: AppIcons.link,
             ),
           ),
         );

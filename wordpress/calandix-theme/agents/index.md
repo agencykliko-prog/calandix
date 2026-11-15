@@ -30,9 +30,9 @@ L’acompte est conservé jusqu’à la prestation, puis reversé au prestataire
 
 ## On s’organise à plusieurs, sans se perdre.
 
-Vous relancez vos invités depuis votre WhatsApp, en un geste, et leurs réponses se retrouvent dans l’app. Parents, témoins et co-organisateurs voient ce qu’ils doivent voir, rien de plus.
+Vous partagez le lien d’invitation, chaque invité répond en ligne et sa réponse se retrouve dans l’app. Parents, témoins et co-organisateurs voient ce qu’ils doivent voir, rien de plus.
 
-- Relances WhatsApp prêtes à envoyer, réponses notées dans l’app
+- Réponses en ligne, liste des invités mise à jour à chaque réponse
 - Co-organisateurs avec droits : propriétaire, éditeur, lecteur
 - Rétroplanning prêt selon le type d’événement
 
@@ -92,7 +92,6 @@ Pour les particuliers qui souhaitent mieux maîtriser leur organisation.
 - Suivi des dépenses, paiements et échéances
 - Rétroplanning personnalisé
 - QR code RSVP
-- 50 relances WhatsApp/SMS par mois
 - 2 Go de stockage
 
 #### Signature
@@ -109,7 +108,6 @@ Pour les événements importants et les organisations collectives.
 - Assistance à la comparaison des devis
 - Aide à la préparation et au suivi des échanges avec les prestataires
 - 10 Go de stockage
-- 150 relances WhatsApp/SMS par mois
 - Gestion avancée des accès collaborateurs
 
 #### Privilège
@@ -126,7 +124,6 @@ Pour les organisateurs exigeants et les événements de grande envergure.
 - Assistance prioritaire par WhatsApp
 - Coffre-fort numérique de 50 Go
 - Album privé de l’événement
-- 300 relances WhatsApp/SMS par mois
 - Accès prioritaire aux nouvelles fonctionnalités
 
 #### Pass Événement
@@ -145,7 +142,6 @@ Organisez votre événement sans abonnement : toutes les fonctionnalités de Sig
 - Assistance à la comparaison des devis
 - Aide aux échanges avec les prestataires
 - Coffre-fort numérique de 10 Go
-- 150 relances WhatsApp/SMS par mois
 
 ### Formules prestataires
 
@@ -276,12 +272,7 @@ Application mobile bientôt disponible
 
 Le budget parfait pour célébrer.
 
-Conçu pour la Côte d’Ivoire.
-
-- Mali
-- Burkina Faso
-- Togo
-- Bénin
+Budget, prestataires, invités et équipe au même endroit. Conçu pour la Côte d’Ivoire.
 
 ### Produit
 
@@ -289,8 +280,12 @@ Conçu pour la Côte d’Ivoire.
 
 ### Calandix
 
-© 2026 Calandix · Version de démonstration Calandix est un service délivré par TOOTEBO
+### Nous joindre
+
+© 2026 Calandix · Version de démonstration
 
 ---
 
 Pages : [À propos](https://calandix.com/a-propos/) · [Contact](https://calandix.com/contact/) · [Conditions générales](https://calandix.com/conditions/) · [Confidentialité](https://calandix.com/confidentialite/) · [Résumé pour les agents](https://calandix.com/llms.txt)
+
+Contact : WhatsApp et téléphone +225 07 04 25 22 25 · contact@calandix.com

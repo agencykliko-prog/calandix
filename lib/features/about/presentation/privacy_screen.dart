@@ -62,8 +62,8 @@ class _PrivacyScreenState extends ConsumerState<PrivacyScreen> {
               'Technical data: device type, language, sign-in and error logs, preferences (dark mode, sounds).',
         ),
         _p(
-          'Les informations sur vos invités (nom, numéro WhatsApp) sont saisies par vous : vous vous engagez à les utiliser uniquement pour votre événement.',
-          'Information about your guests (name, WhatsApp number) is entered by you: you agree to use it only for your event.',
+          'Les informations sur vos invités (nom, numéro de téléphone) sont saisies par vous : vous vous engagez à les utiliser uniquement pour votre événement.',
+          'Information about your guests (name, phone number) is entered by you: you agree to use it only for your event.',
         ),
       ],
     ),
@@ -122,11 +122,11 @@ class _PrivacyScreenState extends ConsumerState<PrivacyScreen> {
         _ul(
           'Les prestataires que vous contactez : le nécessaire pour établir un devis (date, lieu, nombre d’invités, budget indicatif) et, après une demande de devis, votre numéro si vous l’autorisez.\n'
               'Les collaborateurs que vous invitez sur un événement, selon leurs droits.\n'
-              'Nos sous-traitants techniques : hébergement et base de données, opérateurs de paiement (Orange Money, MTN MoMo, Wave, Moov Money, cartes), envoi d’e-mails, de SMS et de messages WhatsApp. Ils agissent sur nos instructions et sont tenus à la confidentialité.\n'
+              'Nos sous-traitants techniques : hébergement et base de données, opérateurs de paiement (Orange Money, MTN MoMo, Wave, Moov Money, cartes), envoi d’e-mails. Ils agissent sur nos instructions et sont tenus à la confidentialité.\n'
               'Les autorités, uniquement sur demande légale.',
           'The vendors you contact: what’s needed for a quote (date, venue, number of guests, indicative budget) and, after a quote request, your number if you allow it.\n'
               'The collaborators you invite to an event, according to their rights.\n'
-              'Our technical processors: hosting and database, payment operators (Orange Money, MTN MoMo, Wave, Moov Money, cards), email, SMS and WhatsApp delivery. They act on our instructions and are bound by confidentiality.\n'
+              'Our technical processors: hosting and database, payment operators (Orange Money, MTN MoMo, Wave, Moov Money, cards), email delivery. They act on our instructions and are bound by confidentiality.\n'
               'Authorities, only when legally required.',
         ),
         _p(

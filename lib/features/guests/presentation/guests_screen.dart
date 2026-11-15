@@ -17,12 +17,9 @@ import '../../../ui/widgets/ui.dart';
 import '../../dashboard/presentation/widgets/guests_panel.dart';
 import '../../../core/models/models.dart';
 import '../../events/presentation/events_providers.dart';
-import '../../premium/presentation/premium_nudge.dart';
 import '../../../app/router/app_router.dart';
 import '../../commerce/domain/commerce_models.dart';
-import '../../invitations/presentation/auto_reminders_sheet.dart';
 import '../../premium/presentation/paywall.dart';
-import 'remind_sheet.dart';
 import '../../../core/utils/formatters.dart';
 import '../../commerce/presentation/commerce_providers.dart';
 
@@ -106,15 +103,7 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
             children: [
               Text(e.name, style: context.text.bodySmall),
               const SizedBox(height: 10),
-              GuestsPanel(
-                guests: g,
-                onRemind: () async {
-                  await showRemindSheet(context, e);
-                  if (mounted) {
-                    maybeShowPremiumNudge(context, ref, PremiumNudge.guests);
-                  }
-                },
-              ),
+              GuestsPanel(guests: g),
               const SizedBox(height: 10),
               Row(
                 children: [
@@ -130,12 +119,6 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
                       AppIcons.qr,
                       'Entrées'.tr,
                       () => context.push(Routes.entries(e.id)),
-                    ),
-                    (
-                      PremiumFeature.reminders,
-                      AppIcons.reminder,
-                      'Rappels auto'.tr,
-                      () => showAutoReminders(context, e),
                     ),
                   ]) ...[
                     Expanded(
@@ -155,7 +138,7 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
                         ),
                       ),
                     ),
-                    if (feature != PremiumFeature.reminders)
+                    if (feature != PremiumFeature.entries)
                       const SizedBox(width: 6),
                   ],
                 ],
@@ -464,7 +447,7 @@ Future<void> showGuestSheet(
               ),
             const SizedBox(height: 12),
             AppField(
-              label: 'WhatsApp'.tr,
+              label: 'Téléphone'.tr,
               controller: phone,
               optional: true,
               keyboard: TextInputType.phone,

@@ -64,7 +64,7 @@ while ( have_posts() ) {
 	<?php foreach ( $links as $path => $label ) : ?>
 		<a href="<?php echo esc_url( home_url( $path ) ); ?>"><?php echo esc_html( $label ); ?></a>
 	<?php endforeach; ?>
-	<small>© <?php echo esc_html( gmdate( 'Y' ) ); ?> Calandix · Calandix est un service délivré par TOOTEBO</small>
+	<small>© <?php echo esc_html( gmdate( 'Y' ) ); ?> Calandix</small>
 </footer>
 <?php wp_footer(); ?>
 </body>

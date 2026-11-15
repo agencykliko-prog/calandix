@@ -132,8 +132,8 @@ $walk  = function ( array $els ) use ( &$walk, &$attrs, $map, $button, &$links )
 				$pos = array_search( 'À propos', $texts, true );
 				array_splice( $kids, false === $pos ? count( $kids ) : $pos + 1, 0, [ $button( $model, 'Contact', '/contact/' ) ] );
 			}
-			if ( $model && ! in_array( '+225 07 57 63 37 65', $texts, true ) ) {
-				$kids[] = $button( $model, '+225 07 57 63 37 65', 'tel:+2250757633765' );
+			if ( $model && ! in_array( '+225 07 04 25 22 25', $texts, true ) ) {
+				$kids[] = $button( $model, '+225 07 04 25 22 25', 'tel:+2250704252225' );
 			}
 		}
 		$els[ $i ]['elements'] = $walk( $kids );

@@ -178,7 +178,7 @@
 },
 {
 "l": "4",
-"a": "Il reste les détails : relancez par WhatsApp les invités sans réponse, vérifiez le reste à payer de chaque poste et répartissez les dernières tâches entre co-organisateurs."
+"a": "Il reste les détails : repérez les invités sans réponse dans la liste, vérifiez le reste à payer de chaque poste et répartissez les dernières tâches entre co-organisateurs."
 },
 {
 "l": "5",
@@ -208,7 +208,7 @@
 "o": [
 {
 "l": "Mariage ou dot",
-"a": "Réservez tôt le lieu et le traiteur, les deux plus gros postes. Invitez témoins et famille comme co-organisateurs avec des rôles adaptés, et suivez les RSVP par WhatsApp : sur une grande liste, c'est là que vous gagnez le plus de temps."
+"a": "Réservez tôt le lieu et le traiteur, les deux plus gros postes. Invitez témoins et famille comme co-organisateurs avec des rôles adaptés, et suivez les RSVP dans l'application : sur une grande liste, c'est là que vous gagnez le plus de temps."
 },
 {
 "l": "Anniversaire ou fête",
@@ -258,11 +258,11 @@
 },
 {
 "l": "50 à 150",
-"a": "Le suivi des réponses devient précieux : relancez les invités en attente par WhatsApp et donnez au traiteur le total des personnes attendues, accompagnants compris."
+"a": "Le suivi des réponses devient précieux : repérez les invités en attente dans la liste et donnez au traiteur le total des personnes attendues, accompagnants compris."
 },
 {
 "l": "150 à 300",
-"a": "Sur une liste de cette taille, les invitations numériques avec QR code (formule Azur) laissent les invités répondre seuls, et les rappels automatiques relancent ceux qui n'ont pas répondu. Classez vos invités par groupe pour placer les tables."
+"a": "Sur une liste de cette taille, les invitations numériques avec QR code (formule Azur) laissent les invités répondre seuls, et la liste se met à jour à chaque réponse. Classez vos invités par groupe pour placer les tables."
 },
 {
 "l": "Plus de 300",
@@ -366,7 +366,7 @@
 },
 {
 "l": "Les invités qui ne répondent pas",
-"a": "Invités : réponses présent, absent ou en attente, et relances WhatsApp des invités sans réponse en un geste."
+"a": "Invités : réponses présent, absent ou en attente, mises à jour dès que chaque invité répond en ligne."
 },
 {
 "l": "Oublier une étape",
@@ -400,7 +400,7 @@
 {
 "l": "Seul ou à deux",
 "r": "Découverte",
-"a": "Découverte, gratuite, suffit pour démarrer : checklist et rétroplanning, budget intelligent, 1 événement actif, marketplace, 2 collaborateurs et 1 Go de coffre-fort. Passez à Azur pour le QR code RSVP, les relances WhatsApp et SMS et jusqu'à 3 événements actifs."
+"a": "Découverte, gratuite, suffit pour démarrer : checklist et rétroplanning, budget intelligent, 1 événement actif, marketplace, 2 collaborateurs et 1 Go de coffre-fort. Passez à Azur pour le QR code RSVP et jusqu'à 3 événements actifs."
 },
 {
 "l": "Un seul grand événement",
@@ -410,17 +410,17 @@
 {
 "l": "Trois à cinq",
 "r": "Azur",
-"a": "Azur : 2 000 FCFA par mois, ou 22 000 FCFA par an (1 mois offert). Jusqu'à 3 événements actifs, 5 collaborateurs et 250 invités par événement, budget détaillé avec graphiques et export, suivi des dépenses et échéances, rétroplanning personnalisé, QR code RSVP, 50 relances WhatsApp et SMS par mois et 2 Go de stockage."
+"a": "Azur : 2 000 FCFA par mois, ou 22 000 FCFA par an (1 mois offert). Jusqu'à 3 événements actifs, 5 collaborateurs et 250 invités par événement, budget détaillé avec graphiques et export, suivi des dépenses et échéances, rétroplanning personnalisé, QR code RSVP et 2 Go de stockage."
 },
 {
 "l": "Un comité complet",
 "r": "Signature",
-"a": "Signature, la formule phare : 3 000 FCFA par mois, ou 33 000 FCFA par an (1 mois offert). Tout Azur, jusqu'à 10 événements actifs, 15 collaborateurs et 750 invités par événement, agent IA dédié, aide à la comparaison des devis et aux échanges avec les prestataires, 150 relances par mois et 10 Go de stockage."
+"a": "Signature, la formule phare : 3 000 FCFA par mois, ou 33 000 FCFA par an (1 mois offert). Tout Azur, jusqu'à 10 événements actifs, 15 collaborateurs et 750 invités par événement, agent IA dédié, aide à la comparaison des devis et aux échanges avec les prestataires et 10 Go de stockage."
 },
 {
 "l": "Je veux être accompagné",
 "r": "Privilège",
-"a": "Privilège : 5 000 FCFA par mois, ou 55 000 FCFA par an (1 mois offert). Tout Signature, événements actifs illimités, 30 collaborateurs et 2 000 invités par événement, Concierge IA prioritaire, assistance prioritaire par WhatsApp, album privé, 50 Go de coffre-fort et 300 relances par mois. 7 jours d'essai gratuit."
+"a": "Privilège : 5 000 FCFA par mois, ou 55 000 FCFA par an (1 mois offert). Tout Signature, événements actifs illimités, 30 collaborateurs et 2 000 invités par événement, Concierge IA prioritaire, assistance prioritaire par WhatsApp, album privé et 50 Go de coffre-fort. 7 jours d'essai gratuit."
 }
 ],
 "k": [
@@ -707,7 +707,7 @@
 {
 "c": "Organiser un événement",
 "q": "Reçoit-on des notifications ?",
-"a": "L'application vous propose d'activer les notifications à votre arrivée. Les rappels automatiques par WhatsApp et SMS sont inclus à partir de la formule Azur, dans la limite d'un quota mensuel.",
+"a": "L'application vous propose d'activer les notifications à votre arrivée : nouvelle demande, devis reçu, acompte payé, rappel la veille d'une échéance. Calandix n'envoie aucun message automatique par WhatsApp ou SMS.",
 "k": [
 "notification",
 "notifications",
@@ -912,7 +912,7 @@
 "a": "Dans votre événement, section Invités & RSVP, touchez « Voir la liste » : ajoutez chaque invité avec son numéro, son groupe (famille, amis, collègues…) et sa réponse, puis filtrez ou recherchez. Le nombre de personnes attendues se calcule tout seul.",
 "f": [
 "Comment envoyer les invitations ?",
-"Comment relancer les invités qui n'ont pas répondu ?"
+"Comment savoir qui n'a pas encore répondu ?"
 ],
 "k": [
 "liste d invites",
@@ -962,7 +962,7 @@
 {
 "c": "Invités et équipe",
 "q": "Comment envoyer une invitation numérique ?",
-"a": "Créez votre invitation dans l'événement : mise en page, mot d'accueil, tenue souhaitée et date limite de réponse. Envoyez-la ensuite à chaque invité par WhatsApp, ou copiez le message pour l'envoyer ailleurs. Chacun reçoit son code d'entrée personnel. Inclus dès la formule Azur.",
+"a": "Créez votre invitation dans l'événement : mise en page, mot d'accueil, tenue souhaitée et date limite de réponse. Copiez ensuite le message de chaque invité, avec son lien personnel, et partagez-le dans la conversation de votre choix. Chacun reçoit son code d'entrée personnel. Inclus dès la formule Azur.",
 "k": [
 "invitation numerique",
 "faire-part",
@@ -986,14 +986,15 @@
 },
 {
 "c": "Invités et équipe",
-"q": "Calandix envoie-t-il les rappels automatiquement ?",
-"a": "Oui, à partir d'Azur : relance des invités sans réponse, rappel avant la date limite, vos propres échéances et les tâches des collaborateurs, par WhatsApp ou SMS. Chaque envoi a un coût, d'où un quota mensuel : 50 messages avec Azur, 150 avec Signature ou le Pass Événement et 300 avec Privilège.",
+"q": "Calandix envoie-t-il des messages à mes invités ?",
+"a": "Non. Calandix n'envoie aucune relance ni aucun message automatique, ni par WhatsApp ni par SMS. Vous partagez vous-même le lien d'invitation, chaque invité répond en ligne et sa réponse arrive dans votre liste. Les rappels de vos propres échéances arrivent en notifications dans l'application.",
 "k": [
 "rappel",
 "relance automatique",
 "sms",
-"quota",
-"whatsapp automatique"
+"whatsapp automatique",
+"message automatique",
+"quota"
 ]
 },
 {
@@ -1052,7 +1053,7 @@
 {
 "c": "Invités et équipe",
 "q": "Comment envoyer les invitations ?",
-"a": "Partagez votre invitation par WhatsApp : les réponses remontent dans votre liste et le nombre de confirmés se met à jour, sans tenir de comptes à la main.",
+"a": "Copiez le message de chaque invité, avec son lien personnel, et partagez-le dans la conversation de votre choix : les réponses remontent dans votre liste et le nombre de confirmés se met à jour, sans tenir de comptes à la main.",
 "k": [
 "envoyer invitation",
 "envoyer les invitations",
@@ -1064,15 +1065,17 @@
 },
 {
 "c": "Invités et équipe",
-"q": "Comment relancer les invités qui n'ont pas répondu ?",
-"a": "Touchez « Relancer les invités en attente » : pour chaque invité, WhatsApp s'ouvre avec le message prêt et vous l'envoyez vous-même. Dès qu'il répond, notez sa réponse dans l'app d'un geste : la liste et le nombre de confirmés se mettent à jour.",
+"q": "Comment savoir qui n'a pas encore répondu ?",
+"a": "La liste des invités indique qui est présent, absent ou en attente ; filtrez « En attente » pour les voir. Vous pouvez leur repartager votre lien d'invitation vous-même. Dès qu'un invité répond, la liste et le nombre de confirmés se mettent à jour.",
 "k": [
 "relancer",
 "relance",
 "pas repondu",
 "sans reponse",
 "rappeler les invites",
-"en attente"
+"en attente",
+"en attente",
+"sans reponse"
 ]
 },
 {
@@ -1485,7 +1488,7 @@
 {
 "c": "Formules",
 "q": "Que comprend la formule Azur ?",
-"a": "2 000 FCFA par mois, ou 22 000 FCFA par an (1 mois offert) : tout Découverte, jusqu'à 3 événements actifs, 5 collaborateurs et 250 invités par événement, budget détaillé avec graphiques et export, suivi des dépenses, paiements et échéances, rétroplanning personnalisé, QR code RSVP, 50 relances WhatsApp/SMS par mois et 2 Go de stockage.",
+"a": "2 000 FCFA par mois, ou 22 000 FCFA par an (1 mois offert) : tout Découverte, jusqu'à 3 événements actifs, 5 collaborateurs et 250 invités par événement, budget détaillé avec graphiques et export, suivi des dépenses, paiements et échéances, rétroplanning personnalisé, QR code RSVP et 2 Go de stockage.",
 "k": [
 "azur",
 "2000",
@@ -1495,7 +1498,7 @@
 {
 "c": "Formules",
 "q": "Que comprend la formule Signature ?",
-"a": "3 000 FCFA par mois, ou 33 000 FCFA par an (1 mois offert) : tout Azur, jusqu'à 10 événements actifs, 15 collaborateurs et 750 invités par événement, agent IA dédié à l'événement, assistance à la comparaison des devis, aide à la préparation et au suivi des échanges avec les prestataires, 10 Go de stockage, 150 relances WhatsApp/SMS par mois et gestion avancée des accès collaborateurs.",
+"a": "3 000 FCFA par mois, ou 33 000 FCFA par an (1 mois offert) : tout Azur, jusqu'à 10 événements actifs, 15 collaborateurs et 750 invités par événement, agent IA dédié à l'événement, assistance à la comparaison des devis, aide à la préparation et au suivi des échanges avec les prestataires, 10 Go de stockage et gestion avancée des accès collaborateurs.",
 "k": [
 "signature",
 "agent ia",
@@ -1509,7 +1512,7 @@
 {
 "c": "Formules",
 "q": "Que comprend la formule Privilège ?",
-"a": "5 000 FCFA par mois, ou 55 000 FCFA par an (1 mois offert) : tout Signature, événements actifs illimités, jusqu'à 30 collaborateurs et 2 000 invités par événement, Concierge IA prioritaire, assistance prioritaire par WhatsApp, coffre-fort numérique de 50 Go, album privé de l'événement, 300 relances WhatsApp/SMS par mois et accès prioritaire aux nouvelles fonctionnalités. 7 jours d'essai gratuit.",
+"a": "5 000 FCFA par mois, ou 55 000 FCFA par an (1 mois offert) : tout Signature, événements actifs illimités, jusqu'à 30 collaborateurs et 2 000 invités par événement, Concierge IA prioritaire, assistance prioritaire par WhatsApp, coffre-fort numérique de 50 Go, album privé de l'événement et accès prioritaire aux nouvelles fonctionnalités. 7 jours d'essai gratuit.",
 "k": [
 "privilege",
 "concierge",
@@ -1581,7 +1584,7 @@
 {
 "c": "Formules",
 "q": "La formule gratuite suffit-elle ?",
-"a": "Pour un premier événement, oui : checklist et rétroplanning, budget intelligent, 1 événement actif, marketplace, réservations, 2 collaborateurs et 1 Go de coffre-fort. L'abonnement ajoute d'autres événements actifs, le QR code RSVP, les relances WhatsApp et SMS, les graphiques et l'export, plus de collaborateurs et plus d'espace.",
+"a": "Pour un premier événement, oui : checklist et rétroplanning, budget intelligent, 1 événement actif, marketplace, réservations, 2 collaborateurs et 1 Go de coffre-fort. L'abonnement ajoute d'autres événements actifs, le QR code RSVP, les graphiques et l'export, plus de collaborateurs et plus d'espace.",
 "k": [
 "rester gratuit",
 "sans payer",
@@ -1595,7 +1598,7 @@
 {
 "c": "Formules",
 "q": "Qu'est-ce que le Pass Événement ?",
-"a": "Le Pass Événement coûte 5 000 FCFA, en paiement unique, pour un seul événement pendant 90 jours. Il donne toutes les fonctionnalités de Signature sans abonnement : jusqu'à 750 invités et 15 collaborateurs, budget détaillé et suivi des dépenses, checklist et rétroplanning, invitations numériques et QR code RSVP, agent IA dédié, aide à la comparaison des devis et aux échanges avec les prestataires, 10 Go de coffre-fort et 150 relances WhatsApp/SMS par mois.",
+"a": "Le Pass Événement coûte 5 000 FCFA, en paiement unique, pour un seul événement pendant 90 jours. Il donne toutes les fonctionnalités de Signature sans abonnement : jusqu'à 750 invités et 15 collaborateurs, budget détaillé et suivi des dépenses, checklist et rétroplanning, invitations numériques et QR code RSVP, agent IA dédié, aide à la comparaison des devis et aux échanges avec les prestataires et 10 Go de coffre-fort.",
 "k": [
 "pass",
 "pass evenement",
@@ -2087,7 +2090,7 @@
 {
 "c": "Données et assistance",
 "q": "Comment parler à un conseiller ?",
-"a": "Touchez « Parler à un conseiller » juste en dessous : la conversation s'ouvre sur WhatsApp, au +225 07 57 63 37 65.",
+"a": "Touchez « Parler à un conseiller » juste en dessous : la conversation s'ouvre sur WhatsApp, au +225 07 04 25 22 25. Vous pouvez aussi appeler ce numéro ou écrire à contact@calandix.com.",
 "k": [
 "conseiller",
 "contact",

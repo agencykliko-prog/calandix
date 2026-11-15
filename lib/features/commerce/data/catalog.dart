@@ -859,7 +859,7 @@ abstract final class Catalog {
       name: 'QR Invit',
       category: VendorCategory.paper,
       tagline: 'Invitations numériques',
-      description: 'Faire-part animés et QR codes RSVP envoyés par WhatsApp.',
+      description: 'Faire-part animés et QR codes RSVP à partager.',
       priceFrom: 45000,
       image: 'https://images.unsplash.com/photo-1712313992209-93a2cc377ede?w=900&q=70&auto=format&fit=crop',
       zone: 'En ligne',
@@ -1154,7 +1154,6 @@ abstract final class Catalog {
       'Suivi des dépenses, paiements et échéances',
       'Rétroplanning personnalisé',
       'QR code RSVP',
-      '50 relances WhatsApp/SMS par mois',
       '2 Go de stockage',
     ],
     Plan.signature: [
@@ -1166,7 +1165,6 @@ abstract final class Catalog {
       'Assistance à la comparaison des devis',
       'Aide à la préparation et au suivi des échanges avec les prestataires',
       '10 Go de stockage',
-      '150 relances WhatsApp/SMS par mois',
       'Gestion avancée des accès collaborateurs',
     ],
     Plan.privilege: [
@@ -1178,7 +1176,6 @@ abstract final class Catalog {
       'Assistance prioritaire par WhatsApp',
       'Coffre-fort numérique de 50 Go',
       'Album privé de l’événement',
-      '300 relances WhatsApp/SMS par mois',
       'Accès prioritaire aux nouvelles fonctionnalités',
     ],
   };
@@ -1195,7 +1192,6 @@ abstract final class Catalog {
     'Assistance à la comparaison des devis',
     'Aide aux échanges avec les prestataires',
     'Coffre-fort numérique de 10 Go',
-    '150 relances WhatsApp/SMS par mois',
   ];
 
   // ─── Agents IA ───────────────────────────────────────────────────────

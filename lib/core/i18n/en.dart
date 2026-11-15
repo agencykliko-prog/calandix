@@ -1536,7 +1536,6 @@ const en = <String, String>{
   'célébrer': 'celebrate',
   'Conçu pour la Côte d’Ivoire.': 'Designed for Côte d’Ivoire.',
   'Organiser gratuitement': 'Plan for free',
-  'Calandix est un service délivré par ': 'Calandix is a service provided by ',
   // ─── Signature ─────────────────────────────────────────────────────────
   'Ma signature': 'My signature',
   'À enregistrer': 'To be added',
@@ -2517,4 +2516,15 @@ const en = <String, String>{
       'Digital invitations and RSVP QR code',
   'Aide aux échanges avec les prestataires': 'Help with vendor conversations',
   'Coffre-fort numérique de 10 Go': '10 GB digital vault',
+
+  // ─── Sans relances WhatsApp (15 nov. 2026) ───
+  'Push et e-mail': 'Push and email',
+  'Version courte avec lien RSVP et plan d’accès': 'Short version with RSVP link and directions',
+  'Message copié : partagez-le à vos invités.': 'Message copied: share it with your guests.',
+  'Nom, e-mail ou numéro': 'Name, email or number',
+  'Voir les {0} en attente': 'See the {0} pending',
+  'Graphiques et export, QR code RSVP et jusqu’à 5 collaborateurs.': 'Charts and export, RSVP QR code and up to 5 team members.',
+  'Invitations numériques avec QR code d’entrée et réponses suivies en direct.': 'Digital invitations with entry QR code and replies tracked live.',
+  'Coffre-fort 2 Go': '2 GB vault',
+  'Appeler · {0}': 'Call · {0}',
 };

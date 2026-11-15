@@ -9,7 +9,7 @@ Le service est en version de démonstration avant son lancement en Côte d'Ivoir
 - [Accueil](https://calandix.com/): présentation, simulateur de budget, tarifs, accès anticipé et FAQ
 - [Accueil en Markdown](https://calandix.com/index.md): le contenu de l'accueil, sans mise en page
 - [À propos](https://calandix.com/a-propos/): valeurs, mission et histoire de Calandix
-- [Contact](https://calandix.com/contact/): WhatsApp et téléphone
+- [Contact](https://calandix.com/contact/): WhatsApp, téléphone et e-mail
 - [Conditions générales](https://calandix.com/conditions/): utilisation, réservations, paiements, litiges
 - [Politique de confidentialité](https://calandix.com/confidentialite/): données collectées et droits
 - [Application (démo)](https://calandix.com/app/): l'application web, organisateur et prestataire
@@ -17,9 +17,9 @@ Le service est en version de démonstration avant son lancement en Côte d'Ivoir
 ## Tarifs organisateurs (FCFA par mois)
 
 - Découverte : gratuit — 1 événement actif, 2 collaborateurs, 1 Go
-- Azur : 2 000 — 3 événements actifs, 5 collaborateurs et 250 invités par événement, QR code RSVP, 50 relances WhatsApp/SMS par mois, 2 Go
-- Signature : 3 000 — 10 événements actifs, 15 collaborateurs et 750 invités par événement, agent IA, aide à la comparaison des devis, 150 relances, 10 Go
-- Privilège : 5 000 — événements illimités, 30 collaborateurs et 2 000 invités par événement, Concierge IA prioritaire, assistance prioritaire WhatsApp, album privé, 300 relances, 50 Go ; essai gratuit de 7 jours
+- Azur : 2 000 — 3 événements actifs, 5 collaborateurs et 250 invités par événement, QR code RSVP, 2 Go
+- Signature : 3 000 — 10 événements actifs, 15 collaborateurs et 750 invités par événement, agent IA, aide à la comparaison des devis, 10 Go
+- Privilège : 5 000 — événements illimités, 30 collaborateurs et 2 000 invités par événement, Concierge IA prioritaire, assistance prioritaire WhatsApp, album privé, 50 Go ; essai gratuit de 7 jours
 - À l'année : 1 mois offert
 - Pass Événement : 5 000 FCFA en paiement unique, fonctions Signature pendant 90 jours pour un seul événement
 
@@ -33,5 +33,6 @@ Le service est en version de démonstration avant son lancement en Côte d'Ivoir
 
 ## Contact
 
-- WhatsApp et téléphone : +225 07 57 63 37 65 (https://wa.me/2250757633765)
-- Calandix est un service délivré par TOOTEBO.
+- WhatsApp et téléphone : +225 07 04 25 22 25 (https://wa.me/2250704252225)
+- E-mail : contact@calandix.com
+- Calandix n'envoie aucune relance ni aucun message automatique (WhatsApp ou SMS) aux invités.

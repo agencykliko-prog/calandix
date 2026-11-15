@@ -105,10 +105,6 @@ class AboutScreen extends StatelessWidget {
             'Lieu, horaires et plan d’accès toujours à jour',
             'Venue, times and directions always up to date',
           ),
-          bi(
-            'Des rappels utiles par WhatsApp, sans application à installer',
-            'Helpful WhatsApp reminders, no app to install',
-          ),
         ],
       ),
       (
@@ -373,6 +369,19 @@ class AboutScreen extends StatelessWidget {
                   ),
                   const Divider(height: 1),
                   _ContactRow(
+                    icon: AppIcons.phone,
+                    title: bi(
+                      'Appeler · ${EventaContact.whatsapp}',
+                      'Call · ${EventaContact.whatsapp}',
+                    ),
+                    caption: bi(
+                      'Du lundi au samedi, 8 h – 20 h',
+                      'Monday to Saturday, 8 am – 8 pm',
+                    ),
+                    onTap: EventaContact.call,
+                  ),
+                  const Divider(height: 1),
+                  _ContactRow(
                     icon: AppIcons.file,
                     title: bi('Conditions générales', 'Terms and conditions'),
                     caption: bi(
@@ -397,8 +406,8 @@ class AboutScreen extends StatelessWidget {
             const SizedBox(height: 14),
             Text(
               bi(
-                'Version de démonstration : l’équipe répond sur WhatsApp et par e-mail.',
-                'Demo version: the team answers on WhatsApp and by email.',
+                'L’équipe répond sur WhatsApp, par téléphone et par e-mail.',
+                'The team answers on WhatsApp, by phone and by email.',
               ),
               textAlign: TextAlign.center,
               style: context.text.bodySmall,

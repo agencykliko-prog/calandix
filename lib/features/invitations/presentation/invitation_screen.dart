@@ -11,8 +11,6 @@ import '../../../app/router/app_router.dart';
 import '../../../core/i18n/tr.dart';
 import '../../../core/models/models.dart';
 import '../../../core/utils/formatters.dart';
-import '../../../platform/mobile/open_link_mobile.dart'
-    if (dart.library.js_interop) '../../../platform/web/open_link_web.dart';
 import '../../../ui/theme/app_icons.dart';
 import '../../../ui/theme/app_theme.dart';
 import '../../../ui/theme/eventa_colors.dart';
@@ -20,7 +18,6 @@ import '../../../ui/widgets/forms.dart';
 import '../../../ui/widgets/mascot.dart';
 import '../../../ui/widgets/ui.dart';
 import '../../events/presentation/events_providers.dart';
-import '../../guests/presentation/remind_sheet.dart';
 import 'invitations_providers.dart';
 import 'rsvp_screen.dart';
 import 'event_site_screen.dart';
@@ -66,7 +63,7 @@ String invitationText(
 }
 
 /// Invitation numérique : mise en page, contenu, envoi à chaque invité par
-/// WhatsApp ou par lien, et QR code d'entrée personnel.
+/// par lien, et QR code d'entrée personnel.
 class InvitationScreen extends ConsumerStatefulWidget {
   const InvitationScreen({super.key, required this.id});
 
@@ -329,7 +326,6 @@ class _GuestRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final number = whatsappNumber(guest.phone);
     final (label, hue) = switch (guest.rsvp) {
       Rsvp.yes => ('Présent'.tr, Hue.lagoon),
       Rsvp.no => ('Absent'.tr, Hue.coral),
@@ -378,12 +374,8 @@ class _GuestRow extends ConsumerWidget {
             ),
             const SizedBox(width: 6),
             RoundIconButton(
-              icon: number == null ? AppIcons.link : AppIcons.whatsapp,
-              tooltip: number == null
-                  ? 'Copier le message'.tr
-                  : 'Envoyer par WhatsApp'.tr,
-              background: number == null ? null : Hue.lagoon.tint,
-              foreground: number == null ? null : Hue.lagoon.text,
+              icon: AppIcons.link,
+              tooltip: 'Copier le message'.tr,
               onTap: () async {
                 final text = invitationText(
                   event,
@@ -392,17 +384,13 @@ class _GuestRow extends ConsumerWidget {
                   site:
                       ref.read(eventSiteProvider)[event.id]?.published ?? false,
                 );
-                if (number == null) {
-                  await Clipboard.setData(ClipboardData(text: text));
-                  if (context.mounted) {
-                    toast(
-                      context,
-                      'Message copié : collez-le dans la conversation de votre choix.'
-                          .tr,
-                    );
-                  }
-                } else {
-                  await openLink(reminderLink(number, text).toString());
+                await Clipboard.setData(ClipboardData(text: text));
+                if (context.mounted) {
+                  toast(
+                    context,
+                    'Message copié : collez-le dans la conversation de votre choix.'
+                        .tr,
+                  );
                 }
               },
             ),

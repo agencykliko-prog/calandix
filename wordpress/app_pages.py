@@ -15,8 +15,9 @@ SRC = os.path.join(ROOT, 'lib', 'features', 'about', 'presentation')
 OUT = os.path.join(ROOT, 'build', 'pages')
 
 # Coordonnées publiées sur la landing (pied de page, Candix).
-WHATSAPP = '+225 07 57 63 37 65'
-WHATSAPP_URL = 'https://wa.me/2250757633765'
+WHATSAPP = '+225 07 04 25 22 25'
+EMAIL = 'contact@calandix.com'
+WHATSAPP_URL = 'https://wa.me/2250704252225'
 
 LIT = r"'((?:[^'\\]|\\.)*)'"
 
@@ -106,9 +107,10 @@ def main():
         made.append(page(slug, title, intro, render(blocks)))
 
     contact = '\n'.join([
-        '<p>Une question sur Calandix, une formule ou une réservation ? Notre équipe vous répond sur WhatsApp.</p>',
+        '<p>Une question sur Calandix, une formule ou une réservation ? Notre équipe vous répond sur WhatsApp, par téléphone et par e-mail.</p>',
         f'<p><strong>WhatsApp :</strong> <a href="{WHATSAPP_URL}">{WHATSAPP}</a></p>',
         f'<p><strong>Téléphone :</strong> <a href="tel:{WHATSAPP.replace(" ", "")}">{WHATSAPP}</a></p>',
+        f'<p><strong>E-mail :</strong> <a href="mailto:{EMAIL}">{EMAIL}</a></p>',
         '<p>Vous pouvez aussi poser votre question à Candix, l’assistance de la page d’accueil, '
         'ou rejoindre la liste d’accès anticipé pour être prévenu de l’ouverture.</p>',
         '<p><a href="/#acces-anticipe">Rejoindre l’accès anticipé</a> · <a href="/">Retour à l’accueil</a></p>',

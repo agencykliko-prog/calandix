@@ -31,7 +31,7 @@ enum PremiumNudge {
   /// Le budget est consulté souvent : graphiques et export.
   budget(Plan.azur),
 
-  /// Relance des invités : invitations, QR code et rappels.
+  /// Suivi des invités : invitations et QR code.
   guests(Plan.azur);
 
   const PremiumNudge(this.plan);
@@ -46,8 +46,7 @@ enum PremiumNudge {
 
   String get pitch => switch (this) {
     newEvent =>
-      'Graphiques et export, rappels WhatsApp et SMS, et jusqu’à 5 collaborateurs.'
-          .tr,
+      'Graphiques et export, QR code RSVP et jusqu’à 5 collaborateurs.'.tr,
     booking =>
       'Le coffre-fort chiffré garde vos contrats, devis et reçus, et l’agent IA négocie vos prochains devis.'
           .tr,
@@ -55,7 +54,7 @@ enum PremiumNudge {
       'Suivez chaque poste en graphiques et exportez votre budget pour le partager.'
           .tr,
     guests =>
-      'Invitations numériques avec QR code d’entrée, et rappels WhatsApp et SMS automatiques.'
+      'Invitations numériques avec QR code d’entrée et réponses suivies en direct.'
           .tr,
   };
 
@@ -65,11 +64,11 @@ enum PremiumNudge {
       (AppIcons.lock, 'Coffre-fort chiffré 10 Go'.tr),
       (AppIcons.sparkle, 'Agent IA dédié'.tr),
       (AppIcons.handshake, 'Négociation de devis'.tr),
-      (AppIcons.team, 'Collaborateurs illimités'.tr),
+      (AppIcons.team, '15 collaborateurs par événement'.tr),
     ],
     _ => [
-      (AppIcons.lock, 'Coffre-fort 5 Go'.tr),
-      (AppIcons.whatsapp, 'Rappels WhatsApp et SMS'.tr),
+      (AppIcons.lock, 'Coffre-fort 2 Go'.tr),
+      (AppIcons.calendarPlus, 'Jusqu’à 3 événements actifs'.tr),
       (AppIcons.qr, 'Invitations et QR code'.tr),
       (AppIcons.chart, 'Graphiques et export'.tr),
     ],

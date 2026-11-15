@@ -131,39 +131,6 @@ class SiteFooter extends StatelessWidget {
                                     '© 2026 Calandix',
                                     style: TextStyle(color: soft, fontSize: 13),
                                   ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 14,
-                                      vertical: 8,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withValues(
-                                        alpha: .08,
-                                      ),
-                                      borderRadius: BorderRadius.circular(99),
-                                    ),
-                                    child: Text.rich(
-                                      TextSpan(
-                                        text: 'Calandix est un service délivré par '
-                                            .tr,
-                                        children: const [
-                                          TextSpan(
-                                            text: 'TOOTEBO',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w800,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      style: TextStyle(
-                                        color: Colors.white.withValues(
-                                          alpha: .85,
-                                        ),
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ),
                                 ],
                               ),
                             ],

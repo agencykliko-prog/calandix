@@ -28,14 +28,12 @@ import '../../../core/models/models.dart';
 import '../../events/presentation/event_trash.dart';
 import '../../events/presentation/events_providers.dart';
 import '../../marketplace/presentation/widgets/vendor_card.dart';
-import '../../premium/presentation/premium_nudge.dart';
 import '../../events/presentation/widgets/event_card.dart';
 import 'event_carousel.dart';
 import 'greeting_hero.dart';
 import 'notifications_sheet.dart';
 import '../../inbox/presentation/inbox_providers.dart';
 import '../../notifications/presentation/notifications_provider.dart';
-import '../../guests/presentation/remind_sheet.dart';
 
 /// Accueil Organisateur. Ordre de lecture : le diaporama des événements
 /// (le prochain en premier), son budget, les prochaines échéances, ce qui
@@ -177,7 +175,7 @@ class HomeScreen extends ConsumerWidget {
     ),
   );
 
-  /// Lignes « À faire en priorité » : devis, paiement, relance RSVP.
+  /// Lignes « À faire en priorité » : devis, paiement, réponses en attente.
   List<Widget> _actions(
     BuildContext context,
     WidgetRef ref,
@@ -237,13 +235,8 @@ class HomeScreen extends ConsumerWidget {
           hue: Hue.coral,
           title: '{0} invités sans réponse'.trf([pendingRsvp]),
           caption: next.name,
-          action: 'Relancer'.tr,
-          onTap: () async {
-            await showRemindSheet(context, next);
-            if (context.mounted) {
-              maybeShowPremiumNudge(context, ref, PremiumNudge.guests);
-            }
-          },
+          action: 'Voir'.tr,
+          onTap: () => context.push(Routes.guests(next.id)),
         ),
     ];
   }

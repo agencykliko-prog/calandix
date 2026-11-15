@@ -8,10 +8,12 @@ import '../../../../ui/widgets/ui.dart';
 import '../../../../core/models/models.dart';
 
 class GuestsPanel extends StatelessWidget {
-  const GuestsPanel({super.key, required this.guests, required this.onRemind});
+  const GuestsPanel({super.key, required this.guests, this.onPending});
 
   final Guests guests;
-  final VoidCallback onRemind;
+
+  /// Ouvre la liste des invités en attente ; null : bouton masqué.
+  final VoidCallback? onPending;
 
   @override
   Widget build(BuildContext context) {
@@ -104,14 +106,16 @@ class GuestsPanel extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
-          PillButton(
-            label: 'Relancer les {0} en attente'.trf([g.pending]),
-            icon: AppIcons.send,
-            tone: ButtonTone.ghost,
-            height: 48,
-            onPressed: g.pending > 0 ? onRemind : null,
-          ),
+          if (onPending != null) ...[
+            const SizedBox(height: 16),
+            PillButton(
+              label: 'Voir les {0} en attente'.trf([g.pending]),
+              icon: AppIcons.guests,
+              tone: ButtonTone.ghost,
+              height: 48,
+              onPressed: g.pending > 0 ? onPending : null,
+            ),
+          ],
         ],
       ),
     );

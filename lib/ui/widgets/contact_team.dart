@@ -7,11 +7,11 @@ import '../../platform/mobile/open_link_mobile.dart'
     if (dart.library.js_interop) '../../platform/web/open_link_web.dart';
 import 'ui.dart';
 
-/// Coordonnées de l'équipe Calandix : WhatsApp et e-mail, sans formulaire.
+/// Coordonnées de l'équipe Calandix : WhatsApp, appel et e-mail, sans formulaire.
 abstract final class EventaContact {
-  static const email = 'contact@eventa.ci';
-  static const whatsapp = '+225 07 57 63 37 65';
-  static const whatsappLink = 'https://wa.me/2250757633765';
+  static const email = 'contact@calandix.com';
+  static const whatsapp = '+225 07 04 25 22 25';
+  static const whatsappLink = 'https://wa.me/2250704252225';
 
   static Future<void> openWhatsApp([String? message]) => openLink(
     message == null
@@ -20,10 +20,14 @@ abstract final class EventaContact {
   );
 
   static Future<void> openEmail() => openLink('mailto:$email');
+
+  /// Appel du même numéro que WhatsApp.
+  static const phoneLink = 'tel:+2250704252225';
+  static Future<void> call() => openLink(phoneLink);
 }
 
 /// Feuille « Contacter l'équipe » : WhatsApp en premier (le canal le plus
-/// rassurant en Côte d'Ivoire), puis l'e-mail.
+/// rassurant en Côte d'Ivoire), puis l'appel et l'e-mail.
 Future<void> showContactTeam(BuildContext context, {bool privilege = false}) {
   return showEventaSheet<void>(
     context,
@@ -55,6 +59,16 @@ Future<void> showContactTeam(BuildContext context, {bool privilege = false}) {
                           .tr
                     : 'Bonjour Calandix, j’ai besoin d’aide.'.tr,
               );
+            },
+          ),
+          const SizedBox(height: 10),
+          PillButton(
+            label: 'Appeler · {0}'.trf([EventaContact.whatsapp]),
+            icon: AppIcons.phone,
+            tone: ButtonTone.ghost,
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              EventaContact.call();
             },
           ),
           const SizedBox(height: 10),

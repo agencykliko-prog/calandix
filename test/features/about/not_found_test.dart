@@ -24,12 +24,12 @@ void main() {
       await tester.pump(const Duration(seconds: 1));
       expect(find.byType(SiteFooter), findsOneWidget);
       await tester.scrollUntilVisible(
-        find.textContaining('TOOTEBO', findRichText: true),
+        find.text('© 2026 Calandix'),
         300,
         scrollable: find.byType(Scrollable).first,
       );
       expect(
-        find.textContaining('TOOTEBO', findRichText: true),
+        find.text('© 2026 Calandix'),
         findsOneWidget,
       );
       await tester.pumpWidget(const SizedBox());

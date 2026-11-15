@@ -131,7 +131,6 @@ void main() {
     expect(eventPassPrice, 5000);
     expect(eventPassPlan, Plan.signature);
     expect([for (final p in Plan.values) p.activeEvents], [1, 3, 10, null]);
-    expect([for (final p in Plan.values) p.reminderQuota], [0, 50, 150, 300]);
     expect([for (final p in Plan.values) p.vaultMb ~/ 1024], [1, 2, 10, 50]);
     expect(Plan.azur.nextFor(3, (p) => p.activeEvents), Plan.signature);
     expect(Plan.privilege.nextFor(30, (p) => p.collaborators), isNull);

@@ -11,14 +11,11 @@
   const fcfa = (n) => Math.round(n).toLocaleString('fr-FR').replace(/ | /g, ' ');
 
   /* ── Mascottes ─────────────────────────────────────────
-     data-mascot="rire" : une pose de la fourmi. */
-  const poses = ['rire', 'salut', 'sport', 'idee', 'bouee', 'course'];
+     data-mascot="rire" : une pose de la fourmi, immobile. */
   // Dossier des fichiers : la racine en local, le thème sur WordPress.
   const ASSETS = document.documentElement.dataset.assets || '';
   const src = (name) => `${ASSETS}img/mascots/${name}.webp`;
-  const mascots = [];
   document.querySelectorAll('[data-mascot]').forEach((host) => {
-    const name = host.dataset.mascot;
     const img = new Image();
     img.className = 'm-img';
     // Dimensions déclarées et chargement différé (pas de saut de mise en page).
@@ -26,56 +23,11 @@
     img.height = 320;
     img.loading = 'lazy';
     img.decoding = 'async';
-    img.src = src(name);
+    img.src = src(host.dataset.mascot);
     img.alt = '';
     img.draggable = false;
-    img.style.animationDelay = `${-Math.random() * 3}s`;
     host.appendChild(img);
-    const m = { host, img, name };
-    mascots.push(m);
-    if (!host.hasAttribute('data-interactive')) return;
-    host.setAttribute('role', 'button');
-    host.setAttribute('aria-label', 'Mascotte Calandix');
-    host.tabIndex = 0;
-    const jump = () => {
-      // Saut, nouvelle pose, pluie de confettis.
-      const list = poses;
-      const next = list[(list.indexOf(m.img.src.split('/').pop().replace('.webp', '')) + 1) % list.length];
-      m.img.classList.remove('jump');
-      void m.img.offsetWidth;
-      m.img.classList.add('jump');
-      setTimeout(() => { m.img.src = src(next); }, 220);
-      const r = host.getBoundingClientRect();
-      burst(r.left + r.width / 2, r.top + r.height * .35, 60);
-    };
-    host.addEventListener('click', jump);
-    host.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jump(); } });
-    img.addEventListener('animationend', () => img.classList.remove('jump', 'swap'));
   });
-  // Toutes les poses en cache : les changements sont instantanés.
-  addEventListener('load', () => setTimeout(() => {
-    if (navigator.connection?.saveData) return;
-    poses.forEach((n) => { const i = new Image(); i.src = src(n); });
-  }, 2500), { once: true });
-
-  // Les mascottes se penchent vers le pointeur.
-  let px = innerWidth / 2, py = innerHeight / 3, leanQueued = false;
-  const lean = () => {
-    leanQueued = false;
-    mascots.forEach(({ host }) => {
-      const r = host.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > innerHeight) return;
-      const dx = px - (r.left + r.width / 2);
-      const k = Math.max(-1, Math.min(1, dx / 400));
-      host.style.setProperty('--lean', `${(k * 8).toFixed(1)}deg`);
-    });
-  };
-  if (!reduce) {
-    addEventListener('pointermove', (e) => {
-      px = e.clientX; py = e.clientY;
-      if (!leanQueued) { leanQueued = true; requestAnimationFrame(lean); }
-    }, { passive: true });
-  }
 
   /* ── Confettis ───────────────────────────────────────── */
   const cv = document.querySelector('.confetti');
@@ -174,12 +126,6 @@
   const enter = (el) => {
     el.querySelectorAll('[data-count]').forEach((c) => countTo(c, +c.dataset.count));
     if (el.matches('[data-chat]')) playChat(el);
-    if (el.matches('[data-duo]')) setTimeout(() => {
-      // Le duo se retrouve au centre puis saute de joie.
-      el.querySelectorAll('.m-img').forEach((img) => { img.style.animation = ''; img.classList.add('jump'); });
-      const r = el.getBoundingClientRect();
-      burst(r.left + r.width / 2, r.top + r.height * .35, 70);
-    }, reduce ? 0 : 950);
   };
   const io = new IntersectionObserver((entries) => entries.forEach((en) => {
     if (!en.isIntersecting) return;
@@ -405,14 +351,6 @@
     if (!whyMenu.contains(e.target) || e.target.closest('.why-panel a')) closeWhy();
   });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeWhy(); });
-
-  /* ── Logo du pied de page : s'empile à son arrivée ───── */
-  const footLogo = document.querySelector('.foot-brand');
-  new IntersectionObserver((entries, obs) => {
-    if (!entries[0].isIntersecting) return;
-    footLogo.classList.add('in');
-    obs.disconnect();
-  }, { threshold: .4 }).observe(footLogo);
 
   /* ── Candix : l'assistance ───────────────────────────── */
   // Base locale de questions fréquentes : hors de cette base, Candix oriente

@@ -19,11 +19,8 @@ import '../../../core/models/models.dart';
 import '../../events/presentation/event_trash.dart';
 import '../../events/presentation/events_providers.dart';
 import '../../events/presentation/widgets/task_timeline.dart';
-import '../../guests/presentation/remind_sheet.dart';
 import '../../export/presentation/export_sheet.dart';
 import '../../premium/presentation/paywall.dart';
-import '../../premium/presentation/premium_nudge.dart';
-import '../../invitations/presentation/auto_reminders_sheet.dart';
 import 'collaborators_sheet.dart';
 import 'widgets/budget_overview.dart';
 import 'widgets/guests_panel.dart';
@@ -450,12 +447,7 @@ class _DashboardState extends ConsumerState<_Dashboard> {
             sliver: SliverToBoxAdapter(
               child: GuestsPanel(
                 guests: e.guests,
-                onRemind: () async {
-                  await showRemindSheet(context, e);
-                  if (context.mounted) {
-                    maybeShowPremiumNudge(context, ref, PremiumNudge.guests);
-                  }
-                },
+                onPending: () => context.push(Routes.guests(e.id)),
               ),
             ),
           ),
@@ -694,13 +686,6 @@ class _ToolsPanel extends ConsumerWidget {
         Hue.violet,
         'Entrées'.tr,
         () => context.push(Routes.entries(e.id)),
-      ),
-      (
-        PremiumFeature.reminders,
-        AppIcons.reminder,
-        Hue.lagoon,
-        'Rappels'.tr,
-        () => showAutoReminders(context, e),
       ),
       (
         PremiumFeature.concierge,

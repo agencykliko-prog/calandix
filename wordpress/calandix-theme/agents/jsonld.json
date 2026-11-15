@@ -13,20 +13,18 @@
     "@type": "Country",
     "name": "Côte d’Ivoire"
    },
-   "telephone": "+2250757633765",
+   "telephone": "+2250704252225",
+   "email": "contact@calandix.com",
    "contactPoint": {
     "@type": "ContactPoint",
-    "telephone": "+2250757633765",
+    "telephone": "+2250704252225",
     "contactType": "customer support",
+    "email": "contact@calandix.com",
     "availableLanguage": [
      "fr"
     ],
     "areaServed": "CI",
-    "url": "https://wa.me/2250757633765"
-   },
-   "parentOrganization": {
-    "@type": "Organization",
-    "name": "TOOTEBO"
+    "url": "https://wa.me/2250704252225"
    }
   },
   {

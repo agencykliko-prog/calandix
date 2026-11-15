@@ -270,7 +270,7 @@ class AccountScreen extends ConsumerWidget {
                 _Row(
                   AppIcons.bell,
                   'Notifications'.tr,
-                  'Push, e-mail, WhatsApp'.tr,
+                  'Push et e-mail'.tr,
                   () => showEventaSheet<void>(
                     context,
                     builder: (_) => const _NotificationsSheet(),
@@ -887,7 +887,6 @@ class _NotificationsSheet extends ConsumerWidget {
         _ToggleSheetRows(
           items: [
             ('E-mail'.tr, 'Récapitulatif hebdomadaire'.tr, true),
-            ('WhatsApp'.tr, 'Rappels importants uniquement'.tr, false),
             ('SMS'.tr, 'Codes et confirmations'.tr, true),
           ],
         ),

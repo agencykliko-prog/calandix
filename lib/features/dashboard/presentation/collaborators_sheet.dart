@@ -222,7 +222,7 @@ class _Collaborators extends ConsumerWidget {
                 controller: name,
                 autofocus: true,
                 decoration: InputDecoration(
-                  hintText: 'Nom ou numéro WhatsApp'.tr,
+                  hintText: 'Nom, e-mail ou numéro'.tr,
                 ),
               ),
               const SizedBox(height: 14),

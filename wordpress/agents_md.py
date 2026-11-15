@@ -23,7 +23,8 @@ PAGES = ('\n---\n\nPages : [À propos](https://calandix.com/a-propos/) · '
          '[Contact](https://calandix.com/contact/) · '
          '[Conditions générales](https://calandix.com/conditions/) · '
          '[Confidentialité](https://calandix.com/confidentialite/) · '
-         '[Résumé pour les agents](https://calandix.com/llms.txt)\n')
+         '[Résumé pour les agents](https://calandix.com/llms.txt)\n\n'
+         'Contact : WhatsApp et téléphone +225 07 04 25 22 25 · contact@calandix.com\n')
 
 
 def text(el):
@@ -128,11 +129,10 @@ def jsonld(soup):
                 '@type': 'Organization', '@id': base + '#organisation', 'name': 'Calandix', 'url': base,
                 'logo': logo, 'slogan': 'Le budget parfait pour célébrer', 'description': desc,
                 'areaServed': {'@type': 'Country', 'name': 'Côte d’Ivoire'},
-                'telephone': '+2250757633765',
-                'contactPoint': {'@type': 'ContactPoint', 'telephone': '+2250757633765',
-                                 'contactType': 'customer support', 'availableLanguage': ['fr'],
-                                 'areaServed': 'CI', 'url': 'https://wa.me/2250757633765'},
-                'parentOrganization': {'@type': 'Organization', 'name': 'TOOTEBO'},
+                'telephone': '+2250704252225', 'email': 'contact@calandix.com',
+                'contactPoint': {'@type': 'ContactPoint', 'telephone': '+2250704252225',
+                                 'contactType': 'customer support', 'email': 'contact@calandix.com', 'availableLanguage': ['fr'],
+                                 'areaServed': 'CI', 'url': 'https://wa.me/2250704252225'},
             },
             {
                 '@type': 'WebSite', '@id': base + '#site', 'url': base, 'name': 'Calandix',
