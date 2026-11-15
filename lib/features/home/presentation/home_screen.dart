@@ -882,7 +882,7 @@ class _PassPromo extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Toutes les fonctions Signature pendant 90 jours, pour un seul événement.'
+                    'Paiement unique : toutes les fonctions Signature pendant 90 jours, pour un événement.'
                         .tr,
                     style: context.text.bodySmall?.copyWith(
                       color: Confetti.inkMuted,

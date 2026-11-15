@@ -2517,14 +2517,28 @@ const en = <String, String>{
   'Aide aux échanges avec les prestataires': 'Help with vendor conversations',
   'Coffre-fort numérique de 10 Go': '10 GB digital vault',
 
+  // ─── Pass Événement, carte revue (15 nov. 2026) ───
+  'Coffre-fort 10 Go': '10 GB vault',
+  'événement': 'event',
+  'jours': 'days',
+  'fonctions': 'features',
+  'Voir tout ce qui est inclus (+{0})': 'See everything included (+{0})',
+  '{0} mois de {1} en abonnement : {2}. Avec le Pass : {3}, une seule fois.':
+      '{0} months of {1} on subscription: {2}. With the Pass: {3}, paid once.',
+  'Paiement unique : toutes les fonctions Signature pendant 90 jours, pour un événement.':
+      'One-off payment: every Signature feature for 90 days, for one event.',
   // ─── Sans relances WhatsApp (15 nov. 2026) ───
   'Push et e-mail': 'Push and email',
-  'Version courte avec lien RSVP et plan d’accès': 'Short version with RSVP link and directions',
-  'Message copié : partagez-le à vos invités.': 'Message copied: share it with your guests.',
+  'Version courte avec lien RSVP et plan d’accès':
+      'Short version with RSVP link and directions',
+  'Message copié : partagez-le à vos invités.':
+      'Message copied: share it with your guests.',
   'Nom, e-mail ou numéro': 'Name, email or number',
   'Voir les {0} en attente': 'See the {0} pending',
-  'Graphiques et export, QR code RSVP et jusqu’à 5 collaborateurs.': 'Charts and export, RSVP QR code and up to 5 team members.',
-  'Invitations numériques avec QR code d’entrée et réponses suivies en direct.': 'Digital invitations with entry QR code and replies tracked live.',
+  'Graphiques et export, QR code RSVP et jusqu’à 5 collaborateurs.':
+      'Charts and export, RSVP QR code and up to 5 team members.',
+  'Invitations numériques avec QR code d’entrée et réponses suivies en direct.':
+      'Digital invitations with entry QR code and replies tracked live.',
   'Coffre-fort 2 Go': '2 GB vault',
   'Appeler · {0}': 'Call · {0}',
 };

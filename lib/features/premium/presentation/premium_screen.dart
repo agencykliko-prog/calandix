@@ -373,6 +373,8 @@ class _PlanCard extends StatelessWidget {
 }
 
 /// Pass Événement : Signature pendant 90 jours, pour un seul événement.
+/// Prix, durée et portée se lisent d'un coup d'œil ; les quatre atouts
+/// principaux sont visibles, le reste du contenu se déroule à la demande.
 class _PassCard extends StatefulWidget {
   const _PassCard({required this.onTap});
 
@@ -383,154 +385,310 @@ class _PassCard extends StatefulWidget {
 }
 
 class _PassCardState extends State<_PassCard> {
-  /// Le contenu du Pass se déroule à la demande.
   bool _open = false;
 
-  VoidCallback get onTap => widget.onTap;
+  /// Atouts mis en avant (tirés du contenu du Pass).
+  static const _highlights = <(IconData, String, String)>[
+    (AppIcons.guests, 'Jusqu’à 750 invités', 'invités'),
+    (AppIcons.team, 'Jusqu’à 15 collaborateurs', 'collaborateurs'),
+    (AppIcons.sparkle, 'Agent IA dédié', 'Agent IA'),
+    (AppIcons.lock, 'Coffre-fort 10 Go', 'Coffre-fort'),
+  ];
 
   @override
   Widget build(BuildContext context) {
+    final soft = Colors.white.withValues(alpha: 0.72);
+    // Même durée en abonnement Signature, pour comparer.
+    final months = (eventPassDays / 30).round();
+    final viaPlan = eventPassPlan.price * months;
+    final rest = Catalog.passFeatures
+        .where((f) => !_highlights.any((h) => f.contains(h.$3)))
+        .toList();
     return Container(
-      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Confetti.night,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: Confetti.gold.withValues(alpha: 0.6)),
       ),
+      clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Icon(AppIcons.ticket, color: Confetti.gold, size: 20),
-              const SizedBox(width: 8),
-              Text(
-                'PASS ÉVÉNEMENT'.tr,
-                style: context.text.labelMedium?.copyWith(
-                  letterSpacing: 1.2,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Text.rich(
-            TextSpan(
-              text: fcfa(eventPassPrice).replaceAll(RegExp(r'\s*FCFA$'), ''),
-              style: context.text.headlineMedium?.copyWith(color: Colors.white),
+          // En-tête : nom, prix, portée.
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextSpan(
-                  text: '  FCFA · paiement unique'.tr,
-                  style: context.text.bodySmall?.copyWith(
-                    color: Colors.white60,
+                Row(
+                  children: [
+                    Icon(AppIcons.ticket, color: Confetti.gold, size: 20),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'PASS ÉVÉNEMENT'.tr,
+                        style: context.text.labelMedium?.copyWith(
+                          letterSpacing: 1.2,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Confetti.gold,
+                        borderRadius: BorderRadius.circular(99),
+                      ),
+                      child: Text(
+                        'Sans abonnement'.tr,
+                        style: context.text.labelSmall?.copyWith(
+                          color: Confetti.ink,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 14),
+                Text.rich(
+                  TextSpan(
+                    text: fcfa(eventPassPrice)
+                        .replaceAll(RegExp(r'\s*FCFA$'), ''),
+                    style: context.text.headlineMedium?.copyWith(
+                      color: Colors.white,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: '  FCFA · paiement unique'.tr,
+                        style: context.text.bodySmall?.copyWith(color: soft),
+                      ),
+                    ],
                   ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'Toutes les fonctionnalités de Signature, pour un seul événement et pendant 90 jours.'
+                      .tr,
+                  style: context.text.bodyMedium?.copyWith(
+                    color: Colors.white.withValues(alpha: 0.88),
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Row(
+                  children: [
+                    _Fact(value: '1', label: 'événement'.tr),
+                    const SizedBox(width: 8),
+                    _Fact(value: '$eventPassDays', label: 'jours'.tr),
+                    const SizedBox(width: 8),
+                    _Fact(value: eventPassPlan.label, label: 'fonctions'.tr),
+                  ],
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 8),
-          Text(
-            '1 événement · 90 jours'.tr,
-            style: context.text.labelMedium?.copyWith(color: Confetti.gold),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Organisez votre événement avec toute la puissance de Calandix, sans abonnement.'
-                .tr,
-            style: context.text.bodyMedium?.copyWith(
-              color: Colors.white.withValues(alpha: 0.88),
-            ),
-          ),
-          const SizedBox(height: 10),
-          InkWell(
-            borderRadius: BorderRadius.circular(12),
-            onTap: () => setState(() => _open = !_open),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      _open
-                          ? 'Masquer le contenu du Pass'.tr
-                          : 'Voir le contenu du Pass ({0})'.trf([
-                              Catalog.passFeatures.length,
-                            ]),
-                      style: context.text.labelLarge?.copyWith(
-                        color: Confetti.gold,
+          // Atouts principaux, toujours visibles.
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 6),
+            color: Colors.white.withValues(alpha: 0.05),
+            child: LayoutBuilder(
+              builder: (context, c) {
+                final w = (c.maxWidth - 12) / 2;
+                return Wrap(
+                  spacing: 12,
+                  runSpacing: 10,
+                  children: [
+                    for (final (icon, label, _) in _highlights)
+                      SizedBox(
+                        width: w,
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                color: Confetti.gold.withValues(alpha: 0.16),
+                                borderRadius: BorderRadius.circular(9),
+                              ),
+                              child: Icon(icon, size: 16, color: Confetti.gold),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                label.tr,
+                                style: context.text.bodySmall?.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
-                  AnimatedRotation(
-                    turns: _open ? 0.5 : 0,
-                    duration: const Duration(milliseconds: 200),
-                    child: Icon(
-                      AppIcons.chevronDown,
-                      size: 18,
-                      color: Confetti.gold,
-                    ),
-                  ),
-                ],
-              ),
+                  ],
+                );
+              },
             ),
           ),
-          AnimatedSize(
-            duration: const Duration(milliseconds: 240),
-            curve: Curves.easeOutCubic,
-            alignment: Alignment.topCenter,
-            child: _open
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 6),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+          // Le reste du contenu, à la demande.
+          Container(
+            color: Colors.white.withValues(alpha: 0.05),
+            padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: () => setState(() => _open = !_open),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 10,
+                    ),
+                    child: Row(
                       children: [
-                        for (final f in Catalog.passFeatures)
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 6),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 2),
-                                  child: Icon(
-                                    AppIcons.check,
-                                    size: 15,
-                                    color: Confetti.gold,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: Text(
-                                    f.tr,
-                                    style: context.text.bodySmall?.copyWith(
-                                      color: Colors.white.withValues(
-                                        alpha: 0.88,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                        Expanded(
+                          child: Text(
+                            _open
+                                ? 'Masquer le contenu du Pass'.tr
+                                : 'Voir tout ce qui est inclus (+{0})'.trf([
+                                    rest.length,
+                                  ]),
+                            style: context.text.labelLarge?.copyWith(
+                              color: Confetti.gold,
                             ),
                           ),
+                        ),
+                        AnimatedRotation(
+                          turns: _open ? 0.5 : 0,
+                          duration: const Duration(milliseconds: 200),
+                          child: Icon(
+                            AppIcons.chevronDown,
+                            size: 18,
+                            color: Confetti.gold,
+                          ),
+                        ),
                       ],
                     ),
-                  )
-                : const SizedBox(width: double.infinity),
+                  ),
+                ),
+                AnimatedSize(
+                  duration: const Duration(milliseconds: 240),
+                  curve: Curves.easeOutCubic,
+                  alignment: Alignment.topCenter,
+                  child: _open
+                      ? Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              for (final f in rest)
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 7),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 2),
+                                        child: Icon(
+                                          AppIcons.check,
+                                          size: 15,
+                                          color: Confetti.gold,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Expanded(
+                                        child: Text(
+                                          f.tr,
+                                          style: context.text.bodySmall
+                                              ?.copyWith(color: soft),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox(width: double.infinity),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 6),
-          Text(
-            'Toutes les fonctionnalités de Signature, pour un seul événement et pendant 90 jours.'
-                .tr,
-            style: context.text.bodySmall?.copyWith(color: Colors.white60),
-          ),
-          const SizedBox(height: 14),
-          PillButton(
-            label: 'Prendre un Pass Événement'.tr,
-            tone: ButtonTone.gold,
-            height: 48,
-            onPressed: onTap,
+          // Comparaison et action.
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (viaPlan > eventPassPrice)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 14),
+                    child: Text(
+                      '{0} mois de {1} en abonnement : {2}. Avec le Pass : {3}, une seule fois.'
+                          .trf([
+                            months,
+                            eventPassPlan.label,
+                            fcfa(viaPlan),
+                            fcfa(eventPassPrice),
+                          ]),
+                      style: context.text.bodySmall?.copyWith(color: soft),
+                    ),
+                  ),
+                PillButton(
+                  label: 'Prendre un Pass Événement'.tr,
+                  tone: ButtonTone.gold,
+                  height: 48,
+                  onPressed: widget.onTap,
+                ),
+              ],
+            ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Une donnée clé du Pass : valeur en grand, libellé dessous.
+class _Fact extends StatelessWidget {
+  const _Fact({required this.value, required this.label});
+
+  final String value;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.16)),
+        ),
+        child: Column(
+          children: [
+            Text(
+              value,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.text.titleMedium?.copyWith(color: Colors.white),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.text.labelSmall?.copyWith(
+                color: Colors.white.withValues(alpha: 0.6),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
