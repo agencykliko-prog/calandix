@@ -13,6 +13,11 @@ import '../../commerce/presentation/commerce_providers.dart';
 import '../../../core/models/models.dart';
 import '../../events/presentation/events_providers.dart';
 import '../../premium/presentation/paywall.dart';
+import '../../../core/config/links.dart';
+
+import 'package:flutter/services.dart';
+
+import '../../../app/router/app_router.dart';
 
 /// Collaborateurs offerts avec Découverte.
 final freeCollaborators = Plan.free.collaborators;
@@ -35,6 +40,8 @@ class _Collaborators extends ConsumerWidget {
     final used = e.collaborators;
     final caps = ref.watch(eventCapsProvider(eventId));
     final limit = caps.collaborators;
+    // Lien vers l'espace de l'événement dans l'application.
+    final invite = appLink(Routes.event(e.id));
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
       child: Column(
@@ -101,11 +108,16 @@ class _Collaborators extends ConsumerWidget {
           ),
           const SizedBox(height: 10),
           Pressable(
-            onTap: () => toast(
-              context,
-              'Lien d’invitation copié'.tr,
-              icon: AppIcons.share,
-            ),
+            onTap: () async {
+              await Clipboard.setData(ClipboardData(text: invite));
+              if (context.mounted) {
+                toast(
+                  context,
+                  'Lien d’invitation copié'.tr,
+                  icon: AppIcons.share,
+                );
+              }
+            },
             child: Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
@@ -119,7 +131,9 @@ class _Collaborators extends ConsumerWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      'eventa.ci/e/${e.id.substring(0, 8)}',
+                      invite.replaceFirst('https://', ''),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: context.text.bodyMedium?.copyWith(
                         color: Confetti.inkMuted,
                       ),

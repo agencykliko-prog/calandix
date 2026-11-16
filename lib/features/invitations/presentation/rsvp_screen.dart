@@ -12,13 +12,14 @@ import '../../../ui/widgets/ui.dart';
 import '../../events/presentation/events_providers.dart';
 import 'invitation_screen.dart';
 import 'invitations_providers.dart';
+import '../../../core/config/links.dart';
 
 /// Lien personnel de l'invité : il ouvre l'invitation et répond lui-même.
 String rsvpPath(String eventId, String guestId) =>
     '/r/$eventId/${guestCode(eventId, guestId)}';
 
 String rsvpLink(String eventId, String guestId) =>
-    'https://calandix.ci${rsvpPath(eventId, guestId)}';
+    appLink(rsvpPath(eventId, guestId));
 
 /// Page ouverte par l'invité depuis son lien : invitation, présence,
 /// accompagnants et message à l'organisateur. Sa réponse met à jour la

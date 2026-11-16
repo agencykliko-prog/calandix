@@ -189,7 +189,11 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    // Petits écrans : le badge passe sous le titre.
+                    Wrap(
+                      spacing: 6,
+                      runSpacing: 4,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Text(
                           'Budget par l’IA'.tr,
@@ -197,7 +201,6 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
                             color: Colors.white,
                           ),
                         ),
-                        const SizedBox(width: 6),
                         const PremiumBadge(compact: true, onDark: true),
                       ],
                     ),

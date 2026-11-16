@@ -94,7 +94,7 @@ String bookingsIcs(List<ClientRequest> requests) {
     if (r.status != RequestStatus.confirmed) continue;
     b
       ..writeln('BEGIN:VEVENT')
-      ..writeln('UID:${r.id}@calandix.ci')
+      ..writeln('UID:${r.id}@calandix.com')
       ..writeln('DTSTAMP:${_ics(DateTime.now())}')
       ..writeln('DTSTART:${_ics(r.date)}')
       ..writeln('DTEND:${_ics(r.date.add(const Duration(hours: 5)))}')

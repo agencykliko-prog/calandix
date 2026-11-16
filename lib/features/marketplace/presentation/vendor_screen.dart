@@ -21,6 +21,7 @@ import '../../events/presentation/events_providers.dart';
 import '../../inbox/presentation/inbox_providers.dart';
 import 'widgets/vendor_card.dart';
 import '../data/vendor_media.dart';
+import '../../../core/config/links.dart';
 
 class VendorScreen extends ConsumerWidget {
   const VendorScreen({super.key, required this.id});
@@ -52,7 +53,14 @@ class VendorScreen extends ConsumerWidget {
                 RoundIconButton(
                   icon: AppIcons.share,
                   tooltip: 'Partager',
-                  onTap: () => toast(context, 'Lien de la fiche copié'.tr),
+                  onTap: () async {
+                    await Clipboard.setData(
+                      ClipboardData(text: appLink(Routes.vendor(id))),
+                    );
+                    if (context.mounted) {
+                      toast(context, 'Lien de la fiche copié'.tr);
+                    }
+                  },
                 ),
               ],
             ),

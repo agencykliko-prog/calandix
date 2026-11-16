@@ -20,6 +20,7 @@ import '../../../ui/widgets/pressable.dart';
 import '../../../ui/widgets/ui.dart';
 import '../../events/presentation/events_providers.dart';
 import 'invitations_providers.dart';
+import '../../../core/config/links.dart';
 
 // ─── Modèle ─────────────────────────────────────────────────────────────
 
@@ -155,7 +156,7 @@ final eventSiteProvider =
     );
 
 String sitePath(String eventId) => '/e/$eventId';
-String siteLink(String eventId) => 'https://calandix.ci${sitePath(eventId)}';
+String siteLink(String eventId) => appLink(sitePath(eventId));
 
 String directionsUrl(String address) =>
     'https://www.google.com/maps/dir/?api=1&destination=${Uri.encodeComponent(address)}';

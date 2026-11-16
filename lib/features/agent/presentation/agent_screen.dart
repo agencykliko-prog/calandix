@@ -15,6 +15,8 @@ import '../../events/data/event_templates.dart';
 import '../../../core/models/models.dart';
 import '../../events/presentation/events_providers.dart';
 
+import 'package:flutter/services.dart';
+
 /// Agent IA spécialisé par famille d'événements (Premium).
 /// Démonstration : les réponses sont calculées à partir des données de
 /// l'événement, sans appel à un modèle de langage.
@@ -171,26 +173,30 @@ class _AgentScreenState extends ConsumerState<AgentScreen> {
           ],
         );
       case AgentAction.guestMessage:
+        final message = 'Bonjour, nous serions ravis de vous compter parmi nous le {0} pour {1}. Merci de confirmer votre présence avant le {2}.'
+            .trf([
+              shortDate(e.date),
+              e.name,
+              shortDate(e.date.subtract(const Duration(days: 21))),
+            ]);
         return _Msg(
           true,
           'Message prêt pour les {0} invités qui n’ont pas répondu :'.trf([
             g.pending,
           ]),
-          bullets: [
-            'Bonjour, nous serions ravis de vous compter parmi nous le {0} pour {1}. Merci de confirmer votre présence avant le {2}.'
-                .trf([
-                  shortDate(e.date),
-                  e.name,
-                  shortDate(e.date.subtract(const Duration(days: 21))),
-                ]),
-          ],
+          bullets: [message],
           action: (
             'Copier le message'.tr,
-            () => toast(
-              context,
-              'Message copié : partagez-le à vos invités.'.tr,
-              icon: AppIcons.link,
-            ),
+            () async {
+              await Clipboard.setData(ClipboardData(text: message));
+              if (mounted) {
+                toast(
+                  context,
+                  'Message copié : partagez-le à vos invités.'.tr,
+                  icon: AppIcons.link,
+                );
+              }
+            },
           ),
         );
       case AgentAction.remaining:
