@@ -483,8 +483,17 @@ abstract final class Validators {
     return d.length == 10 ? null : 'Numéro à 10 chiffres'.tr;
   }
 
-  static String? password(String? v) =>
-      (v ?? '').length >= 8 ? null : '8 caractères minimum'.tr;
+  static String? password(String? v) {
+    final p = v ?? '';
+    if (p.length < 8) return '8 caractères minimum'.tr;
+    if (p.length > 72) return '72 caractères maximum'.tr;
+    if (!RegExp(r'[a-z]').hasMatch(p) ||
+        !RegExp(r'[A-Z]').hasMatch(p) ||
+        !RegExp(r'[0-9]').hasMatch(p)) {
+      return 'Au moins une minuscule, une majuscule et un chiffre'.tr;
+    }
+    return null;
+  }
 }
 
 const ivoryCities = [

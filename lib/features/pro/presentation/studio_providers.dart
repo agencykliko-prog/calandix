@@ -217,7 +217,7 @@ class StudioNotifier extends Notifier<StudioState> {
 
   /// Clé d'API de démonstration (régénérable).
   String generateApiKey() {
-    final r = math.Random();
+    final r = math.Random.secure();
     const chars = 'abcdefghijkmnpqrstuvwxyz23456789';
     final key =
         'evt_live_${List.generate(24, (_) => chars[r.nextInt(chars.length)]).join()}';

@@ -377,7 +377,7 @@ final vaultProvider = NotifierProvider<VaultNotifier, List<VaultDoc>>(
 
 String receiptRef() => 'EVT-{0}-{1}'.trf([
   DateTime.now().year,
-  (math.Random().nextInt(9000) + 1000),
+  (math.Random.secure().nextInt(9000) + 1000),
 ]);
 
 class BookingsNotifier extends Notifier<List<Booking>> {

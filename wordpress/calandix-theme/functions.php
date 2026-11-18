@@ -10,9 +10,10 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const CALANDIX_LANDING_VERSION = '71';
+const CALANDIX_LANDING_VERSION = '72';
 
 require_once __DIR__ . '/inc/agents.php';
+require_once __DIR__ . '/inc/security.php';
 
 add_action( 'after_setup_theme', function () {
 	// <title> écrit par WordPress (ou Yoast) sur toutes les pages.

@@ -67,7 +67,17 @@ class _AdminLoginScreenState extends ConsumerState<AdminLoginScreen> {
     context.go(adminPath(AdminModule.homeFor(perms)));
   }
 
+  /// Échecs consécutifs et fin du blocage en cours.
+  int _failures = 0;
+  DateTime? _lockedUntil;
+
   Future<void> _submitReal() async {
+    final lock = _lockedUntil;
+    if (lock != null && DateTime.now().isBefore(lock)) {
+      final s = lock.difference(DateTime.now()).inSeconds + 1;
+      setState(() => _error = 'Trop de tentatives. Réessayez dans $s s.');
+      return;
+    }
     final email = _email.text.trim();
     if (!email.contains('@') || _password.text.isEmpty) {
       setState(() => _error = 'Saisissez votre e-mail et votre mot de passe');
@@ -91,6 +101,17 @@ class _AdminLoginScreenState extends ConsumerState<AdminLoginScreen> {
     }
     if (!mounted) return;
     _password.clear();
+    if (problem != null) {
+      _failures++;
+      // 3 essais libres, puis 15 s, 30 s, 60 s… jusqu'à 15 min.
+      if (_failures >= 3) {
+        final wait = (15 * (1 << (_failures - 3))).clamp(15, 900);
+        _lockedUntil = DateTime.now().add(Duration(seconds: wait));
+      }
+    } else {
+      _failures = 0;
+      _lockedUntil = null;
+    }
     setState(() {
       _busy = false;
       _error = problem;

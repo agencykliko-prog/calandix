@@ -2517,6 +2517,10 @@ const en = <String, String>{
   'Aide aux échanges avec les prestataires': 'Help with vendor conversations',
   'Coffre-fort numérique de 10 Go': '10 GB digital vault',
 
+  // ─── Sécurité (18 nov. 2026) ───
+  '72 caractères maximum': '72 characters maximum',
+  'Au moins une minuscule, une majuscule et un chiffre':
+      'At least one lowercase letter, one uppercase letter and one digit',
   // ─── Pass Événement, carte revue (15 nov. 2026) ───
   'Coffre-fort 10 Go': '10 GB vault',
   'événement': 'event',

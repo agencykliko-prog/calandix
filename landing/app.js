@@ -8,6 +8,8 @@
   if (!G) root.classList.remove('anim');
   // Défilement lissé (grands écrans uniquement), créé par motion().
   let smoother = null;
+  // Texte inséré en HTML : jamais interprété comme du balisage.
+  const esc = (t) => t.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
   const fcfa = (n) => Math.round(n).toLocaleString('fr-FR').replace(/ | /g, ' ');
 
   /* ── Mascottes ─────────────────────────────────────────
@@ -92,11 +94,11 @@
   document.querySelectorAll('.split').forEach((h) => {
     const words = [];
     h.childNodes.forEach((n) => {
-      const open = n.nodeType === 1 ? `<${n.tagName.toLowerCase()}${n.className ? ` class="${n.className}"` : ''}>` : '';
+      const open = n.nodeType === 1 ? `<${n.tagName.toLowerCase()}${n.className ? ` class="${esc(n.className)}"` : ''}>` : '';
       const close = n.nodeType === 1 ? `</${n.tagName.toLowerCase()}>` : '';
       n.textContent.split(/(\s+)/).forEach((w) => {
         if (!w.trim()) { if (words.length) words.push(null); return; }
-        words.push(open + w + close);
+        words.push(open + esc(w) + close);
       });
     });
     h.setAttribute('aria-label', h.textContent.trim());

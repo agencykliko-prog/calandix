@@ -130,7 +130,7 @@ add_action(
 			$data = json_decode( (string) file_get_contents( $json ), true );
 			if ( $data ) {
 				echo '<script type="application/ld+json">'
-					. wp_json_encode( $data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES )
+					. wp_json_encode( $data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP )
 					. "</script>\n";
 			}
 		}
