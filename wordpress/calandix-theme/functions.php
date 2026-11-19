@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const CALANDIX_LANDING_VERSION = '72';
+const CALANDIX_LANDING_VERSION = '73';
 
 require_once __DIR__ . '/inc/agents.php';
 require_once __DIR__ . '/inc/security.php';
@@ -193,6 +193,11 @@ function calandix_restore_markup( string $html ): string {
 		$html
 	);
 	$html = preg_replace( '#\s(?:data-id|data-element_type|data-e-type|data-interaction-id)="[^"]*"#', '', $html );
+	// Pas de chargement différé par LiteSpeed : son image d'attente grise
+	// s'affichait à la place du téléphone et des visuels du haut de page, et
+	// la 3D pouvait la prendre pour texture. Les images plus bas gardent
+	// loading="lazy" du navigateur.
+	$html = preg_replace( '#<img\b(?![^>]*data-no-lazy)#', '<img data-no-lazy="1"', $html );
 	return preg_replace( '#(<a\b[^>]*?)\starget="_self"#', '$1', $html );
 }
 add_filter( 'elementor/frontend/the_content', 'calandix_restore_markup', 20 );
