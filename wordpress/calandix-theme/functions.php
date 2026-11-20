@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const CALANDIX_LANDING_VERSION = '73';
+const CALANDIX_LANDING_VERSION = '74';
 
 require_once __DIR__ . '/inc/agents.php';
 require_once __DIR__ . '/inc/security.php';

@@ -1134,3 +1134,78 @@ a:hover > .roll > span, a:focus-visible > .roll > span { transform: translateY(-
   .foot-contact { grid-template-columns: 1fr; }
   .legal { flex-direction: column-reverse; align-items: flex-start; }
 }
+/* ── Bandeau d'annonce défilant ─────────────────────────── */
+.banner.banner-marquee { display: block; padding: 0; overflow: hidden; }
+.banner.banner-marquee a { display: block; margin: 0; padding: 0; }
+.bn-track { display: flex; width: max-content; animation: bn-scroll 36s linear infinite; }
+.bn-item { display: inline-flex; align-items: center; gap: 26px; padding: 11px 26px 11px 0; white-space: nowrap; font-weight: 800; }
+.bn-dot { width: 7px; height: 7px; border-radius: 2px; background: var(--coral); transform: rotate(45deg); }
+.banner-marquee:hover .bn-track, .banner-marquee a:focus-visible .bn-track { animation-play-state: paused; }
+.banner-marquee a:focus-visible { outline: 3px solid var(--ink); outline-offset: -3px; }
+@keyframes bn-scroll { to { transform: translateX(-50%); } }
+@media (max-width: 640px) { .bn-item { padding: 9px 22px 9px 0; gap: 22px; font-size: 13px; } }
+
+/* ── Titre de l'ouverture : mot qui change ──────────────── */
+.hero h1 .word-cycle { display: inline-block; will-change: transform, opacity; }
+
+/* ── Invitation à l'accès anticipé ──────────────────────── */
+.invite {
+  padding: 0; border: 0; background: none; overflow: visible;
+  width: min(420px, calc(100vw - 32px)); max-width: none; max-height: none;
+  margin: auto; color: var(--ink);
+}
+.invite::backdrop { background: rgba(26, 6, 55, .58); backdrop-filter: blur(3px); }
+.invite[open] { animation: invite-in .55s var(--spring) both; }
+.invite[open]::backdrop { animation: invite-fade .3s ease-out both; }
+.invite.closing { animation: invite-out .22s ease-in both; }
+.invite.closing::backdrop { animation: invite-fade .22s ease-in reverse both; }
+@keyframes invite-in { from { opacity: 0; transform: translateY(24px) scale(.94); } }
+@keyframes invite-out { to { opacity: 0; transform: translateY(12px) scale(.97); } }
+@keyframes invite-fade { from { opacity: 0; } }
+.invite-card {
+  position: relative; margin-top: 64px; padding: 78px 28px 26px;
+  background: var(--white); border-radius: var(--r-card); text-align: center;
+  box-shadow: 0 30px 70px -20px rgba(26, 6, 55, .55);
+}
+/* Mascotte qui dépasse de la carte, entourée de confettis. */
+.invite-art { position: absolute; left: 50%; top: -64px; width: 128px; height: 128px; translate: -50% 0; }
+.invite-art img { position: relative; width: 100%; height: 100%; display: block; border-radius: 50%; background: var(--mango-hi); border: 5px solid var(--white); }
+.invite-art i { position: absolute; width: 12px; height: 12px; border-radius: 3px; animation: invite-pop .7s var(--spring) both; }
+.invite-art i:nth-child(1) { left: -30px; top: 30px; background: var(--coral); rotate: 20deg; animation-delay: .25s; }
+.invite-art i:nth-child(2) { left: -6px; top: -14px; background: var(--lagoon); border-radius: 50%; animation-delay: .32s; }
+.invite-art i:nth-child(3) { right: -8px; top: -18px; background: var(--violet); rotate: -25deg; animation-delay: .38s; }
+.invite-art i:nth-child(4) { right: -34px; top: 40px; background: var(--candy); border-radius: 50%; animation-delay: .3s; }
+.invite-art i:nth-child(5) { right: -18px; bottom: 6px; width: 16px; height: 6px; background: var(--mango); rotate: 35deg; animation-delay: .44s; }
+@keyframes invite-pop { from { opacity: 0; transform: scale(0) translateY(16px); } }
+.invite-close {
+  position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--lavender); color: var(--ink);
+  border: 0; cursor: pointer; transition: transform .2s var(--ease), background .2s;
+}
+.invite-close:hover { transform: rotate(90deg); }
+.invite-close svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
+.invite-kicker {
+  display: inline-block; padding: 5px 12px; border-radius: 99px; background: var(--lavender);
+  font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--violet);
+}
+.invite-title { margin-top: 14px; font-size: clamp(28px, 7vw, 34px); font-weight: 800; line-height: 1.08; letter-spacing: -.02em; text-wrap: balance; }
+.invite-title .script { color: var(--coral); }
+.invite-text { margin: 12px auto 0; max-width: 300px; font-size: 16px; line-height: 1.5; color: var(--muted); text-wrap: pretty; }
+.invite-actions { display: grid; gap: 6px; margin-top: 24px; }
+.invite-go { width: 100%; justify-content: center; }
+.invite-later {
+  min-height: 44px; border: 0; background: none; cursor: pointer;
+  font: inherit; font-size: 15px; font-weight: 700; color: var(--muted);
+  text-decoration: underline; text-underline-offset: 3px;
+}
+.invite-later:hover { color: var(--ink); }
+[data-theme="dark"] .invite { color: var(--white); }
+[data-theme="dark"] .invite-card { background: var(--night); }
+[data-theme="dark"] .invite-art img { border-color: var(--night); }
+[data-theme="dark"] .invite-title .script { color: var(--mango-hi); }
+[data-theme="dark"] .invite-kicker { color: var(--white); }
+[data-theme="dark"] .invite-close { color: var(--white); }
+[data-theme="dark"] .invite-later:hover { color: var(--white); }
+@media (prefers-reduced-motion: reduce) {
+  .invite[open], .invite[open]::backdrop, .invite-art i { animation: none; }
+}

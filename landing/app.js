@@ -176,7 +176,6 @@
     gsap.timeline({ defaults: { duration: .8, ease: 'power3.out' } })
       // La barre se place par transformation (CSS) : seule son opacité est animée.
       .fromTo('.pill-nav', { autoAlpha: 0 }, { autoAlpha: 1, duration: .6 }, 0)
-      .fromTo(inHero('.eyebrow'), { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0 }, .15)
       .fromTo(title.querySelectorAll('.w > span'), { y: 0, yPercent: 105 }, {
         yPercent: 0, duration: .9, ease: 'power4.out', stagger: .07,
         onComplete: () => title.classList.add('in'),
@@ -785,6 +784,8 @@
         : 'On vous écrit dès l’ouverture, avec les avantages de lancement pour votre prochain événement.';
       early.reset();
       early.classList.add('sent');
+      // Inscrit : l'invitation à l'ouverture ne revient plus.
+      try { localStorage.setItem('calandix-invite', 'inscrit'); } catch (e) { /* navigation privée */ }
       done.hidden = false;
       done.querySelector('.early-title').focus({ preventScroll: true });
       const r = done.querySelector('.early-check').getBoundingClientRect();
@@ -795,6 +796,103 @@
       early.classList.remove('sent');
       early.elements.nom.focus();
     });
+  }
+
+  /* ── Bandeau d'annonce défilant ──────────────────────── */
+  // Le lien garde son texte pour les lecteurs d'écran ; les copies qui
+  // défilent (deux groupes identiques, boucle sans couture) sont décoratives.
+  const bannerLink = banner && banner.querySelector('a');
+  if (bannerLink && !reduce) {
+    const text = bannerLink.textContent.trim();
+    const item = `<span class="bn-item">${esc(text)}<i class="bn-dot"></i></span>`;
+    bannerLink.setAttribute('aria-label', text);
+    bannerLink.innerHTML = `<span class="bn-track" aria-hidden="true">${item.repeat(4)}${item.repeat(4)}</span>`;
+    banner.classList.add('banner-marquee');
+    placeNav();
+  }
+
+  /* ── Titre de l'ouverture : le mot mis en avant change ─ */
+  const heroWord = document.querySelector('.hero h1 .script');
+  if (heroWord && !reduce) {
+    const list = ['inoubliable', 'mémorable', 'exceptionnel', 'époustouflant', 'extraordinaire'];
+    let k = 0, onScreen = true;
+    heroWord.classList.add('word-cycle');
+    new IntersectionObserver(([en]) => { onScreen = en.isIntersecting; }).observe(heroWord);
+    const next = async () => {
+      if (onScreen && !document.hidden) {
+        k = (k + 1) % list.length;
+        await heroWord.animate(
+          [{ transform: 'none', opacity: 1 }, { transform: 'translateY(-55%)', opacity: 0 }],
+          { duration: 300, easing: 'cubic-bezier(.55, 0, 1, .45)' },
+        ).finished;
+        heroWord.textContent = list[k];
+        await heroWord.animate(
+          [{ transform: 'translateY(55%)', opacity: 0 }, { transform: 'none', opacity: 1 }],
+          { duration: 560, easing: 'cubic-bezier(.23, 1, .32, 1)' },
+        ).finished;
+      }
+      setTimeout(next, 2300);
+    };
+    // Après l'ouverture : le premier mot a le temps d'être lu.
+    setTimeout(next, G ? 3800 : 2600);
+  }
+
+  /* ── Invitation à l'accès anticipé ───────────────────── */
+  // Une fois à l'ouverture ; refermée, elle ne revient pas avant 7 jours, et
+  // plus jamais après l'inscription.
+  const earlyBand = document.getElementById('acces-anticipe');
+  const invited = (() => {
+    try {
+      const v = localStorage.getItem('calandix-invite');
+      return v === 'inscrit' || (v && Date.now() - Number(v) < 7 * 864e5);
+    } catch (e) { return true; }
+  })();
+  if (earlyBand && !invited && location.hash !== '#acces-anticipe' && window.HTMLDialogElement) {
+    const dlg = document.createElement('dialog');
+    dlg.className = 'invite';
+    dlg.setAttribute('aria-labelledby', 'invite-title');
+    dlg.setAttribute('aria-describedby', 'invite-text');
+    dlg.innerHTML = `<div class="invite-card">
+      <button class="invite-close" type="button" aria-label="Fermer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <div class="invite-art" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><img src="${src('rire')}" width="320" height="320" alt="" decoding="async"></div>
+      <p class="invite-kicker">Accès anticipé</p>
+      <h2 class="invite-title" id="invite-title">Soyez parmi les <em class="script">premiers</em></h2>
+      <p class="invite-text" id="invite-text">Inscrivez-vous et soyez informé dès le lancement de Calandix.</p>
+      <div class="invite-actions">
+        <button class="btn btn-cta invite-go" type="button">Je m’inscris</button>
+        <button class="invite-later" type="button">Plus tard</button>
+      </div>
+    </div>`;
+    document.body.append(dlg);
+    const remember = () => { try { localStorage.setItem('calandix-invite', String(Date.now())); } catch (e) { /* navigation privée */ } };
+    const shut = () => {
+      if (!dlg.open || dlg.classList.contains('closing')) return;
+      remember();
+      if (reduce) { dlg.close(); return; }
+      dlg.classList.add('closing');
+      setTimeout(() => { dlg.classList.remove('closing'); dlg.close(); }, 220);
+    };
+    dlg.querySelector('.invite-close').addEventListener('click', shut);
+    dlg.querySelector('.invite-later').addEventListener('click', shut);
+    // Clic sur le fond : la carte remplit la fenêtre de dialogue, le reste est le fond.
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) shut(); });
+    dlg.addEventListener('cancel', (e) => { e.preventDefault(); shut(); });
+    dlg.querySelector('.invite-go').addEventListener('click', () => {
+      shut();
+      setTimeout(() => {
+        if (smoother) smoother.scrollTo(earlyBand, true, 'top 86px');
+        else earlyBand.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+        const first = earlyBand.querySelector('input:not([type=hidden]):not([name=bot-field])');
+        if (first) setTimeout(() => first.focus({ preventScroll: true }), reduce ? 0 : 900);
+      }, reduce ? 0 : 230);
+    });
+    setTimeout(() => {
+      // Pas par-dessus le menu ou l'assistant ouverts, ni si l'on est déjà au formulaire.
+      const r = earlyBand.getBoundingClientRect();
+      if (document.querySelector('dialog[open]') || navBar.classList.contains('open') || (r.top < innerHeight && r.bottom > 0)) return;
+      dlg.showModal();
+      dlg.querySelector('.invite-go').focus();
+    }, G ? 4200 : 3000);
   }
 
   /* ── Menu mobile ─────────────────────────────────────── */
