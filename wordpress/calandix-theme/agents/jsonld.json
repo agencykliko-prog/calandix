@@ -8,7 +8,7 @@
    "url": "https://calandix.com/",
    "logo": "https://calandix.com/wp-content/themes/calandix/landing/img/calandix-logo-email.png",
    "slogan": "Le budget parfait pour célébrer",
-   "description": "Calandix organise vos fêtes en Côte d’Ivoire : budget maîtrisé, prestataires vérifiés, invités et équipe au même endroit. Essai 100 % gratuit.",
+   "description": "Budget, traiteur, DJ, salle, décoration et invités : Calandix organise mariage, dot, anniversaire ou baptême en Côte d’Ivoire. Démo gratuite.",
    "areaServed": {
     "@type": "Country",
     "name": "Côte d’Ivoire"
@@ -44,7 +44,7 @@
    "url": "https://calandix.com/app/",
    "applicationCategory": "BusinessApplication",
    "operatingSystem": "Web",
-   "description": "Calandix organise vos fêtes en Côte d’Ivoire : budget maîtrisé, prestataires vérifiés, invités et équipe au même endroit. Essai 100 % gratuit.",
+   "description": "Budget, traiteur, DJ, salle, décoration et invités : Calandix organise mariage, dot, anniversaire ou baptême en Côte d’Ivoire. Démo gratuite.",
    "inLanguage": "fr",
    "publisher": {
     "@id": "https://calandix.com/#organisation"
@@ -198,6 +198,46 @@
      "acceptedAnswer": {
       "@type": "Answer",
       "text": "La formule Découverte est gratuite. Calandix prélève une commission uniquement sur les sommes encaissées via l’application : 6 % en Découverte, 5 % en Starter (5 000 FCFA / mois), 4 % en Creator (10 000 FCFA / mois) et 2 % en Business (15 000 FCFA / mois). Aucune commission sur une demande de devis."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Quels événements peut-on organiser avec Calandix ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Mariage civil, religieux ou traditionnel, dot, fiançailles, anniversaire, baby shower, baptême, EVJF, sortie entre amis, séminaire ou team building : Calandix prépare la checklist et la répartition du budget selon le type d’événement."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Comment faire le budget d’un mariage en Côte d’Ivoire ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Indiquez votre budget total et le nombre d’invités : Calandix le répartit entre le lieu, la restauration, les boissons, la décoration, l’animation, la photo et la vidéo, les tenues, les invitations et le transport. Vous suivez ensuite chaque dépense en FCFA, poste par poste : prévu, engagé, payé."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Comment trouver un traiteur, un DJ ou une salle à Abidjan ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Dans la marketplace Calandix, choisissez une catégorie (lieux, restauration, animation, décoration, photo et vidéo…), comparez les profils vérifiés, les avis et les devis, puis réservez en payant l’acompte depuis l’application."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Calandix est-il gratuit ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Oui : la formule Découverte est gratuite pour les organisateurs. Les formules Azur (2 000 FCFA / mois), Signature (3 000 FCFA / mois) et Privilège (5 000 FCFA / mois) ajoutent des fonctions, et le Pass Événement (5 000 FCFA, sans abonnement) couvre un événement pendant 90 jours."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Comment gérer la liste d’invités et les réponses ?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Partagez le lien d’invitation : chaque invité répond en ligne et sa réponse s’ajoute à votre liste dans l’application, que vous partagez avec vos co-organisateurs."
      }
     },
     {
