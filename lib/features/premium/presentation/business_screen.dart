@@ -363,34 +363,59 @@ class _Hero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sub = this.sub;
-    return NightPanel(
+    // Harmonie « clair et violet » : fond clair teinté, texte encre, le
+    // violet du logo réservé aux accents et au bouton principal.
+    return Container(
       padding: const EdgeInsets.all(22),
+      decoration: BoxDecoration(
+        color: Color.alphaBlend(
+          Confetti.violet.withValues(alpha: 0.06),
+          Confetti.surface,
+        ),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: Confetti.violet.withValues(alpha: 0.22)),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Tag(label: 'Formules prestataires'.tr, hue: Hue.gold, solid: true),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+            decoration: BoxDecoration(
+              color: Confetti.violet.withValues(alpha: 0.14),
+              borderRadius: BorderRadius.circular(999),
+            ),
+            child: Text(
+              'Formules prestataires'.tr,
+              style: context.text.labelMedium?.copyWith(
+                color: Confetti.violetText,
+              ),
+            ),
+          ),
           const SizedBox(height: 16),
           Text(
             'Gardez plus sur chaque prestation.'.tr,
-            style: context.text.headlineMedium?.copyWith(color: Colors.white),
+            style: context.text.headlineMedium,
           ),
           const SizedBox(height: 10),
           Text(
             'Commencez gratuitement. Quand votre activité grandit, la commission baisse : de 6 % à 2 %, prélevée seulement sur ce que vous encaissez via Calandix.'
                 .tr,
-            style: context.text.bodyMedium?.copyWith(color: Colors.white70),
+            style: context.text.bodyMedium?.copyWith(color: Confetti.inkMuted),
           ),
           const SizedBox(height: 18),
           if (sub == null)
             Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.08),
+                color: Confetti.surface,
                 borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: Confetti.violet.withValues(alpha: 0.22),
+                ),
               ),
               child: Row(
                 children: [
-                  Icon(AppIcons.info, size: 18, color: Confetti.gold),
+                  Icon(AppIcons.info, size: 18, color: Confetti.violetText),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
@@ -398,9 +423,7 @@ class _Hero extends StatelessWidget {
                         current.label,
                         current.commissionPercent,
                       ]),
-                      style: context.text.titleSmall?.copyWith(
-                        color: Colors.white,
-                      ),
+                      style: context.text.titleSmall,
                     ),
                   ),
                 ],
@@ -413,7 +436,6 @@ class _Hero extends StatelessWidget {
               PillButton(
                 label: 'Ouvrir mon Studio Creator'.tr,
                 icon: AppIcons.crown,
-                tone: ButtonTone.gold,
                 onPressed: () => context.push('/pro/studio'),
               ),
             ],
@@ -692,33 +714,35 @@ class _ActiveSub extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final white = context.text.bodySmall?.copyWith(color: Colors.white70);
+    final white = context.text.bodySmall?.copyWith(color: Confetti.inkMuted);
     final plan = sub.plan;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.08),
+        color: Confetti.surface,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Confetti.gold.withValues(alpha: 0.6)),
+        border: Border.all(color: Confetti.violet.withValues(alpha: 0.22)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(AppIcons.checkCircle, size: 18, color: Confetti.gold),
+              Icon(AppIcons.checkCircle, size: 18, color: Confetti.violetText),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   sub.cancelled
                       ? 'Formule {0} résiliée'.trf([plan.label])
                       : 'Formule {0} active'.trf([plan.label]),
-                  style: context.text.titleSmall?.copyWith(color: Colors.white),
+                  style: context.text.titleSmall,
                 ),
               ),
               Text(
                 'Commission {0} %'.trf([plan.commissionPercent]),
-                style: context.text.labelMedium?.copyWith(color: Confetti.gold),
+                style: context.text.labelMedium?.copyWith(
+                  color: Confetti.violetText,
+                ),
               ),
             ],
           ),
@@ -743,7 +767,7 @@ class _ActiveSub extends StatelessWidget {
           const SizedBox(height: 12),
           PillButton(
             label: sub.cancelled ? 'Réactiver'.tr : 'Résilier'.tr,
-            tone: ButtonTone.light,
+            tone: ButtonTone.ghost,
             height: 42,
             onPressed: sub.cancelled ? onResume : onCancel,
           ),
