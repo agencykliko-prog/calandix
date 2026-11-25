@@ -1,0 +1,59 @@
+<template>
+  <style>
+
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-500.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-700.woff2") format("woff2"); font-weight: 700; }
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-800.woff2") format("woff2"); font-weight: 800; }
+@font-face { font-family: "Satisfy"; src: url("assets/fonts/Satisfy-400.woff2") format("woff2"); font-weight: 400; }
+
+
+#root { position: absolute; inset: 0; overflow: hidden; font-family: "Red Hat Display", sans-serif; color: var(--color-ink, #1A0637); }
+#root * { box-sizing: border-box; }
+.ttl { position: absolute; left: 108px; right: 108px; top: 150px; font-weight: 800; font-size: 76px; line-height: 1.04; letter-spacing: -0.03em; }
+.ttl .w { display: inline-block; }
+.scr { font-family: "Satisfy", cursive; font-weight: 400; font-size: 1.16em; letter-spacing: 0; color: var(--color-accent, #E01928); }
+.bub { position: absolute; max-width: 700px; padding: 20px 28px 16px; border-radius: 30px; font-weight: 700; font-size: 34px; line-height: 1.25;
+  background: #fff; border: 2px solid #E3DEEC; box-shadow: 0 18px 36px -22px rgba(26,6,55,.45); }
+.bub small { display: block; font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+.bub time { display: block; text-align: right; font-size: 24px; font-weight: 500; color: #8A80A3; margin-top: 4px; }
+.bub.out { background: #D9FDD3; border-color: #BDEFB4; }
+.av { position: absolute; width: 132px; height: 132px; border-radius: 50%; border: 6px solid #fff; overflow: hidden;
+  box-shadow: 0 14px 30px -16px rgba(26,6,55,.55); background: #EAE7F3; }
+.av img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; display: block; }
+
+#root { background: #4D39E2; }
+
+#guests-ttl { color: #fff; }
+#guests-ttl .scr { color: #FFC233; }
+#guests-phone { position: absolute; left: 340px; top: 370px; width: 400px; }
+#guests-phone .fr { position: relative; width: 100%; display: block; z-index: 2; }
+#guests-phone .sc { position: absolute; left: 3%; top: 1.2%; width: 94%; height: 97.6%; object-fit: cover; border-radius: 50px; z-index: 1; }
+.av.mascot { background: #FFC233; }
+.av.mascot img { object-fit: contain; object-position: 50% 30%; }
+#guests-rsvp { position: absolute; left: 600px; top: 1120px; background: #FFC233; color: #1A0637; font-weight: 800; font-size: 34px; padding: 14px 26px; border-radius: 99px; z-index: 4;
+  box-shadow: 0 18px 30px -16px rgba(0,0,0,.45); }
+#guests-conf i { position: absolute; transform: rotate(var(--r)); }
+
+  </style>
+  <div id="root" data-composition-id="guests" data-width="1080" data-height="1350">
+
+    <h1 class="ttl" id="guests-ttl"><span class="w" id="guests-w0">Tout</span> <span class="w" id="guests-w1">le</span> <span class="w" id="guests-w2">monde</span> <span class="w" id="guests-w3">est</span> <span class="w scr" id="guests-w4">prêt.</span></h1>
+    <div id="guests-phone"><img class="sc" src="assets/img/app-bienvenue.webp" alt=""><img class="fr" src="assets/img/phone-frame.webp" alt=""></div>
+    <div id="guests-ring"><div class="av" id="guests-a0" style="left:611px;top:358px"><img src="assets/img/avatar_1.webp" alt=""></div><div class="av" id="guests-a1" style="left:868px;top:665px"><img src="assets/img/avatar_3.webp" alt=""></div><div class="av" id="guests-a2" style="left:731px;top:1041px"><img src="assets/img/avatar_4.webp" alt=""></div><div class="av" id="guests-a3" style="left:337px;top:1110px"><img src="assets/img/avatar_5.webp" alt=""></div><div class="av" id="guests-a4" style="left:80px;top:803px"><img src="assets/img/avatar_2.webp" alt=""></div><div class="av mascot" id="guests-a5" style="left:217px;top:427px"><img src="assets/img/mascotte-salut.webp" alt=""></div></div>
+    <div id="guests-rsvp">✓ 22 RSVP</div>
+    <div id="guests-conf" data-layout-ignore><i style="left:932px;top:967px;width:13px;height:5px;background:#E01928;border-radius:50%;--r:133deg"></i><i style="left:157px;top:380px;width:14px;height:6px;background:#FFC233;border-radius:4px;--r:240deg"></i><i style="left:897px;top:1132px;width:17px;height:17px;background:#2CE5B9;border-radius:4px;--r:11deg"></i><i style="left:399px;top:880px;width:24px;height:24px;background:#DB4F9E;border-radius:50%;--r:211deg"></i><i style="left:671px;top:932px;width:22px;height:22px;background:#FFFFFF;border-radius:4px;--r:288deg"></i><i style="left:686px;top:1096px;width:24px;height:10px;background:#E01928;border-radius:4px;--r:339deg"></i><i style="left:942px;top:1004px;width:22px;height:22px;background:#FFC233;border-radius:50%;--r:217deg"></i><i style="left:463px;top:475px;width:17px;height:7px;background:#2CE5B9;border-radius:4px;--r:128deg"></i><i style="left:575px;top:1096px;width:13px;height:5px;background:#DB4F9E;border-radius:4px;--r:358deg"></i><i style="left:770px;top:1195px;width:16px;height:16px;background:#FFFFFF;border-radius:50%;--r:23deg"></i><i style="left:722px;top:585px;width:22px;height:9px;background:#E01928;border-radius:4px;--r:249deg"></i><i style="left:318px;top:907px;width:21px;height:9px;background:#FFC233;border-radius:4px;--r:357deg"></i><i style="left:944px;top:895px;width:12px;height:5px;background:#2CE5B9;border-radius:50%;--r:125deg"></i><i style="left:736px;top:820px;width:16px;height:16px;background:#DB4F9E;border-radius:4px;--r:61deg"></i><i style="left:211px;top:892px;width:22px;height:9px;background:#FFFFFF;border-radius:4px;--r:59deg"></i><i style="left:742px;top:1058px;width:16px;height:16px;background:#E01928;border-radius:50%;--r:100deg"></i><i style="left:508px;top:875px;width:15px;height:15px;background:#FFC233;border-radius:4px;--r:107deg"></i><i style="left:834px;top:914px;width:12px;height:12px;background:#2CE5B9;border-radius:4px;--r:86deg"></i><i style="left:137px;top:1043px;width:17px;height:7px;background:#DB4F9E;border-radius:50%;--r:343deg"></i><i style="left:755px;top:1013px;width:16px;height:16px;background:#FFFFFF;border-radius:4px;--r:270deg"></i><i style="left:518px;top:676px;width:14px;height:6px;background:#E01928;border-radius:4px;--r:250deg"></i><i style="left:175px;top:569px;width:18px;height:8px;background:#FFC233;border-radius:50%;--r:203deg"></i><i style="left:218px;top:831px;width:15px;height:6px;background:#2CE5B9;border-radius:4px;--r:45deg"></i><i style="left:737px;top:1066px;width:19px;height:8px;background:#DB4F9E;border-radius:4px;--r:194deg"></i><i style="left:935px;top:458px;width:20px;height:9px;background:#FFFFFF;border-radius:50%;--r:155deg"></i><i style="left:842px;top:798px;width:13px;height:13px;background:#E01928;border-radius:4px;--r:348deg"></i><i style="left:392px;top:842px;width:19px;height:8px;background:#FFC233;border-radius:4px;--r:88deg"></i><i style="left:138px;top:402px;width:20px;height:20px;background:#2CE5B9;border-radius:50%;--r:301deg"></i><i style="left:941px;top:749px;width:15px;height:15px;background:#DB4F9E;border-radius:4px;--r:231deg"></i><i style="left:457px;top:909px;width:16px;height:7px;background:#FFFFFF;border-radius:4px;--r:215deg"></i><i style="left:746px;top:877px;width:16px;height:7px;background:#E01928;border-radius:50%;--r:336deg"></i><i style="left:610px;top:883px;width:14px;height:6px;background:#FFC233;border-radius:4px;--r:254deg"></i><i style="left:433px;top:1029px;width:24px;height:10px;background:#2CE5B9;border-radius:4px;--r:187deg"></i><i style="left:795px;top:546px;width:21px;height:21px;background:#DB4F9E;border-radius:50%;--r:308deg"></i></div>
+
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    tl.fromTo("#guests-ttl .w", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out", stagger: 0.07 }, 0.1);
+    tl.fromTo("#guests-phone", { y: 900, rotation: 6 }, { y: 0, rotation: -3, duration: 0.7, ease: "power3.out" }, 0);
+    tl.fromTo("#guests-ring .av", { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(2)", stagger: 0.06 }, 0.35);
+    tl.fromTo("#guests-rsvp", { scale: 0, rotation: -12 }, { scale: 1, rotation: -4, duration: 0.35, ease: "back.out(2.2)" }, 0.85);
+    tl.fromTo("#guests-conf i", { y: -60, opacity: 0, scale: 0.4 }, { y: 70, opacity: 1, scale: 1, duration: 0.8, ease: "power2.out", stagger: 0.01 }, 0.9);
+
+    tl.set({}, {}, 1.9);
+    window.__timelines["guests"] = tl;
+  </script>
+</template>

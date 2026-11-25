@@ -1,0 +1,63 @@
+<template>
+  <style>
+
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-500.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-700.woff2") format("woff2"); font-weight: 700; }
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-800.woff2") format("woff2"); font-weight: 800; }
+@font-face { font-family: "Satisfy"; src: url("assets/fonts/Satisfy-400.woff2") format("woff2"); font-weight: 400; }
+
+
+#root { position: absolute; inset: 0; overflow: hidden; font-family: "Red Hat Display", sans-serif; color: var(--color-ink, #1A0637); }
+#root * { box-sizing: border-box; }
+.ttl { position: absolute; left: 108px; right: 108px; top: 150px; font-weight: 800; font-size: 76px; line-height: 1.04; letter-spacing: -0.03em; }
+.ttl .w { display: inline-block; }
+.scr { font-family: "Satisfy", cursive; font-weight: 400; font-size: 1.16em; letter-spacing: 0; color: var(--color-accent, #E01928); }
+.bub { position: absolute; max-width: 700px; padding: 20px 28px 16px; border-radius: 30px; font-weight: 700; font-size: 34px; line-height: 1.25;
+  background: #fff; border: 2px solid #E3DEEC; box-shadow: 0 18px 36px -22px rgba(26,6,55,.45); }
+.bub small { display: block; font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+.bub time { display: block; text-align: right; font-size: 24px; font-weight: 500; color: #8A80A3; margin-top: 4px; }
+.bub.out { background: #D9FDD3; border-color: #BDEFB4; }
+.av { position: absolute; width: 132px; height: 132px; border-radius: 50%; border: 6px solid #fff; overflow: hidden;
+  box-shadow: 0 14px 30px -16px rgba(26,6,55,.55); background: #EAE7F3; }
+.av img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; display: block; }
+
+#root { background: #FFFFFF; }
+
+#vendors-grid { position: absolute; left: 108px; right: 108px; top: 330px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.vc { background: #fff; border-radius: 32px; overflow: hidden; box-shadow: 0 24px 48px -22px rgba(26,6,55,.4); border: 4px solid transparent; }
+.vc img { width: 100%; height: 250px; object-fit: cover; display: block; }
+.vc div { padding: 18px 24px 22px; display: flex; align-items: center; justify-content: space-between; }
+.vc b { font-size: 34px; font-weight: 800; }
+.vc span { font-size: 22px; font-weight: 800; color: #0B7A61; background: #D9F6EE; padding: 6px 12px; border-radius: 99px; }
+#vendors-cursor { position: absolute; left: 0; top: 0; width: 70px; z-index: 9; }
+#vendors-msg { left: 108px; top: 1080px; }
+#vendors-dj { left: 108px; }
+
+  </style>
+  <div id="root" data-composition-id="vendors" data-width="1080" data-height="1350">
+
+    <h1 class="ttl" id="vendors-ttl"><span class="w" id="vendors-w0">Les</span> <span class="w" id="vendors-w1">bons</span> <span class="w scr" id="vendors-w2">prestataires.</span></h1>
+    <div id="vendors-grid"><div class="vc" id="vendors-c0"><img src="assets/img/vendor_traiteur.webp" alt=""><div><b>Traiteur</b><span>✓ Vérifié</span></div></div><div class="vc" id="vendors-c1"><img src="assets/img/vendor_dj.webp" alt=""><div><b>DJ</b><span>✓ Vérifié</span></div></div><div class="vc" id="vendors-c2"><img src="assets/img/vendor_deco.webp" alt=""><div><b>Décoration</b><span>✓ Vérifié</span></div></div><div class="vc" id="vendors-c3"><img src="assets/img/photo_1.webp" alt=""><div><b>Photo & vidéo</b><span>✓ Vérifié</span></div></div></div>
+    <svg id="vendors-cursor" viewBox="0 0 24 24"><path d="M4 2l15 9.5-6.6 1.4 3.9 7.1-3 1.6-3.9-7.2L4 19z" fill="#1A0637" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    <div class="bub" id="vendors-msg" style="left:200px"><small style="color:#4D39E2">Ton DJ · vérifié</small>Le DJ confirme pour samedi 🎶<time>10:42</time></div>
+    <div class="av" id="vendors-av" style="left:72px;top:1080px;width:110px;height:110px"><img src="assets/img/avatar_2.webp" alt=""></div>
+
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    tl.fromTo("#vendors-ttl .w", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out", stagger: 0.07 }, 0);
+    tl.fromTo("#vendors-grid .vc", { y: 80, opacity: 0, scale: 0.94 }, { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "power3.out", stagger: 0.1 }, 0.2);
+    // Le curseur entre par le bas et clique la carte du DJ.
+    tl.fromTo("#vendors-cursor", { x: 980, y: 1300 }, { x: 820, y: 560, duration: 0.7, ease: "power3.inOut" }, 1.1);
+    tl.to("#vendors-cursor", { scale: 0.82, duration: 0.08, yoyo: true, repeat: 1, ease: "power1.inOut" }, 1.85);
+    tl.to("#vendors-c1", { scale: 1.05, borderColor: "#E01928", duration: 0.25, ease: "back.out(2)" }, 1.9);
+    tl.to("#vendors-c0, #vendors-c2, #vendors-c3", { opacity: 0.35, duration: 0.3 }, 1.95);
+    tl.fromTo("#vendors-msg", { scale: 0.6, opacity: 0, transformOrigin: "0% 100%" }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(1.8)" }, 2.25);
+    tl.fromTo("#vendors-av", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(1.8)" }, 2.2);
+    tl.to("#vendors-cursor", { opacity: 0, duration: 0.2 }, 2.6);
+
+    tl.set({}, {}, 3.8);
+    window.__timelines["vendors"] = tl;
+  </script>
+</template>

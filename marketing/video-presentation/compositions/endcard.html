@@ -1,0 +1,61 @@
+<template>
+  <style>
+
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-500.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-700.woff2") format("woff2"); font-weight: 700; }
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-800.woff2") format("woff2"); font-weight: 800; }
+@font-face { font-family: "Satisfy"; src: url("assets/fonts/Satisfy-400.woff2") format("woff2"); font-weight: 400; }
+
+
+#root { position: absolute; inset: 0; overflow: hidden; font-family: "Red Hat Display", sans-serif; color: var(--color-ink, #1A0637); }
+#root * { box-sizing: border-box; }
+.ttl { position: absolute; left: 108px; right: 108px; top: 150px; font-weight: 800; font-size: 76px; line-height: 1.04; letter-spacing: -0.03em; }
+.ttl .w { display: inline-block; }
+.scr { font-family: "Satisfy", cursive; font-weight: 400; font-size: 1.16em; letter-spacing: 0; color: var(--color-accent, #E01928); }
+.bub { position: absolute; max-width: 700px; padding: 20px 28px 16px; border-radius: 30px; font-weight: 700; font-size: 34px; line-height: 1.25;
+  background: #fff; border: 2px solid #E3DEEC; box-shadow: 0 18px 36px -22px rgba(26,6,55,.45); }
+.bub small { display: block; font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+.bub time { display: block; text-align: right; font-size: 24px; font-weight: 500; color: #8A80A3; margin-top: 4px; }
+.bub.out { background: #D9FDD3; border-color: #BDEFB4; }
+.av { position: absolute; width: 132px; height: 132px; border-radius: 50%; border: 6px solid #fff; overflow: hidden;
+  box-shadow: 0 14px 30px -16px rgba(26,6,55,.55); background: #EAE7F3; }
+.av img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; display: block; }
+
+#root { background: #FFFFFF; }
+
+#endcard-ring { position: absolute; inset: 0; }
+#endcard-wipe { position: absolute; left: 540px; top: 640px; width: 2400px; height: 2400px; margin: -1200px 0 0 -1200px; border-radius: 50%; background: #4D39E2; }
+.av.mascot { background: #FFC233; }
+.av.mascot img { object-fit: contain; object-position: 50% 30%; }
+#endcard-lock { position: absolute; left: 0; right: 0; top: 590px; display: flex; justify-content: center; align-items: center; gap: 18px; }
+#endcard-mark { height: 104px; }
+#endcard-wordmark { height: 92px; }
+#endcard-cta { position: absolute; left: 50%; top: 800px; transform: translateX(-50%); white-space: nowrap; background: #E01928; color: #fff; font-weight: 800; font-size: 36px;
+  padding: 24px 40px; border-radius: 99px; }
+#endcard-sub { position: absolute; left: 108px; right: 108px; top: 930px; text-align: center; font-weight: 700; font-size: 32px; color: #645A7C; }
+
+  </style>
+  <div id="root" data-composition-id="endcard" data-width="1080" data-height="1350">
+
+    <div id="endcard-wipe"></div>
+    <div id="endcard-ring"><div class="av" id="endcard-a0" style="left:587px;top:302px;width:112px;height:112px"><img src="assets/img/avatar_1.webp" alt=""></div><div class="av" id="endcard-a1" style="left:779px;top:532px;width:112px;height:112px"><img src="assets/img/avatar_3.webp" alt=""></div><div class="av" id="endcard-a2" style="left:677px;top:814px;width:112px;height:112px"><img src="assets/img/avatar_4.webp" alt=""></div><div class="av" id="endcard-a3" style="left:381px;top:866px;width:112px;height:112px"><img src="assets/img/avatar_5.webp" alt=""></div><div class="av" id="endcard-a4" style="left:189px;top:636px;width:112px;height:112px"><img src="assets/img/avatar_2.webp" alt=""></div><div class="av mascot" id="endcard-a5" style="left:291px;top:354px;width:112px;height:112px"><img src="assets/img/mascotte-salut.webp" alt=""></div></div>
+    <div id="endcard-lock"><img id="endcard-mark" src="assets/img/calandix-mark.svg" alt=""><img id="endcard-wordmark" src="assets/img/calandix-wordmark.svg" alt="Calandix"></div>
+    <div id="endcard-cta">Accès anticipé · calandix.com</div>
+    <p id="endcard-sub">Le budget parfait pour célébrer</p>
+
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Le violet se retire en cercle, les invités se resserrent et deviennent la marque.
+    tl.fromTo("#endcard-wipe", { scale: 1 }, { scale: 0, duration: 0.5, ease: "power3.in" }, 0);
+    tl.fromTo("#endcard-ring", { scale: 1, opacity: 1, rotation: 0 }, { scale: 0.1, opacity: 0, rotation: 90, transformOrigin: "540px 640px", duration: 0.5, ease: "power3.in" }, 0.25);
+    tl.fromTo("#endcard-mark", { scale: 0, rotation: -25 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(1.7)" }, 0.6);
+    tl.fromTo("#endcard-wordmark", { clipPath: "inset(0 100% 0 0)", x: -20 }, { clipPath: "inset(0 0% 0 0)", x: 0, duration: 0.45, ease: "power3.out" }, 0.8);
+    tl.fromTo("#endcard-cta", { opacity: 0, y: 30, xPercent: -50 }, { opacity: 1, y: 0, xPercent: -50, duration: 0.4, ease: "back.out(1.6)" }, 1.0);
+    tl.fromTo("#endcard-sub", { opacity: 0 }, { opacity: 1, duration: 0.35 }, 1.05);
+
+    tl.set({}, {}, 3.1);
+    window.__timelines["endcard"] = tl;
+  </script>
+</template>

@@ -1,0 +1,59 @@
+<template>
+  <style>
+
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-500.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-700.woff2") format("woff2"); font-weight: 700; }
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-800.woff2") format("woff2"); font-weight: 800; }
+@font-face { font-family: "Satisfy"; src: url("assets/fonts/Satisfy-400.woff2") format("woff2"); font-weight: 400; }
+
+
+#root { position: absolute; inset: 0; overflow: hidden; font-family: "Red Hat Display", sans-serif; color: var(--color-ink, #1A0637); }
+#root * { box-sizing: border-box; }
+.ttl { position: absolute; left: 108px; right: 108px; top: 150px; font-weight: 800; font-size: 76px; line-height: 1.04; letter-spacing: -0.03em; }
+.ttl .w { display: inline-block; }
+.scr { font-family: "Satisfy", cursive; font-weight: 400; font-size: 1.16em; letter-spacing: 0; color: var(--color-accent, #E01928); }
+.bub { position: absolute; max-width: 700px; padding: 20px 28px 16px; border-radius: 30px; font-weight: 700; font-size: 34px; line-height: 1.25;
+  background: #fff; border: 2px solid #E3DEEC; box-shadow: 0 18px 36px -22px rgba(26,6,55,.45); }
+.bub small { display: block; font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+.bub time { display: block; text-align: right; font-size: 24px; font-weight: 500; color: #8A80A3; margin-top: 4px; }
+.bub.out { background: #D9FDD3; border-color: #BDEFB4; }
+.av { position: absolute; width: 132px; height: 132px; border-radius: 50%; border: 6px solid #fff; overflow: hidden;
+  box-shadow: 0 14px 30px -16px rgba(26,6,55,.55); background: #EAE7F3; }
+.av img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; display: block; }
+
+#root { background: #FFFFFF; }
+
+.av.sm { width: 84px; height: 84px; border-width: 4px; }
+#chat-thread .bub { font-size: 40px; }
+#chat-thread { position: absolute; inset: 0; }
+#chat-count { position: absolute; left: 108px; top: 248px; font-weight: 800; font-size: 26px; color: #fff; background: #E01928; padding: 8px 18px; border-radius: 99px; }
+
+  </style>
+  <div id="root" data-composition-id="chat" data-width="1080" data-height="1350">
+
+    <h1 class="ttl" id="chat-ttl"><span class="w" id="chat-w0">Une</span> <span class="w" id="chat-w1">fête.</span> <span class="w" id="chat-w2">247</span> <span class="w" id="chat-w3">messages.</span></h1>
+    <div id="chat-count"><span id="chat-n">12</span> non lus</div>
+    <div id="chat-thread"><div class="bub in" id="chat-b0" style="left:200px;top:350px"><small style="color:#E01928">Tantie Awa</small>Qui s’occupe du traiteur ?<time>09:12</time></div><div class="av sm" id="chat-a0" style="left:96px;top:358px"><img src="assets/img/avatar_1.webp" alt=""></div><div class="bub out" id="chat-b1" style="right:108px;top:522px">On en parle ce soir<time>09:14</time></div><div class="bub in" id="chat-b2" style="left:200px;top:662px"><small style="color:#4D39E2">Mariam</small>Le DJ a répondu ??<time>09:31</time></div><div class="av sm" id="chat-a2" style="left:96px;top:670px"><img src="assets/img/avatar_5.webp" alt=""></div><div class="bub out" id="chat-b3" style="right:108px;top:834px">Le budget, on en est où ?<time>09:33</time></div><div class="bub in" id="chat-b4" style="left:200px;top:974px"><small style="color:#0B7A61">Koffi</small>Je ne retrouve plus le devis<time>09:40</time></div><div class="av sm" id="chat-a4" style="left:96px;top:982px"><img src="assets/img/avatar_2.webp" alt=""></div><div class="bub in" id="chat-b5" style="left:200px;top:1146px"><small style="color:#E01928">Tantie Awa</small>Vocal · 3:47<time>09:41</time></div><div class="av sm" id="chat-a5" style="left:96px;top:1154px"><img src="assets/img/avatar_1.webp" alt=""></div></div>
+
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Deux bulles et le titre sont là dès la première image.
+    tl.fromTo("#chat-w2", { color: "#1A0637" }, { color: "#E01928", duration: 0.3 }, 0.3);
+    const n = { v: 12 };
+    tl.to(n, { v: 247, duration: 2.2, ease: "power2.in", onUpdate: () => { document.getElementById("chat-n").textContent = Math.round(n.v); } }, 0.1);
+    [2, 3, 4, 5].forEach((i, k) => {
+      const t = 0.35 + k * 0.42;
+      tl.fromTo("#chat-b" + i, { scale: 0.6, opacity: 0, transformOrigin: i % 2 ? "100% 100%" : "0% 100%" }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.8)" }, t);
+      if (document.getElementById("chat-a" + i)) tl.fromTo("#chat-a" + i, { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(1.8)" }, t);
+    });
+    tl.fromTo("#chat-count", { scale: 1 }, { scale: 1.12, duration: 0.12, yoyo: true, repeat: 3, ease: "power1.inOut" }, 1.9);
+    // Le chaos s'aspire au centre : il devient la marque de la scène suivante.
+    tl.fromTo("#chat-thread", { scale: 1, opacity: 1 }, { scale: 0.12, opacity: 0, transformOrigin: "540px 760px", duration: 0.42, ease: "power3.in" }, 2.5);
+    tl.to("#chat-ttl, #chat-count", { opacity: 0, y: -20, duration: 0.3, ease: "power2.in" }, 2.6);
+
+    tl.set({}, {}, 3.0);
+    window.__timelines["chat"] = tl;
+  </script>
+</template>

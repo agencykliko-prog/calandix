@@ -1,0 +1,90 @@
+<template>
+  <style>
+@font-face{font-family:'Red Hat Display';src:url('assets/fonts/RedHatDisplay-500.woff2') format('woff2');font-weight:500}
+@font-face{font-family:'Red Hat Display';src:url('assets/fonts/RedHatDisplay-700.woff2') format('woff2');font-weight:700}
+@font-face{font-family:'Red Hat Display';src:url('assets/fonts/RedHatDisplay-800.woff2') format('woff2');font-weight:800}
+@font-face{font-family:'Satisfy';src:url('assets/fonts/Satisfy-400.woff2') format('woff2');font-weight:400}
+
+#root{position:absolute;inset:0;overflow:hidden;font-family:'Red Hat Display',sans-serif;color:#1A0637}
+.bg{position:absolute;inset:0}
+.cream{background:#F7F5F2}
+.cream .halo{position:absolute;left:14%;top:30%;width:72%;height:64%;border-radius:50%;
+  background:radial-gradient(closest-side,#E3DDF7 0%,rgba(234,231,243,.75) 45%,rgba(247,245,242,0) 100%)}
+.violet{background:#4D39E2}
+.violet .halo{position:absolute;left:-10%;top:40%;width:120%;height:80%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(120,100,255,.55),rgba(77,57,226,0))}
+.cam{position:absolute;inset:0;transform-origin:50% 60%}
+.title{position:absolute;left:72px;right:72px;top:96px;font-weight:800;font-size:72px;line-height:1.04;
+  letter-spacing:-.025em;text-wrap:balance}
+.title .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.04em .02em .12em;margin:-.04em -.02em -.12em}
+.title .w>span{display:inline-block}
+.title em{font-family:'Satisfy',cursive;font-style:normal;font-weight:400;font-size:1.16em;letter-spacing:0;line-height:.9}
+.on-cream em{color:#4D39E2}
+.on-violet{color:#fff}.on-violet em{color:#FFC233}
+.phone{position:absolute;width:540px;height:1116px}
+.phone .scr{position:absolute;left:15.5px;top:11.4px;width:509px;height:1092px;border-radius:78px;overflow:hidden;background:#fff}
+.phone .scr{background:#F5F3F0}
+.phone .scr img{position:absolute;left:0;top:44px;width:100%;height:calc(100% - 44px);object-fit:cover;object-position:top}
+.phone .fr{position:absolute;inset:0;width:100%;height:100%}
+.shadow{filter:drop-shadow(0 40px 46px rgba(26,6,55,.34))}
+.plate{position:absolute;border-radius:34px;padding:18px;background:rgba(255,255,255,.62);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1.5px solid rgba(255,255,255,.85);
+  box-shadow:0 40px 80px -28px rgba(26,6,55,.38),0 8px 16px -8px rgba(26,6,55,.25);overflow:hidden}
+.plate img{display:block;width:100%;border-radius:22px}
+.plate .shine{position:absolute;top:-40%;left:-60%;width:40%;height:180%;transform:rotate(18deg);
+  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.55),rgba(255,255,255,0))}
+.finger{position:absolute;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.92);
+  border:3px solid #1A0637;box-shadow:0 10px 20px -6px rgba(26,6,55,.45)}
+.bub{position:absolute;width:500px;padding:16px 22px;border-radius:24px 24px 24px 6px;background:#fff;
+ font-size:28px;font-weight:700;color:#1A0637;box-shadow:0 18px 30px -16px rgba(10,4,40,.6)}
+.bub.r{border-radius:24px 24px 6px 24px;background:#D9FDD3}
+.bub small{display:block;font-size:20px;font-weight:800;color:#E01928;margin-bottom:2px}
+.bub.r small{color:#1f8a70}
+.card{position:absolute;left:240px;top:760px;width:600px;height:180px;border-radius:34px;background:#fff;
+ display:flex;flex-direction:column;justify-content:center;padding:0 40px;box-shadow:0 40px 80px -28px rgba(10,4,40,.6)}
+.card b{font-size:40px;font-weight:800}.card span{font-size:64px;font-weight:800;color:#E01928;line-height:1}
+</style>
+  <div id="root" data-composition-id="s01" data-width="1080" data-height="1350">
+    <div class="bg violet"><div class="halo"></div></div>
+    <div id="s01-cam" class="cam">
+      <div id="s01-ph" class="phone" style="left:270px;top:330px;opacity:.35;filter:blur(3px)" data-layout-allow-overflow>
+        <div class="scr" style="background:#221043"></div><img class="fr" src="assets/img/frame.webp" alt="">
+      </div>
+      <div id="s01-b0" class="bub " style="left:150px;top:470px"><small>Tantie Awa</small>Qui s’occupe du traiteur ?</div>
+      <div id="s01-b1" class="bub r" style="left:430px;top:558px"><small>Kouassi</small>On en parle ce soir</div>
+      <div id="s01-b2" class="bub " style="left:150px;top:646px"><small>Mariam</small>Le DJ ne répond pas 😩</div>
+      <div id="s01-b3" class="bub r" style="left:430px;top:734px"><small>Serge</small>Quelqu’un a le devis ?</div>
+      <div id="s01-b4" class="bub " style="left:150px;top:822px"><small>Fatou</small>Combien on est déjà ?</div>
+      <div id="s01-b5" class="bub r" style="left:430px;top:910px"><small>Kouassi</small>Vocal · 3:47</div>
+      <div id="s01-b6" class="bub " style="left:150px;top:998px"><small>Tantie Awa</small>Et la salle ??</div>
+      <div id="s01-b7" class="bub r" style="left:430px;top:1086px"><small>Mariam</small>Je ne retrouve rien</div>
+      <div id="s01-b8" class="bub " style="left:150px;top:1174px"><small>Serge</small>???</div>
+      <div id="s01-card" class="card"><b>Mariage Awa &amp; Kouassi</b><span>J-42</span></div>
+    </div>
+    <div id="s01-t" class="title on-violet"><span class="w"><span>247</span></span> <span class="w"><span>messages.</span></span> <span class="w"><span>Zéro</span></span> <span class="w"><span><em>décision</em></span></span></div>
+
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const D = 2.4;
+    tl.fromTo('#s01-cam', { scale: 1 }, { scale: 1.05, duration: D, ease: 'sine.inOut' }, 0);
+    tl.fromTo('#s01-b3', { y: 40, scale: .8, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .28, ease: 'back.out(1.8)' }, 0.00);
+    tl.fromTo('#s01-b4', { y: 40, scale: .8, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .28, ease: 'back.out(1.8)' }, 0.13);
+    tl.fromTo('#s01-b5', { y: 40, scale: .8, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .28, ease: 'back.out(1.8)' }, 0.26);
+    tl.fromTo('#s01-b6', { y: 40, scale: .8, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .28, ease: 'back.out(1.8)' }, 0.39);
+    tl.fromTo('#s01-b7', { y: 40, scale: .8, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .28, ease: 'back.out(1.8)' }, 0.52);
+    tl.fromTo('#s01-b8', { y: 40, scale: .8, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .28, ease: 'back.out(1.8)' }, 0.65);
+    tl.to('#s01-b0', { x: 240, y: 380, scale: .2, opacity: 0, duration: .32, ease: 'power3.in' }, 1.300);
+    tl.to('#s01-b1', { x: -40, y: 292, scale: .2, opacity: 0, duration: .32, ease: 'power3.in' }, 1.315);
+    tl.to('#s01-b2', { x: 240, y: 204, scale: .2, opacity: 0, duration: .32, ease: 'power3.in' }, 1.330);
+    tl.to('#s01-b3', { x: -40, y: 116, scale: .2, opacity: 0, duration: .32, ease: 'power3.in' }, 1.345);
+    tl.to('#s01-b4', { x: 240, y: 28, scale: .2, opacity: 0, duration: .32, ease: 'power3.in' }, 1.360);
+    tl.to('#s01-b5', { x: -40, y: -60, scale: .2, opacity: 0, duration: .32, ease: 'power3.in' }, 1.375);
+    tl.to('#s01-b6', { x: 240, y: -148, scale: .2, opacity: 0, duration: .32, ease: 'power3.in' }, 1.390);
+    tl.to('#s01-b7', { x: -40, y: -236, scale: .2, opacity: 0, duration: .32, ease: 'power3.in' }, 1.405);
+    tl.to('#s01-b8', { x: 240, y: -324, scale: .2, opacity: 0, duration: .32, ease: 'power3.in' }, 1.420);
+    tl.fromTo('#s01-card', { scale: .3, opacity: 0 }, { scale: 1, opacity: 1, duration: .4, ease: 'back.out(1.6)' }, 1.55);
+
+    window.__timelines["s01"] = tl;
+  </script>
+</template>

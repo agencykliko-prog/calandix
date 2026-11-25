@@ -49,3 +49,8 @@ app.*.map.json
 
 # Démo Netlify
 /dist/
+
+# Vidéos HyperFrames : rendus et caches régénérables
+marketing/**/renders/
+marketing/**/.hyperframes/
+marketing/**/node_modules/

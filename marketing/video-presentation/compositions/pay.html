@@ -1,0 +1,57 @@
+<template>
+  <style>
+
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-500.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-700.woff2") format("woff2"); font-weight: 700; }
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-800.woff2") format("woff2"); font-weight: 800; }
+@font-face { font-family: "Satisfy"; src: url("assets/fonts/Satisfy-400.woff2") format("woff2"); font-weight: 400; }
+
+
+#root { position: absolute; inset: 0; overflow: hidden; font-family: "Red Hat Display", sans-serif; color: var(--color-ink, #1A0637); }
+#root * { box-sizing: border-box; }
+.ttl { position: absolute; left: 108px; right: 108px; top: 150px; font-weight: 800; font-size: 76px; line-height: 1.04; letter-spacing: -0.03em; }
+.ttl .w { display: inline-block; }
+.scr { font-family: "Satisfy", cursive; font-weight: 400; font-size: 1.16em; letter-spacing: 0; color: var(--color-accent, #E01928); }
+.bub { position: absolute; max-width: 700px; padding: 20px 28px 16px; border-radius: 30px; font-weight: 700; font-size: 34px; line-height: 1.25;
+  background: #fff; border: 2px solid #E3DEEC; box-shadow: 0 18px 36px -22px rgba(26,6,55,.45); }
+.bub small { display: block; font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+.bub time { display: block; text-align: right; font-size: 24px; font-weight: 500; color: #8A80A3; margin-top: 4px; }
+.bub.out { background: #D9FDD3; border-color: #BDEFB4; }
+.av { position: absolute; width: 132px; height: 132px; border-radius: 50%; border: 6px solid #fff; overflow: hidden;
+  box-shadow: 0 14px 30px -16px rgba(26,6,55,.55); background: #EAE7F3; }
+.av img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; display: block; }
+
+#root { background: #FFFFFF; }
+
+#pay-in { left: 200px; top: 360px; }
+#pay-out { right: 108px; top: 560px; font-size: 40px; padding: 26px 34px 20px; }
+#pay-out .ok { display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: #2CE5B9; color: #1A0637; font-size: 32px; margin-right: 12px; vertical-align: -10px; }
+#pay-row { position: absolute; left: 108px; right: 108px; top: 820px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.pl { height: 150px; border-radius: 28px; background: #fff; border: 2px solid #EAE7F3; display: grid; place-items: center; box-shadow: 0 18px 34px -22px rgba(26,6,55,.45); }
+.pl img { max-width: 140px; max-height: 96px; object-fit: contain; }
+#pay-ttl { top: 1060px; }
+
+  </style>
+  <div id="root" data-composition-id="pay" data-width="1080" data-height="1350">
+
+    <div class="bub" id="pay-in"><small style="color:#4D39E2">Ton DJ · vérifié</small>Le DJ confirme pour samedi 🎶<time>10:42</time></div>
+    <div class="av" id="pay-av" style="left:72px;top:360px;width:110px;height:110px"><img src="assets/img/avatar_2.webp" alt=""></div>
+    <div class="bub out" id="pay-out"><span class="ok">✓</span>Acompte payé avec Wave<time>10:44</time></div>
+    <div id="pay-row"><span class="pl" id="pay-l0"><img src="assets/img/wave.webp" alt=""></span><span class="pl" id="pay-l1"><img src="assets/img/orange-money.webp" alt=""></span><span class="pl" id="pay-l2"><img src="assets/img/momo.webp" alt=""></span><span class="pl" id="pay-l3"><img src="assets/img/moov.webp" alt=""></span></div>
+    <h1 class="ttl" id="pay-ttl"><span class="w" id="pay-w0">Payé</span> <span class="w" id="pay-w1">comme</span> <span class="w scr" id="pay-w2">d’habitude.</span></h1>
+
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // La bulle du DJ remonte depuis la scène précédente.
+    tl.fromTo("#pay-in, #pay-av", { y: 720 }, { y: 0, duration: 0.5, ease: "power3.inOut" }, 0);
+    tl.fromTo("#pay-out", { scale: 0.5, opacity: 0, transformOrigin: "100% 100%" }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.8)" }, 0.55);
+    tl.fromTo("#pay-out .ok", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.35, ease: "back.out(2.4)" }, 0.8);
+    tl.fromTo("#pay-row .pl", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out", stagger: 0.08 }, 1.0);
+    tl.fromTo("#pay-ttl .w", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out", stagger: 0.07 }, 1.2);
+
+    tl.set({}, {}, 2.6);
+    window.__timelines["pay"] = tl;
+  </script>
+</template>

@@ -1,0 +1,74 @@
+<template>
+  <style>
+@font-face{font-family:'Red Hat Display';src:url('assets/fonts/RedHatDisplay-500.woff2') format('woff2');font-weight:500}
+@font-face{font-family:'Red Hat Display';src:url('assets/fonts/RedHatDisplay-700.woff2') format('woff2');font-weight:700}
+@font-face{font-family:'Red Hat Display';src:url('assets/fonts/RedHatDisplay-800.woff2') format('woff2');font-weight:800}
+@font-face{font-family:'Satisfy';src:url('assets/fonts/Satisfy-400.woff2') format('woff2');font-weight:400}
+
+#root{position:absolute;inset:0;overflow:hidden;font-family:'Red Hat Display',sans-serif;color:#1A0637}
+.bg{position:absolute;inset:0}
+.cream{background:#F7F5F2}
+.cream .halo{position:absolute;left:14%;top:30%;width:72%;height:64%;border-radius:50%;
+  background:radial-gradient(closest-side,#E3DDF7 0%,rgba(234,231,243,.75) 45%,rgba(247,245,242,0) 100%)}
+.violet{background:#4D39E2}
+.violet .halo{position:absolute;left:-10%;top:40%;width:120%;height:80%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(120,100,255,.55),rgba(77,57,226,0))}
+.cam{position:absolute;inset:0;transform-origin:50% 60%}
+.title{position:absolute;left:72px;right:72px;top:96px;font-weight:800;font-size:72px;line-height:1.04;
+  letter-spacing:-.025em;text-wrap:balance}
+.title .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.04em .02em .12em;margin:-.04em -.02em -.12em}
+.title .w>span{display:inline-block}
+.title em{font-family:'Satisfy',cursive;font-style:normal;font-weight:400;font-size:1.16em;letter-spacing:0;line-height:.9}
+.on-cream em{color:#4D39E2}
+.on-violet{color:#fff}.on-violet em{color:#FFC233}
+.phone{position:absolute;width:540px;height:1116px}
+.phone .scr{position:absolute;left:15.5px;top:11.4px;width:509px;height:1092px;border-radius:78px;overflow:hidden;background:#fff}
+.phone .scr{background:#F5F3F0}
+.phone .scr img{position:absolute;left:0;top:44px;width:100%;height:calc(100% - 44px);object-fit:cover;object-position:top}
+.phone .fr{position:absolute;inset:0;width:100%;height:100%}
+.shadow{filter:drop-shadow(0 40px 46px rgba(26,6,55,.34))}
+.plate{position:absolute;border-radius:34px;padding:18px;background:rgba(255,255,255,.62);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1.5px solid rgba(255,255,255,.85);
+  box-shadow:0 40px 80px -28px rgba(26,6,55,.38),0 8px 16px -8px rgba(26,6,55,.25);overflow:hidden}
+.plate img{display:block;width:100%;border-radius:22px}
+.plate .shine{position:absolute;top:-40%;left:-60%;width:40%;height:180%;transform:rotate(18deg);
+  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.55),rgba(255,255,255,0))}
+.finger{position:absolute;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.92);
+  border:3px solid #1A0637;box-shadow:0 10px 20px -6px rgba(26,6,55,.45)}
+.laptop{position:absolute;left:60px;top:390px;width:860px}
+.lid{background:#2b2b30;border-radius:26px 26px 8px 8px;padding:18px;box-shadow:0 40px 80px -28px rgba(26,6,55,.38)}
+.lscr{border-radius:10px;overflow:hidden;aspect-ratio:16/10;background:#fff}
+.lscr img{width:100%;height:100%;object-fit:cover;object-position:top}
+.base{height:26px;margin:0 -40px;border-radius:0 0 30px 30px;background:linear-gradient(#d9d8de,#a9a8b0)}
+.sub{position:absolute;left:72px;right:72px;top:1210px;font-weight:700;font-size:34px;color:#4a3f63;text-align:left}
+</style>
+  <div id="root" data-composition-id="s13" data-width="1080" data-height="1350">
+    <div class="bg cream"><div class="halo"></div></div>
+    <div id="s13-cam" class="cam">
+      <div id="s13-lap" class="laptop">
+        <div class="lid"><div class="lscr"><img src="assets/app/70-desk-home.png" alt=""></div></div>
+        <div class="base"></div>
+      </div>
+      <div id="s13-ph" class="phone shadow" style="left:690px;top:560px;width:300px;height:620px">
+        <div class="scr" style="left:8.6px;top:6.3px;width:282.8px;height:606.6px;border-radius:44px"><img src="assets/app/01-home.png" alt=""></div>
+        <img class="fr" src="assets/img/frame.webp" alt="">
+      </div>
+    </div>
+    <div id="s13-t" class="title on-cream"><span class="w"><span>Sur</span></span> <span class="w"><span>mobile</span></span> <span class="w"><span>et</span></span> <span class="w"><span><em>ordinateur</em></span></span></div>
+    <div id="s13-sub" class="sub">Bientôt sur iOS et Android · déjà sur le web</div>
+
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const D = 2.4;
+    tl.fromTo('#s13-cam', { scale: 1 }, { scale: 1.05, duration: D, ease: 'sine.inOut' }, 0);
+    tl.fromTo('#s13-lap', { y: 120, opacity: 0 }, { y: 0, opacity: 1, duration: .6, ease: 'expo.out' }, 0);
+    tl.fromTo('#s13-ph', { x: 200, opacity: 0 }, { x: 0, opacity: 1, duration: .55, ease: 'expo.out' }, .18);
+    tl.fromTo('#s13-t .w>span', { yPercent: 105 }, { yPercent: 0, duration: .5, ease: 'expo.out', stagger: .06 }, .08);
+    tl.fromTo('#s13-sub', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .45, ease: 'expo.out' }, .25);
+    tl.to(['#s13-lap', '#s13-ph', '#s13-sub'], { opacity: 0, duration: .25, ease: 'power2.in' }, D - .28);
+    tl.to('#s13-t .w>span', { yPercent: -105, duration: .25, ease: 'power2.in', stagger: .02 }, D - .28);
+
+    window.__timelines["s13"] = tl;
+  </script>
+</template>

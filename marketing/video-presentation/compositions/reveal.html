@@ -1,0 +1,51 @@
+<template>
+  <style>
+
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-500.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-700.woff2") format("woff2"); font-weight: 700; }
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-800.woff2") format("woff2"); font-weight: 800; }
+@font-face { font-family: "Satisfy"; src: url("assets/fonts/Satisfy-400.woff2") format("woff2"); font-weight: 400; }
+
+
+#root { position: absolute; inset: 0; overflow: hidden; font-family: "Red Hat Display", sans-serif; color: var(--color-ink, #1A0637); }
+#root * { box-sizing: border-box; }
+.ttl { position: absolute; left: 108px; right: 108px; top: 150px; font-weight: 800; font-size: 76px; line-height: 1.04; letter-spacing: -0.03em; }
+.ttl .w { display: inline-block; }
+.scr { font-family: "Satisfy", cursive; font-weight: 400; font-size: 1.16em; letter-spacing: 0; color: var(--color-accent, #E01928); }
+.bub { position: absolute; max-width: 700px; padding: 20px 28px 16px; border-radius: 30px; font-weight: 700; font-size: 34px; line-height: 1.25;
+  background: #fff; border: 2px solid #E3DEEC; box-shadow: 0 18px 36px -22px rgba(26,6,55,.45); }
+.bub small { display: block; font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+.bub time { display: block; text-align: right; font-size: 24px; font-weight: 500; color: #8A80A3; margin-top: 4px; }
+.bub.out { background: #D9FDD3; border-color: #BDEFB4; }
+.av { position: absolute; width: 132px; height: 132px; border-radius: 50%; border: 6px solid #fff; overflow: hidden;
+  box-shadow: 0 14px 30px -16px rgba(26,6,55,.55); background: #EAE7F3; }
+.av img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; display: block; }
+
+#root { background: #FFFFFF; }
+
+.card { position: absolute; left: 400px; width: 280px; height: 180px; border-radius: 44px; }
+#reveal-c0 { top: 520px; } #reveal-c1 { top: 575px; } #reveal-c2 { top: 630px; }
+#reveal-ttl { top: 900px; text-align: center; left: 108px; right: 108px; }
+
+  </style>
+  <div id="root" data-composition-id="reveal" data-width="1080" data-height="1350">
+
+    <div class="card" id="reveal-c0" style="background:#E5A219"></div><div class="card" id="reveal-c1" style="background:#E6484E"></div><div class="card" id="reveal-c2" style="background:#6245EA"></div>
+    <h1 class="ttl" id="reveal-ttl"><span class="w" id="reveal-w0">Calandix</span> <span class="w" id="reveal-w1">organise</span> <span class="w" id="reveal-w2">ta</span> <span class="w scr" id="reveal-w3">fête.</span></h1>
+
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Trois cartes tombent l'une sur l'autre : la marque Calandix.
+    [0, 1, 2].forEach((i) => {
+      tl.fromTo("#reveal-c" + i, { y: -700 - i * 120, rotation: [-14, 10, -6][i], scale: 0.9 }, { y: 0, rotation: [-4, 3, -2][i], scale: 1, duration: 0.5, ease: "back.out(1.4)" }, 0.05 + i * 0.12);
+    });
+    tl.fromTo("#reveal-ttl .w", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out", stagger: 0.07 }, 0.7);
+    tl.to("#reveal-c0, #reveal-c1, #reveal-c2", { y: -40, duration: 1.0, ease: "none" }, 1.0);
+    tl.to("#root", { opacity: 1 }, 2.0);
+
+    tl.set({}, {}, 2.2);
+    window.__timelines["reveal"] = tl;
+  </script>
+</template>

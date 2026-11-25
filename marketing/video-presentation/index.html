@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr" data-composition-variables='[
+  {"id":"color-ground","type":"color","label":"Fond","default":"#FFFFFF"},
+  {"id":"color-ink","type":"color","label":"Texte","default":"#1A0637"},
+  {"id":"color-accent","type":"color","label":"Accent","default":"#E01928"}
+]'>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-500.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-700.woff2") format("woff2"); font-weight: 700; }
+@font-face { font-family: "Red Hat Display"; src: url("assets/fonts/RedHatDisplay-800.woff2") format("woff2"); font-weight: 800; }
+@font-face { font-family: "Satisfy"; src: url("assets/fonts/Satisfy-400.woff2") format("woff2"); font-weight: 400; }
+
+      :root { --color-ground: #FFFFFF; --color-ink: #1A0637; --color-accent: #E01928; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1350px; overflow: hidden; background: var(--color-ground); }
+      #root { position: relative; width: 100%; height: 100%; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="20.0" data-width="1080" data-height="1350">
+      <div id="chat" class="clip" data-composition-id="chat" data-composition-src="compositions/chat.html" data-start="0.0" data-duration="3.0" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1350"></div>
+      <div id="reveal" class="clip" data-composition-id="reveal" data-composition-src="compositions/reveal.html" data-start="3.0" data-duration="2.2" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1350"></div>
+      <div id="budget" class="clip" data-composition-id="budget" data-composition-src="compositions/budget.html" data-start="5.2" data-duration="3.4" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1350"></div>
+      <div id="vendors" class="clip" data-composition-id="vendors" data-composition-src="compositions/vendors.html" data-start="8.6" data-duration="3.8" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1350"></div>
+      <div id="pay" class="clip" data-composition-id="pay" data-composition-src="compositions/pay.html" data-start="12.4" data-duration="2.6" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1350"></div>
+      <div id="guests" class="clip" data-composition-id="guests" data-composition-src="compositions/guests.html" data-start="15.0" data-duration="1.9" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1350"></div>
+      <div id="endcard" class="clip" data-composition-id="endcard" data-composition-src="compositions/endcard.html" data-start="16.9" data-duration="3.1" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1350"></div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.set({}, {}, 20.0);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
