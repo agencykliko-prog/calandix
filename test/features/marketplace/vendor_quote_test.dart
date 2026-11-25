@@ -50,8 +50,10 @@ void main() {
     expect(tester.takeException(), isNull);
     expect(find.text('Portfolio'), findsOneWidget);
 
-    // Téléphone étroit : libellé court, jamais tronqué.
-    expect(find.text('Devis'), findsOneWidget);
+    // Deux boutons de contact (Message, WhatsApp) : le libellé complet tient
+    // même sur un téléphone étroit.
+    expect(find.text('Demander un devis'), findsOneWidget);
+    expect(find.text('Appeler'), findsNothing);
     await tester.tap(find.byKey(const ValueKey('request-quote')));
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));

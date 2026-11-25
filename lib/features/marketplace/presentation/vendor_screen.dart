@@ -360,7 +360,7 @@ class _ActionBar extends ConsumerWidget {
       Color color,
       VoidCallback onTap,
     ) => SizedBox(
-      width: 58,
+      width: 66,
       child: Pressable(
         onTap: onTap,
         semanticLabel: label,
@@ -377,7 +377,13 @@ class _ActionBar extends ConsumerWidget {
               child: Icon(icon, size: 20, color: color),
             ),
             const SizedBox(height: 4),
-            Text(label, style: context.text.labelSmall),
+            Text(
+              label,
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.visible,
+              style: context.text.labelSmall,
+            ),
           ],
         ),
       ),
@@ -396,16 +402,6 @@ class _ActionBar extends ConsumerWidget {
       child: Row(
         children: [
           contact(
-            AppIcons.phone,
-            'Appeler'.tr,
-            Confetti.ink,
-            () => toast(
-              context,
-              'Appel vers {0}'.trf([v.phone]),
-              icon: AppIcons.phone,
-            ),
-          ),
-          contact(
             AppIcons.message,
             'Message'.tr,
             Confetti.violet,
@@ -414,7 +410,8 @@ class _ActionBar extends ConsumerWidget {
           contact(
             AppIcons.whatsapp,
             'WhatsApp'.tr,
-            Confetti.success,
+            // Vert officiel de WhatsApp, reconnaissable au premier coup d'œil.
+            const Color(0xFF25D366),
             () => toast(
               context,
               'Ouverture de WhatsApp avec {0}'.trf([v.name]),

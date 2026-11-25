@@ -112,17 +112,7 @@ class _DashboardState extends ConsumerState<_Dashboard> {
     onUnlocked: () => context.push(Routes.agent(e.id)),
   );
 
-  /// Ouvre un outil de l'offre, ou propose l'offre qui le débloque.
-  void _premium(Event e, PremiumFeature feature, String route) =>
-      requirePremium(
-        context,
-        ref,
-        feature: feature,
-        eventId: e.id,
-        onUnlocked: () => context.push(route),
-      );
-
-  /// Options de l'événement : partage, page, statistiques, suppression.
+  /// Options de l'événement : couverture, co-organisateurs, suppression.
   void _options(Event e) => showEventaSheet<void>(
     context,
     builder: (sheet) {
@@ -162,30 +152,6 @@ class _DashboardState extends ConsumerState<_Dashboard> {
                 AppIcons.userPlus,
                 'Inviter des co-organisateurs'.tr,
                 () => showCollaboratorsSheet(context, e.id),
-              ),
-              row(
-                AppIcons.globe,
-                'Page de l’événement'.tr,
-                () => context.push(Routes.site(e.id)),
-              ),
-              row(
-                AppIcons.headset,
-                'Concierge'.tr,
-                () => _premium(
-                  e,
-                  PremiumFeature.concierge,
-                  Routes.concierge(e.id),
-                ),
-              ),
-              row(
-                AppIcons.images,
-                'Album'.tr,
-                () => _premium(e, PremiumFeature.album, Routes.album(e.id)),
-              ),
-              row(
-                AppIcons.chart,
-                'Statistiques du budget'.tr,
-                () => context.push(Routes.budgetStats(e.id)),
               ),
               const Divider(height: 16),
               row(
