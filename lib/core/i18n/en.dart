@@ -964,7 +964,7 @@ const en = <String, String>{
   'Revenus & reversements': 'Revenue & payouts',
   'Réputation & performance': 'Reputation & performance',
   '{0} forfaits · {1} options': '{0} packages · {1} options',
-  '{0} dates bloquées · {1}/jour': '{0} blocked dates · {1}/day',
+  '{0} dates bloquées · {1}/⁠jour': '{0} blocked dates · {1}/⁠day',
   'Tout est traité': 'All handled',
   '{0} à traiter': '{0} to handle',
   'Aucun reversement en attente': 'No pending payouts',
@@ -1755,10 +1755,10 @@ const en = <String, String>{
   'Inclus dans les formules Creator et Business.':
       'Included in the Creator and Business plans.',
   'Mes formules pro': 'My vendor plans',
-  'Formule {0} · commission {1} %': '{0} plan · {1}% commission',
+  'Formule {0} · commission {1} %': '{0} plan · {1}% commission',
   'Vous recevrez (après commission {0} %)':
       'You will receive (after {0}% commission)',
-  'Formule {0} · {1} %': '{0} plan · {1}%',
+  'Formule {0} · {1} %': '{0} plan · {1}%',
   'Catalogue complet': 'Catalogue full',
   'La formule {0} compte jusqu’à {1} prestations. Passez à la formule supérieure pour en ajouter, avec une commission plus basse.': 'The {0} plan includes up to {1} services. Move up a plan to add more, with a lower commission.',
   'Voir les formules': 'See plans',

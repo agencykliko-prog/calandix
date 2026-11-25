@@ -70,9 +70,9 @@ class OverviewModule extends ConsumerWidget {
                 icon: AppIcons.team,
                 hue: Hue.violet,
                 label: 'Utilisateurs inscrits',
-                value: '${12480 + s.accounts.length}',
+                value: formatNumber(12480 + s.accounts.length),
                 caption:
-                    'Tous comptes · ${9840 + s.clients} clients, ${2640 + s.pros} pros',
+                    'Tous comptes · ${formatNumber(9840 + s.clients)} clients, ${formatNumber(2640 + s.pros)} pros',
                 trend: 11.2,
                 spark: [for (final v in AdminDemo.signups) v.toDouble()],
                 onTap: () => context.go(adminPath(AdminModule.accounts)),
@@ -100,7 +100,7 @@ class OverviewModule extends ConsumerWidget {
                 label: 'Revenus plateforme',
                 value: fcfa(s.revenueToday),
                 caption:
-                    'Commissions ${s.pricing.commission.toStringAsFixed(0)} % + frais ${s.pricing.serviceFee.toStringAsFixed(0)} % + abonnements',
+                    'Commissions ${s.pricing.commission.toStringAsFixed(0)} % + frais ${s.pricing.serviceFee.toStringAsFixed(0)} % + abonnements',
                 trend: 12.0,
                 spark: AdminDemo.revenue,
                 onTap: () => context.go(adminPath(AdminModule.pricing)),

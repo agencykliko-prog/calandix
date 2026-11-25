@@ -48,12 +48,15 @@ class RevenueScreen extends ConsumerWidget {
     final paid =
         open.fold<int>(0, (s, r) => s + deposit(r)) +
         pro.payouts.fold<int>(0, (s, p) => s + p.gross);
+    // Tout part de ce qui est déjà encaissé (acomptes compris), pour que
+    // payé = commissions + reversements attendus + reversements effectués.
+    int openCommission(ClientRequest r) => (deposit(r) * rate).round();
     final commissions =
         pro.payouts.fold<int>(0, (s, p) => s + p.commission) +
-        open.fold<int>(0, (s, r) => s + ((r.quote ?? 0) * rate).round());
+        open.fold<int>(0, (s, r) => s + openCommission(r));
     final expected =
         scheduled.fold<int>(0, (s, p) => s + p.net) +
-        open.fold<int>(0, (s, r) => s + ((r.quote ?? 0) * (1 - rate)).round());
+        open.fold<int>(0, (s, r) => s + deposit(r) - openCommission(r));
     final done = sent.fold<int>(0, (s, p) => s + p.net);
 
     // Reversements nets des 6 derniers mois (démo : historique + réel).
@@ -99,7 +102,7 @@ class RevenueScreen extends ConsumerWidget {
               value: fcfaCompact(commissions),
               hue: Hue.coral,
               icon: AppIcons.receipt,
-              caption: 'Formule {0} · {1} %'.trf([
+              caption: 'Formule {0} · {1} %'.trf([
                 plan.label,
                 plan.commissionPercent,
               ]),

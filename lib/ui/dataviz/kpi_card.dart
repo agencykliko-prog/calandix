@@ -72,7 +72,7 @@ class KpiCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   label,
-                  maxLines: 1,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: context.text.titleSmall,
                 ),
@@ -111,7 +111,7 @@ class KpiCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   caption!,
-                  maxLines: 1,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: context.text.bodySmall,
                 ),
@@ -196,11 +196,30 @@ class KpiGrid extends StatelessWidget {
       final n = _compact
           ? (box.maxWidth >= 600 ? 4 : 2)
           : (box.maxWidth / minTile).floor().clamp(1, max);
-      final w = (box.maxWidth - spacing * (n - 1)) / n;
-      return Wrap(
-        spacing: spacing,
-        runSpacing: spacing,
-        children: [for (final c in children) SizedBox(width: w, child: c)],
+      // Une ligne de cartes = une seule hauteur, même quand un libellé ou
+      // une légende passe sur deux lignes.
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (var i = 0; i < children.length; i += n) ...[
+            if (i > 0) SizedBox(height: spacing),
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  for (var j = i; j < i + n; j++) ...[
+                    if (j > i) SizedBox(width: spacing),
+                    Expanded(
+                      child: j < children.length
+                          ? children[j]
+                          : const SizedBox.shrink(),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ],
       );
     },
   );

@@ -62,7 +62,7 @@ class ProHub extends ConsumerWidget {
         AppIcons.agenda,
         Hue.violet,
         'Disponibilités'.tr,
-        '{0} dates bloquées · {1}/jour'.trf([
+        '{0} dates bloquées · {1}/⁠jour'.trf([
           blocked,
           pro.availability.capacityPerDay,
         ]),
@@ -154,49 +154,63 @@ class ProHub extends ConsumerWidget {
             : box.maxWidth >= 640
             ? 3
             : 2;
-        final w = (box.maxWidth - 8 * (n - 1)) / n;
-        return Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            for (final (letter, icon, hue, title, caption, path) in tiles)
-              SizedBox(
-                width: w,
-                child: Panel(
-                  padding: const EdgeInsets.all(14),
-                  onTap: () => path == Routes.requests
-                      ? context.go(path)
-                      : context.push(path),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          IconTile(icon: icon, hue: hue, size: 36),
-                          const Spacer(),
-                          Text(
-                            letter,
-                            style: context.text.labelSmall?.copyWith(
-                              color: Confetti.inkFaint,
-                            ),
-                          ),
-                        ],
+        // Cartes d'une même ligne à la même hauteur : la grille reste nette
+        // quand un titre ou une légende passe sur deux lignes.
+        Widget card((String, IconData, Hue, String, String, String) t) {
+          final (letter, icon, hue, title, caption, path) = t;
+          return Panel(
+            padding: const EdgeInsets.all(14),
+            onTap: () =>
+                path == Routes.requests ? context.go(path) : context.push(path),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    IconTile(icon: icon, hue: hue, size: 36),
+                    const Spacer(),
+                    Text(
+                      letter,
+                      style: context.text.labelSmall?.copyWith(
+                        color: Confetti.inkFaint,
                       ),
-                      const SizedBox(height: 12),
-                      Text(title, maxLines: 2, style: context.text.titleSmall),
-                      const SizedBox(height: 2),
-                      Text(
-                        caption,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: context.text.bodySmall?.copyWith(
-                          color: hue.text,
-                        ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text(title, maxLines: 2, style: context.text.titleSmall),
+                const SizedBox(height: 2),
+                Text(
+                  caption,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.text.bodySmall?.copyWith(color: hue.text),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return Column(
+          children: [
+            for (var i = 0; i < tiles.length; i += n) ...[
+              if (i > 0) const SizedBox(height: 8),
+              IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    for (var j = i; j < i + n; j++) ...[
+                      if (j > i) const SizedBox(width: 8),
+                      Expanded(
+                        child: j < tiles.length
+                            ? card(tiles[j])
+                            : const SizedBox.shrink(),
                       ),
                     ],
-                  ),
+                  ],
                 ),
               ),
+            ],
           ],
         );
       },

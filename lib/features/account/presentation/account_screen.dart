@@ -124,7 +124,7 @@ class AccountScreen extends ConsumerWidget {
                     children: [
                       Expanded(
                         child: PillButton(
-                          label: 'Modifier le profil'.tr,
+                          label: 'Modifier'.tr,
                           icon: AppIcons.edit,
                           tone: ButtonTone.dark,
                           height: 46,
@@ -171,7 +171,7 @@ class AccountScreen extends ConsumerWidget {
                             ),
                           ),
                           Text(
-                            'Formule {0} · commission {1} %'.trf([
+                            'Formule {0} · commission {1} %'.trf([
                               ref.watch(proPlanProvider).label,
                               ref.watch(proPlanProvider).commissionPercent,
                             ]),
