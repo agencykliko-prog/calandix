@@ -17,18 +17,16 @@ class _Preset {
   final int backdrop;
 }
 
+// Fonds neutres uniquement : plus de fond bleu ciel ni vert forêt.
 const _presets = [
-  _Preset('Océan', 0xFF2373E1, 0xFFC8F0FD),
-  _Preset('Forêt', 0xFF102930, 0xFFD4FDD1),
+  _Preset('Océan', 0xFF2373E1, 0xFFFFFFFF),
+  _Preset('Nuit', 0xFF0D1639, 0xFFFFFFFF),
   _Preset('Couchant', 0xFFFF5C35, 0xFFFFFFFF),
   _Preset('Orchidée', 0xFFB400FF, 0xFFFFFFFF),
 ];
 
 /// Couleurs assez soutenues pour porter boutons et accents.
 const _accents = [0xFF0D1639, 0xFF7DA1B1, 0xFF0DD392];
-
-/// Couleurs claires, pour le fond de l'interface.
-const _backdrops = [0xFFFFFFFF, 0xFFD4FDD1, 0xFFC8F0FD];
 
 /// Compte › Couleur du thème : quatre thèmes et un choix libre.
 class ThemePicker extends ConsumerWidget {
@@ -73,14 +71,6 @@ class ThemePicker extends ConsumerWidget {
             value: prefs.accent,
             onTap: (c) => n.setTheme(c, prefs.backdrop),
           ),
-          const SizedBox(height: 18),
-          Text('Fond'.tr, style: context.text.titleSmall),
-          const SizedBox(height: 10),
-          _Swatches(
-            colors: _backdrops,
-            value: prefs.backdrop,
-            onTap: (c) => n.setTheme(prefs.accent, c),
-          ),
           if (prefs.accent != null || prefs.backdrop != null) ...[
             const SizedBox(height: 14),
             PillButton(
@@ -121,8 +111,8 @@ class _PresetCard extends StatelessWidget {
           color: Color(preset.backdrop),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: selected ? Confetti.ink : Colors.transparent,
-            width: 2,
+            color: selected ? Confetti.ink : Confetti.line,
+            width: selected ? 2 : 1,
           ),
         ),
         child: Row(

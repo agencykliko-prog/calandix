@@ -9,7 +9,6 @@ import '../../../ui/theme/app_icons.dart';
 import '../../../ui/theme/eventa_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../ui/widgets/entrance.dart';
-import '../../../ui/widgets/mascot.dart';
 import '../../../ui/widgets/ui.dart';
 import '../../../core/auth/session_provider.dart';
 import '../../home/presentation/greeting_hero.dart';
@@ -39,7 +38,6 @@ class CreatorHomeScreen extends ConsumerWidget {
     final hero = GreetingHero(
       header: HomeHeader(subtitle: 'Espace Creator'.tr),
       question: 'Prêt à faire briller de belles fêtes ?'.tr,
-      mascot: MascotColor.creator,
     );
     final revenuePanel = Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),

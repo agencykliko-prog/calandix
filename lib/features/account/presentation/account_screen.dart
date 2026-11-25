@@ -19,7 +19,6 @@ import '../../../core/utils/formatters.dart';
 import '../../../ui/widgets/avatars.dart';
 import '../../../ui/widgets/brand.dart';
 import '../../../ui/widgets/forms.dart';
-import '../../../ui/widgets/mascot.dart';
 import '../../../ui/widgets/pressable.dart';
 import '../../../ui/widgets/ui.dart';
 import '../../../core/auth/session_provider.dart';
@@ -31,6 +30,7 @@ import '../../events/presentation/events_providers.dart';
 import '../../export/presentation/export_sheet.dart';
 import '../../notifications/presentation/push_prefs.dart';
 import '../../../ui/widgets/contact_team.dart';
+import '../../events/presentation/widgets/event_cover.dart';
 
 class AccountScreen extends ConsumerWidget {
   const AccountScreen({super.key});
@@ -49,78 +49,106 @@ class AccountScreen extends ConsumerWidget {
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
           physics: const BouncingScrollPhysics(),
           children: [
-            // La mascotte salue depuis le bord de la carte de profil.
             Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 4, bottom: 18),
+                    padding: const EdgeInsets.only(left: 4),
                     child: Text(
                       'Compte'.tr,
                       style: context.text.headlineMedium,
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 12),
-                  child: _AccountMascot(creator: p.isCreator),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 18),
-                  child: RoundIconButton(
-                    icon: AppIcons.close,
-                    tooltip: 'Fermer'.tr,
-                    onTap: () => context.go(Routes.home),
-                  ),
+                RoundIconButton(
+                  icon: AppIcons.close,
+                  tooltip: 'Fermer'.tr,
+                  onTap: () => context.go(Routes.home),
                 ),
               ],
             ),
+            const SizedBox(height: 16),
+            // Carte d'identité : l'utilisateur au premier plan, puis ses
+            // actions principales en un geste.
             Panel(
-              onTap: () => context.push(Routes.editProfile),
-              child: Row(
+              padding: const EdgeInsets.fromLTRB(18, 18, 18, 14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Avatar(
-                    image: p.photoAsset,
-                    bytes: p.photoBytes,
-                    initials: p.initials,
-                    size: 60,
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                  Row(
+                    children: [
+                      Avatar(
+                        image: p.photoAsset,
+                        bytes: p.photoBytes,
+                        initials: p.initials,
+                        size: 68,
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Flexible(
-                              child: Text(
-                                p.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: context.text.titleLarge,
-                              ),
+                            Text(
+                              p.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: context.text.headlineSmall,
                             ),
-                            if (!p.isCreator && plan != Plan.free) ...[
-                              const SizedBox(width: 8),
-                              PremiumBadge(label: plan.label),
-                            ],
+                            const SizedBox(height: 6),
+                            Wrap(
+                              spacing: 6,
+                              runSpacing: 6,
+                              children: [
+                                Tag(label: p.role.label, hue: Hue.ink),
+                                if (!p.isCreator && plan != Plan.free)
+                                  PremiumBadge(label: plan.label),
+                              ],
+                            ),
                           ],
                         ),
-                        Text(
-                          p.email,
-                          style: context.text.bodySmall,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(
-                          '${p.phone} · ${p.city}',
-                          style: context.text.bodySmall,
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  Icon(AppIcons.edit, size: 18, color: Confetti.inkMuted),
+                  const SizedBox(height: 14),
+                  _Contact(icon: AppIcons.mail, text: p.email),
+                  if (p.phone.isNotEmpty || p.city.isNotEmpty)
+                    _Contact(
+                      icon: AppIcons.phone,
+                      text: [
+                        p.phone,
+                        p.city,
+                      ].where((x) => x.isNotEmpty).join(' · '),
+                    ),
+                  const SizedBox(height: 14),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: PillButton(
+                          label: 'Modifier le profil'.tr,
+                          icon: AppIcons.edit,
+                          tone: ButtonTone.dark,
+                          height: 46,
+                          onPressed: () => context.push(Routes.editProfile),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: PillButton(
+                          label: p.isCreator
+                              ? 'Espace pro'.tr
+                              : 'Coffre-fort'.tr,
+                          icon: p.isCreator
+                              ? AppIcons.briefcase
+                              : AppIcons.lock,
+                          tone: ButtonTone.ghost,
+                          height: 46,
+                          onPressed: () => context.push(
+                            p.isCreator ? Routes.business : Routes.vault,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -363,11 +391,12 @@ class AccountScreen extends ConsumerWidget {
               contentPadding: EdgeInsets.zero,
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
+                child: EventCoverImage(
                   e.cover,
                   width: 42,
                   height: 42,
-                  fit: BoxFit.cover,
+                  cacheWidth: 120,
+                  category: e.category,
                 ),
               ),
               title: Text(e.name, style: ctx.text.titleSmall),
@@ -648,54 +677,32 @@ class _ToggleSheetState extends State<_ToggleSheet> {
   }
 }
 
-/// Mascotte du compte : salue à l'arrivée, saute de joie au toucher.
-class _AccountMascot extends ConsumerStatefulWidget {
-  const _AccountMascot({required this.creator});
+/// Ligne de coordonnées de la carte d'identité.
+class _Contact extends StatelessWidget {
+  const _Contact({required this.icon, required this.text});
 
-  final bool creator;
-
-  @override
-  ConsumerState<_AccountMascot> createState() => _AccountMascotState();
-}
-
-class _AccountMascotState extends ConsumerState<_AccountMascot> {
-  bool _waving = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _stopWaving(1800);
-  }
-
-  Timer? _timer;
-
-  void _stopWaving(int ms) {
-    _timer?.cancel();
-    _timer = Timer(Duration(milliseconds: ms), () {
-      if (mounted) setState(() => _waving = false);
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
+  final IconData icon;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
-    return Transform.translate(
-      offset: const Offset(0, 14),
-      child: Mascot(
-        size: 78,
-        color: widget.creator ? MascotColor.creator : MascotColor.organizer,
-        waving: _waving,
-        legs: false,
-        onTap: () {
-          ref.read(soundProvider).play(Sfx.success);
-          setState(() => _waving = true);
-          _stopWaving(1400);
-        },
+    return Padding(
+      padding: const EdgeInsets.only(top: 6),
+      child: Row(
+        children: [
+          Icon(icon, size: 16, color: Confetti.inkMuted),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              text,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.text.bodyMedium?.copyWith(
+                color: Confetti.inkMuted,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -739,7 +746,13 @@ class _PrefsGroup extends ConsumerWidget {
             AppIcons.moon,
             'Mode sombre'.tr,
             'Plus doux pour les yeux le soir'.tr,
-            Switch(value: prefs.dark, onChanged: n.setDark),
+            Switch(
+              value: prefs.dark,
+              onChanged: (v) {
+                ref.read(soundProvider).play(Sfx.toggle);
+                n.setDark(v);
+              },
+            ),
           ),
           const Divider(height: 1),
           row(
@@ -752,12 +765,12 @@ class _PrefsGroup extends ConsumerWidget {
           row(
             prefs.sounds ? AppIcons.speaker : AppIcons.speakerOff,
             'Sons'.tr,
-            'Réservation, paiement, notifications'.tr,
+            'Réservations, paiements, tâches, messages'.tr,
             Switch(
               value: prefs.sounds,
               onChanged: (v) {
                 n.setSounds(v);
-                if (v) ref.read(soundProvider).play(Sfx.notification);
+                if (v) ref.read(soundProvider).play(Sfx.toggle);
               },
             ),
           ),
@@ -851,8 +864,10 @@ class _NotificationsSheet extends ConsumerWidget {
                 ),
                 Switch(
                   value: on.contains(k),
-                  onChanged: (v) =>
-                      ref.read(pushPrefsProvider.notifier).toggle(k, v),
+                  onChanged: (v) {
+                    ref.read(soundProvider).play(Sfx.toggle);
+                    ref.read(pushPrefsProvider.notifier).toggle(k, v);
+                  },
                 ),
               ],
             ),

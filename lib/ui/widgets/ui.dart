@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/i18n/tr.dart';
+import '../../core/sound/sounds.dart';
 import '../theme/app_icons.dart';
 import '../theme/app_theme.dart';
 import '../theme/eventa_colors.dart';
@@ -33,7 +35,7 @@ class PillButton extends StatelessWidget {
   final bool expand;
   final double height;
 
-  /// Sans relief ni reflet, coins à 14 px : CTA sobre des écrans d'accès.
+  /// Conservé pour compatibilité : tous les boutons sont désormais plats.
   final bool flat;
 
   @override
@@ -51,12 +53,6 @@ class PillButton extends StatelessWidget {
       ButtonTone.gold => (Confetti.gold, Confetti.inkFixed, Colors.transparent),
       ButtonTone.danger => (Confetti.coral, Colors.white, Colors.transparent),
     };
-    final lip = switch (tone) {
-      ButtonTone.ghost || ButtonTone.light => Confetti.line,
-      ButtonTone.dark => Color.lerp(bg, Colors.black, 0.55)!,
-      _ => Color.lerp(bg, Colors.black, 0.28)!,
-    };
-
     final content = Row(
       mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -95,29 +91,9 @@ class PillButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           decoration: BoxDecoration(
             color: bg,
-            borderRadius: BorderRadius.circular(flat ? 14 : height),
-            border: Border.all(color: border, width: 1.5),
-            // Reflet doux en haut : volume « bonbon » sans effet plastique.
-            gradient:
-                flat || tone == ButtonTone.ghost || tone == ButtonTone.light
-                ? null
-                : LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Color.lerp(bg, Colors.white, 0.14)!, bg],
-                  ),
-            // Relief net sous le bouton, plus une ombre colorée pour l'action.
-            boxShadow: enabled && !flat
-                ? [
-                    BoxShadow(color: lip, offset: const Offset(0, 3.5)),
-                    if (tone == ButtonTone.primary)
-                      BoxShadow(
-                        color: Confetti.violet.withValues(alpha: 0.28),
-                        blurRadius: 18,
-                        offset: const Offset(0, 8),
-                      ),
-                  ]
-                : null,
+            // Aplat sobre : ni reflet, ni relief, ni ombre colorée.
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: border),
           ),
           child: AnimatedSwitcher(
             duration: Motion.fast,
@@ -180,14 +156,6 @@ class RoundIconButton extends StatelessWidget {
           border: background == Confetti.surface
               ? Border.all(color: Confetti.line)
               : null,
-          boxShadow: [
-            BoxShadow(
-              color: background == Confetti.surface
-                  ? Confetti.line
-                  : Color.lerp(background, Colors.black, 0.3)!,
-              offset: const Offset(0, 2),
-            ),
-          ],
         ),
         child: Stack(
           clipBehavior: Clip.none,
@@ -640,23 +608,8 @@ class IconTile extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(size * 0.34),
-        // Dégradé à peine perceptible : la tuile gagne du volume.
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: solid
-              ? [Color.lerp(hue.base, Colors.white, 0.18)!, hue.base]
-              : [hue.tint, Color.lerp(hue.tint, hue.base, 0.16)!],
-        ),
-        border: Border(
-          bottom: BorderSide(
-            color: solid
-                ? Color.lerp(hue.base, Colors.black, 0.25)!
-                : Color.lerp(hue.tint, hue.base, 0.28)!,
-            width: 2,
-          ),
-        ),
+        borderRadius: BorderRadius.circular(size * 0.3),
+        color: solid ? hue.base : hue.tint,
       ),
       child: Icon(
         icon,
@@ -721,6 +674,15 @@ Future<T?> showEventaSheet<T>(
 }
 
 void toast(BuildContext context, String text, {IconData? icon}) {
+  // Une alerte s'entend au moment où elle apparaît.
+  if (icon == AppIcons.warning) {
+    try {
+      ProviderScope.containerOf(
+        context,
+        listen: false,
+      ).read(soundProvider).play(Sfx.error);
+    } catch (_) {}
+  }
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(

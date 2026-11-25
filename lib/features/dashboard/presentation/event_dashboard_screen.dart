@@ -11,6 +11,7 @@ import '../../../core/utils/formatters.dart';
 import '../../../ui/widgets/entrance.dart';
 import '../../../ui/widgets/mascot.dart';
 import '../../../ui/widgets/pressable.dart';
+import '../../../ui/widgets/avatars.dart';
 import '../../../ui/widgets/ui.dart';
 import '../../booking/presentation/quote_compare_screen.dart';
 import '../../commerce/domain/commerce_models.dart';
@@ -18,6 +19,7 @@ import '../../commerce/presentation/commerce_providers.dart';
 import '../../../core/models/models.dart';
 import '../../events/presentation/event_trash.dart';
 import '../../events/presentation/events_providers.dart';
+import '../../events/presentation/widgets/event_cover.dart';
 import '../../events/presentation/widgets/task_timeline.dart';
 import '../../export/presentation/export_sheet.dart';
 import '../../premium/presentation/paywall.dart';
@@ -65,12 +67,22 @@ class _DashboardState extends ConsumerState<_Dashboard> {
   final _teamKey = GlobalKey();
   bool _collapsed = false;
 
+  /// La pastille « Couverture » s'efface dès que la photo se replie, pour
+  /// ne pas glisser sous les boutons de la barre.
+  bool _coverTools = true;
+
   @override
   void initState() {
     super.initState();
     _scroll.addListener(() {
       final c = _scroll.offset > _coverH - 110;
-      if (c != _collapsed) setState(() => _collapsed = c);
+      final t = _scroll.offset < 60;
+      if (c != _collapsed || t != _coverTools) {
+        setState(() {
+          _collapsed = c;
+          _coverTools = t;
+        });
+      }
     });
   }
 
@@ -99,6 +111,16 @@ class _DashboardState extends ConsumerState<_Dashboard> {
     eventId: e.id,
     onUnlocked: () => context.push(Routes.agent(e.id)),
   );
+
+  /// Ouvre un outil de l'offre, ou propose l'offre qui le débloque.
+  void _premium(Event e, PremiumFeature feature, String route) =>
+      requirePremium(
+        context,
+        ref,
+        feature: feature,
+        eventId: e.id,
+        onUnlocked: () => context.push(route),
+      );
 
   /// Options de l'événement : partage, page, statistiques, suppression.
   void _options(Event e) => showEventaSheet<void>(
@@ -129,6 +151,13 @@ class _DashboardState extends ConsumerState<_Dashboard> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              if (ref.read(canEditEventProvider(e.id)))
+                row(
+                  AppIcons.image,
+                  'Changer la couverture'.tr,
+                  () => showCoverPicker(context, e),
+                  key: const ValueKey('event-cover'),
+                ),
               row(
                 AppIcons.userPlus,
                 'Inviter des co-organisateurs'.tr,
@@ -138,6 +167,20 @@ class _DashboardState extends ConsumerState<_Dashboard> {
                 AppIcons.globe,
                 'Page de l’événement'.tr,
                 () => context.push(Routes.site(e.id)),
+              ),
+              row(
+                AppIcons.headset,
+                'Concierge'.tr,
+                () => _premium(
+                  e,
+                  PremiumFeature.concierge,
+                  Routes.concierge(e.id),
+                ),
+              ),
+              row(
+                AppIcons.images,
+                'Album'.tr,
+                () => _premium(e, PremiumFeature.album, Routes.album(e.id)),
               ),
               row(
                 AppIcons.chart,
@@ -218,7 +261,13 @@ class _DashboardState extends ConsumerState<_Dashboard> {
             ),
             flexibleSpace: FlexibleSpaceBar(
               stretchModes: const [StretchMode.zoomBackground],
-              background: _Cover(event: e),
+              background: _Cover(
+                event: e,
+                showEdit: _coverTools,
+                onEdit: ref.watch(canEditEventProvider(e.id))
+                    ? () => showCoverPicker(context, e)
+                    : null,
+              ),
             ),
           ),
           SliverToBoxAdapter(
@@ -235,19 +284,16 @@ class _DashboardState extends ConsumerState<_Dashboard> {
                         _Action(
                           icon: AppIcons.sparkle,
                           label: 'Agent IA'.tr,
-                          hue: e.category.hue,
                           onTap: () => _openAgent(e),
                         ),
                         _Action(
                           icon: AppIcons.lock,
                           label: 'Coffre-fort'.tr,
-                          hue: Hue.violet,
                           onTap: () => context.push(Routes.vault),
                         ),
                         _Action(
                           icon: AppIcons.download,
                           label: 'Exporter'.tr,
-                          hue: Hue.lagoon,
                           onTap: () => showExportSheet(context, e.id),
                         ),
                       ],
@@ -264,8 +310,6 @@ class _DashboardState extends ConsumerState<_Dashboard> {
                       onTeam: () => _scrollTo(_teamKey),
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  Entrance(index: 3, child: _ToolsPanel(event: e)),
                 ],
               ),
             ),
@@ -473,9 +517,13 @@ class _DashboardState extends ConsumerState<_Dashboard> {
 }
 
 class _Cover extends StatelessWidget {
-  const _Cover({required this.event});
+  const _Cover({required this.event, this.onEdit, this.showEdit = true});
 
   final Event event;
+
+  /// Changer la couverture (organisateurs uniquement).
+  final VoidCallback? onEdit;
+  final bool showEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -485,7 +533,7 @@ class _Cover extends StatelessWidget {
       children: [
         Hero(
           tag: 'cover-${event.id}',
-          child: Image.asset(event.cover, fit: BoxFit.cover),
+          child: EventCoverImage(event.cover, category: event.category),
         ),
         DecoratedBox(
           decoration: BoxDecoration(
@@ -501,6 +549,19 @@ class _Cover extends StatelessWidget {
             ),
           ),
         ),
+        if (onEdit != null)
+          Positioned(
+            right: 16,
+            top: MediaQuery.paddingOf(context).top + kToolbarHeight + 8,
+            child: IgnorePointer(
+              ignoring: !showEdit,
+              child: AnimatedOpacity(
+                duration: Motion.fast,
+                opacity: showEdit ? 1 : 0,
+                child: _CoverButton(onTap: onEdit!),
+              ),
+            ),
+          ),
         Positioned(
           left: 20,
           right: 20,
@@ -617,44 +678,61 @@ class _CountdownPanel extends StatelessWidget {
   }
 }
 
+/// Raccourci neutre : surface claire, bordure fine, icône à l'encre.
 class _Action extends StatelessWidget {
-  const _Action({
-    required this.icon,
-    required this.label,
-    required this.hue,
-    required this.onTap,
-  });
+  const _Action({required this.icon, required this.label, required this.onTap});
 
   final IconData icon;
   final String label;
-  final Hue hue;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Pressable(
-        onTap: onTap,
-        semanticLabel: label,
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 3),
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          decoration: BoxDecoration(
-            color: Confetti.surface,
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: Confetti.line),
-          ),
-          child: Column(
-            children: [
-              Icon(icon, size: 22, color: hue.text),
-              const SizedBox(height: 6),
-              Text(
-                label,
-                style: context.text.labelSmall?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: Pressable(
+          onTap: onTap,
+          semanticLabel: label,
+          child: Container(
+            constraints: const BoxConstraints(minHeight: 52),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+            decoration: _neutralBox(radius: 16),
+            // Icône et libellé côte à côte quand la place le permet, l'un
+            // sous l'autre sur téléphone : le libellé n'est jamais tronqué.
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final text = Text(
+                  label,
+                  maxLines: 1,
+                  style: context.text.labelMedium?.copyWith(
+                    color: Confetti.ink,
+                    fontWeight: FontWeight.w600,
+                  ),
+                );
+                final glyph = Icon(icon, size: 18, color: Confetti.ink);
+                if (box.maxWidth >= 140) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      glyph,
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: FittedBox(fit: BoxFit.scaleDown, child: text),
+                      ),
+                    ],
+                  );
+                }
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    glyph,
+                    const SizedBox(height: 6),
+                    FittedBox(fit: BoxFit.scaleDown, child: text),
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),
@@ -662,120 +740,24 @@ class _Action extends StatelessWidget {
   }
 }
 
-/// Outils des invités et du jour J, et services de l'offre : chacun indique
-/// s'il demande une offre supérieure.
-class _ToolsPanel extends ConsumerWidget {
-  const _ToolsPanel({required this.event});
+/// Surface commune des tuiles du tableau de bord : claire, bordure fine,
+/// ombre très légère (plus marquée en mode sombre).
+BoxDecoration _neutralBox({double radius = 18}) => BoxDecoration(
+  color: Confetti.surface,
+  borderRadius: BorderRadius.circular(radius),
+  border: Border.all(color: Confetti.line),
+  boxShadow: [
+    BoxShadow(
+      color: Confetti.inkFixed.withValues(alpha: Confetti.dark ? 0.28 : 0.035),
+      blurRadius: 14,
+      offset: const Offset(0, 4),
+    ),
+  ],
+);
 
-  final Event event;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final e = event;
-    final tools = [
-      (
-        PremiumFeature.invitations,
-        AppIcons.mail,
-        Hue.coral,
-        'Invitation'.tr,
-        () => context.push(Routes.invitation(e.id)),
-      ),
-      (
-        PremiumFeature.entries,
-        AppIcons.qr,
-        Hue.violet,
-        'Entrées'.tr,
-        () => context.push(Routes.entries(e.id)),
-      ),
-      (
-        PremiumFeature.concierge,
-        AppIcons.headset,
-        Hue.gold,
-        'Concierge'.tr,
-        () => context.push(Routes.concierge(e.id)),
-      ),
-      (
-        PremiumFeature.album,
-        AppIcons.images,
-        Hue.candy,
-        'Album'.tr,
-        () => context.push(Routes.album(e.id)),
-      ),
-      (
-        PremiumFeature.invitations,
-        AppIcons.globe,
-        Hue.sky,
-        'Page'.tr,
-        () => context.push(Routes.site(e.id)),
-      ),
-    ];
-    return LayoutBuilder(
-      builder: (context, box) {
-        final w = (box.maxWidth - 8 * 5) / 6;
-        return Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            for (final (feature, icon, hue, label, open) in tools)
-              SizedBox(
-                width: w < 64 ? (box.maxWidth - 8 * 2) / 3 : w,
-                child: Pressable(
-                  semanticLabel: label,
-                  onTap: () => requirePremium(
-                    context,
-                    ref,
-                    feature: feature,
-                    eventId: e.id,
-                    onUnlocked: open,
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    decoration: BoxDecoration(
-                      color: hue.tint,
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    child: Column(
-                      children: [
-                        Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Icon(icon, size: 22, color: hue.text),
-                            if (!ref.watch(
-                              featureUnlockedProvider((feature, e.id)),
-                            ))
-                              Positioned(
-                                right: -10,
-                                top: -6,
-                                child: Icon(
-                                  AppIcons.lock,
-                                  size: 12,
-                                  color: hue.text,
-                                ),
-                              ),
-                          ],
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          label,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: context.text.labelSmall?.copyWith(
-                            color: hue.text,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-/// Les quatre tuiles de la palette, une couleur par module.
+/// Les quatre indicateurs de l'événement : surfaces neutres, valeur lisible,
+/// libellé, précision et petite jauge. Deux colonnes sur téléphone, quatre
+/// sur grand écran.
 class _ModuleGrid extends StatelessWidget {
   const _ModuleGrid({
     required this.event,
@@ -793,103 +775,200 @@ class _ModuleGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = context.eventa;
+    final e = event;
     final tiles = [
-      (
-        c.budget,
-        AppIcons.wallet,
-        'Budget'.tr,
-        '${(event.committedRatio * 100).round()} %',
-        'engagé'.tr,
-        onBudget,
+      _ModuleTile(
+        icon: AppIcons.wallet,
+        label: 'Budget'.tr,
+        value: '${(e.committedRatio * 100).round()} %',
+        caption: 'engagé'.tr,
+        progress: e.committedRatio,
+        alert: e.committedRatio > 1,
+        onTap: onBudget,
       ),
-      (
-        c.tasks,
-        AppIcons.tasks,
-        'Tâches'.tr,
-        '${event.tasksDone} / ${event.tasks.length}',
-        'terminées'.tr,
-        onTasks,
+      _ModuleTile(
+        icon: AppIcons.tasks,
+        label: 'Tâches'.tr,
+        value: '${e.tasksDone} / ${e.tasks.length}',
+        caption: 'terminées'.tr,
+        progress: e.taskProgress,
+        onTap: onTasks,
       ),
-      (
-        c.vendors,
-        AppIcons.vendors,
-        'Prestataires'.tr,
-        '{0} confirmés'.trf([event.vendorsConfirmed]),
-        'sur {0}'.trf([event.vendors.length]),
-        onVendors,
+      _ModuleTile(
+        icon: AppIcons.vendors,
+        label: 'Prestataires'.tr,
+        value: '{0} confirmés'.trf([e.vendorsConfirmed]),
+        caption: 'sur {0}'.trf([e.vendors.length]),
+        progress: e.vendors.isEmpty ? 0 : e.vendorsConfirmed / e.vendors.length,
+        onTap: onVendors,
       ),
-      (
-        c.team,
-        AppIcons.team,
-        'Équipe'.tr,
-        '{0} en ligne'.trf([event.onlineCount]),
-        '{0} membres'.trf([event.team.length]),
-        onTeam,
+      _ModuleTile(
+        icon: AppIcons.team,
+        label: 'Équipe'.tr,
+        value: '{0} en ligne'.trf([e.onlineCount]),
+        caption: '{0} membres'.trf([e.team.length]),
+        footer: AvatarStack(
+          images: [for (final m in e.team) m.avatar],
+          size: 20,
+          ring: Confetti.surface,
+        ),
+        onTap: onTeam,
       ),
     ];
-    return GridView.count(
-      crossAxisCount: 2,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: 10,
-      crossAxisSpacing: 10,
-      childAspectRatio: 1.55,
-      padding: EdgeInsets.zero,
-      children: [
-        for (final (hue, icon, label, value, caption, onTap) in tiles)
-          Pressable(
-            onTap: onTap,
-            semanticLabel: label,
-            child: Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: hue.tint,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(icon, size: 20, color: hue.text),
-                      const Spacer(),
-                      Icon(
-                        AppIcons.outward,
-                        size: 14,
-                        color: hue.text.withValues(alpha: 0.6),
-                      ),
-                    ],
+    return LayoutBuilder(
+      builder: (context, box) {
+        final cols = box.maxWidth >= 680 ? 4 : 2;
+        const gap = 10.0;
+        final w = (box.maxWidth - gap * (cols - 1)) / cols;
+        return Wrap(
+          spacing: gap,
+          runSpacing: gap,
+          children: [for (final t in tiles) SizedBox(width: w, child: t)],
+        );
+      },
+    );
+  }
+}
+
+class _ModuleTile extends StatelessWidget {
+  const _ModuleTile({
+    required this.icon,
+    required this.label,
+    required this.value,
+    required this.caption,
+    required this.onTap,
+    this.progress,
+    this.alert = false,
+    this.footer,
+  });
+
+  final IconData icon;
+  final String label;
+  final String value;
+  final String caption;
+  final VoidCallback onTap;
+
+  /// Jauge de 0 à 1 ; [footer] la remplace (avatars de l'équipe).
+  final double? progress;
+  final bool alert;
+  final Widget? footer;
+
+  @override
+  Widget build(BuildContext context) {
+    return Pressable(
+      onTap: onTap,
+      semanticLabel: '$label : $value $caption',
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: _neutralBox(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    color: Confetti.lavender,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  const Spacer(),
-                  Text(
+                  child: Icon(icon, size: 17, color: Confetti.ink),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
                     label,
-                    style: context.text.labelMedium?.copyWith(color: hue.text),
-                  ),
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      value,
-                      style: context.text.titleLarge?.copyWith(
-                        color: hue.deep,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 19,
-                      ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.text.labelMedium?.copyWith(
+                      color: Confetti.inkMuted,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Text(
-                    caption,
-                    style: context.text.labelSmall?.copyWith(
-                      color: hue.text,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
+                ),
+                Icon(AppIcons.chevron, size: 14, color: Confetti.inkFaint),
+              ],
+            ),
+            const SizedBox(height: 12),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                value,
+                maxLines: 1,
+                style: context.text.titleLarge?.copyWith(
+                  color: alert ? Confetti.danger : Confetti.ink,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                  height: 1.15,
+                ),
               ),
             ),
-          ),
-      ],
+            const SizedBox(height: 2),
+            Text(
+              caption,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.text.labelSmall?.copyWith(
+                color: Confetti.inkMuted,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 20,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child:
+                    footer ??
+                    Meter(
+                      value: progress ?? 0,
+                      color: alert ? Confetti.danger : Confetti.ink,
+                      track: Confetti.lavender,
+                      height: 5,
+                    ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Pastille givrée « Couverture » posée sur la photo.
+class _CoverButton extends StatelessWidget {
+  const _CoverButton({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Pressable(
+      key: const ValueKey('cover-edit'),
+      onTap: onTap,
+      semanticLabel: 'Changer la couverture'.tr,
+      child: Container(
+        constraints: const BoxConstraints(minHeight: 40, minWidth: 48),
+        padding: const EdgeInsets.symmetric(horizontal: 14),
+        decoration: BoxDecoration(
+          color: Colors.black.withValues(alpha: 0.38),
+          borderRadius: BorderRadius.circular(99),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.28)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(AppIcons.camera, size: 16, color: Colors.white),
+            const SizedBox(width: 8),
+            Text(
+              'Couverture'.tr,
+              style: context.text.labelMedium?.copyWith(color: Colors.white),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

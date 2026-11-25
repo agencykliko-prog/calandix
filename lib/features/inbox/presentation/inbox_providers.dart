@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/sound/sounds.dart';
+
 import '../../../core/analytics/analytics.dart';
 import '../../../core/i18n/tr.dart';
 import '../../../app/router/app_router.dart';
@@ -191,6 +193,7 @@ class Messenger {
   /// Envoie un message dans la conversation ; l'interlocuteur (simulé)
   /// répond peu après.
   void send(String id, String text) {
+    _ref.read(soundProvider).play(Sfx.message);
     if (_ref.read(profileProvider).isCreator) {
       _ref
           .read(requestsProvider.notifier)

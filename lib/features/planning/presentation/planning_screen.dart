@@ -287,11 +287,10 @@ class _PlanningScreenState extends ConsumerState<PlanningScreen> {
                                 onToggle: it.task == null
                                     ? null
                                     : () {
+                                        // Le son de la tâche terminée est
+                                        // joué par la liste des événements.
                                         if (!it.task!.done) {
                                           _mascot.currentState?.jump();
-                                          ref
-                                              .read(soundProvider)
-                                              .play(Sfx.success);
                                         }
                                         ref
                                             .read(eventsProvider.notifier)

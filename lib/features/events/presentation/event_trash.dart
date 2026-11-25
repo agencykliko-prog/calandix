@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../core/sound/sounds.dart';
+
 import 'package:go_router/go_router.dart';
 
 import '../../../app/router/app_router.dart';
@@ -157,6 +160,7 @@ Future<void> confirmTrashEvent(
   final router = GoRouter.of(context);
   final notifier = ref.read(trashProvider.notifier);
   if (notifier.trash(e.id) == null) return;
+  ref.read(soundProvider).play(Sfx.trash);
   router.go(Routes.home);
   messenger
     ..hideCurrentSnackBar()

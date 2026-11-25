@@ -7,6 +7,7 @@ import '../../../../core/utils/formatters.dart';
 import '../../../../ui/widgets/avatars.dart';
 import '../../../../ui/widgets/pressable.dart';
 import '../../../../core/models/models.dart';
+import 'event_cover.dart';
 
 /// Carte d'événement plein cadre : la photo porte tout, le texte se pose
 /// sur un voile dégradé vers la couleur de la catégorie.
@@ -41,9 +42,9 @@ class EventCard extends StatelessWidget {
               Hero(
                 tag: 'cover-${event.id}',
                 // Décodage à la taille d'affichage : défilement plus fluide.
-                child: Image.asset(
+                child: EventCoverImage(
                   event.cover,
-                  fit: BoxFit.cover,
+                  category: event.category,
                   cacheWidth: 900,
                 ),
               ),

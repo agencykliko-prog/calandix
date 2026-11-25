@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter/widgets.dart' show IconData;
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -29,19 +31,42 @@ class SupabaseEventsRepository extends EventsRepository {
 
   SupabaseClient get _db => Backend.client;
 
-  TeamMember get _me => TeamMember(
+  TeamMember get _me => _meAs(TeamRole.owner);
+
+  TeamMember _meAs(TeamRole role) => TeamMember(
     id: userId,
     name: userName,
-    role: TeamRole.owner,
+    role: role,
     online: true,
-    permissions: Permissions.all,
+    permissions: role == TeamRole.viewer
+        ? Permissions.readOnly
+        : Permissions.all,
   );
+
+  /// Rôle du compte dans l'événement : propriétaire, sinon celui de
+  /// l'équipe (`event_members`), lecteur par défaut.
+  TeamRole _roleIn(Map<String, dynamic> r) {
+    final owner = r['owner_id'] as String?;
+    if (owner == null || owner == userId) return TeamRole.owner;
+    for (final m in (r['event_members'] as List? ?? const [])) {
+      final row = m as Map<String, dynamic>;
+      if (row['user_id'] != userId) continue;
+      return switch (row['role']) {
+        'admin' => TeamRole.admin,
+        'editor' => TeamRole.editor,
+        _ => TeamRole.viewer,
+      };
+    }
+    return TeamRole.viewer;
+  }
 
   // ─── Lecture ─────────────────────────────────────────────────────────
 
   @override
   Future<List<Event>> fetchEvents() async {
-    const cols = '*, budget_lines(*), expenses(*), tasks(*), guests(*)';
+    const cols =
+        '*, budget_lines(*), expenses(*), tasks(*), guests(*), '
+        'event_members(user_id, role)';
     try {
       final rows = await _db
           .from('events')
@@ -142,7 +167,7 @@ class SupabaseEventsRepository extends EventsRepository {
           _task(t),
       ]..sort((a, b) => a.due.compareTo(b.due)),
       vendors: const [],
-      team: [_me],
+      team: [_meAs(_roleIn(r))],
       activity: const [],
       guests: Guests.fromList(
         [for (final g in guests) _guest(g)]
@@ -183,6 +208,34 @@ class SupabaseEventsRepository extends EventsRepository {
   }
 
   // ─── Écriture ────────────────────────────────────────────────────────
+
+  /// Photo de couverture : déposée dans le dossier du compte (stockage
+  /// public des photos), puis son adresse publique est enregistrée.
+  @override
+  Future<String> uploadCover(
+    String eventId,
+    Uint8List bytes, {
+    String mimeType = 'image/jpeg',
+  }) async {
+    final ext = switch (mimeType) {
+      'image/png' => 'png',
+      'image/webp' => 'webp',
+      _ => 'jpg',
+    };
+    final path =
+        '$userId/covers/$eventId-${DateTime.now().millisecondsSinceEpoch}.$ext';
+    final bucket = _db.storage.from('avatars');
+    await bucket.uploadBinary(
+      path,
+      bytes,
+      fileOptions: FileOptions(contentType: mimeType, upsert: true),
+    );
+    return bucket.getPublicUrl(path);
+  }
+
+  @override
+  Future<void> setCover(String eventId, String cover) =>
+      _db.from('events').update({'cover_url': cover}).eq('id', eventId);
 
   @override
   Future<Event> createEvent(Event e) async {

@@ -79,6 +79,9 @@ flutter:
     - assets/sounds/
 
   fonts:
+    - family: Lucide
+      fonts:
+        - asset: assets/fonts/Lucide.ttf
     - family: PhosphorBold
       fonts:
         - asset: assets/fonts/Phosphor-Bold.ttf

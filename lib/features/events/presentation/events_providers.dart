@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/backend/backend.dart';
 import '../../../core/auth/session_provider.dart';
+import '../../../core/sound/sounds.dart';
 import '../data/events_remote.dart';
 import '../data/events_repository.dart';
 import '../../../core/models/models.dart';
@@ -80,7 +81,10 @@ class EventsNotifier extends AsyncNotifier<List<Event>> {
       ),
     );
     final t = _taskOf(eventId, taskId);
-    if (t != null) _persist((r) => r.saveTask(eventId, t));
+    if (t == null) return;
+    // Même instant que la coche animée, partout où une tâche se coche.
+    if (t.done) ref.read(soundProvider).play(Sfx.complete);
+    _persist((r) => r.saveTask(eventId, t));
   }
 
   void addTask(String eventId, EventTask t) {
@@ -148,6 +152,34 @@ class EventsNotifier extends AsyncNotifier<List<Event>> {
       e,
     ]..sort((a, b) => a.date.compareTo(b.date));
     state = AsyncData(events);
+  }
+
+  // ─── Couverture ──────────────────────────────────────────────────────
+
+  /// Change la photo de couverture : une couverture proposée ([asset]) ou
+  /// une photo importée ([bytes]), déposée puis enregistrée. Lève une
+  /// erreur si l'enregistrement échoue (l'ancienne couverture est remise).
+  Future<void> setCover(
+    String eventId, {
+    String? asset,
+    Uint8List? bytes,
+    String mimeType = 'image/jpeg',
+  }) async {
+    assert((asset == null) != (bytes == null));
+    final before = state.value
+        ?.where((e) => e.id == eventId)
+        .firstOrNull
+        ?.cover;
+    if (before == null) return;
+    try {
+      final cover =
+          asset ?? await _repo.uploadCover(eventId, bytes!, mimeType: mimeType);
+      _update(eventId, (e) => e.copyWith(cover: cover));
+      await _repo.setCover(eventId, cover);
+    } catch (_) {
+      _update(eventId, (e) => e.copyWith(cover: before));
+      rethrow;
+    }
   }
 
   // ─── Budget ──────────────────────────────────────────────────────────
@@ -320,6 +352,16 @@ class EventsNotifier extends AsyncNotifier<List<Event>> {
     );
   });
 }
+
+/// Le compte peut-il modifier cet événement (couverture, informations) ?
+/// En démo, l'utilisateur est l'organisateur ; avec un compte réel, son rôle
+/// dans l'équipe décide (la base applique la même règle).
+final canEditEventProvider = Provider.family<bool, String>((ref, eventId) {
+  final e = ref.watch(eventProvider(eventId)).value;
+  if (e == null) return false;
+  if (!ref.watch(liveSessionProvider) || !Backend.ready) return true;
+  return e.canEdit(Backend.client.auth.currentUser?.id);
+});
 
 final eventsProvider = AsyncNotifierProvider<EventsNotifier, List<Event>>(
   EventsNotifier.new,

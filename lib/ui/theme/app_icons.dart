@@ -1,248 +1,158 @@
 import 'package:flutter/widgets.dart';
 
-/// Jeu d'icônes unique de l'app : Phosphor (polices embarquées), trait gras aux extrémités
-/// arrondies ; variante pleine pour les états actifs.
+/// Jeu d'icônes unique de l'app : Lucide (police embarquée, licence ISC),
+/// trait fin et régulier, extrémités arrondies. Les logos de marque
+/// (Apple, Google, WhatsApp) et l'étoile pleine des notes restent en
+/// Phosphor, que Lucide ne propose pas.
 abstract final class AppIcons {
-  // Navigation
-  static const IconData home = IconData(0xe2c2, fontFamily: 'PhosphorBold');
-  static const IconData homeOn = IconData(0xe2c2, fontFamily: 'PhosphorFill');
-  static const IconData explore = IconData(0xe1c8, fontFamily: 'PhosphorBold');
-  static const IconData exploreOn = IconData(
-    0xe1c8,
-    fontFamily: 'PhosphorFill',
-  );
-  static const IconData agenda = IconData(0xe10a, fontFamily: 'PhosphorBold');
-  static const IconData agendaOn = IconData(0xe10a, fontFamily: 'PhosphorFill');
-  static const IconData account = IconData(0xe4c4, fontFamily: 'PhosphorBold');
-  static const IconData accountOn = IconData(
-    0xe4c4,
-    fontFamily: 'PhosphorFill',
-  );
-
-  // Actions
-  static const IconData add = IconData(0xe3d4, fontFamily: 'PhosphorBold');
-  static const IconData minus = IconData(0xe32a, fontFamily: 'PhosphorBold');
-  static const IconData search = IconData(0xe30c, fontFamily: 'PhosphorBold');
-  static const IconData bell = IconData(0xe0ce, fontFamily: 'PhosphorBold');
-  static const IconData back = IconData(0xe058, fontFamily: 'PhosphorBold');
-  static const IconData forward = IconData(0xe06c, fontFamily: 'PhosphorBold');
-  static const IconData outward = IconData(0xe092, fontFamily: 'PhosphorBold');
-  static const IconData chevron = IconData(0xe13a, fontFamily: 'PhosphorBold');
-  static const IconData chevronDown = IconData(
-    0xe136,
-    fontFamily: 'PhosphorBold',
-  );
-  static const IconData close = IconData(0xe4f6, fontFamily: 'PhosphorBold');
-  static const IconData check = IconData(0xe182, fontFamily: 'PhosphorBold');
-  static const IconData checkCircle = IconData(
-    0xe184,
-    fontFamily: 'PhosphorFill',
-  );
-  static const IconData share = IconData(0xe408, fontFamily: 'PhosphorBold');
-  static const IconData more = IconData(0xe1fe, fontFamily: 'PhosphorBold');
-  static const IconData edit = IconData(0xe3b4, fontFamily: 'PhosphorBold');
-  static const IconData trash = IconData(0xe4a6, fontFamily: 'PhosphorBold');
-  static const IconData filters = IconData(0xe434, fontFamily: 'PhosphorBold');
-  static const IconData sort = IconData(0xe444, fontFamily: 'PhosphorBold');
-  static const IconData send = IconData(0xe396, fontFamily: 'PhosphorBold');
-  static const IconData upload = IconData(0xe4c0, fontFamily: 'PhosphorBold');
-  static const IconData refresh = IconData(0xe094, fontFamily: 'PhosphorBold');
-  static const IconData signOut = IconData(0xe42a, fontFamily: 'PhosphorBold');
-  static const IconData settings = IconData(0xe270, fontFamily: 'PhosphorBold');
-  static const IconData help = IconData(0xe3e8, fontFamily: 'PhosphorBold');
-  static const IconData eyeOff = IconData(0xe224, fontFamily: 'PhosphorBold');
-  static const IconData userPlus = IconData(0xe4d0, fontFamily: 'PhosphorBold');
-
-  // Contact
-  static const IconData phone = IconData(0xe3b8, fontFamily: 'PhosphorBold');
-  static const IconData message = IconData(0xe16c, fontFamily: 'PhosphorBold');
+  static const IconData home = IconData(0xe0f5, fontFamily: 'Lucide');  // house
+  static const IconData homeOn = IconData(0xe0f5, fontFamily: 'Lucide');  // house
+  static const IconData explore = IconData(0xe09b, fontFamily: 'Lucide');  // compass
+  static const IconData exploreOn = IconData(0xe09b, fontFamily: 'Lucide');  // compass
+  static const IconData agenda = IconData(0xe063, fontFamily: 'Lucide');  // calendar
+  static const IconData agendaOn = IconData(0xe063, fontFamily: 'Lucide');  // calendar
+  static const IconData account = IconData(0xe462, fontFamily: 'Lucide');  // circle-user-round
+  static const IconData accountOn = IconData(0xe462, fontFamily: 'Lucide');  // circle-user-round
+  static const IconData add = IconData(0xe13d, fontFamily: 'Lucide');  // plus
+  static const IconData minus = IconData(0xe11c, fontFamily: 'Lucide');  // minus
+  static const IconData search = IconData(0xe151, fontFamily: 'Lucide');  // search
+  static const IconData bell = IconData(0xe059, fontFamily: 'Lucide');  // bell
+  static const IconData back = IconData(0xe048, fontFamily: 'Lucide');  // arrow-left
+  static const IconData forward = IconData(0xe049, fontFamily: 'Lucide');  // arrow-right
+  static const IconData outward = IconData(0xe04d, fontFamily: 'Lucide');  // arrow-up-right
+  static const IconData chevron = IconData(0xe06f, fontFamily: 'Lucide');  // chevron-right
+  static const IconData chevronDown = IconData(0xe06d, fontFamily: 'Lucide');  // chevron-down
+  static const IconData close = IconData(0xe1b2, fontFamily: 'Lucide');  // x
+  static const IconData check = IconData(0xe06c, fontFamily: 'Lucide');  // check
+  static const IconData checkCircle = IconData(0xe226, fontFamily: 'Lucide');  // circle-check
+  static const IconData share = IconData(0xe156, fontFamily: 'Lucide');  // share-2
+  static const IconData more = IconData(0xe0b6, fontFamily: 'Lucide');  // ellipsis
+  static const IconData edit = IconData(0xe1f9, fontFamily: 'Lucide');  // pencil
+  static const IconData trash = IconData(0xe18e, fontFamily: 'Lucide');  // trash-2
+  static const IconData filters = IconData(0xe29a, fontFamily: 'Lucide');  // sliders-horizontal
+  static const IconData sort = IconData(0xe37d, fontFamily: 'Lucide');  // arrow-up-down
+  static const IconData send = IconData(0xe152, fontFamily: 'Lucide');  // send
+  static const IconData upload = IconData(0xe19e, fontFamily: 'Lucide');  // upload
+  static const IconData refresh = IconData(0xe145, fontFamily: 'Lucide');  // refresh-cw
+  static const IconData signOut = IconData(0xe10e, fontFamily: 'Lucide');  // log-out
+  static const IconData settings = IconData(0xe154, fontFamily: 'Lucide');  // settings
+  static const IconData help = IconData(0xe082, fontFamily: 'Lucide');  // circle-help
+  static const IconData eyeOff = IconData(0xe0bb, fontFamily: 'Lucide');  // eye-off
+  static const IconData userPlus = IconData(0xe1a2, fontFamily: 'Lucide');  // user-plus
+  static const IconData phone = IconData(0xe133, fontFamily: 'Lucide');  // phone
+  static const IconData message = IconData(0xe116, fontFamily: 'Lucide');  // message-circle
   static const IconData whatsapp = IconData(0xe5d0, fontFamily: 'PhosphorBold');
-  static const IconData mail = IconData(0xe214, fontFamily: 'PhosphorBold');
-
-  // Modules
-  static const IconData wallet = IconData(0xe68a, fontFamily: 'PhosphorBold');
-  static const IconData tasks = IconData(0xeadc, fontFamily: 'PhosphorBold');
-  static const IconData vendors = IconData(0xe470, fontFamily: 'PhosphorBold');
-  static const IconData team = IconData(0xe4d6, fontFamily: 'PhosphorBold');
-  static const IconData guests = IconData(0xe68e, fontFamily: 'PhosphorBold');
-  static const IconData place = IconData(0xe316, fontFamily: 'PhosphorBold');
-  static const IconData clock = IconData(0xe19a, fontFamily: 'PhosphorBold');
-  static const IconData calendarCheck = IconData(
-    0xe712,
-    fontFamily: 'PhosphorBold',
-  );
-  static const IconData calendarPlus = IconData(
-    0xe714,
-    fontFamily: 'PhosphorBold',
-  );
-  static const IconData chart = IconData(0xe158, fontFamily: 'PhosphorBold');
-  static const IconData chartUp = IconData(0xe156, fontFamily: 'PhosphorBold');
-  static const IconData trendUp = IconData(0xe4ae, fontFamily: 'PhosphorBold');
-  static const IconData warning = IconData(0xe4e0, fontFamily: 'PhosphorBold');
-  static const IconData info = IconData(0xe2ce, fontFamily: 'PhosphorBold');
-  static const IconData reminder = IconData(0xe5e8, fontFamily: 'PhosphorBold');
-  static const IconData archive = IconData(0xe00c, fontFamily: 'PhosphorBold');
-  static const IconData timer = IconData(0xe492, fontFamily: 'PhosphorBold');
-  static const IconData sun = IconData(0xe472, fontFamily: 'PhosphorBold');
-
-  // Confiance, premium, IA
+  static const IconData mail = IconData(0xe10f, fontFamily: 'Lucide');  // mail
+  static const IconData wallet = IconData(0xe204, fontFamily: 'Lucide');  // wallet
+  static const IconData tasks = IconData(0xe1d0, fontFamily: 'Lucide');  // list-checks
+  static const IconData vendors = IconData(0xe3e4, fontFamily: 'Lucide');  // store
+  static const IconData team = IconData(0xe1a4, fontFamily: 'Lucide');  // users
+  static const IconData guests = IconData(0xe46e, fontFamily: 'Lucide');  // users-round
+  static const IconData place = IconData(0xe111, fontFamily: 'Lucide');  // map-pin
+  static const IconData clock = IconData(0xe087, fontFamily: 'Lucide');  // clock
+  static const IconData calendarCheck = IconData(0xe2b7, fontFamily: 'Lucide');  // calendar-check
+  static const IconData calendarPlus = IconData(0xe2bc, fontFamily: 'Lucide');  // calendar-plus
+  static const IconData chart = IconData(0xe2a3, fontFamily: 'Lucide');  // chart-column
+  static const IconData chartUp = IconData(0xe2a5, fontFamily: 'Lucide');  // chart-line
+  static const IconData trendUp = IconData(0xe191, fontFamily: 'Lucide');  // trending-up
+  static const IconData warning = IconData(0xe193, fontFamily: 'Lucide');  // triangle-alert
+  static const IconData info = IconData(0xe0f9, fontFamily: 'Lucide');  // info
+  static const IconData reminder = IconData(0xe224, fontFamily: 'Lucide');  // bell-ring
+  static const IconData archive = IconData(0xe041, fontFamily: 'Lucide');  // archive
+  static const IconData timer = IconData(0xe1e0, fontFamily: 'Lucide');  // timer
+  static const IconData sun = IconData(0xe178, fontFamily: 'Lucide');  // sun
   static const IconData star = IconData(0xe46a, fontFamily: 'PhosphorFill');
-  static const IconData starLine = IconData(0xe46a, fontFamily: 'PhosphorBold');
-  static const IconData verified = IconData(0xe606, fontFamily: 'PhosphorFill');
-  static const IconData shield = IconData(0xe40c, fontFamily: 'PhosphorBold');
-  static const IconData lock = IconData(0xe2fe, fontFamily: 'PhosphorBold');
-  static const IconData crown = IconData(0xe614, fontFamily: 'PhosphorFill');
-  static const IconData crownLine = IconData(
-    0xe614,
-    fontFamily: 'PhosphorBold',
-  );
-  static const IconData sparkle = IconData(0xe6a2, fontFamily: 'PhosphorFill');
-  static const IconData sparkleLine = IconData(
-    0xe6a2,
-    fontFamily: 'PhosphorBold',
-  );
-  static const IconData megaphone = IconData(
-    0xe324,
-    fontFamily: 'PhosphorBold',
-  );
-  static const IconData rocket = IconData(0xe3fc, fontFamily: 'PhosphorBold');
-  static const IconData diamond = IconData(0xe1ec, fontFamily: 'PhosphorBold');
-  static const IconData thumbsUp = IconData(0xe48e, fontFamily: 'PhosphorBold');
-  static const IconData lightning = IconData(
-    0xe2de,
-    fontFamily: 'PhosphorBold',
-  );
-
-  // Paiement
-  static const IconData card = IconData(0xe1d2, fontFamily: 'PhosphorBold');
-  static const IconData mobile = IconData(0xe1e0, fontFamily: 'PhosphorBold');
+  static const IconData starLine = IconData(0xe176, fontFamily: 'Lucide');  // star
+  static const IconData verified = IconData(0xe241, fontFamily: 'Lucide');  // badge-check
+  static const IconData shield = IconData(0xe1ff, fontFamily: 'Lucide');  // shield-check
+  static const IconData lock = IconData(0xe10b, fontFamily: 'Lucide');  // lock
+  static const IconData crown = IconData(0xe1d6, fontFamily: 'Lucide');  // crown
+  static const IconData crownLine = IconData(0xe1d6, fontFamily: 'Lucide');  // crown
+  static const IconData sparkle = IconData(0xe412, fontFamily: 'Lucide');  // sparkles
+  static const IconData sparkleLine = IconData(0xe412, fontFamily: 'Lucide');  // sparkles
+  static const IconData megaphone = IconData(0xe235, fontFamily: 'Lucide');  // megaphone
+  static const IconData rocket = IconData(0xe286, fontFamily: 'Lucide');  // rocket
+  static const IconData diamond = IconData(0xe242, fontFamily: 'Lucide');  // gem
+  static const IconData thumbsUp = IconData(0xe18a, fontFamily: 'Lucide');  // thumbs-up
+  static const IconData lightning = IconData(0xe1b4, fontFamily: 'Lucide');  // zap
+  static const IconData card = IconData(0xe0aa, fontFamily: 'Lucide');  // credit-card
+  static const IconData mobile = IconData(0xe163, fontFamily: 'Lucide');  // smartphone
   static const IconData apple = IconData(0xe516, fontFamily: 'PhosphorBold');
   static const IconData google = IconData(0xe292, fontFamily: 'PhosphorBold');
-  static const IconData receipt = IconData(0xe3ec, fontFamily: 'PhosphorBold');
-  static const IconData bank = IconData(0xe0b4, fontFamily: 'PhosphorBold');
-  static const IconData coins = IconData(0xe78e, fontFamily: 'PhosphorBold');
-  static const IconData handCoins = IconData(
-    0xea8c,
-    fontFamily: 'PhosphorBold',
-  );
-  static const IconData piggy = IconData(0xea04, fontFamily: 'PhosphorBold');
-  static const IconData calculator = IconData(
-    0xe538,
-    fontFamily: 'PhosphorBold',
-  );
-
-  // Documents & boutique
-  static const IconData folder = IconData(0xe24a, fontFamily: 'PhosphorBold');
-  static const IconData file = IconData(0xe23a, fontFamily: 'PhosphorBold');
-  static const IconData image = IconData(0xe2ca, fontFamily: 'PhosphorBold');
-  static const IconData images = IconData(0xe836, fontFamily: 'PhosphorBold');
-  static const IconData certificate = IconData(
-    0xe766,
-    fontFamily: 'PhosphorBold',
-  );
-  static const IconData invoice = IconData(0xee42, fontFamily: 'PhosphorBold');
-  static const IconData contract = IconData(0xe604, fontFamily: 'PhosphorBold');
-  static const IconData bag = IconData(0xe416, fontFamily: 'PhosphorBold');
-  static const IconData cart = IconData(0xe41e, fontFamily: 'PhosphorBold');
-  static const IconData gift = IconData(0xe276, fontFamily: 'PhosphorBold');
-  static const IconData qr = IconData(0xe3e6, fontFamily: 'PhosphorBold');
-  static const IconData globe = IconData(0xe288, fontFamily: 'PhosphorBold');
-  static const IconData table = IconData(0xe476, fontFamily: 'PhosphorBold');
-  static const IconData headset = IconData(0xe584, fontFamily: 'PhosphorBold');
-  static const IconData printer = IconData(0xe3dc, fontFamily: 'PhosphorBold');
-
-  // Business
-  static const IconData crm = IconData(0xe73c, fontFamily: 'PhosphorBold');
-  static const IconData plugs = IconData(0xeb56, fontFamily: 'PhosphorBold');
-  static const IconData code = IconData(0xe1bc, fontFamily: 'PhosphorBold');
-  static const IconData palette = IconData(0xe6c8, fontFamily: 'PhosphorBold');
-  static const IconData buildings = IconData(
-    0xe102,
-    fontFamily: 'PhosphorBold',
-  );
-  static const IconData handshake = IconData(
-    0xe582,
-    fontFamily: 'PhosphorBold',
-  );
-  static const IconData briefcase = IconData(
-    0xe0ee,
-    fontFamily: 'PhosphorBold',
-  );
-
-  // Catégories d'événements
-  static const IconData wedding = IconData(0xe2a8, fontFamily: 'PhosphorBold');
-  static const IconData birthday = IconData(0xe780, fontFamily: 'PhosphorBold');
-  static const IconData baby = IconData(0xe774, fontFamily: 'PhosphorBold');
-  static const IconData friends = IconData(0xeaca, fontFamily: 'PhosphorBold');
-  static const IconData outing = IconData(0xe8ba, fontFamily: 'PhosphorBold');
-  static const IconData pro = IconData(0xe0ee, fontFamily: 'PhosphorBold');
-  static const IconData milestone = IconData(
-    0xe62c,
-    fontFamily: 'PhosphorBold',
-  );
-  static const IconData family = IconData(0xe68e, fontFamily: 'PhosphorBold');
-  static const IconData charity = IconData(0xe810, fontFamily: 'PhosphorBold');
-  static const IconData seasonal = IconData(0xe6dc, fontFamily: 'PhosphorBold');
-  static const IconData confetti = IconData(0xe81a, fontFamily: 'PhosphorBold');
-
-  // Postes & prestataires
-  static const IconData venue = IconData(0xe102, fontFamily: 'PhosphorBold');
-  static const IconData food = IconData(0xe262, fontFamily: 'PhosphorBold');
-  static const IconData drinks = IconData(0xe6b2, fontFamily: 'PhosphorBold');
-  static const IconData decor = IconData(0xeacc, fontFamily: 'PhosphorBold');
-  static const IconData camera = IconData(0xe10e, fontFamily: 'PhosphorBold');
-  static const IconData music = IconData(0xe340, fontFamily: 'PhosphorBold');
-  static const IconData chair = IconData(0xe950, fontFamily: 'PhosphorBold');
-  static const IconData dress = IconData(0xea7e, fontFamily: 'PhosphorBold');
-  static const IconData car = IconData(0xe112, fontFamily: 'PhosphorBold');
-  static const IconData staff = IconData(0xe582, fontFamily: 'PhosphorBold');
-  static const IconData planner = IconData(0xe198, fontFamily: 'PhosphorBold');
-  static const IconData boat = IconData(0xe786, fontFamily: 'PhosphorBold');
-  static const IconData ticket = IconData(0xe490, fontFamily: 'PhosphorBold');
-  static const IconData hourglass = IconData(
-    0xe2b2,
-    fontFamily: 'PhosphorBold',
-  );
-  static const IconData airplane = IconData(0xe002, fontFamily: 'PhosphorBold');
-  static const IconData mic = IconData(0xe75c, fontFamily: 'PhosphorBold');
-
-  // Compte, export, agenda
-  static const IconData eye = IconData(0xe220, fontFamily: 'PhosphorBold');
-  static const IconData user = IconData(0xe4c2, fontFamily: 'PhosphorBold');
-  static const IconData chevronLeft = IconData(
-    0xe138,
-    fontFamily: 'PhosphorBold',
-  );
-  static const IconData link = IconData(0xe2e2, fontFamily: 'PhosphorBold');
-  static const IconData idCard = IconData(0xe2c8, fontFamily: 'PhosphorBold');
-  static const IconData download = IconData(0xe20c, fontFamily: 'PhosphorBold');
-  static const IconData csv = IconData(0xeb1c, fontFamily: 'PhosphorBold');
-  static const IconData inbox = IconData(0xe4aa, fontFamily: 'PhosphorBold');
-  static const IconData grid = IconData(0xe464, fontFamily: 'PhosphorBold');
-  static const IconData calendarDots = IconData(
-    0xe7b4,
-    fontFamily: 'PhosphorBold',
-  );
-
-  // Préférences, à propos, confidentialité
-  static const IconData moon = IconData(0xe330, fontFamily: 'PhosphorBold');
-  static const IconData translate = IconData(
-    0xe4a2,
-    fontFamily: 'PhosphorBold',
-  );
-  static const IconData speaker = IconData(0xe44a, fontFamily: 'PhosphorBold');
-  static const IconData speakerOff = IconData(
-    0xe45a,
-    fontFamily: 'PhosphorBold',
-  );
-  static const IconData scroll = IconData(0xeb7a, fontFamily: 'PhosphorBold');
-  static const IconData cookie = IconData(0xe6ca, fontFamily: 'PhosphorBold');
-  static const IconData heart = IconData(0xe2a8, fontFamily: 'PhosphorBold');
-  static const IconData target = IconData(0xe47c, fontFamily: 'PhosphorBold');
-  static const IconData database = IconData(0xe1de, fontFamily: 'PhosphorBold');
-  static const IconData handHeart = IconData(
-    0xe810,
-    fontFamily: 'PhosphorBold',
-  );
-  static const IconData lifebuoy = IconData(0xe63a, fontFamily: 'PhosphorBold');
+  static const IconData receipt = IconData(0xe3d3, fontFamily: 'Lucide');  // receipt
+  static const IconData bank = IconData(0xe23a, fontFamily: 'Lucide');  // landmark
+  static const IconData coins = IconData(0xe097, fontFamily: 'Lucide');  // coins
+  static const IconData handCoins = IconData(0xe5b8, fontFamily: 'Lucide');  // hand-coins
+  static const IconData piggy = IconData(0xe13a, fontFamily: 'Lucide');  // piggy-bank
+  static const IconData calculator = IconData(0xe1bc, fontFamily: 'Lucide');  // calculator
+  static const IconData folder = IconData(0xe0d7, fontFamily: 'Lucide');  // folder
+  static const IconData file = IconData(0xe0c0, fontFamily: 'Lucide');  // file
+  static const IconData image = IconData(0xe0f6, fontFamily: 'Lucide');  // image
+  static const IconData images = IconData(0xe5c4, fontFamily: 'Lucide');  // images
+  static const IconData certificate = IconData(0xe04f, fontFamily: 'Lucide');  // award
+  static const IconData invoice = IconData(0xe0cc, fontFamily: 'Lucide');  // file-text
+  static const IconData contract = IconData(0xe320, fontFamily: 'Lucide');  // file-pen-line
+  static const IconData bag = IconData(0xe15b, fontFamily: 'Lucide');  // shopping-bag
+  static const IconData cart = IconData(0xe15c, fontFamily: 'Lucide');  // shopping-cart
+  static const IconData gift = IconData(0xe0e1, fontFamily: 'Lucide');  // gift
+  static const IconData qr = IconData(0xe1df, fontFamily: 'Lucide');  // qr-code
+  static const IconData globe = IconData(0xe0e8, fontFamily: 'Lucide');  // globe
+  static const IconData table = IconData(0xe17d, fontFamily: 'Lucide');  // table
+  static const IconData headset = IconData(0xe5bd, fontFamily: 'Lucide');  // headset
+  static const IconData printer = IconData(0xe141, fontFamily: 'Lucide');  // printer
+  static const IconData crm = IconData(0xe09c, fontFamily: 'Lucide');  // contact
+  static const IconData plugs = IconData(0xe37f, fontFamily: 'Lucide');  // plug
+  static const IconData code = IconData(0xe093, fontFamily: 'Lucide');  // code
+  static const IconData palette = IconData(0xe1dd, fontFamily: 'Lucide');  // palette
+  static const IconData buildings = IconData(0xe290, fontFamily: 'Lucide');  // building-2
+  static const IconData handshake = IconData(0xe5c0, fontFamily: 'Lucide');  // handshake
+  static const IconData briefcase = IconData(0xe062, fontFamily: 'Lucide');  // briefcase
+  static const IconData wedding = IconData(0xe0f2, fontFamily: 'Lucide');  // heart
+  static const IconData birthday = IconData(0xe344, fontFamily: 'Lucide');  // cake
+  static const IconData baby = IconData(0xe2ce, fontFamily: 'Lucide');  // baby
+  static const IconData friends = IconData(0xe2f8, fontFamily: 'Lucide');  // wine
+  static const IconData outing = IconData(0xe227, fontFamily: 'Lucide');  // tent
+  static const IconData pro = IconData(0xe5d5, fontFamily: 'Lucide');  // briefcase-business
+  static const IconData milestone = IconData(0xe373, fontFamily: 'Lucide');  // trophy
+  static const IconData family = IconData(0xe695, fontFamily: 'Lucide');  // house-heart
+  static const IconData charity = IconData(0xe5b9, fontFamily: 'Lucide');  // hand-heart
+  static const IconData seasonal = IconData(0xe2f4, fontFamily: 'Lucide');  // tree-pine
+  static const IconData confetti = IconData(0xe343, fontFamily: 'Lucide');  // party-popper
+  static const IconData venue = IconData(0xe1cc, fontFamily: 'Lucide');  // building
+  static const IconData food = IconData(0xe2f6, fontFamily: 'Lucide');  // utensils
+  static const IconData drinks = IconData(0xe2d5, fontFamily: 'Lucide');  // glass-water
+  static const IconData decor = IconData(0xe2d4, fontFamily: 'Lucide');  // flower-2
+  static const IconData camera = IconData(0xe064, fontFamily: 'Lucide');  // camera
+  static const IconData music = IconData(0xe122, fontFamily: 'Lucide');  // music
+  static const IconData chair = IconData(0xe2c0, fontFamily: 'Lucide');  // armchair
+  static const IconData dress = IconData(0xe1ca, fontFamily: 'Lucide');  // shirt
+  static const IconData car = IconData(0xe1d5, fontFamily: 'Lucide');  // car
+  static const IconData staff = IconData(0xe378, fontFamily: 'Lucide');  // concierge-bell
+  static const IconData planner = IconData(0xe086, fontFamily: 'Lucide');  // clipboard-list
+  static const IconData boat = IconData(0xe37e, fontFamily: 'Lucide');  // sailboat
+  static const IconData ticket = IconData(0xe20f, fontFamily: 'Lucide');  // ticket
+  static const IconData hourglass = IconData(0xe296, fontFamily: 'Lucide');  // hourglass
+  static const IconData airplane = IconData(0xe1de, fontFamily: 'Lucide');  // plane
+  static const IconData mic = IconData(0xe118, fontFamily: 'Lucide');  // mic
+  static const IconData eye = IconData(0xe0ba, fontFamily: 'Lucide');  // eye
+  static const IconData user = IconData(0xe19f, fontFamily: 'Lucide');  // user
+  static const IconData chevronLeft = IconData(0xe06e, fontFamily: 'Lucide');  // chevron-left
+  static const IconData link = IconData(0xe102, fontFamily: 'Lucide');  // link
+  static const IconData idCard = IconData(0xe617, fontFamily: 'Lucide');  // id-card
+  static const IconData download = IconData(0xe0b2, fontFamily: 'Lucide');  // download
+  static const IconData csv = IconData(0xe326, fontFamily: 'Lucide');  // file-spreadsheet
+  static const IconData inbox = IconData(0xe0f7, fontFamily: 'Lucide');  // inbox
+  static const IconData grid = IconData(0xe0ff, fontFamily: 'Lucide');  // layout-grid
+  static const IconData calendarDots = IconData(0xe2b9, fontFamily: 'Lucide');  // calendar-days
+  static const IconData moon = IconData(0xe11e, fontFamily: 'Lucide');  // moon
+  static const IconData translate = IconData(0xe0fe, fontFamily: 'Lucide');  // languages
+  static const IconData speaker = IconData(0xe1ab, fontFamily: 'Lucide');  // volume-2
+  static const IconData speakerOff = IconData(0xe1ac, fontFamily: 'Lucide');  // volume-x
+  static const IconData scroll = IconData(0xe45f, fontFamily: 'Lucide');  // scroll-text
+  static const IconData cookie = IconData(0xe26b, fontFamily: 'Lucide');  // cookie
+  static const IconData heart = IconData(0xe0f2, fontFamily: 'Lucide');  // heart
+  static const IconData target = IconData(0xe180, fontFamily: 'Lucide');  // target
+  static const IconData database = IconData(0xe0ad, fontFamily: 'Lucide');  // database
+  static const IconData handHeart = IconData(0xe5b9, fontFamily: 'Lucide');  // hand-heart
+  static const IconData lifebuoy = IconData(0xe101, fontFamily: 'Lucide');  // life-buoy
 }

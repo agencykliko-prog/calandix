@@ -707,13 +707,6 @@ class RolePicker extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Confetti.ink,
                     borderRadius: BorderRadius.circular(14),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Confetti.ink.withValues(alpha: 0.18),
-                        blurRadius: 16,
-                        offset: const Offset(0, 6),
-                      ),
-                    ],
                   ),
                 ),
               ),

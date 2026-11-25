@@ -888,6 +888,8 @@ const en = <String, String>{
   'Langue': 'Language',
   'Sons': 'Sounds',
   'Réservation, paiement, notifications': 'Booking, payment, notifications',
+  'Réservations, paiements, tâches, messages':
+      'Bookings, payments, tasks, messages',
   'À propos de Calandix': 'About Calandix',
   'Vision, mission, valeurs, contact': 'Vision, mission, values, contact',
   'Politique de confidentialité': 'Privacy policy',
@@ -1524,6 +1526,7 @@ const en = <String, String>{
   'Revenir aux couleurs Calandix': 'Back to Calandix colours',
   'Océan': 'Ocean',
   'Forêt': 'Forest',
+  'Nuit': 'Night',
   'Couchant': 'Sunset',
   'Orchidée': 'Orchid',
   'Aucun prestataire ne correspond.': 'No vendor matches.',
@@ -2545,4 +2548,20 @@ const en = <String, String>{
       'Digital invitations with entry QR code and replies tracked live.',
   'Coffre-fort 2 Go': '2 GB vault',
   'Appeler · {0}': 'Call · {0}',
+  // Couverture de l'événement et tuiles du tableau de bord
+  'Changer la couverture': 'Change cover',
+  'Couverture': 'Cover',
+  'Photo de couverture': 'Cover photo',
+  'Elle s’affiche en haut de l’événement et sur vos cartes.':
+      'It appears at the top of the event and on your cards.',
+  'Importer une photo': 'Upload a photo',
+  'Couvertures proposées': 'Suggested covers',
+  'Couverture proposée': 'Suggested cover',
+  'Enregistrer la couverture': 'Save cover',
+  'Couverture mise à jour': 'Cover updated',
+  'Photo trop lourde (5 Mo maximum)': 'Photo too large (5 MB max)',
+  'Impossible d’enregistrer la couverture. Réessayez.':
+      'Couldn’t save the cover. Please try again.',
+  '{0}, offre supérieure requise': '{0}, higher plan required',
+  'Espace pro': 'Pro space',
 };

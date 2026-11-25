@@ -241,24 +241,32 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
           style: context.text.bodyMedium?.copyWith(color: context.eventa.muted),
         ),
         const SizedBox(height: 20),
-        GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          childAspectRatio: 1.5,
-          children: [
-            for (var i = 0; i < EventCategory.values.length; i++)
-              Entrance(
-                index: i,
-                child: _CategoryTile(
-                  category: EventCategory.values[i],
-                  selected: _category == EventCategory.values[i],
-                  onTap: () => _pickCategory(EventCategory.values[i]),
-                ),
-              ),
-          ],
+        // Cartes compactes et neutres : deux colonnes, une seule sur les
+        // très petits écrans.
+        LayoutBuilder(
+          builder: (context, box) {
+            final cols = box.maxWidth >= 340 ? 2 : 1;
+            const gap = 10.0;
+            final w = (box.maxWidth - gap * (cols - 1)) / cols;
+            return Wrap(
+              spacing: gap,
+              runSpacing: gap,
+              children: [
+                for (var i = 0; i < EventCategory.values.length; i++)
+                  SizedBox(
+                    width: w,
+                    child: Entrance(
+                      index: i,
+                      child: _CategoryTile(
+                        category: EventCategory.values[i],
+                        selected: _category == EventCategory.values[i],
+                        onTap: () => _pickCategory(EventCategory.values[i]),
+                      ),
+                    ),
+                  ),
+              ],
+            );
+          },
         ),
       ],
     );
@@ -274,7 +282,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
       children: [
         Row(
           children: [
-            IconTile(icon: c.icon, hue: h, size: 48, solid: true),
+            IconTile(icon: c.icon, hue: Hue.ink, size: 48, solid: true),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
@@ -654,34 +662,45 @@ class _CategoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final h = category.hue;
     return Pressable(
       onTap: onTap,
       semanticLabel: category.label,
       child: AnimatedContainer(
         duration: Motion.fast,
         curve: Motion.easeOut,
-        padding: const EdgeInsets.all(14),
+        constraints: const BoxConstraints(minHeight: 76),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
-          color: selected ? h.base : h.tint,
-          borderRadius: BorderRadius.circular(22),
+          color: Confetti.surface,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: selected ? Confetti.ink : Confetti.line,
+            width: selected ? 2 : 1,
+          ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
           children: [
-            Icon(
-              category.icon,
-              color: selected ? Colors.white : h.text,
-              size: 24,
+            AnimatedContainer(
+              duration: Motion.fast,
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                color: selected ? Confetti.ink : Confetti.lavender,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                category.icon,
+                color: selected ? Confetti.onInk : Confetti.ink,
+                size: 21,
+              ),
             ),
-            const Spacer(),
-            Text(
-              category.label,
-              maxLines: 2,
-              style: context.text.titleMedium?.copyWith(
-                fontSize: 16.5,
-                height: 1.15,
-                color: selected ? Colors.white : h.deep,
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                category.label,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: context.text.titleSmall?.copyWith(height: 1.2),
               ),
             ),
           ],

@@ -673,6 +673,18 @@ class Event {
     return (taskProgress * 0.5 + v * 0.3 + g * 0.2).clamp(0, 1);
   }
 
+  /// Peut-il modifier l'événement (couverture, informations) ? Le
+  /// propriétaire, les administrateurs et les éditeurs, comme la règle
+  /// d'accès de la base ; jamais un lecteur.
+  bool canEdit(String? memberId) {
+    final m = member(memberId);
+    return m != null && !m.pending && m.role != TeamRole.viewer;
+  }
+
+  /// Propriétaire de l'événement.
+  TeamMember? get owner =>
+      team.where((m) => m.role == TeamRole.owner).firstOrNull;
+
   TeamMember? member(String? id) {
     for (final m in team) {
       if (m.id == id) return m;
@@ -696,6 +708,7 @@ class Event {
     List<Activity>? activity,
     Guests? guests,
     int? targetBudget,
+    String? cover,
   }) => Event(
     id: id,
     name: name,
@@ -705,7 +718,7 @@ class Event {
     date: date,
     venue: venue,
     city: city,
-    cover: cover,
+    cover: cover ?? this.cover,
     targetBudget: targetBudget ?? this.targetBudget,
     budget: budget ?? this.budget,
     expenses: expenses ?? this.expenses,

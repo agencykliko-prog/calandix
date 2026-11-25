@@ -29,7 +29,7 @@ class OnboardingScreen extends StatelessWidget {
             if (c.maxWidth >= 900 && c.maxHeight >= 560) {
               return _Desktop(height: c.maxHeight);
             }
-            final collageH = (c.maxHeight * 0.54).clamp(260.0, 500.0);
+            final collageH = (c.maxHeight * 0.48).clamp(240.0, 470.0);
             // Défile seulement si l'écran est trop court ; sinon le bouton
             // reste calé en bas.
             return CustomScrollView(

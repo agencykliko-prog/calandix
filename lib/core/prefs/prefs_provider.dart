@@ -53,11 +53,9 @@ class PrefsNotifier extends Notifier<AppPrefs> {
       sounds: readPref('sounds') != '0',
       accent: int.tryParse(readPref('accent') ?? ''),
       backdrop:
-          const [
-            0xFFFFFFFF,
-            0xFFD4FDD1,
-            0xFFC8F0FD,
-          ].contains(int.tryParse(readPref('backdrop') ?? ''))
+          // Seul le fond blanc reste proposé : un ancien fond bleu ciel ou
+          // vert forêt enregistré revient au fond Calandix.
+          int.tryParse(readPref('backdrop') ?? '') == 0xFFFFFFFF
           ? int.tryParse(readPref('backdrop')!)
           : null,
     );

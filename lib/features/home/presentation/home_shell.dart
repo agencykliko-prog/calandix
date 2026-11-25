@@ -335,7 +335,7 @@ class _Rail extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: current == t.branch
-                          ? Confetti.mango
+                          ? Confetti.lavender
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -346,7 +346,7 @@ class _Rail extends StatelessWidget {
                                 current == t.branch ? t.iconOn : t.icon,
                                 size: 21,
                                 color: current == t.branch
-                                    ? Confetti.inkFixed
+                                    ? Confetti.ink
                                     : Confetti.ink,
                               ),
                               const SizedBox(width: 12),
@@ -355,7 +355,7 @@ class _Rail extends StatelessWidget {
                                   t.label,
                                   style: context.text.titleSmall?.copyWith(
                                     color: current == t.branch
-                                        ? Confetti.inkFixed
+                                        ? Confetti.ink
                                         : Confetti.ink,
                                   ),
                                 ),
@@ -371,7 +371,7 @@ class _Rail extends StatelessWidget {
                                 current == t.branch ? t.iconOn : t.icon,
                                 size: 21,
                                 color: current == t.branch
-                                    ? Confetti.inkFixed
+                                    ? Confetti.ink
                                     : Confetti.ink,
                               ),
                               const SizedBox(height: 3),
@@ -381,7 +381,7 @@ class _Rail extends StatelessWidget {
                                   fontSize: 10.5,
                                   fontWeight: FontWeight.w500,
                                   color: current == t.branch
-                                      ? Confetti.inkFixed
+                                      ? Confetti.ink
                                       : Confetti.ink,
                                 ),
                               ),

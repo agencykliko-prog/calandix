@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import '../../../core/models/models.dart';
 import 'demo_data.dart';
 
@@ -28,6 +30,19 @@ abstract class EventsRepository {
   Future<void> saveGuest(String eventId, Guest g) async {}
 
   Future<void> deleteGuest(String guestId) async {}
+
+  // ─── Couverture ──────────────────────────────────────────────────────
+
+  /// Dépose une photo de couverture importée et renvoie l'adresse à
+  /// enregistrer dans [Event.cover]. En démo, la photo reste sur l'appareil
+  /// (adresse `data:`).
+  Future<String> uploadCover(
+    String eventId,
+    Uint8List bytes, {
+    String mimeType = 'image/jpeg',
+  }) async => Uri.dataFromBytes(bytes, mimeType: mimeType).toString();
+
+  Future<void> setCover(String eventId, String cover) async {}
 
   // ─── Corbeille ───────────────────────────────────────────────────────
 
