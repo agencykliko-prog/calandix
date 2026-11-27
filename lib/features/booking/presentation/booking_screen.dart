@@ -42,7 +42,20 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
 
   BookingsNotifier get _n => ref.read(bookingsProvider.notifier);
 
+  bool _signed(Booking b) => ref.read(contractsProvider)[b.id] != null;
+
   Future<void> _pay(Booking b, {required bool balance}) async {
+    // Aucun paiement sans contrat de prestation signé par l'organisateur :
+    // on ouvre le contrat, et le paiement ne continue qu'une fois signé.
+    if (!_signed(b)) {
+      toast(
+        context,
+        'Signez d’abord le contrat de prestation'.tr,
+        icon: AppIcons.contract,
+      );
+      await showContractSheet(context, b);
+      if (!mounted || !_signed(b)) return;
+    }
     final q = b.quote!;
     final options = balance
         ? [PayOption('Solde'.tr, b.balance)]
@@ -339,7 +352,10 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
             _QuoteCard(quote: b.quote!, compact: true),
             const SizedBox(height: 14),
             PillButton(
-              label: 'Payer en toute sécurité'.tr,
+              key: const ValueKey('booking-pay'),
+              label: ref.watch(contractsProvider)[b.id] == null
+                  ? 'Signer le contrat et payer'.tr
+                  : 'Payer en toute sécurité'.tr,
               icon: AppIcons.lock,
               onPressed: () => _pay(b, balance: false),
             ),
@@ -403,7 +419,9 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
             const SizedBox(height: 14),
             if (b.balance > 0)
               PillButton(
-                label: 'Payer le solde · {0}'.trf([fcfa(b.balance)]),
+                label: ref.watch(contractsProvider)[b.id] == null
+                    ? 'Signer le contrat et payer'.tr
+                    : 'Payer le solde · {0}'.trf([fcfa(b.balance)]),
                 icon: AppIcons.lock,
                 onPressed: () => _pay(b, balance: true),
               )

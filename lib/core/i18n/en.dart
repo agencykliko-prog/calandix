@@ -2254,6 +2254,8 @@ const en = <String, String>{
   'Signé par les deux parties le {0}': 'Signed by both parties on {0}',
   'Signer': 'Sign',
   'Contrat signé {0}.pdf': 'Signed contract {0}.pdf',
+  'Signer le contrat et payer': 'Sign the contract and pay',
+  'Signez d’abord le contrat de prestation': 'Sign the service contract first',
   'Contrat signé, copie rangée dans le coffre-fort':
       'Contract signed, copy saved in the vault',
   '1. Parties': '1. Parties',

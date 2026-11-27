@@ -44,6 +44,13 @@ final contractsProvider =
       ContractsNotifier.new,
     );
 
+/// Ouvre le contrat de prestation pour le lire et le signer.
+Future<void> showContractSheet(BuildContext context, Booking booking) =>
+    showEventaSheet<void>(
+      context,
+      builder: (_) => _ContractSheet(booking: booking),
+    );
+
 /// Encart « Contrat de prestation » de la réservation.
 class ContractCard extends ConsumerWidget {
   const ContractCard({super.key, required this.booking});
@@ -90,10 +97,7 @@ class ContractCard extends ConsumerWidget {
             expand: false,
             height: 38,
             tone: c == null ? ButtonTone.primary : ButtonTone.ghost,
-            onPressed: () => showEventaSheet<void>(
-              context,
-              builder: (_) => _ContractSheet(booking: booking),
-            ),
+            onPressed: () => showContractSheet(context, booking),
           ),
         ],
       ),
